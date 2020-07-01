@@ -8,7 +8,7 @@ description: Personal Website
 # if it's an external image, update below for true
 # better with square images
 external-image: false
-picture: assets/images/Profile.jpeg
+picture: assets/images/Profile.jpg
 
 # If you want to include your resume, set to true
 # and specify source (external or local).
@@ -17,7 +17,7 @@ resume-external: true
 resume-url: 'https://google.com/?q=my+resume'
 
 # your url: https://USERNAME.github.io
-url: 'https://jayshah5696.github.io/indigo'
+url: 'https://jayshah5696.github.io/'
 permalink: '/:title/'
 
 # if you don't want comments in your posts, leave categories empty
@@ -47,7 +47,7 @@ authors:
     name: Jay Shah
     bio: A Man who travels the world eating noodles
     external-image: false
-    picture: assets/images/Profile.jpeg
+    picture: assets/images/Profile.jpg
     twitter: jayjshah
 
 # do you want a larger site? change the option below
