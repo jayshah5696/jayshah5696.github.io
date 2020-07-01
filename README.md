@@ -4,7 +4,7 @@
 <p align="center">This is a simple and minimalist template for Jekyll.</p>
 
 ***
-
+You can access the website [here](https://jayshah5696.github.io/).
 
 ## How To?
 
