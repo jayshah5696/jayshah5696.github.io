@@ -17,7 +17,7 @@ resume-external: true
 resume-url: 'https://google.com/?q=my+resume'
 
 # your url: https://USERNAME.github.io
-url: 'https://jayshah5696.github.io/'
+url: 'https://jayshah5696.github.io'
 permalink: '/:title/'
 
 # if you don't want comments in your posts, leave categories empty
