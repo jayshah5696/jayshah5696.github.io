@@ -1,0 +1,108 @@
+# main text of home
+name: Jay Shah
+bio: A learner
+
+# twitter summary info
+description: Personal Website
+
+# if it's an external image, update below for true
+# better with square images
+external-image: false
+picture: assets/images/Profile.jpeg
+
+# If you want to include your resume, set to true
+# and specify source (external or local).
+resume: true
+resume-external: true
+resume-url: 'https://google.com/?q=my+resume'
+
+# your url: https://USERNAME.github.io
+url: 'https://jayshah5696.github.io/indigo'
+permalink: '/:title/'
+
+# if you don't want comments in your posts, leave categories empty
+disqus:
+  shortname: jayshah5696
+  categories:
+    - blog
+    - project
+
+# if you don't have any of social below, comment the line
+twitter: jayjshah
+linkedin: jayshah5696
+github: jayshah5696
+# pinterest: mypinterest
+# gitlab: mygitlab
+# lastfm: mylastfm
+# stackoverflow: 7044681/mystackoverflow
+# quora: userquora
+# reddit: username
+# medium: medium
+# vimeo: myvimeo
+# lanyrd: mylanyrd
+email: jayshah5696@gmail.com
+
+authors:
+  johndoe:
+    name: Jay Shah
+    bio: A Man who travels the world eating noodles
+    external-image: false
+    picture: assets/images/Profile.jpeg
+    twitter: jayjshah
+
+# do you want a larger site? change the option below
+# options: [normal, large] | default: normal
+# normal = 560px / large = 810px
+width: normal
+
+# if you do/don't need pagination, toggle 'enabled' between true/false below
+pagination:
+  enabled: false
+  sort_reverse: true # display recent posts first
+  title: ':title'  # Changing this will mess up the header display logic
+  per_page: 5
+  permalink: '/:num/' # pagination link that will be appended
+projects: true
+about: true
+blog: true
+read-time: true
+show-tags: true
+related: true
+
+# Display links for next and previous posts for the specified categories
+post-advance-links:
+  - blog
+show-author: true
+animation: true
+
+# add default values to specific pages or layouts
+defaults:
+  - scope:
+      path: ''  # an empty string here means all files in the project
+      layout: post
+    values:
+       # setting all post to not hidden by default,
+      # can be overridden in the front matter for a specific post
+      hidden: false
+plugins:
+  - jekyll-seo-tag
+  - jekyll-gist
+  - jekyll-feed
+  - jemoji
+  - jekyll-admin
+  - jekyll-paginate-v2
+jekyll-mentions:
+  base_url: 'https://github.com'
+compress_html:
+  ignore:
+    envs:
+      - development
+      - stage
+exclude:
+  - travis.sh
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - FAQ.md
+  - node_modules
+  - vendor
