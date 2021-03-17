@@ -1,6 +1,6 @@
 # main text of home
 name: Jay Shah
-bio: A learner
+bio: A Data Professional That can Help You to Build Your Next Best Product with Tech Expertize.
 
 # twitter summary info
 description: Personal Website
@@ -43,9 +43,9 @@ github: jayshah5696
 email: jayshah5696@gmail.com
 
 authors:
-  johndoe:
+  jay:
     name: Jay Shah
-    bio: A Man who travels the world eating noodles
+    bio: Data Professional with expertise with technology
     external-image: false
     picture: assets/images/Profile.jpg
     twitter: jayjshah
@@ -78,7 +78,7 @@ animation: true
 # add default values to specific pages or layouts
 defaults:
   - scope:
-      path: ''  # an empty string here means all files in the project
+      path: 'blog'  # an empty string here means all files in the project
       layout: post
     values:
        # setting all post to not hidden by default,
