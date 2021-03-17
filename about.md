@@ -2,7 +2,10 @@
 title: About
 layout: page
 ---
+
 ![Profile Image]({% if site.external-image %}{{ site.picture }}{% else %}{{ site.url }}/{{ site.picture }}{% endif %})
+
+### **Data Scientist at Ensemble Energy || I teach machines || Perpetual learner || I Quantify, Predict & Optimize**
 
 I'm an enthusiast and a self-taught Data Scientist/Machine Learning Engineer. With the habit of logical thinking and my nature as a constant explorer, I'm always trying to ask the appropriate question to look deep into the problem.
 
@@ -41,3 +44,12 @@ This sentence got engrave in my intellect which led to my interest in Data scien
 ## Honors & Awards
 - Outstanding Master's of Science Student (Apr 2019)
 - 2nd Runnerup at Texas Datathon by Citadel (Feb 2018)
+
+## Experience
+- [**Ensemble Energy, Palo Alto, CA, USA** ](https://www.ensemble.energy/  "AI Enabled Asset Management and Predictive Maintenance Tools and Services").
+	- Data Scientist *June 2019- Currently*
+	- Data Science Intern *June 2018- Dec 2018*
+- [**Texas A&M University, College Station, TX, USA** ](https://aml.engr.tamu.edu/  "ADVANCED METROLOGY LAB").
+	- Graduate Research Assitant  *Jan 2019- May 2019*
+- [**Utilities and Energy Services, TX, USA** ](https://utilities.tamu.edu/  "UES").
+	- Graduate Student Analyst *Jan 2018- May 2018*

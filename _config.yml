@@ -13,8 +13,8 @@ picture: assets/images/Profile.jpg
 # If you want to include your resume, set to true
 # and specify source (external or local).
 resume: true
-resume-external: true
-resume-url: 'https://google.com/?q=my+resume'
+resume-external: local
+resume-url: 'assets/pdfs/JayShah_Resume_0221.pdf'
 
 # your url: https://USERNAME.github.io
 url: 'https://jayshah5696.github.io'
