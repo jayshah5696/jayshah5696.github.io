@@ -5,7 +5,7 @@ layout: page
 
 ![Profile Image]({% if site.external-image %}{{ site.picture }}{% else %}{{ site.url }}/{{ site.picture }}{% endif %})
 
-### **Data Scientist at Ensemble Energy || I teach machines || Perpetual learner || I Quantify, Predict & Optimize**
+<H2>  <span style="color:Blue">Data Scientist at Ensemble Energy || I teach machines || Perpetual learner || I Quantify, Predict & Optimize</span></H2>
 
 I'm an enthusiast and a self-taught Data Scientist/Machine Learning Engineer. With the habit of logical thinking and my nature as a constant explorer, I'm always trying to ask the appropriate question to look deep into the problem.
 
@@ -19,11 +19,11 @@ My dream is to stimulate innovation based manufacturing of technology and servic
 This sentence got engrave in my intellect which led to my interest in Data science that could facilitate my excellence.
 
 
-## Skills
+<H2>  <span style="color:Blue"> Skills</span></H2>
 - **Statistical Methods**: Regression Analysis, Hypothesis testing and Confidence intervals, ANOVA, Supervised parametric and Non-parametric learning methods, Unsupervised learning methods, Time Series Analysis, Bayesian Analysis, Anomaly Detection, Deep Learning, Dimensionality reduction, and A/B testing.
 - **Programming Tools and Libraries**:  Python (Pandas, NumPy, Matplotlib, Scikit-Learn, Keras, Tensorflow, PySpark), R (Tidyverse, Caret, ggplot), SQL, High-Performance Computing, Tableau, PowerBI, Shell scripting (BASH), Advanced Excel.
 
-<h2>Projects</h2>
+<h2><span style="color:Blue">Projects</span></h2>
 
 <ul>
 	<li><a href="https://github.com/jayshah5696/Power_Curve_Estimation">Power Curve Estimation for Wind Energy Farms</a></li>
@@ -35,17 +35,18 @@ This sentence got engrave in my intellect which led to my interest in Data scien
 	<li><a href="https://github.com/jayshah5696/Phase1_Analysis">Phase 1 Analysis of Multivariate Quality Control Data for an Industrial Forging Process</a></li>
 </ul>
 
-## Languages
+<H2>  <span style="color:Blue"> Languages</span></H2>
 - English
 - Hindi
 - Gujarati
 - German (Elementary proficiency)
 
-## Honors & Awards
+
+<H2>  <span style="color:Blue"> Honors & Awards</span></H2>
 - Outstanding Master's of Science Student (Apr 2019)
 - 2nd Runnerup at Texas Datathon by Citadel (Feb 2018)
 
-## Experience
+<H2>  <span style="color:Blue"> Expirience</span></H2>
 - [**Ensemble Energy, Palo Alto, CA, USA** ](https://www.ensemble.energy/  "AI Enabled Asset Management and Predictive Maintenance Tools and Services").
 	- Data Scientist *June 2019- Currently*
 	- Data Science Intern *June 2018- Dec 2018*
