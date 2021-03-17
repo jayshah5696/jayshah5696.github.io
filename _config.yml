@@ -78,7 +78,7 @@ animation: true
 # add default values to specific pages or layouts
 defaults:
   - scope:
-      path: 'blog'  # an empty string here means all files in the project
+      path: ''  # an empty string here means all files in the project
       layout: post
     values:
        # setting all post to not hidden by default,

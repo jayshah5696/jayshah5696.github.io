@@ -5,7 +5,7 @@ layout: page
 
 ![Profile Image]({% if site.external-image %}{{ site.picture }}{% else %}{{ site.url }}/{{ site.picture }}{% endif %})
 
-<H2>  <span style="color:Blue">Data Scientist at Ensemble Energy || I teach machines || Perpetual learner || I Quantify, Predict & Optimize</span></H2>
+<H2>  <span style="color:Blue">Data Scientist at Ensemble Energy</span> ||<span style="color:Red"> I teach machines </span>||<span style="color:Blue"> Perpetual learner </span>|| <span style="color:Red">I Quantify, Predict & Optimize</span></H2>
 
 I'm an enthusiast and a self-taught Data Scientist/Machine Learning Engineer. With the habit of logical thinking and my nature as a constant explorer, I'm always trying to ask the appropriate question to look deep into the problem.
 
