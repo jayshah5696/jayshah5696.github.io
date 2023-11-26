@@ -13,7 +13,8 @@ author: Jay Shah
 description: Spiritual Journey
 ---
 
-<img src="../assets/images/Spirituality.jpeg" alt="Spirituality" width="300" height="300"/>
+
+<img src="../assets/images/Spirituality.jpeg" alt="Spirituality" width="300" height="300" style="display: block; margin-left: auto; margin-right: auto;"/>
 
 
 This is my first article on my page, and I think writing about spirituality is the best way I can start this journey.
