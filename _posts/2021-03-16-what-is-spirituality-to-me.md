@@ -13,6 +13,9 @@ author: Jay Shah
 description: Spiritual Journey
 ---
 
+<img src="../assets/images/Spirituality.jpeg" alt="Spirituality" width="300" height="300"/>
+
+
 This is my first article on my page, and I think writing about spirituality is the best way I can start this journey.
 
 My journey to knowing the unknown started 3 years back where I find myself engrossed in videos of Sadhguruji. This is where it all started. I could not stop myself from watching him. He talked about all the things that affect our lives with such great clarity and perception. It opened up a whole new world within me. 
