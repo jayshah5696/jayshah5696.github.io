@@ -1,5 +1,16 @@
 ---
 title: What is Spirituality to me?
+layout: post
+date: 2021-03-16 22:44
+image: /assets/images/Spirituality.png
+headerImage: false
+tag:
+- spiritual
+- personal
+star: true
+category: blog
+author: Jay Shah
+description: Spiritual Journey
 ---
 
 This is my first article on my page, and I think writing about spirituality is the best way I can start this journey.
