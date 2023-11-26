@@ -2,7 +2,7 @@
 title: What is Spirituality to me?
 layout: post
 date: 2021-03-16 22:44
-image: /assets/images/Spirituality.png
+image: /assets/images/Spirituality.jpeg
 headerImage: false
 tag:
 - spiritual
