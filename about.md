@@ -5,18 +5,22 @@ layout: page
 
 ![Profile Image]({% if site.external-image %}{{ site.picture }}{% else %}{{ site.url }}/{{ site.picture }}{% endif %})
 
-<H2>  <span style="color:Blue">Data Scientist at Ensemble Energy</span> ||<span style="color:Red"> I teach machines </span>||<span style="color:Blue"> Perpetual learner </span>|| <span style="color:Red">I Quantify, Predict & Optimize</span></H2>
+<H2>  <span style="color:Black">Senior Data Scientist</span> ||<span style="color:Red"> Crafting AI Narratives </span>||<span style="color:Blue"> Perpetual learner </span>|| <span style="color:Red">Committed to Growth & Precision in Predictive Analytics</span></H2>
 
-I'm an enthusiast and a self-taught Data Scientist/Machine Learning Engineer. With the habit of logical thinking and my nature as a constant explorer, I'm always trying to ask the appropriate question to look deep into the problem.
+### The Spark of Curiosity:
+In the vast universe of data, I found my calling. What began as an interest quickly ignited a relentless pursuit of knowledge, leading me to become the Data Scientist I am today. Over five years of experience has not only shaped my expertise but also my philosophy: that at the heart of every dataset lies a story waiting to be told.
 
+### Leading the Charge:
+As the maestro of a team of gifted data enthusiasts, I’ve led the charge in unraveling complex data puzzles. My leadership style? Think of it as part mentor, part strategist, all driven by the desire to see my team and projects thrive. From enhancing AI's understanding through LLMs to delivering solutions that resonate with real-world needs, my focus has always been innovation with impact.
 
-My dream is to stimulate innovation based manufacturing of technology and services easily accessible to those in need. I intend to achieve the same by leveraging data to improvising or optimizing the system that is easily accessible to all.
+### A Purpose-Driven Path:
+Technology for me is not just about the 'what,' but the 'why.' It’s about harnessing the potential of data to make technology universally accessible. With every project, my goal is to bridge the gap between advanced tech and everyday life, ensuring that the future we're building is one where everyone can benefit from the strides we make in data science.
 
+### The Road Ahead:
+Looking to the horizon, I see a future where data science is not just a tool but a beacon – guiding us to smarter, sustainable solutions for the environment and our communities. I'm on a quest to connect with fellow dreamers and doers who are eager to make this vision a reality.
 
-> Perfection is not attainable, but if we chase perfection we can catch excellence -Vince Lombardi
-
-
-This sentence got engrave in my intellect which led to my interest in Data science that could facilitate my excellence.
+### Let’s Connect:
+If you're as passionate about molding the future with data as I am, I’d love to connect. Let’s explore the endless possibilities that lie within data and turn them into opportunities that can change the world, one insight at a time.
 
 
 <H2>  <span style="color:Blue"> Skills</span></H2>
@@ -47,10 +51,19 @@ This sentence got engrave in my intellect which led to my interest in Data scien
 - 2nd Runnerup at Texas Datathon by Citadel (Feb 2018)
 
 <H2>  <span style="color:Blue"> Expirience</span></H2>
+- [**SparkCognition, Menlo Park, CA, USA** ](https://www.sparkcognition.com/  "Industrial AI").
+	- Data Scientist III *Jan 2022- Currently*
+	- Data Science II *May 2021- Dec 2021*
 - [**Ensemble Energy, Palo Alto, CA, USA** ](https://www.ensemble.energy/  "AI Enabled Asset Management and Predictive Maintenance Tools and Services").
-	- Data Scientist *June 2019- Currently*
+	- Data Scientist *June 2019- May 2021*
 	- Data Science Intern *June 2018- Dec 2018*
 - [**Texas A&M University, College Station, TX, USA** ](https://aml.engr.tamu.edu/  "ADVANCED METROLOGY LAB").
 	- Graduate Research Assitant  *Jan 2019- May 2019*
 - [**Utilities and Energy Services, TX, USA** ](https://utilities.tamu.edu/  "UES").
 	- Graduate Student Analyst *Jan 2018- May 2018*
+
+<H2>  <span style="color:Blue"> Education</span></H2>
+- [**Texas A&M University, College Station, TX, USA** ](https://www.tamu.edu/index.html  "Texas A&M").
+	-Master of Science in Industrial and Systems Engineering, minor in Applied Statistics *Aug 2017- May 2019*
+- [**Gujarat Technological University, Gujarat, India** ](https://gtu.ac.in/  "GTU").
+	- Bachelor of Engineering in Mechanical Engineering *Aug 2013- May 2017*
