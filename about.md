@@ -64,6 +64,6 @@ If you're as passionate about molding the future with data as I am, I’d love t
 
 <H2>  <span style="color:Blue"> Education</span></H2>
 - [**Texas A&M University, College Station, TX, USA** ](https://www.tamu.edu/index.html  "Texas A&M").
-	-Master of Science in Industrial and Systems Engineering, minor in Applied Statistics *Aug 2017- May 2019*
+	- Master of Science in Industrial and Systems Engineering, minor in Applied Statistics *Aug 2017- May 2019*
 - [**Gujarat Technological University, Gujarat, India** ](https://gtu.ac.in/  "GTU").
 	- Bachelor of Engineering in Mechanical Engineering *Aug 2013- May 2017*
