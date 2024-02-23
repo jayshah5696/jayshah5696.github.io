@@ -106,4 +106,10 @@
             <svg class="icon icon-mail"><use xlink:href="#icon-mail"></use></svg>
         </a>
     {% endif %}
+
+    {% if site.huggingface %}
+        <a class="link" data-title="huggingface.co/{{ site.huggingface }}" href="https://huggingface.co/{{ site.huggingface }}" target="_blank">
+            <svg class="icon icon-huggingface"><use xlink:href="#icon-huggingface"></use></svg>
+        </a>
+    {% endif %}
 </div>
