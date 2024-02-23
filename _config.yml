@@ -14,7 +14,7 @@ picture: assets/images/Profile.jpg
 # and specify source (external or local).
 resume: true
 resume-external: local
-resume-url: 'assets/pdfs/JayShah_Resume_0221.pdf'
+resume-url: 'https://jayshah.vercel.app/'
 
 # your url: https://USERNAME.github.io
 
