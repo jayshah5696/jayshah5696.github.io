@@ -5,13 +5,14 @@ layout: page
 
 ![Profile Image]({% if site.external-image %}{{ site.picture }}{% else %}{{ site.url }}/{{ site.picture }}{% endif %})
 
-<H2>  <span style="color:Black">Senior Data Scientist</span> ||<span style="color:Red"> Crafting AI Narratives </span>||<span style="color:Blue"> Perpetual learner </span>|| <span style="color:Red">Committed to Growth & Precision in Predictive Analytics</span></H2>
+<H2>
+    <span style="color:#1abc9c">Senior Data Scientist</span> ||
+    <span style="color:#3498db">Perpetual learner</span> ||
+    <span style="color:#e74c3c">Committed to Growth & Precision in Predictive Analytics</span>
+</H2>
 
 ### The Spark of Curiosity:
 In the vast universe of data, I found my calling. What began as an interest quickly ignited a relentless pursuit of knowledge, leading me to become the Data Scientist I am today. Over five years of experience has not only shaped my expertise but also my philosophy: that at the heart of every dataset lies a story waiting to be told.
-
-### Leading the Charge:
-As the maestro of a team of gifted data enthusiasts, I’ve led the charge in unraveling complex data puzzles. My leadership style? Think of it as part mentor, part strategist, all driven by the desire to see my team and projects thrive. From enhancing AI's understanding through LLMs to delivering solutions that resonate with real-world needs, my focus has always been innovation with impact.
 
 ### A Purpose-Driven Path:
 Technology for me is not just about the 'what,' but the 'why.' It’s about harnessing the potential of data to make technology universally accessible. With every project, my goal is to bridge the gap between advanced tech and everyday life, ensuring that the future we're building is one where everyone can benefit from the strides we make in data science.
@@ -30,6 +31,7 @@ If you're as passionate about molding the future with data as I am, I’d love t
 <h2><span style="color:Blue">Projects</span></h2>
 
 <ul>
+    <li><a href="https://devpost.com/software/multimodal-ai">StreamLens Ragathon Feb 2024</a></li>
 	<li><a href="https://github.com/jayshah5696/Power_Curve_Estimation">Power Curve Estimation for Wind Energy Farms</a></li>
 	<li><a href="https://github.com/jayshah5696/Kaggle_Mercedes">Exploratory Data Analysis of Mercedes Green Manufacturing Challenge</a></li>
 	<li><a href="https://github.com/jayshah5696/DataOpen-2018">Portfolio Analysis on New York Cab Data (Data Open – 2018)</a></li>
