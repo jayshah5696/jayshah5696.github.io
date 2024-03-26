@@ -1,7 +1,7 @@
 ---
 title: Hackathons - A Condensed Time for Learning, Building, and Networking
 layout: post
-date: 2024-02-26 21:44
+date: 2024-03-26 22:30
 image: /assets/images/mistral-hackathon.jpeg
 headerImage: true
 tag:
