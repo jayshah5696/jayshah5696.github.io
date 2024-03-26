@@ -13,7 +13,7 @@ author: Jay Shah
 description: Hackathon Experience at Mistral Hackathon in San Francisco
 ---
 
-<img src="../assets/images/mistral-hackathon.jpeg" alt="mistral-hackathon" width="450" height="300" style="display: block; margin-left: auto; margin-right: auto;"/>
+<img src="../assets/images/hackathon.jpeg" alt="mistral-hackathon" width="450" height="300" style="display: block; margin-left: auto; margin-right: auto;"/>
 
 
 Hello everyone,  
