@@ -25,12 +25,15 @@ If you're as passionate about molding the future with data as I am, I’d love t
 
 
 <H2>  <span style="color:Blue"> Skills</span></H2>
-- **Statistical Methods**: Regression Analysis, Hypothesis testing and Confidence intervals, ANOVA, Supervised parametric and Non-parametric learning methods, Unsupervised learning methods, Time Series Analysis, Bayesian Analysis, Anomaly Detection, Deep Learning, Dimensionality reduction, and A/B testing.
-- **Programming Tools and Libraries**:  Python (Pandas, NumPy, Matplotlib, Scikit-Learn, Keras, Tensorflow, PySpark), R (Tidyverse, Caret, ggplot), SQL, High-Performance Computing, Tableau, PowerBI, Shell scripting (BASH), Advanced Excel.
+- **Statistical Methods**: Anomaly Detection, Deep Learning, Time Series Analysis, Bayesian Analysis, Regression Analysis, Hypothesis testing ANOVA, Supervised parametric and Non-parametric learning methods, and Unsupervised learning methods.
+- **Programming Tools and Libraries:** Python (Keras, Tensorflow, PyTorch), R, SQL, Cloud(AWS, Azure, Gcloud).
+- **Generative AI Tools:** Transformers, PEFT (Lora, QLora), RAG, Synthatic data generation, Langchain, Llamaindex
+- **MLOps**: Orchastration, CI/CD, Model Serving and Monitoring, Experiment Tracking (MLflow), Workflow Automation(Airflow)
 
 <h2><span style="color:Blue">Projects</span></h2>
 
 <ul>
+	<li><a href="https://devpost.com/software/neurobuddy">NueroBuddy Mistral Hackathon March 2024</a></li>
     <li><a href="https://devpost.com/software/multimodal-ai">StreamLens Ragathon Feb 2024</a></li>
 	<li><a href="https://github.com/jayshah5696/Power_Curve_Estimation">Power Curve Estimation for Wind Energy Farms</a></li>
 	<li><a href="https://github.com/jayshah5696/Kaggle_Mercedes">Exploratory Data Analysis of Mercedes Green Manufacturing Challenge</a></li>
