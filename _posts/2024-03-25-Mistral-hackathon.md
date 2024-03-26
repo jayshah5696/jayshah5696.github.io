@@ -1,5 +1,5 @@
 ---
-title: Euphoria of Gen AI
+title: Hackathons - A Condensed Time for Learning, Building, and Networking
 layout: post
 date: 2024-02-26 21:44
 image: /assets/images/mistral-hackathon.jpeg
@@ -10,7 +10,7 @@ tag:
 star: true
 category: blog
 author: Jay Shah
-description: Hackathons - A Condensed Time for Learning, Building, and Networking
+description: Hackathon Experience at Mistral Hackathon in San Francisco
 ---
 
 <img src="../assets/images/mistral-hackathon.jpeg" alt="mistral-hackathon" width="450" height="300" style="display: block; margin-left: auto; margin-right: auto;"/>
