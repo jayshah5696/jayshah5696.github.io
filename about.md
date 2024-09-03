@@ -11,28 +11,30 @@ layout: page
     <span style="color:#e74c3c">Committed to Growth & Precision in Predictive Analytics</span>
 </H2>
 
-### The Spark of Curiosity:
-In the vast universe of data, I found my calling. What began as an interest quickly ignited a relentless pursuit of knowledge, leading me to become the Data Scientist I am today. Over five years of experience has not only shaped my expertise but also my philosophy: that at the heart of every dataset lies a story waiting to be told.
+### My Journey into Data:
+I’ve always been curious about data. What started as a simple interest quickly grew into a deep passion, leading me to where I am today as a Data Scientist. With over five years of experience, I’ve learned that every dataset has a story to tell, and I’m here to uncover it.
 
-### A Purpose-Driven Path:
-Technology for me is not just about the 'what,' but the 'why.' It’s about harnessing the potential of data to make technology universally accessible. With every project, my goal is to bridge the gap between advanced tech and everyday life, ensuring that the future we're building is one where everyone can benefit from the strides we make in data science.
+### Why I Do What I Do:
+For me, technology isn’t just about how it works, but why it matters. I believe in using data to make technology more accessible to everyone. With each project, I aim to connect advanced tech with everyday life, making sure that the benefits of data science reach everyone.
 
-### The Road Ahead:
-Looking to the horizon, I see a future where data science is not just a tool but a beacon – guiding us to smarter, sustainable solutions for the environment and our communities. I'm on a quest to connect with fellow dreamers and doers who are eager to make this vision a reality.
+### Looking Forward:
+As I look ahead, I see data science as more than just a tool—it’s a way to create smarter, more sustainable solutions for our world. I’m excited to connect with others who share this vision and are ready to make it happen.
 
 ### Let’s Connect:
-If you're as passionate about molding the future with data as I am, I’d love to connect. Let’s explore the endless possibilities that lie within data and turn them into opportunities that can change the world, one insight at a time.
+If you’re as passionate about the future of data as I am, let’s connect. Together, we can explore the endless possibilities within data and turn them into opportunities to make a difference.
 
 
 <H2>  <span style="color:Blue"> Skills</span></H2>
+- **Machine Learning & AI**: Proficient in designing and implementing machine learning models, including supervised, unsupervised, and deep learning techniques. Experienced in feature engineering, model selection, and hyperparameter tuning.
 - **Statistical Methods**: Anomaly Detection, Deep Learning, Time Series Analysis, Bayesian Analysis, Regression Analysis, Hypothesis testing ANOVA, Supervised parametric and Non-parametric learning methods, and Unsupervised learning methods.
 - **Programming Tools and Libraries:** Python (Keras, Tensorflow, PyTorch), R, SQL, Cloud(AWS, Azure, Gcloud).
-- **Generative AI Tools:** Transformers, PEFT (Lora, QLora), RAG, Synthatic data generation, Langchain, Llamaindex
-- **MLOps**: Orchastration, CI/CD, Model Serving and Monitoring, Experiment Tracking (MLflow), Workflow Automation(Airflow)
+- **Generative AI Tools:** Transformers, PEFT (Lora, QLora), RAG, Synthetic data generation, Langchain, Llamaindex
+- **MLOps**: Orchestration, CI/CD, Model Serving and Monitoring, Experiment Tracking (MLflow), Workflow Automation(Airflow)
 
 <h2><span style="color:Blue">Projects</span></h2>
 
 <ul>
+	<li><a href="https://github.com/jayshah5696/pravahy">Pravah- Local perplexity Aug 2024</a></li>
 	<li><a href="https://devpost.com/software/neurobuddy">NueroBuddy Mistral Hackathon March 2024</a></li>
     <li><a href="https://devpost.com/software/multimodal-ai">StreamLens Ragathon Feb 2024</a></li>
 	<li><a href="https://github.com/jayshah5696/Power_Curve_Estimation">Power Curve Estimation for Wind Energy Farms</a></li>
@@ -52,11 +54,12 @@ If you're as passionate about molding the future with data as I am, I’d love t
 
 
 <H2>  <span style="color:Blue"> Honors & Awards</span></H2>
+- Winner at Ragathon by LlamaIndex (Feb 2024)
 - Outstanding Master's of Science Student (Apr 2019)
 - 2nd Runnerup at Texas Datathon by Citadel (Feb 2018)
 
 <H2>  <span style="color:Blue"> Expirience</span></H2>
-- [**SparkCognition, Menlo Park, CA, USA** ](https://www.sparkcognition.com/  "Industrial AI").
+- [**SparkCognition, Menlo Park, CA, USA** ](https://www.sparkcognition.com/  "AI perfected for industry").
 	- Data Scientist III *Jan 2022- Currently*
 	- Data Science II *May 2021- Dec 2021*
 - [**Ensemble Energy, Palo Alto, CA, USA** ](https://www.ensemble.energy/  "AI Enabled Asset Management and Predictive Maintenance Tools and Services").
