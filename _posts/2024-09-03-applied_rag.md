@@ -14,7 +14,7 @@ author: Jay Shah
 description: Practical strategies for implementing and optimizing Retrieval Augmented Generation (RAG) in LLM systems.
 ---
 
-<img src="../assets/images/rag-llm.jpeg" alt="applied-rag" width="450" height="300" style="display: block; margin-left: auto; margin-right: auto;"/>
+<img src="../assets/images/rag-llm.jpeg" alt="applied-rag" width="450" height="450" style="display: block; margin-left: auto; margin-right: auto;"/>
 
 Hello everyone,
 
