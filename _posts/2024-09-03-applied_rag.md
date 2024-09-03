@@ -1,7 +1,7 @@
 ---
 title: Beyond the Hype: Practical Strategies for Implementing Superior RAG
 layout: post
-date: 2024-09-03 00:00
+date: 2024-09-03 10:00
 image: /assets/images/rag-llm.jpeg
 headerImage: false
 tag:
@@ -45,7 +45,7 @@ Here's what we'll cover:
 
 ## Evaluating RAG Systems
 
-Before we jump into the specific techniques, it’s important to know how to measure the performance of your RAG system. Just running a few vibe checks isn’t enough—you need to <span style="color: magenta;">*evaluate*</span> your system based on how it will perform in <span style="color: magenta;">*real-world scenarios*</span>. This means moving beyond simple vibe checks and adopting a structured approach that reflects the diversity and complexity of user queries. By focusing on the <span style="color: magenta;">*80/20 principle*</span> – identifying the most frequent and impactful query patterns – you can tailor your evaluation to optimize for the most critical use cases.
+Before we jump into the specific techniques, it’s important to know how to measure the performance of your RAG system. Just running a few vibe checks isn’t enough—you need to <span style="color: magenta;">*evaluate*</span> your system based on how it will perform in <span style="color: magenta;">*real-world scenarios*</span>. This means moving beyond simple vibe checks and adopting a [structured approach](https://hamel.dev/blog/posts/evals/) that reflects the diversity and complexity of user queries. By focusing on the <span style="color: magenta;">*80/20 principle*</span> – identifying the most frequent and impactful query patterns – you can tailor your evaluation to optimize for the most critical use cases.
 
 ### Retrieval Evaluation Metrics
 
@@ -94,7 +94,7 @@ Effective retrieval is the <span style="color: magenta;">*foundation*</span> of 
 
 ### Prepare Relevance Dataset
 
-Creating your own relevance dataset has become more accessible than ever, thanks to the capabilities of **LLMs**. Below is a straightforward approach to building a relevance dataset tailored for your **RAG** system:
+Creating your own relevance dataset has become more accessible than ever, thanks to the capabilities of [**LLMs**](https://eugeneyan.com/writing/llm-evaluators/). Below is a straightforward approach to building a relevance dataset tailored for your **RAG** system:
 
 First, break down your text corpus into manageable chunks, ensuring each chunk is tagged with a source identifier. For instance, use **page numbers** for PDFs, **URLs** for web pages, or **chapter numbers** for books. Next, for each chunk—or a randomly selected subset of chunks—generate a query using the **LLM** that accurately reflects the content of the chunk. Then, use this generated query to retrieve the corresponding relevant chunk of text. By doing so, you can compile a dataset consisting of queries, relevant text chunks, and irrelevant text chunks. This dataset will be invaluable for evaluating and fine-tuning your **RAG** system.
 
@@ -136,9 +136,9 @@ above is a simple prompt to generate simple queries, now you can also use multip
     Ensure the query is specific and captures the essence of the combined text samples. Avoid overly broad or vague queries.
   </important_instruction>
   <text_samples>
-    <text_sample>{text_sample_1}</text_sample>
-    <text_sample>{text_sample_2}</text_sample>
-    <!-- Add more text_sample tags as needed -->
+    {% for text_sample in text_samples %}
+    <text_sample>{{ text_sample }}</text_sample>
+    {% endfor %}
   </text_samples>
   <steps>
     <step>Read each text sample carefully to understand its main topic or information.</step>
@@ -154,6 +154,7 @@ above is a simple prompt to generate simple queries, now you can also use multip
 This will enable you to generate data in the following format:
 - query
 - doc_source (e.g., URL, page number, etc.)
+this is one of the standard format mentioned in [ir-measures](https://ir-measur.es/en/latest/).
 
 
 **sample passage relevance evaluation prompt**
@@ -257,7 +258,7 @@ Evaluating the generation component of a RAG system is inherently more challengi
    - **Example:** The response should directly address the user's question, without unnecessary digressions.
 
 #### Summary
-
+![[RagChecker](https://github.com/amazon-science/RAGChecker)](../assets/images/ragchecker.png)
 In summary, while retrieval evaluation is more straightforward due to its reliance on objective metrics, generation evaluation requires a more nuanced approach. By focusing on prompt engineering, contextual relevance, and consistency checks, and by evaluating faithfulness, coherence, and relevance, you can ensure that your RAG system produces high-quality, reliable outputs. Continuous iteration and refinement of these strategies are essential for optimizing the performance of the generation component.
 
 ### Best Practices for Evaluation
@@ -293,25 +294,25 @@ graph LR
     F --> G[Indexed Data]
 ```
 
-- **Data Cleaning:** Ensure that your data is error-free and well-structured. This is the foundation of any successful RAG system, as clean data leads to more accurate retrieval and generation.
+- **Data Cleaning:** Ensure that your data is error-free, well-structured, and properly formatted. This is the foundation of any successful RAG system, as clean and consistently formatted data leads to more accurate retrieval and generation. Additionally, converting your data into a standardized markdown format can significantly enhance the downstream generation task. Markdown's structured nature makes it easier for models to parse and understand the content, leading to more coherent and contextually relevant outputs. [Here](https://github.com/jayshah5696/til/blob/main/unstructored/demo.ipynb) I something implement after extracting the text from unstructured to convert it in markdown format.
 
-- **Chunking:** Experiment with different chunk sizes and strategies to optimize retrieval. For better context availability, I recommend using chunk sizes of 700-800 tokens with overlaps. This approach ensures that the retrieval process captures sufficient context, which is crucial for generating coherent and relevant responses.
+- **Chunking:** To optimize retrieval, it's essential to experiment with different chunk [sizes](https://huggingface.co/spaces/m-ric/chunk_visualizer) and strategies. I recommend using chunk sizes of 700-800 tokens with overlaps to ensure better context availability. This approach helps capture sufficient context, which is crucial for generating coherent and relevant responses. For simplicity, I prefer focusing on sentence-level or token-level chunking. You can explore more on this topic through research done by chromadb on [chunking strategies](https://research.trychroma.com/evaluating-chunking).
 
-- **Embedding Models:** Select appropriate embedding models and consider fine-tuning them for your specific needs. Start with off-the-shelf models, but as you gather more data (at least 200-300 queries), fine-tuning an open-source model can significantly outperform proprietary options. This allows you to tailor the embeddings to your specific domain, improving retrieval accuracy.
+- **Embedding Models:** Select appropriate embedding models and consider fine-tuning them for your specific needs. Start with off-the-shelf models, but as you gather more data (at least 2000-2500 queries), [fine-tuning](https://towardsdatascience.com/task-aware-rag-strategies-for-when-sentence-similarity-fails-54c44690fee3) an open-source model can significantly outperform proprietary options. This allows you to tailor the embeddings to your specific domain, improving retrieval accuracy.
 
-- **Metadata:** Leverage metadata to enhance the retrieval process. Incorporating metadata is essential—use Named Entity Recognition (NER) to extract key information from each chunk or PDF. Even if you’re not utilizing all the metadata right away, it’s advantageous to include as much information as possible. This approach provides flexibility for future enhancements and improves the precision of your retrieval system.
+- **Metadata:** Leverage metadata to enhance the retrieval process. Incorporating metadata is essential—use [Named Entity Recognition](https://www.altexsoft.com/blog/named-entity-recognition/) (NER) to extract key information from each chunk or PDF. Even if you’re not utilizing all the metadata right away, it’s advantageous to include as much information as possible. This approach provides flexibility for future enhancements and improves the precision of your retrieval system.
 
 - **Multi-Indexing:** Consider using multiple indices to handle varied query types effectively. This approach allows your system to be more versatile, catering to different types of queries with specialized indices, thereby improving overall retrieval performance.
 
 #### Augmentation/Generation Stage
 
-- **Baseline Retrieval with BM25 (Best Match 25):** Start with a simple yet effective baseline retrieval method like **BM25 (Best Match 25)**. BM25 is a tf-idf on steroids that ranks documents based on the frequency of query terms in each document, adjusted by the document length. It’s a great starting point for retrieval tasks because of its simplicity and effectiveness in many scenarios.
+- **Baseline Retrieval with BM25 (Best Match 25):** Start with a simple yet effective baseline retrieval method like **BM25 (Best Match 25)**. [BM25](https://bm25s.github.io/) is a tf-idf on steroids that ranks documents based on the frequency of query terms in each document, adjusted by the document length. It’s a great starting point for retrieval tasks because of its simplicity and effectiveness in many scenarios.
 
-- **Query Transformation:** Once you have a baseline with BM25, consider implementing techniques such as query rephrasing or sub-query generation to further improve retrieval accuracy. These transformations can help in better aligning the query with the indexed documents, especially when dealing with more complex queries.
+- **Query Transformation and Expansion:** Once you have a baseline with BM25, consider implementing techniques such as query rephrasing, sub-query generation, or query [expansion](https://python.useinstructor.com/examples/search/) to further improve retrieval accuracy. While query rephrasing and sub-query generation can help in better aligning the query with the indexed documents, query expansion can increase recall by including synonyms or related terms. However, note that while query expansion can retrieve a broader set of relevant documents, it may not necessarily increase precision.
 
 - **Retrieval Parameters:** Adjust parameters like the number of documents retrieved and the search method (e.g., BM25, vector-based retrieval) to optimize results. Start with BM25 and then experiment with more advanced methods as needed.
 
-- **Reranking Models:** After retrieving documents with BM25, use reranking models to prioritize the most relevant results. Reranking can be particularly useful when the initial retrieval set is large, allowing you to refine the results based on more sophisticated criteria like semantic relevance or user intent. Cohere reranking model is game changer.
+- **Reranking Models:** After retrieving documents with BM25, use reranking models to prioritize the most relevant results. Reranking can be particularly useful when the initial retrieval set is large, allowing you to refine the results based on more sophisticated criteria like semantic relevance or user intent. Cohere [reranking](https://github.com/AnswerDotAI/rerankers) model is game changer.
 
 - **Monitor each metric:**  To ensure my RAG system is performing optimally, monitor the BM25 score, semantic cosine distance, and the reranking model score for each query. This allows you to debug and fine-tune my system. By tracking these metrics, you can identify any issues with the retrieval process, such as whether the model is accurately capturing the user's intent or if the reranking model is effectively prioritizing relevant documents. This data helps in understanding the system's strengths and weaknesses, allowing us to make informed decisions about how to improve its performance.
 
@@ -327,7 +328,7 @@ Building a robust RAG system requires not only focusing on what works but also u
 - **Poor Data Preparation or Embedding Selection:**  
   - **Example:** Imagine your dataset contains a lot of noise or irrelevant information. In such cases, the retrieval system might return documents that are not useful or even incorrect. Similarly, if you choose an embedding model that hasn't been fine-tuned for your specific domain, the system might fail to understand the semantic nuances, leading to missed relevant content. For instance, using a general-purpose embedding model in a specialized field like legal or medical domains could result in suboptimal retrieval performance.
 
-  - **My Take:** In my experience, robust data preprocessing and careful selection of embedding models are non-negotiable steps in building an effective RAG system. Fine-tuning your embedding model to your specific domain can make a significant difference in retrieval accuracy. I recommend investing time in these areas to avoid common pitfalls and ensure your system performs at its best.
+  - **My Take:** In my experience, robust data preprocessing and careful selection of embedding models are non-negotiable steps in building an effective RAG system. [Fine-tuning your embedding model](https://sbert.net/docs/sentence_transformer/training_overview.html) to your specific domain can make a significant difference in retrieval accuracy. I recommend investing time in these areas to avoid common pitfalls and ensure your system performs at its best.
 
 ### Retrieval Failures
 
@@ -353,7 +354,7 @@ Building a robust RAG system requires not only focusing on what works but also u
     - **My Take:** In my experience, hybrid retrieval is especially effective in domains where the language is highly specialized or where users might not know the exact terminology to use. Implementing a hybrid approach has significantly reduced the chances of missing out on critical information, particularly in fields like law, medicine, or technical support.
 
   - **Advanced Query Representation:**  
-    I’ve learned that the way queries are represented plays a crucial role in the retrieval process. Simple keyword-based queries often fail to capture the full intent of the user, leading to incomplete or irrelevant results. To address this, I’ve started employing advanced query representation techniques like query expansion, where additional terms related to the original query are added to improve retrieval accuracy. Another technique I use is query rephrasing, where the query is reformulated to better align with the structure of the indexed data. Additionally, leveraging pre-trained language models to generate embeddings for queries has helped me capture the semantic meaning more effectively, leading to more accurate retrieval.
+    I’ve learned that the way queries are represented plays a crucial role in the retrieval process. Simple keyword-based queries often fail to capture the full intent of the user, leading to incomplete or irrelevant results. To address this, I’ve started employing advanced query representation techniques like [query expansion](https://github.com/jayshah5696/pravah), where additional terms related to the original query are added to improve retrieval accuracy. Another technique I use is query rephrasing, where the query is reformulated to better align with the structure of the indexed data. Additionally, leveraging pre-trained language models to generate embeddings for queries has helped me capture the semantic meaning more effectively, leading to more accurate retrieval.
 
     - **Example:** Suppose a user queries an e-commerce site with "affordable smartphones." A basic keyword search might return results that include the word "affordable" but miss out on synonyms like "budget" or "cheap." By using query expansion, I can ensure the system automatically includes these synonyms, thereby retrieving a broader range of relevant products.
 
@@ -393,3 +394,18 @@ Building a robust RAG system requires not only focusing on what works but also u
 Mastering advanced RAG techniques isn’t just about fine-tuning your system to get slightly better results—it’s about transforming your RAG pipeline into a tool that can handle the complexities and demands of real-world applications. The techniques we’ve covered here, from better evaluation metrics to optimizing each stage of your pipeline, are all part of that journey.
 
 But remember, this is an ongoing process. The world of AI and LLMs is constantly evolving, and so should your RAG systems. By continuously experimenting, evaluating, and refining, you’ll be able to stay ahead of the curve and build systems that don’t just meet today’s challenges, but anticipate tomorrow’s.
+
+References:
+[1] https://hamel.dev/blog/posts/evals/
+[2] https://huggingface.co/spaces/m-ric/chunk_visualizer
+[3] https://research.trychroma.com/evaluating-chunking
+[4] https://towardsdatascience.com/task-aware-rag-strategies-for-when-sentence-similarity-fails-54c44690fee3
+[5] https://www.altexsoft.com/blog/named-entity-recognition/
+[6] https://bm25s.github.io/
+[7] https://python.useinstructor.com/examples/search/
+[8] https://github.com/AnswerDotAI/rerankers
+[9] https://sbert.net/docs/sentence_transformer/training_overview.html
+[10] https://github.com/jayshah5696/til/blob/main/unstructored/demo.ipynb
+[11] https://github.com/jayshah5696/pravah
+[12] https://eugeneyan.com/writing/llm-evaluators/
+[13] https://ir-measur.es/en/latest/
