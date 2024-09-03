@@ -34,7 +34,7 @@ If you’re as passionate about the future of data as I am, let’s connect. Tog
 <h2><span style="color:Blue">Projects</span></h2>
 
 <ul>
-	<li><a href="https://github.com/jayshah5696/pravahy">Pravah- Local perplexity Aug 2024</a></li>
+	<li><a href="https://github.com/jayshah5696/pravah">Pravah- Local perplexity Aug 2024</a></li>
 	<li><a href="https://devpost.com/software/neurobuddy">NueroBuddy Mistral Hackathon March 2024</a></li>
     <li><a href="https://devpost.com/software/multimodal-ai">StreamLens Ragathon Feb 2024</a></li>
 	<li><a href="https://github.com/jayshah5696/Power_Curve_Estimation">Power Curve Estimation for Wind Energy Farms</a></li>
