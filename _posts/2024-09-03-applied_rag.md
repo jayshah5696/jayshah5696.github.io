@@ -1,5 +1,5 @@
 ---
-title: Applied RAG - Enhancing LLMs with Retrieval Augmented Generation
+title: Beyond the Hype: Practical Strategies for Implementing Superior RAG
 layout: post
 date: 2024-09-03 22:30
 image: /assets/images/rag-llm.jpeg
