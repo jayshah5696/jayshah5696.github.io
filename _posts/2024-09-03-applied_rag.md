@@ -1,7 +1,7 @@
 ---
 title: Beyond the Hype: Practical Strategies for Implementing Superior RAG
 layout: post
-date: 2024-09-03 10:00
+date: 2024-09-03 06:00
 image: /assets/images/rag-llm.jpeg
 headerImage: false
 tag:
