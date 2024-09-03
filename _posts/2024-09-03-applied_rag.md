@@ -19,22 +19,7 @@ description: Practical strategies for implementing and optimizing Retrieval Augm
 Hello everyone,
 
 If you've been working with <span style="color: magenta;">*Large Language Models (LLMs)*</span> for a while, you've likely encountered the limitations of relying solely on these models without any external knowledge. That’s where <span style="color: magenta;">*Retrieval Augmented Generation (RAG)*</span> comes in, providing a powerful way to enhance LLMs by bringing in relevant information from external sources.
-```mermaid!
-graph LR
-    subgraph "Indexing Stage"
-        A[Data Cleaning] --> B[Chunking]
-        B --> C[Embedding Models]
-        C --> D[Metadata]
-        D --> E[Index]
-    end
-    subgraph "Augmentation/Generation Stage"
-        F[Query] --> G[Retrieval]
-        G --> H[Reranking]
-        H --> I[LLM]
-        I --> J[Response]
-    end
-    E --> G
-```
+![diagram](../assets/images/2024-09-03-applied_rag-1.svg)
 As I worked more with RAG, I realized that the basic setups, while a good foundation, only <span style="color: magenta;">*scratch the surface*</span> of what’s possible. To build systems capable of handling complex queries and providing accurate, reliable answers, I had to move beyond the basics and focus on more <span style="color: magenta;">*practical, applied techniques*</span>. In this post, I’m excited to share these practical RAG strategies with you, drawing from my own experiences, to help you <span style="color: magenta;">*elevate*</span> your RAG systems to the next level.
 
 Here's what we'll cover:
@@ -49,14 +34,7 @@ Before we jump into the specific techniques, it’s important to know how to mea
 
 ### Retrieval Evaluation Metrics
 
-```mermaid!
-graph TD
-    A[Query] --> B{Retrieval System}
-    B --> C[Retrieved Documents]
-    C --> D[MRR -Mean Reciprocal Rank]
-    C --> E[NDCG -Normalized Discounted Cumulative Gain]
-    C --> F[Precision & Recall]
-```
+![diagram](../assets/images/2024-09-03-applied_rag-2.svg)
 Effective retrieval is the <span style="color: magenta;">*foundation*</span> of a successful RAG system. You need to ensure your system can efficiently and accurately find the relevant information within your knowledge base. Here are some common metrics to track:
 
 - **MRR (Mean Reciprocal Rank):** This metric focuses on the ranking of the first relevant result. A higher MRR indicates that your system is good at quickly surfacing the most important document. It's especially relevant when users primarily care about the top result.
@@ -66,16 +44,7 @@ Effective retrieval is the <span style="color: magenta;">*foundation*</span> of 
 ### Practical Strategies for Retrieval Evaluation
 
 1. **Query Categorization:** Group your queries by characteristics like complexity, length, topic, and user intent. This helps you identify strengths and weaknesses of your retrieval system for different query types.
-    ```mermaid!
-    graph TD
-    A[User Queries] --> B{Query Categorization}
-    B --> C[Factual Queries]
-    B --> D[Analytical Queries]
-    B --> E[Opinion-based Queries]
-    C --> F[Retrieval Performance Analysis]
-    D --> F
-    E --> F
-    ```
+![diagram](../assets/images/2024-09-03-applied_rag-3.svg)
     - **Example:**  Categorize queries into "factual", "analytical", "opinion-based" etc. This allows you to analyze retrieval performance for each category.
 2. **Diverse Test Set:**  Your test set should include a wide range of queries:
     - **Common Queries:** Reflect the most frequent user queries.
@@ -205,17 +174,7 @@ Utilize the provided prompt to evaluate the <span style="color: magenta;">*relev
 - **doc_source**
 - **relevance_score**
 
-```mermaid!
-graph LR
-    A[Text Corpus] --> B{Chunking & Source Identifier}
-    B --> C[Random Chunk Selection]
-    C --> D{LLM Query Generation}
-    D --> E[Retrieval of Relevant Chunk]
-    E --> F(Relevance Evaluation)
-    F --> G{Relevance Dataset}
-    G --> H[Queries, Relevant Chunks, Irrelevant Chunks]
-    style F fill:#ccf,stroke:#0ff,stroke-width:2px
-```
+![diagram](../assets/images/2024-09-03-applied_rag-4.svg)
 
 In summary, building a robust relevance dataset is crucial for evaluating your RAG system. By breaking down your text corpus into manageable chunks and generating queries that accurately reflect the content, you can create a dataset that includes both relevant and irrelevant text chunks. This dataset will serve as a foundation for evaluating the retrieval component of your RAG system. Additionally, using structured prompts for query generation and relevance testing ensures that your dataset is comprehensive and tailored to your specific use case. Remember, the quality of your retrieval system directly impacts the overall performance of your RAG system, making this step essential for success.
 
@@ -283,16 +242,7 @@ Building a successful RAG system is an iterative process. Start with a simple im
 ### Key Components of a RAG System
 
 #### Indexing Stage
-```mermaid!
-graph LR
-    A[Raw Data] --> B[Data Cleaning]
-    B --> C[Chunking]
-    C --> D[Embedding Models]
-    B --> E[Metadata Extraction]
-    D --> F[Multi-Indexing]
-    E --> F
-    F --> G[Indexed Data]
-```
+![diagram](../assets/images/2024-09-03-applied_rag-5.svg)
 
 - **Data Cleaning:** Ensure that your data is error-free, well-structured, and properly formatted. This is the foundation of any successful RAG system, as clean and consistently formatted data leads to more accurate retrieval and generation. Additionally, converting your data into a standardized markdown format can significantly enhance the downstream generation task. Markdown's structured nature makes it easier for models to parse and understand the content, leading to more coherent and contextually relevant outputs. [Here](https://github.com/jayshah5696/til/blob/main/unstructored/demo.ipynb) I something implement after extracting the text from unstructured to convert it in markdown format.
 
@@ -338,16 +288,7 @@ Building a robust RAG system requires not only focusing on what works but also u
   - **Hybrid Retrieval Approaches:**  
     I’ve found that hybrid retrieval, which combines the strengths of different retrieval methods, can significantly enhance the performance of a RAG system. By blending semantic search with traditional keyword-based search, I can capture both the nuanced meaning of queries and the exact matches. For example, I might use a dense vector search to grasp semantic similarities while also employing a sparse vector search to ensure specific keywords are considered. This dual approach has proven particularly effective when dealing with complex or ambiguous queries.
 
-    ```mermaid!
-    graph LR
-        A[Query] --> B[Sparse Vector Search]
-        A --> C[Dense Vector Search]
-        B --> D[Sparse Scores]
-        C --> E[Dense Scores]
-        D --> F[Hybrid Score Combination]
-        E --> F
-        F --> G[Ranked Documents]
-    ```
+![diagram](../assets/images/2024-09-03-applied_rag-6.svg)
 
     - **Example:** Imagine a scenario where a user is querying a legal document database with the phrase "intellectual property rights." A purely keyword-based search might return documents that mention these exact terms but miss out on relevant documents that discuss "patent law" or "copyright issues" without using the exact phrase. By using a hybrid approach, I can ensure the system retrieves documents that are semantically related to the query, providing a more comprehensive set of results.
 
