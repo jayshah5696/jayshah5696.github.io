@@ -1,13 +1,13 @@
 ---
-title: Beyond the Hype: Practical Strategies for Implementing Superior RAG
+title: Beyond the Hype- Practical Strategies for Implementing Superior RAG
 layout: post
-date: 2024-09-01 06:00
+date: 2024-09-03 06:00
 image: /assets/images/rag-llm.jpeg
 headerImage: false
-tag:
-- gen-ai
-- llm
-- rag
+tag: 
+  - gen-ai
+  - llm
+  - rag
 star: true
 category: blog
 author: Jay Shah
@@ -19,7 +19,7 @@ description: Practical strategies for implementing and optimizing Retrieval Augm
 Hello everyone,
 
 If you've been working with <span style="color: magenta;">*Large Language Models (LLMs)*</span> for a while, you've likely encountered the limitations of relying solely on these models without any external knowledge. That’s where <span style="color: magenta;">*Retrieval Augmented Generation (RAG)*</span> comes in, providing a powerful way to enhance LLMs by bringing in relevant information from external sources.
-```mermaid
+```mermaid!
 graph LR
     subgraph "Indexing Stage"
         A[Data Cleaning] --> B[Chunking]
@@ -49,7 +49,7 @@ Before we jump into the specific techniques, it’s important to know how to mea
 
 ### Retrieval Evaluation Metrics
 
-```mermaid
+```mermaid!
 graph TD
     A[Query] --> B{Retrieval System}
     B --> C[Retrieved Documents]
@@ -66,7 +66,7 @@ Effective retrieval is the <span style="color: magenta;">*foundation*</span> of 
 ### Practical Strategies for Retrieval Evaluation
 
 1. **Query Categorization:** Group your queries by characteristics like complexity, length, topic, and user intent. This helps you identify strengths and weaknesses of your retrieval system for different query types.
-    ```mermaid
+    ```mermaid!
     graph TD
     A[User Queries] --> B{Query Categorization}
     B --> C[Factual Queries]
@@ -100,7 +100,7 @@ First, break down your text corpus into manageable chunks, ensuring each chunk i
 
 - **sample query generation prompt**
 
-```
+```xml
 <instructions>
   Given a text sample or chunk, you must generate a query that accurately represents the main topic or information contained within the text. The query should be concise and relevant to the content of the text.
 </instructions>
@@ -127,7 +127,7 @@ above is a simple prompt to generate simple queries, now you can also use multip
 
 - **sample complex query generation prompt**
 
-```
+```xml
 <prompt>
   <instructions>
     Given multiple text samples or chunks, you must generate a complex query that accurately represents the combined information or main topics contained within the text samples. The query should be comprehensive and relevant to the content of all the text samples.
@@ -158,7 +158,7 @@ this is one of the standard format mentioned in [ir-measures](https://ir-measur.
 
 
 **sample passage relevance evaluation prompt**
-```
+```xml
 <instructions>
     Given a query and a passage, you must provide a score on an integer scale of 0 to 3 with the following meanings:
     <scale>
@@ -205,7 +205,7 @@ Utilize the provided prompt to evaluate the <span style="color: magenta;">*relev
 - **doc_source**
 - **relevance_score**
 
-```mermaid
+```mermaid!
 graph LR
     A[Text Corpus] --> B{Chunking & Source Identifier}
     B --> C[Random Chunk Selection]
@@ -283,7 +283,7 @@ Building a successful RAG system is an iterative process. Start with a simple im
 ### Key Components of a RAG System
 
 #### Indexing Stage
-```mermaid
+```mermaid!
 graph LR
     A[Raw Data] --> B[Data Cleaning]
     B --> C[Chunking]
@@ -338,7 +338,7 @@ Building a robust RAG system requires not only focusing on what works but also u
   - **Hybrid Retrieval Approaches:**  
     I’ve found that hybrid retrieval, which combines the strengths of different retrieval methods, can significantly enhance the performance of a RAG system. By blending semantic search with traditional keyword-based search, I can capture both the nuanced meaning of queries and the exact matches. For example, I might use a dense vector search to grasp semantic similarities while also employing a sparse vector search to ensure specific keywords are considered. This dual approach has proven particularly effective when dealing with complex or ambiguous queries.
 
-    ```mermaid
+    ```mermaid!
     graph LR
         A[Query] --> B[Sparse Vector Search]
         A --> C[Dense Vector Search]
@@ -396,16 +396,16 @@ Mastering advanced RAG techniques isn’t just about fine-tuning your system to 
 But remember, this is an ongoing process. The world of AI and LLMs is constantly evolving, and so should your RAG systems. By continuously experimenting, evaluating, and refining, you’ll be able to stay ahead of the curve and build systems that don’t just meet today’s challenges, but anticipate tomorrow’s.
 
 References:
-[1] https://hamel.dev/blog/posts/evals/
-[2] https://huggingface.co/spaces/m-ric/chunk_visualizer
-[3] https://research.trychroma.com/evaluating-chunking
-[4] https://towardsdatascience.com/task-aware-rag-strategies-for-when-sentence-similarity-fails-54c44690fee3
-[5] https://www.altexsoft.com/blog/named-entity-recognition/
-[6] https://bm25s.github.io/
-[7] https://python.useinstructor.com/examples/search/
-[8] https://github.com/AnswerDotAI/rerankers
-[9] https://sbert.net/docs/sentence_transformer/training_overview.html
-[10] https://github.com/jayshah5696/til/blob/main/unstructored/demo.ipynb
-[11] https://github.com/jayshah5696/pravah
-[12] https://eugeneyan.com/writing/llm-evaluators/
-[13] https://ir-measur.es/en/latest/
+- [1] [Evaluations in AI](https://hamel.dev/blog/posts/evals/)
+- [2] [Chunk Visualizer on Hugging Face](https://huggingface.co/spaces/m-ric/chunk_visualizer)
+- [3] [Evaluating Chunking](https://research.trychroma.com/evaluating-chunking)
+- [4] [Task-Aware RAG Strategies](https://towardsdatascience.com/task-aware-rag-strategies-for-when-sentence-similarity-fails-54c44690fee3)
+- [5] [Named Entity Recognition](https://www.altexsoft.com/blog/named-entity-recognition/)
+- [6] [BM25s Documentation](https://bm25s.github.io/)
+- [7] [Python Search Examples](https://python.useinstructor.com/examples/search/)
+- [8] [Rerankers on GitHub](https://github.com/AnswerDotAI/rerankers)
+- [9] [Sentence Transformer Training Overview](https://sbert.net/docs/sentence_transformer/training_overview.html)
+- [10] [Unstructured Data Demo](https://github.com/jayshah5696/til/blob/main/unstructored/demo.ipynb)
+- [11] [Pravah Project](https://github.com/jayshah5696/pravah)
+- [12] [LLM Evaluators](https://eugeneyan.com/writing/llm-evaluators/)
+- [13] [IR Measures Documentation](https://ir-measur.es/en/latest)
