@@ -59,12 +59,11 @@ If you’re as passionate about the future of data as I am, let’s connect. Tog
 - 2nd Runnerup at Texas Datathon by Citadel (Feb 2018)
 
 <H2>  <span style="color:Blue"> Expirience</span></H2>
-- [**SparkCognition, Menlo Park, CA, USA** ](https://www.sparkcognition.com/  "AI perfected for industry").
+- [**SparkCognition, Pleasanton, CA, USA** ](https://www.sparkcognition.com/  "AI perfected for industry").
 	- Data Scientist III *Jan 2022- Currently*
 	- Data Science II *May 2021- Dec 2021*
-- [**Ensemble Energy, Palo Alto, CA, USA** ](https://www.ensemble.energy/  "AI Enabled Asset Management and Predictive Maintenance Tools and Services").
-	- Data Scientist *June 2019- May 2021*
-	- Data Science Intern *June 2018- Dec 2018*
+	- Data Scientist *June 2019- May 2021* (Ensemble Energy, acquired by SparkCognition)
+	- Data Science Intern *June 2018- Dec 2018* (Ensemble Energy, acquired by SparkCognition)
 - [**Texas A&M University, College Station, TX, USA** ](https://aml.engr.tamu.edu/  "ADVANCED METROLOGY LAB").
 	- Graduate Research Assitant  *Jan 2019- May 2019*
 - [**Utilities and Energy Services, TX, USA** ](https://utilities.tamu.edu/  "UES").
