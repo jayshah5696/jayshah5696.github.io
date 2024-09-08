@@ -2,7 +2,7 @@
 title: Concept to Code - Deploying ColBERT with RAGatouille on Modal Labs in Minutes
 layout: post
 date: 2024-09-07 06:00
-image: /assets/images/ragatouille.jpeg
+image: /assets/images/ragatouille.png
 headerImage: true
 tag: 
   - gen-ai
