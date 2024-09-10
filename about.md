@@ -17,9 +17,9 @@ Data tells stories, and I help uncover them. As a Data Science Leader and AI ent
 
 My data journey started with curiosity and grew into a passion for machine learning, AI, and analytics. Over the years, I've:
 
-- Led teams using Large Language Models (LLMs) to create AI solutions
-- Tackled real-world problems like renewable energy and predictive maintenance
-- Built data pipelines that make complex algorithms easy to use
+- Led teams in using Large Language Models (LLMs) to create AI solutions.
+- Solved key challenges in renewable energy systems and predictive maintenance, improving efficiency and reliability.
+- Built data pipelines that simplify the use of data and ai solutions.
 
 For me, it's not just about the technology – it's about making a positive impact. Every model I build and every insight I find is aimed at making the world smarter and more sustainable.
 
