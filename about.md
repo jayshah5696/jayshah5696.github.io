@@ -6,22 +6,40 @@ layout: page
 ![Profile Image]({% if site.external-image %}{{ site.picture }}{% else %}{{ site.url }}/{{ site.picture }}{% endif %})
 
 <H2>
-    <span style="color:#1abc9c">Senior Data Scientist</span> ||
-    <span style="color:#3498db">Perpetual learner</span> ||
-    <span style="color:#e74c3c">Committed to Growth & Precision in Predictive Analytics</span>
+    <span style="color:#1abc9c">Data Science Leader</span> ||
+    <span style="color:#1abc9c">AI Innovator</span> ||
+    <span style="color:#1abc9c">Full Stack ML Engineer</span>
 </H2>
 
-### My Journey into Data:
-I’ve always been curious about data. What started as a simple interest quickly grew into a deep passion, leading me to where I am today as a Data Scientist. With over five years of experience, I’ve learned that every dataset has a story to tell, and I’m here to uncover it.
+Data tells stories, and I help uncover them. As a Data Science Leader and AI enthusiast, I've spent over 6 years turning raw data into impactful solutions that drive change.
 
-### Why I Do What I Do:
-For me, technology isn’t just about how it works, but why it matters. I believe in using data to make technology more accessible to everyone. With each project, I aim to connect advanced tech with everyday life, making sure that the benefits of data science reach everyone.
+### My Journey into Data
 
-### Looking Forward:
-As I look ahead, I see data science as more than just a tool—it’s a way to create smarter, more sustainable solutions for our world. I’m excited to connect with others who share this vision and are ready to make it happen.
+My data journey started with curiosity and grew into a passion for machine learning, AI, and analytics. Over the years, I've:
 
-### Let’s Connect:
-If you’re as passionate about the future of data as I am, let’s connect. Together, we can explore the endless possibilities within data and turn them into opportunities to make a difference.
+- Led teams using Large Language Models (LLMs) to create AI solutions
+- Tackled real-world problems like renewable energy and predictive maintenance
+- Built data pipelines that make complex algorithms easy to use
+
+For me, it's not just about the technology – it's about making a positive impact. Every model I build and every insight I find is aimed at making the world smarter and more sustainable.
+
+### Why I Do What I Do
+
+Data science isn't just a job to me – it's a way to see the world differently. It's about finding patterns in the noise, predicting outcomes by learning from the past, and solving problems before they even happen. But with this power comes responsibility, and I take that seriously.
+
+My goal is to make AI research practical and accessible. Whether it's renewable energy or predictive maintenance, I aim to build solutions that are not only smart but also impactful and beneficial for everyone.
+
+### Looking Ahead
+
+When I think about the future of data (which, let’s be real, is probably powered by a neural network), I see endless possibilities. A future where AI and humans collaborate to tackle big challenges. A future where data-driven decisions lead to a more efficient, sustainable, and fair world.
+
+And I'm not just imagining this – I'm working towards it. Every project, every team, and every challenge I take on brings me closer to that vision.
+
+### Let’s Connect
+
+If you're as passionate about data science as I am, let's connect. Whether you're a fellow data enthusiast, a business leader looking to leverage AI, or just curious about the impact of data, I'm always open to new ideas and collaborations.
+
+Together, we can turn data into insights, insights into action, and action into positive change. Ready to dive into the data-driven future with me? Let’s make it happen!
 
 
 <H2>  <span style="color:Blue"> Skills</span></H2>
@@ -64,8 +82,10 @@ If you’re as passionate about the future of data as I am, let’s connect. Tog
 	- Data Science II *May 2021- Dec 2021*
 	- Data Scientist *June 2019- May 2021* (Ensemble Energy, acquired by SparkCognition)
 	- Data Science Intern *June 2018- Dec 2018* (Ensemble Energy, acquired by SparkCognition)
+- [**DataKind, Data Ambassador**](https://www.datakind.org/  "Harnessing data science in the service of humanity").
+	- Data Ambassador *Jan 2022 - Sep 2022*
 - [**Texas A&M University, College Station, TX, USA** ](https://aml.engr.tamu.edu/  "ADVANCED METROLOGY LAB").
-	- Graduate Research Assitant  *Jan 2019- May 2019*
+	- Graduate Research Assistant  *Jan 2019- May 2019*
 - [**Utilities and Energy Services, TX, USA** ](https://utilities.tamu.edu/  "UES").
 	- Graduate Student Analyst *Jan 2018- May 2018*
 
@@ -74,3 +94,20 @@ If you’re as passionate about the future of data as I am, let’s connect. Tog
 	- Master of Science in Industrial and Systems Engineering, minor in Applied Statistics *Aug 2017- May 2019*
 - [**Gujarat Technological University, Gujarat, India** ](https://gtu.ac.in/  "GTU").
 	- Bachelor of Engineering in Mechanical Engineering *Aug 2013- May 2017*
+
+<H2>  <span style="color:Blue"> Patents</span></H2>
+<ul>
+	<li>
+		<a href="https://patents.google.com/patent/US20230213560A1/en">Calculating energy loss during an outage</a><br>
+		US20230213560A1 · Filed Dec 30, 2021
+	</li>
+	<li>
+		<a href="https://patents.google.com/patent/US20230214703A1/en">Predicting energy production for energy generating assets</a><br>
+		US20230214703A1 · Filed Dec 30, 2021
+	</li>
+	<li>
+		<a href="https://patents.google.com/patent/IN201721044402A/en">Dimension Measurement Using Image Processing and Separation of Defective Products</a><br>
+		IN 201721044402 · Filed Dec 11, 2017<br>
+		Other inventors
+	</li>
+</ul>
