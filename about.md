@@ -11,43 +11,67 @@ layout: page
     <span style="color:#1abc9c">Full Stack ML Engineer</span>
 </H2>
 
-Data tells stories, and I help uncover them. As a Data Science Leader and AI enthusiast, I've spent over 6 years turning raw data into impactful solutions that drive change.
+## My Journey in Data Science and AI
 
-### My Journey into Data
+With over six years of experience in the field, I'm passionate about using data and AI to create a better, more sustainable future. I thrive in environments that value innovation and progress, and I find immense satisfaction in tackling complex challenges and transforming them into impactful solutions.
 
-My data journey started with curiosity and grew into a passion for machine learning, AI, and analytics. Over the years, I've:
+Currently, I'm leading the AI efforts at [SparkCognition](https://sparkcognition.com), developing and deploying cutting-edge AI solutions that leverage the power of Large Language Models (LLMs). We're revolutionizing industries like renewable energy, where our AI-powered predictive maintenance systems are increasing efficiency and reliability, saving companies millions. I'm also deeply involved in building robust data pipelines that democratize access to data and AI, making these powerful tools accessible to everyone.
 
-- Led teams in using Large Language Models (LLMs) to create AI solutions.
-- Solved key challenges in renewable energy systems and predictive maintenance, improving efficiency and reliability.
-- Built data pipelines that simplify the use of data and ai solutions.
+Before SparkCognition, I developed my skills at Texas A\&M University, researching machine learning to predict wind energy problems. I also gained experience at Utilities and Energy Services, creating models to track energy use based on weather.
 
-For me, it's not just about the technology – it's about making a positive impact. Every model I build and every insight I find is aimed at making the world smarter and more sustainable.
+I'm passionate about using AI for positive change. My goal is to build AI solutions that make the world better, especially in areas like sustainability. I was a Data Ambassador at DataKind, where I volunteered my time to help nonprofits leverage data science for social good.
 
-### Why I Do What I Do
-
-Data science isn't just a job to me – it's a way to see the world differently. It's about finding patterns in the noise, predicting outcomes by learning from the past, and solving problems before they even happen. But with this power comes responsibility, and I take that seriously.
-
-My goal is to make AI research practical and accessible. Whether it's renewable energy or predictive maintenance, I aim to build solutions that are not only smart but also impactful and beneficial for everyone.
-
-### Looking Ahead
-
-When I think about the future of data (which, let’s be real, is probably powered by a neural network), I see endless possibilities. A future where AI and humans collaborate to tackle big challenges. A future where data-driven decisions lead to a more efficient, sustainable, and fair world.
-
-And I'm not just imagining this – I'm working towards it. Every project, every team, and every challenge I take on brings me closer to that vision.
-
-### Let’s Connect
-
-If you're as passionate about data science as I am, let's connect. Whether you're a fellow data enthusiast, a business leader looking to leverage AI, or just curious about the impact of data, I'm always open to new ideas and collaborations.
-
-Together, we can turn data into insights, insights into action, and action into positive change. Ready to dive into the data-driven future with me? Let’s make it happen!
-
+I'm eager to connect with others passionate about data and AI. Let's collaborate to drive positive change with data-driven solutions.
 
 <H2>  <span style="color:Blue"> Skills</span></H2>
-- **Machine Learning & AI**: Proficient in designing and implementing machine learning models, including supervised, unsupervised, and deep learning techniques. Experienced in feature engineering, model selection, and hyperparameter tuning.
-- **Statistical Methods**: Anomaly Detection, Deep Learning, Time Series Analysis, Bayesian Analysis, Regression Analysis, Hypothesis testing ANOVA, Supervised parametric and Non-parametric learning methods, and Unsupervised learning methods.
-- **Programming Tools and Libraries:** Python (Keras, Tensorflow, PyTorch), R, SQL, Cloud(AWS, Azure, Gcloud).
-- **Generative AI Tools:** Transformers, PEFT (Lora, QLora), RAG, Synthetic data generation, Langchain, Llamaindex
-- **MLOps**: Orchestration, CI/CD, Model Serving and Monitoring, Experiment Tracking (MLflow), Workflow Automation(Airflow)
+
+### Data Science & Machine Learning
+
+- **Core Competencies**:
+  - Predictive Modeling & Analytics, Time Series Forecasting, Anomaly Detection
+  - Deep Learning (CNN, RNN, LSTM, Transformers), Supervised & Unsupervised Learning
+  - Large Language Models (LLM): Fine-tuning, Retrieval-Augmented Generation (RAG), Unsupervised Learning
+  - Model Optimization, Hyperparameter Tuning, Feature Engineering
+  - AI-driven Solution Development
+
+### Machine Learning Libraries
+
+- **Libraries & Frameworks**:
+  - PyTorch, TensorFlow, Scikit-learn, XGBoost, Statsmodels, Darts
+  - Transformers, LangChain, LlamaIndex
+
+### Data Engineering & Cloud
+
+- **Cloud & Big Data Technologies**:
+  - Cloud Computing & Serverless Architectures (AWS, GCP, Azure)
+  - Real-time Data Processing & ETL (Apache Airflow, Dask, Pandas)
+  - Big Data Technologies (Spark, Hadoop)
+
+### Software Development
+
+- **Programming Languages**:
+  - Python, R, SQL, Bash, JavaScript
+- **Development Tools**:
+  - Version Control (Git, GitHub), API Development (FastAPI, Flask)
+
+### MLOps & Automation
+
+- **MLOps & Workflow Automation**:
+  - CI/CD Pipelines, Model Serving & Monitoring (MLflow, BentoML)
+  - Workflow Automation (Apache Airflow), Experiment Tracking
+
+### Data Visualization & Analysis
+
+- **Visualization Tools**:
+  - Matplotlib, Seaborn, Plotly, Dash, PowerBI
+- **Exploratory Data Analysis (EDA)**:
+  - Statistical Analysis, Data Cleaning, Feature Selection
+
+### Other Tools & Technologies
+
+- **Additional Tools**:
+  - Docker, Linux, High-Performance Computing (GPU/CPU)
+  - Project Management & Leadership, Agile Methodologies (Scrum, Kanban)
 
 <h2><span style="color:Blue">Projects</span></h2>
 
