@@ -15,7 +15,7 @@ layout: page
 
 With over six years of experience in the field, I'm passionate about using data and AI to create a better, more sustainable future. I thrive in environments that value innovation and progress, and I find immense satisfaction in tackling complex challenges and transforming them into impactful solutions.
 
-Currently, I'm leading the AI efforts at [SparkCognition](https://sparkcognition.com), developing and deploying cutting-edge AI solutions that leverage the power of Large Language Models (LLMs). We're revolutionizing industries like renewable energy, where our AI-powered predictive maintenance systems are increasing efficiency and reliability, saving companies millions. I'm also deeply involved in building robust data pipelines that democratize access to data and AI, making these powerful tools accessible to everyone.
+Currently, I'm leading the AI efforts at [Avathon](https://avathon.com), developing and deploying cutting-edge AI solutions that leverage the power of Large Language Models (LLMs). We're revolutionizing industries like renewable energy, where our AI-powered predictive maintenance systems are increasing efficiency and reliability, saving companies millions. I'm also deeply involved in building robust data pipelines that democratize access to data and AI, making these powerful tools accessible to everyone.
 
 Before SparkCognition, I developed my skills at Texas A\&M University, researching machine learning to predict wind energy problems. I also gained experience at Utilities and Energy Services, creating models to track energy use based on weather.
 
@@ -101,7 +101,7 @@ I'm eager to connect with others passionate about data and AI. Let's collaborate
 - 2nd Runnerup at Texas Datathon by Citadel (Feb 2018)
 
 <H2>  <span style="color:Blue"> Expirience</span></H2>
-- [**SparkCognition, Pleasanton, CA, USA** ](https://www.sparkcognition.com/  "AI perfected for industry").
+- [**Avathon, Pleasanton, CA, USA** ](https://www.avathon.com/  "AI perfected for industry").
 	- Data Scientist III *Jan 2022- Currently*
 	- Data Science II *May 2021- Dec 2021*
 	- Data Scientist *June 2019- May 2021* (Ensemble Energy, acquired by SparkCognition)
