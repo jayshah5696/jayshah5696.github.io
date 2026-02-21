@@ -113,34 +113,34 @@ After merging to `master` and pushing:
 
 ---
 
-## 10. Astro branch — content gaps to fix (if switching to Astro later)
+## 10. Astro branches — comparison
 
-The `astro-migration` branch builds and runs cleanly (`npm install && npm run dev`, 22 pages, 0 errors) but has significant content gaps vs the Chirpy branch:
+### `astro-migration` (older, minimal design)
+- Builds cleanly: 22 pages, 0 errors, ~1.6s
+- **About page is a 3-paragraph stub** — missing Skills, Projects, Experience, Education, Patents, Awards, Languages
+- No Projects/Archives/Categories pages
+- Nav: Writing, Tags, About only
 
-### About page (`src/pages/about.astro`)
-Currently only a 3-paragraph blurb + social links. **Missing sections**:
-- Skills (Data Science, ML Libraries, Cloud, Software Dev, MLOps, Visualization)
-- Projects (8 projects with links)
-- Experience (Avathon, DataKind, Texas A&M, UES)
-- Education (Texas A&M MSISE, GTU BE)
-- Patents (3 patents)
-- Honors & Awards (Ragathon winner, Outstanding MS Student, Datathon runner-up)
-- Languages (English, Hindi, Gujarati, German)
+### `astro-redesign` (newer, Indian stepwell/rangoli design system) ✅
+- Builds cleanly: 22 pages, 0 errors, ~1.5s
+- **About page has FULL content** — all 8 sections match Chirpy (Journey, Skills, Projects, Honors, Experience, Education, Patents, Languages)
+- Has HuggingFace link in social links ✅
+- Resume PDF linked from about page ✅
+- Custom design system: Yeseva One + Outfit fonts, sand/carved/terra color tokens, rangoli borders, kolam dot-grid backgrounds
+- Dark mode with localStorage persistence ✅
+- README already has full docs (quick start, project structure, post guide, design system docs, deployment) ✅
+- .gitignore is clean ✅
 
-All this content exists in the Chirpy `_tabs/about.md` — needs to be ported to the Astro component.
-
-### Missing pages
-- **Projects page** — Chirpy has `_tabs/projects.md`; Astro has no `/projects` route
-- **Archives page** — Chirpy has `_tabs/archives.md`; Astro has no `/archives` route
-- **Categories page** — Chirpy has `_tabs/categories.md`; Astro has no `/categories` route
-
-### Navigation
-- Astro nav only has: Writing, Tags, About
-- Chirpy nav has: Home, Categories, Tags, Archives, About, Projects
-
-### Resume link
-- PDF exists at `public/assets/pdfs/JayShah_Resume_0221.pdf`
-- Only linked from the about page footer, not from main nav/sidebar
+#### Remaining gaps in `astro-redesign` vs Chirpy:
+- **1 missing project**: "Phase 1 Analysis of Multivariate Quality Control Data" not in Projects list
+- **No GitHub Actions workflow** — `.github/workflows/` doesn't exist. README documents the deploy.yml to add but it's not committed
+- **No Projects page** — Chirpy has `/projects/` as a dedicated tab
+- **No Archives page** — Chirpy has `/archives/` with chronological post listing
+- **No Categories page** — Chirpy has `/categories/`
+- **Nav is minimal** — Writing, Tags, About (vs Chirpy's Home, Categories, Tags, Archives, About, Projects)
+- **No search** — Chirpy has built-in search; Astro has none
+- **No Disqus comments** — Chirpy has comments configured
+- **No Google Analytics** — Chirpy has `G-ZQ651N672F` configured
 
 ---
 
@@ -154,5 +154,7 @@ All this content exists in the Chirpy `_tabs/about.md` — needs to be ported to
 - [ ] Update or remove `docker-compose.yml`
 - [ ] Set GitHub Pages source to "GitHub Actions" in repo settings
 - [ ] Verify deployment
-- [ ] (If using Astro) Port full About content from Chirpy
-- [ ] (If using Astro) Add Projects, Archives, Categories pages
+- [ ] (If using Astro) Add missing project: Phase 1 Analysis
+- [ ] (If using Astro) Add GitHub Actions workflow (deploy.yml)
+- [ ] (If using Astro) Consider adding Projects, Archives pages
+- [ ] (If using Astro) Add Google Analytics, Disqus comments, search
