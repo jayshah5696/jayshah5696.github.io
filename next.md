@@ -8,22 +8,23 @@ git merge migrate-to-chirpy-4249768498173701972
 git push origin master
 ```
 
-The branch has 1 commit (`3316a49 Migrate to Chirpy theme`) on top of master.
+The branch has 2 commits on top of master:
+- `3316a49` — Migrate to Chirpy theme
+- `e79ab1a` — Add Ruby 4.0 stdlib shims + next.md
+
 This adds the GitHub Actions workflow, Chirpy theme files, and removes the old Indigo theme layouts/includes/sass.
 
 ---
 
-## 2. Update README.md
+## 2. ~~Update README.md~~ ✅ Done
 
-The current README is a leftover from the old Indigo theme (references Sérgio Kopplin, MIT license, FAQ from Indigo).
-Rewrite it to reflect the actual project:
-
-- **Title**: Jay Shah — Personal Website
-- **Link**: https://jayshah5696.github.io
-- **Tech stack**: Jekyll 4.3+ / Chirpy theme / GitHub Pages
-- **Local development** instructions (Ruby 3.2+, `bundle install`, `bundle exec jekyll serve --livereload`)
-- **Deployment**: automatic via GitHub Actions on push to `master`
-- **How to add a new post**: create `_posts/YYYY-MM-DD-slug.md` with Chirpy front matter
+README rewritten with:
+- Local dev instructions (Ruby 3.2+, bundle install, serve)
+- macOS Homebrew Ruby setup
+- Post writing guide with front matter template
+- Deployment docs (GitHub Actions)
+- Project structure
+- Branch comparison table (master vs chirpy vs astro)
 
 ---
 
@@ -53,24 +54,13 @@ rm desktop.ini           # Windows artifact
 
 ---
 
-## 5. Update `.gitignore`
+## 5. ~~Update `.gitignore`~~ ✅ Done
 
-Add entries for common local dev artifacts:
+Updated to cover both Jekyll and Astro artifacts:
+- `_site/`, `dist/`, `.astro/`, `node_modules/`, `.sass-cache/`, `.jekyll-cache/`
+- OS files, IDE files, `nohup.out`
 
-```gitignore
-.DS_Store
-_site
-.sass-cache
-.bundle
-vendor/
-.idea/*
-nohup.out
-Gemfile.lock   # optional — some prefer to track it for reproducibility
-*.swp
-.pi/
-```
-
-Whether to track `Gemfile.lock`: **yes, keep tracking it** — it ensures CI builds match local. It already has both `arm64-darwin` and `x86_64-linux-gnu` platforms.
+`Gemfile.lock` is tracked (ensures CI reproducibility).
 
 ---
 
@@ -105,9 +95,9 @@ url: http://localhost:4000
 
 ---
 
-## 8. Gemfile — keep the Ruby 4.0 shims
+## 8. Gemfile — keep the Ruby 4.0 shims ✅ Already done
 
-The Gemfile now includes `ostruct`, `logger`, `csv`, `base64`, `bigdecimal` for Ruby 4.0 compatibility. These are harmless on Ruby 3.x (already in stdlib), so keep them. They ensure the site builds on both Ruby 3.x (CI) and Ruby 4.x (local Mac with Homebrew).
+The Gemfile now includes `ostruct`, `logger`, `csv`, `base64`, `bigdecimal` for Ruby 4.0 compatibility. These are harmless on Ruby 3.x (already in stdlib), so keep them.
 
 ---
 
@@ -123,13 +113,46 @@ After merging to `master` and pushing:
 
 ---
 
+## 10. Astro branch — content gaps to fix (if switching to Astro later)
+
+The `astro-migration` branch builds and runs cleanly (`npm install && npm run dev`, 22 pages, 0 errors) but has significant content gaps vs the Chirpy branch:
+
+### About page (`src/pages/about.astro`)
+Currently only a 3-paragraph blurb + social links. **Missing sections**:
+- Skills (Data Science, ML Libraries, Cloud, Software Dev, MLOps, Visualization)
+- Projects (8 projects with links)
+- Experience (Avathon, DataKind, Texas A&M, UES)
+- Education (Texas A&M MSISE, GTU BE)
+- Patents (3 patents)
+- Honors & Awards (Ragathon winner, Outstanding MS Student, Datathon runner-up)
+- Languages (English, Hindi, Gujarati, German)
+
+All this content exists in the Chirpy `_tabs/about.md` — needs to be ported to the Astro component.
+
+### Missing pages
+- **Projects page** — Chirpy has `_tabs/projects.md`; Astro has no `/projects` route
+- **Archives page** — Chirpy has `_tabs/archives.md`; Astro has no `/archives` route
+- **Categories page** — Chirpy has `_tabs/categories.md`; Astro has no `/categories` route
+
+### Navigation
+- Astro nav only has: Writing, Tags, About
+- Chirpy nav has: Home, Categories, Tags, Archives, About, Projects
+
+### Resume link
+- PDF exists at `public/assets/pdfs/JayShah_Resume_0221.pdf`
+- Only linked from the about page footer, not from main nav/sidebar
+
+---
+
 ## Summary checklist
 
-- [ ] Merge branch to master and push
-- [ ] Rewrite `README.md`
+- [ ] Merge chirpy branch to master and push
+- [x] Rewrite `README.md`
 - [ ] Delete stale files (`.travis.yml`, `README Old.md`, `FAQ.md`, `Rakefile`, `script/`, `desktop.ini`)
-- [ ] Update `.gitignore`
+- [x] Update `.gitignore`
 - [ ] Fix `_config-dev.yml` URL
 - [ ] Update or remove `docker-compose.yml`
 - [ ] Set GitHub Pages source to "GitHub Actions" in repo settings
 - [ ] Verify deployment
+- [ ] (If using Astro) Port full About content from Chirpy
+- [ ] (If using Astro) Add Projects, Archives, Categories pages
