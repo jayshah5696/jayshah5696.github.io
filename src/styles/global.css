@@ -19,80 +19,8 @@
   }
 
   /* ============================================
-     STEPWELL DEPTH SYSTEM
-     Each "step" descends deeper into the content
+     INLINE CODE
      ============================================ */
-
-  .step {
-    @apply relative;
-  }
-
-  .step::before {
-    content: '';
-    @apply absolute inset-x-0 top-0 h-px;
-    background: linear-gradient(
-      to right,
-      transparent 0%,
-      theme('colors.sand.300') 20%,
-      theme('colors.sand.300') 80%,
-      transparent 100%
-    );
-  }
-
-  .dark .step::before {
-    background: linear-gradient(
-      to right,
-      transparent 0%,
-      theme('colors.carved.700') 20%,
-      theme('colors.carved.700') 80%,
-      transparent 100%
-    );
-  }
-
-  /* ============================================
-     RANGOLI BORDER — decorative line pattern
-     Used for section dividers
-     ============================================ */
-
-  .rangoli-border {
-    @apply relative py-4;
-  }
-
-  .rangoli-border::before,
-  .rangoli-border::after {
-    content: '';
-    @apply absolute left-0 right-0 h-px;
-    background: linear-gradient(
-      to right,
-      transparent,
-      theme('colors.terra.DEFAULT') 15%,
-      theme('colors.haldi.DEFAULT') 35%,
-      theme('colors.terra.DEFAULT') 50%,
-      theme('colors.haldi.DEFAULT') 65%,
-      theme('colors.terra.DEFAULT') 85%,
-      transparent
-    );
-    opacity: 0.4;
-  }
-
-  .rangoli-border::before {
-    @apply top-0;
-  }
-
-  .rangoli-border::after {
-    @apply bottom-0;
-  }
-
-  .dark .rangoli-border::before,
-  .dark .rangoli-border::after {
-    opacity: 0.25;
-  }
-
-  /* ============================================
-     JALI PATTERN — lattice screen for code blocks
-     ============================================ */
-
-  /* Inline code */
   :not(pre) > code {
     @apply bg-sand-100 dark:bg-carved-800 text-terra-dark dark:text-terra-light px-1.5 py-0.5 rounded text-sm font-mono;
     border: 1px solid theme('colors.sand.200');
@@ -107,22 +35,23 @@
     content: '' !important;
   }
 
-  /* Code blocks — jali lattice frame */
+  /* ============================================
+     CODE BLOCKS — jali lattice frame
+     ============================================ */
   pre {
     @apply rounded-lg !important;
-    border: 1px solid theme('colors.sand.300') !important;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+    border: 2px solid theme('colors.sand.200') !important;
+    border-top: 4px solid theme('colors.terra.DEFAULT') !important;
   }
 
   .dark pre {
     border-color: theme('colors.carved.700') !important;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+    border-top-color: theme('colors.terra.DEFAULT') !important;
   }
 
   /* ============================================
-     LINKS — terracotta with warm transitions
+     PROSE LINKS
      ============================================ */
-
   .prose a {
     @apply text-terra decoration-terra/25 underline-offset-2 transition-colors duration-200;
   }
@@ -132,32 +61,35 @@
   }
 
   /* ============================================
-     IMAGES — carved frame effect
+     IMAGES
      ============================================ */
-
   .prose img {
     @apply rounded-lg mx-auto;
-    box-shadow: 0 2px 12px rgba(35, 30, 25, 0.08);
+    box-shadow: 0 4px 20px rgba(35, 30, 25, 0.1);
   }
 
   .dark .prose img {
-    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   }
 
   /* ============================================
-     BLOCKQUOTES — temple inscription style
+     BLOCKQUOTES — inscribed panel
      ============================================ */
-
   .prose blockquote {
     @apply not-italic font-normal text-carved-600 dark:text-sand-400;
-    border-left-color: theme('colors.terra.DEFAULT');
-    border-left-width: 3px;
+    border-left: 4px solid theme('colors.terra.DEFAULT');
+    background: theme('colors.sand.50');
+    padding: 1rem 1.25rem;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .dark .prose blockquote {
+    background: theme('colors.carved.900');
   }
 
   /* ============================================
-     HEADINGS — carved stone display font
+     HEADINGS — display font
      ============================================ */
-
   .prose h2,
   .prose h3,
   .prose h4 {
@@ -165,10 +97,8 @@
   }
 
   /* ============================================
-     LEGACY CONTENT SUPPORT
+     LEGACY MAGENTA SPANS
      ============================================ */
-
-  /* Old Jekyll magenta spans → terracotta accent */
   .prose span[style*='color: magenta'] {
     color: theme('colors.terra.DEFAULT') !important;
     @apply font-medium;
@@ -178,7 +108,6 @@
     color: theme('colors.terra.light') !important;
   }
 
-  /* Old Jekyll colored spans */
   span[style*='color:#1abc9c'],
   span[style*='color:Blue'],
   span[style*='color: Blue'] {
@@ -192,9 +121,8 @@
   }
 
   /* ============================================
-     SCROLLBAR — minimal stone channel
+     SCROLLBAR
      ============================================ */
-
   ::-webkit-scrollbar {
     @apply w-1.5;
   }
@@ -212,13 +140,11 @@
   }
 
   /* ============================================
-     SELECTION — turmeric highlight
+     SELECTION — turmeric gold
      ============================================ */
-
   ::selection {
     background: theme('colors.haldi.DEFAULT');
     color: theme('colors.carved.950');
-    opacity: 0.9;
   }
 
   .dark ::selection {
@@ -228,58 +154,135 @@
 }
 
 @layer components {
-  /* Tag — like a carved label or stamp */
+  /* ============================================
+     TAG
+     ============================================ */
   .tag {
-    @apply text-xs font-mono uppercase tracking-widest text-sand-600 dark:text-sand-400 
+    @apply text-xs font-mono uppercase text-sand-600 dark:text-sand-400 
            hover:text-terra dark:hover:text-terra-light transition-colors duration-200;
+    letter-spacing: 0.08em;
   }
 
-  /* Kolam dot grid — used as subtle background decoration */
-  .kolam-bg {
-    background-image: radial-gradient(circle, theme('colors.sand.300') 0.5px, transparent 0.5px);
-    background-size: 24px 24px;
+  /* ============================================
+     RANGOLI BORDER — real visible ornamental divider
+     A CSS-only kolam-inspired pattern using repeating dots
+     ============================================ */
+  .rangoli-border {
+    @apply relative h-8 flex items-center justify-center overflow-hidden;
   }
 
-  .dark .kolam-bg {
-    background-image: radial-gradient(circle, theme('colors.carved.800') 0.5px, transparent 0.5px);
+  .rangoli-border::before {
+    content: '◆ ◇ ◆ ◇ ◆ ◇ ◆';
+    @apply text-xs text-terra/40 dark:text-terra/30;
+    letter-spacing: 0.5em;
   }
 
-  /* Stepped card — each card in the feed descends slightly */
+  /* ============================================
+     KOLAM BORDER — geometric CSS pattern
+     Double-line frame with corner dots
+     ============================================ */
+  .kolam-frame {
+    border: 1px solid theme('colors.sand.200');
+    outline: 1px solid theme('colors.sand.200');
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .dark .kolam-frame {
+    border-color: theme('colors.carved.700');
+    outline-color: theme('colors.carved.700');
+  }
+
+  /* ============================================
+     STEPPED CARD — stepwell-inspired post list
+     Uses increasing left-padding to create descent
+     ============================================ */
   .stepped-card {
-    @apply relative pl-5 border-l-2 border-sand-200 dark:border-carved-700;
+    @apply relative border-l-2 border-sand-200 dark:border-carved-700 transition-colors duration-200;
+    padding-left: 1.25rem;
   }
 
   .stepped-card::before {
     content: '';
-    @apply absolute left-[-5px] top-3 size-2 rounded-full bg-sand-400 dark:bg-carved-500;
+    @apply absolute top-6 size-2.5 rounded-full bg-sand-300 dark:bg-carved-600 transition-colors duration-200;
+    left: -6px;
+  }
+
+  .stepped-card:hover {
+    @apply border-l-terra dark:border-l-terra-light;
   }
 
   .stepped-card:hover::before {
     @apply bg-terra dark:bg-terra-light;
   }
 
-  /* Carved heading ornament */
+  /* Increasing depth for each card */
+  .stepped-card:nth-child(2) { margin-left: 0.5rem; }
+  .stepped-card:nth-child(3) { margin-left: 1rem; }
+  .stepped-card:nth-child(4) { margin-left: 1.5rem; }
+  .stepped-card:nth-child(5) { margin-left: 2rem; }
+  .stepped-card:nth-child(n+6) { margin-left: 2.5rem; }
+
+  @media (max-width: 640px) {
+    .stepped-card:nth-child(n+2) { margin-left: 0; }
+  }
+
+  /* ============================================
+     CARVED HEADING — visible stone chisel effect
+     ============================================ */
   .carved-heading {
     @apply relative;
   }
 
   .carved-heading::after {
     content: '';
-    @apply block mt-3 h-0.5 w-12;
-    background: linear-gradient(
-      to right,
-      theme('colors.terra.DEFAULT'),
-      theme('colors.haldi.DEFAULT')
-    );
-    border-radius: 1px;
+    @apply block mt-4 h-1 w-16 rounded-sm;
+    background: theme('colors.terra.DEFAULT');
   }
 
   .dark .carved-heading::after {
-    background: linear-gradient(
-      to right,
-      theme('colors.terra.light'),
-      theme('colors.haldi.light')
-    );
-    opacity: 0.7;
+    background: theme('colors.terra.light');
+    opacity: 0.8;
+  }
+
+  /* ============================================
+     ARCH — decorative arch shape for sections
+     Evokes temple/stepwell arched niches
+     ============================================ */
+  .arch-top {
+    @apply relative;
+  }
+
+  .arch-top::before {
+    content: '';
+    @apply absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-4;
+    border-radius: 0 0 50% 50% / 0 0 100% 100%;
+    border-bottom: 2px solid theme('colors.terra.DEFAULT');
+    border-left: 2px solid theme('colors.terra.DEFAULT');
+    border-right: 2px solid theme('colors.terra.DEFAULT');
+    opacity: 0.3;
+  }
+
+  /* ============================================
+     MANDALA DOT — decorative accent dot
+     ============================================ */
+  .dot-accent::before {
+    content: '●';
+    @apply text-terra/30 dark:text-terra/20 text-[6px] mr-2;
+  }
+
+  /* ============================================
+     SIDEBAR KOLAM PATTERN
+     Visible dot grid that evokes kolam floor art
+     ============================================ */
+  .kolam-bg {
+    background-image: 
+      radial-gradient(circle, theme('colors.sand.300') 1px, transparent 1px);
+    background-size: 16px 16px;
+  }
+
+  .dark .kolam-bg {
+    background-image: 
+      radial-gradient(circle, theme('colors.carved.700') 1px, transparent 1px);
   }
 }

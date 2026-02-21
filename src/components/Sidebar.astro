@@ -4,16 +4,21 @@ import { SITE_TITLE, SITE_TAGLINE, SOCIAL_LINKS, NAV_ITEMS } from '../consts';
 const currentPath = Astro.url.pathname;
 ---
 
-<aside class="hidden lg:flex flex-col fixed left-0 top-0 bottom-0 w-[272px] border-r border-sand-200 dark:border-carved-800 bg-sand-50 dark:bg-carved-950 z-30 overflow-y-auto">
-  <!-- Kolam dot pattern overlay (very subtle) -->
-  <div class="absolute inset-0 kolam-bg opacity-30 dark:opacity-20 pointer-events-none" aria-hidden="true"></div>
+<aside class="hidden lg:flex flex-col fixed left-0 top-0 bottom-0 w-[272px] z-30 overflow-y-auto bg-sand-50 dark:bg-carved-950 border-r-2 border-sand-200 dark:border-carved-800">
+  <!-- Kolam dot pattern — visible background texture -->
+  <div class="absolute inset-0 kolam-bg opacity-40 dark:opacity-15 pointer-events-none" aria-hidden="true"></div>
   
+  <!-- Terracotta accent stripe at top — like a temple lintel -->
+  <div class="h-1 bg-terra shrink-0" aria-hidden="true"></div>
+
   <div class="relative flex flex-col h-full px-6 py-8">
-    <!-- Profile — carved medallion -->
-    <a href="/" class="group flex flex-col items-center text-center mb-6">
-      <div class="relative mb-3">
-        <div class="absolute -inset-1.5 rounded-full border border-sand-300 dark:border-carved-600 opacity-60"></div>
-        <div class="absolute -inset-3 rounded-full border border-sand-200 dark:border-carved-700 opacity-30"></div>
+    <!-- Profile — carved medallion with double ring -->
+    <a href="/" class="group flex flex-col items-center text-center mb-5">
+      <div class="relative mb-4">
+        <!-- Outer decorative ring -->
+        <div class="absolute -inset-3.5 rounded-full border-2 border-dashed border-sand-300 dark:border-carved-600 opacity-50"></div>
+        <!-- Inner ring -->
+        <div class="absolute -inset-1 rounded-full border border-terra/30 dark:border-terra/20"></div>
         <img
           src="/assets/images/Profile.jpg"
           alt={SITE_TITLE}
@@ -25,27 +30,26 @@ const currentPath = Astro.url.pathname;
       <h1 class="font-display text-xl text-carved-900 dark:text-sand-50">{SITE_TITLE}</h1>
     </a>
     
-    <p class="text-[10px] font-mono text-sand-500 dark:text-sand-500 leading-relaxed tracking-[0.15em] uppercase text-center mb-8">
+    <p class="text-[10px] font-mono text-sand-500 dark:text-sand-500 leading-relaxed uppercase text-center mb-6" style="letter-spacing: 0.12em;">
       {SITE_TAGLINE}
     </p>
 
     <!-- Rangoli divider -->
-    <div class="rangoli-border mb-2"></div>
+    <div class="rangoli-border mb-4"></div>
 
-    <!-- Navigation — stepped tiers like a gopuram -->
+    <!-- Navigation — gopuram tiers -->
     <nav class="flex flex-col gap-0.5 mb-8">
-      {NAV_ITEMS.map(({ label, href }, i) => {
+      {NAV_ITEMS.map(({ label, href }) => {
         const isActive = href === '/' ? currentPath === '/' : currentPath.startsWith(href);
         return (
           <a
             href={href}
             class:list={[
-              'relative px-4 py-2.5 text-sm font-body tracking-wide transition-all duration-200 rounded-sm',
+              'relative px-4 py-2.5 text-sm font-body transition-all duration-200 rounded-sm',
               isActive
-                ? 'bg-terra/10 dark:bg-terra/15 text-terra dark:text-terra-light font-medium border-l-2 border-terra dark:border-terra-light'
-                : 'text-carved-600 dark:text-sand-400 hover:text-carved-900 dark:hover:text-sand-100 hover:bg-sand-100 dark:hover:bg-carved-800/50 border-l-2 border-transparent',
+                ? 'bg-terra/10 dark:bg-terra/15 text-terra dark:text-terra-light font-medium border-l-[3px] border-terra dark:border-terra-light'
+                : 'text-carved-600 dark:text-sand-400 hover:text-carved-900 dark:hover:text-sand-100 hover:bg-sand-100/80 dark:hover:bg-carved-800/50 border-l-[3px] border-transparent',
             ]}
-            style={`padding-left: ${16 + i * 4}px;`}
           >
             {label}
           </a>
@@ -56,8 +60,8 @@ const currentPath = Astro.url.pathname;
     <!-- Spacer -->
     <div class="flex-1" />
 
-    <!-- Social links — arranged like carved icons in a frieze -->
-    <div class="flex items-center justify-center gap-3 mb-4">
+    <!-- Social links -->
+    <div class="flex items-center justify-center gap-4 mb-5">
       <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" class="text-sand-400 dark:text-carved-500 hover:text-terra dark:hover:text-terra-light transition-colors duration-200" aria-label="GitHub">
         <svg class="size-[18px]" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
       </a>
@@ -75,10 +79,11 @@ const currentPath = Astro.url.pathname;
       </a>
     </div>
 
-    <!-- Dark mode toggle — sun/moon carved icon -->
+    <!-- Dark mode toggle -->
     <button
       id="theme-toggle-desktop"
-      class="flex items-center justify-center gap-2 text-xs font-mono uppercase tracking-widest text-sand-500 dark:text-sand-500 hover:text-terra dark:hover:text-terra-light transition-colors cursor-pointer py-2"
+      class="flex items-center justify-center gap-2 text-xs font-mono uppercase text-sand-500 dark:text-sand-500 hover:text-terra dark:hover:text-terra-light transition-colors cursor-pointer py-2"
+      style="letter-spacing: 0.12em;"
       aria-label="Toggle dark mode"
     >
       <svg class="size-4 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
@@ -86,6 +91,9 @@ const currentPath = Astro.url.pathname;
       <span class="dark:hidden">Dark</span>
       <span class="hidden dark:inline">Light</span>
     </button>
+
+    <!-- Bottom terracotta stripe -->
+    <div class="absolute bottom-0 left-0 right-0 h-0.5 bg-terra/40" aria-hidden="true"></div>
   </div>
 </aside>
 
