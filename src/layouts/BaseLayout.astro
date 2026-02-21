@@ -74,5 +74,19 @@ const pageTitle = title ? `${title} -- ${SITE_TITLE}` : SITE_TITLE;
         <slot />
       </div>
     </main>
+
+    <!-- Theme toggle script — runs after all components are in the DOM -->
+    <script is:inline>
+      (function() {
+        var btns = document.querySelectorAll('#theme-toggle-desktop, #theme-toggle-mobile');
+        btns.forEach(function(btn) {
+          btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+          });
+        });
+      })();
+    </script>
   </body>
 </html>

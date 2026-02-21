@@ -93,11 +93,4 @@ const currentPath = Astro.url.pathname;
   </div>
 </aside>
 
-<script is:inline>
-  document.querySelectorAll('[id^="theme-toggle"]').forEach(function(btn) {
-    btn.addEventListener('click', function() {
-      document.documentElement.classList.toggle('dark');
-      localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-    });
-  });
-</script>
+
