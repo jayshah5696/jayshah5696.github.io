@@ -2,18 +2,17 @@
 title: What is Spirituality to me?
 layout: post
 date: 2021-03-16 22:44
-image: /assets/images/Spirituality.jpeg
-headerImage: false
-tag:
-- spiritual
-- personal
+image:
+  path: /assets/images/Spirituality.jpeg
 star: true
-category: blog
 author: Jay Shah
 description: Spiritual Journey
+tags:
+- spiritual
+- personal
+categories:
+- blog
 ---
-
-
 <img src="../assets/images/Spirituality.jpeg" alt="Spirituality" width="300" height="300" style="display: block; margin-left: auto; margin-right: auto;"/>
 
 
