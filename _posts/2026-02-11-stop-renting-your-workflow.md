@@ -1,21 +1,22 @@
 ---
-title: "Stop Renting Your Workflow: Building a Custom AI Coding Agent with Pi"
+title: 'Stop Renting Your Workflow: Building a Custom AI Coding Agent with Pi'
 layout: post
 date: 2026-02-11 20:00
-image: /assets/images/pi-coding-agent/2025-02-11-pi-terminal-header.png
-headerImage: true
-tag: 
-  - ai-agents
-  - coding-tools
-  - llm
-  - developer-tools
-  - pi-coding-agent
+image:
+  path: /assets/images/pi-coding-agent/2025-02-11-pi-terminal-header.png
 star: true
-category: blog
 author: Jay Shah
-description: Four tools, a settings file, and full control - how I built my own AI coding agent with Pi instead of paying $200/month for a CLI that keeps changing.
+description: Four tools, a settings file, and full control - how I built my own AI
+  coding agent with Pi instead of paying $200/month for a CLI that keeps changing.
+tags:
+- ai-agents
+- coding-tools
+- llm
+- developer-tools
+- pi-coding-agent
+categories:
+- blog
 ---
-
 *Four tools, a settings file, and full control*
 
 ---

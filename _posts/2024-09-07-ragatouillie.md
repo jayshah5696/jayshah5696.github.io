@@ -2,18 +2,18 @@
 title: Concept to Code - Deploying ColBERT with RAGatouille on Modal Labs in Minutes
 layout: post
 date: 2024-09-07 06:00
-image: /assets/images/ragatouille.png
-headerImage: true
-tag: 
-  - gen-ai
-  - llm
-  - rag
+image:
+  path: /assets/images/ragatouille.png
 star: true
-category: blog
 author: Jay Shah
 description: Practical way of using colbert with ragatouille on modal labs
+tags:
+- gen-ai
+- llm
+- rag
+categories:
+- blog
 ---
-
 Hello Everyone,
 
 In my work with information retrieval systems, I’ve often come across a dilemma: should I use **dense embeddings** or **sparse embeddings**?

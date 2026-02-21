@@ -1,19 +1,19 @@
 ---
-title: "Markdown Extra Components"
+title: Markdown Extra Components
 layout: post
 date: 2016-02-24 22:48
-image: /assets/images/markdown.jpg
-headerImage: false
-tag:
+image:
+  path: /assets/images/markdown.jpg
+hidden: true
+author: jamesfoster
+description: Markdown summary with different options
+tags:
 - markdown
 - components
 - extra
-hidden: true
-category: blog
-author: jamesfoster
-description: Markdown summary with different options
+categories:
+- blog
 ---
-
 ## Summary:
 
 You can pick as item to see how to apply in markdown.

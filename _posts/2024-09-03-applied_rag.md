@@ -2,18 +2,19 @@
 title: Beyond the Hype- Practical Strategies for Implementing Superior RAG
 layout: post
 date: 2024-09-03 06:00
-image: /assets/images/rag-llm.jpeg
-headerImage: false
-tag: 
-  - gen-ai
-  - llm
-  - rag
+image:
+  path: /assets/images/rag-llm.jpeg
 star: true
-category: blog
 author: Jay Shah
-description: Practical strategies for implementing and optimizing Retrieval Augmented Generation (RAG) in LLM systems.
+description: Practical strategies for implementing and optimizing Retrieval Augmented
+  Generation (RAG) in LLM systems.
+tags:
+- gen-ai
+- llm
+- rag
+categories:
+- blog
 ---
-
 <img src="../assets/images/rag-llm.jpeg" alt="applied-rag" width="450" height="450" style="display: block; margin-left: auto; margin-right: auto;"/>
 
 Hello everyone,

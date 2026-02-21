@@ -2,17 +2,17 @@
 title: Hackathons - A Condensed Time for Learning, Building, and Networking
 layout: post
 date: 2024-03-25 22:30
-image: /assets/images/mistral-hackathon.jpeg
-headerImage: true
-tag:
-- gen-ai
-- hackathon
+image:
+  path: /assets/images/mistral-hackathon.jpeg
 star: true
-category: blog
 author: Jay Shah
 description: Hackathon Experience at Mistral Hackathon in San Francisco
+tags:
+- gen-ai
+- hackathon
+categories:
+- blog
 ---
-
 <img src="../assets/images/hackathon.jpeg" alt="mistral-hackathon" width="450" height="300" style="display: block; margin-left: auto; margin-right: auto;"/>
 
 

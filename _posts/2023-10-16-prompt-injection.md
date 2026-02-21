@@ -2,17 +2,17 @@
 title: Prompt Injection
 layout: post
 date: 2023-10-16 22:44
-image: /assets/images/prompt-injection.png
-headerImage: false
-tag:
-- llm
-- prompt
+image:
+  path: /assets/images/prompt-injection.png
 star: true
-category: blog
 author: Jay Shah
 description: Prompt Injection and lessons
+tags:
+- llm
+- prompt
+categories:
+- blog
 ---
-
 <img src="../assets/images/prompt-injection.png" alt="prompt-injection" width="300" height="300" style="display: block; margin-left: auto; margin-right: auto;"/>
 
 ## AI and Prompt Injection: The Chessboard of Hidden Moves
