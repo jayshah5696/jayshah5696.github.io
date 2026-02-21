@@ -16,17 +16,17 @@ const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
 
 <BaseLayout title="Tags" description="Browse posts by tag">
   <header class="mb-10">
-    <h1 class="font-display text-4xl text-carved-950 dark:text-sand-50 carved-heading">Tags</h1>
+    <h1 class="font-display text-4xl text-ink dark:text-silk carved-heading">Tags</h1>
   </header>
 
   <div class="flex flex-wrap gap-3">
     {sortedTags.map(([tag, count]) => (
       <a
         href={`/tags/${tag}`}
-        class="group inline-flex items-center gap-2.5 px-4 py-2 border border-sand-200 dark:border-carved-700 rounded hover:border-terra dark:hover:border-terra transition-colors duration-200"
+        class="group inline-flex items-center gap-2.5 px-4 py-2 border border-cream-300 dark:border-night-700 rounded hover:border-terra dark:hover:border-terra-light transition-colors duration-200"
       >
-        <span class="font-mono text-sm text-carved-700 dark:text-sand-300 group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-200 tracking-wide">{tag}</span>
-        <span class="font-mono text-xs text-sand-400 dark:text-carved-500 tabular-nums">{count}</span>
+        <span class="font-mono text-sm text-ink-light dark:text-silk-muted group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-200">{tag}</span>
+        <span class="font-mono text-xs text-ink-faint dark:text-silk-faint tabular-nums">{count}</span>
       </a>
     ))}
   </div>

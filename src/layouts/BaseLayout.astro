@@ -15,7 +15,7 @@ const pageTitle = title ? `${title} -- ${SITE_TITLE}` : SITE_TITLE;
 ---
 
 <!doctype html>
-<html lang="en" class="no-js">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -29,7 +29,7 @@ const pageTitle = title ? `${title} -- ${SITE_TITLE}` : SITE_TITLE;
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png" />
 
-    <!-- Fonts: Yeseva One (carved display), Outfit (geometric body), Fira Code (mono) -->
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -53,14 +53,15 @@ const pageTitle = title ? `${title} -- ${SITE_TITLE}` : SITE_TITLE;
     <!-- RSS -->
     <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
 
-    <!-- Theme initialization -->
+    <!-- Theme: apply before paint -->
     <script is:inline>
-      (function() {
-        const stored = localStorage.getItem('theme');
-        if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      ;(function() {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
         }
-        document.documentElement.classList.remove('no-js');
       })();
     </script>
   </head>

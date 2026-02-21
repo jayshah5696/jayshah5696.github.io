@@ -23,19 +23,19 @@ const { tag, posts } = Astro.props;
 
 <BaseLayout title={`#${tag}`} description={`Posts tagged "${tag}"`}>
   <header class="mb-10">
-    <a href="/tags" class="inline-flex items-center gap-1.5 text-sm text-sand-500 dark:text-sand-400 hover:text-terra dark:hover:text-terra-light transition-colors duration-200 font-mono tracking-wide mb-4">
+    <a href="/tags" class="inline-flex items-center gap-1.5 text-sm text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors duration-200 font-mono mb-4">
       <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
       All tags
     </a>
-    <h1 class="font-display text-3xl text-carved-950 dark:text-sand-50 carved-heading">
+    <h1 class="font-display text-3xl text-ink dark:text-silk carved-heading">
       #{tag}
     </h1>
-    <p class="mt-4 font-mono text-sm text-sand-500 dark:text-sand-500 tabular-nums">
+    <p class="mt-4 font-mono text-sm text-ink-muted dark:text-silk-muted tabular-nums">
       {posts.length} {posts.length === 1 ? 'post' : 'posts'}
     </p>
   </header>
 
-  <div class="space-y-1">
+  <div>
     {posts.map((post) => (
       <PostCard
         title={post.data.title}

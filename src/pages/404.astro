@@ -4,17 +4,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
 <BaseLayout title="Not Found">
   <div class="text-center py-24">
-    <p class="font-display text-7xl text-sand-200 dark:text-carved-800 mb-2">404</p>
-    <p class="font-mono text-xs uppercase tracking-[0.2em] text-sand-500 dark:text-sand-600 mb-10">
-      This step does not exist
+    <p class="font-display text-7xl text-cream-300 dark:text-night-800 mb-2">404</p>
+    <p class="font-mono text-xs uppercase text-ink-muted dark:text-silk-faint mb-10" style="letter-spacing: 0.2em;">
+      Page not found
     </p>
-    <div class="rangoli-border mb-8"></div>
+    <div class="kolam-border mb-8">
+      <span class="kolam-motif">◆</span>
+    </div>
     <a
       href="/"
-      class="inline-flex items-center gap-2 font-mono text-sm text-terra hover:text-terra-dark dark:hover:text-terra-light transition-colors duration-200 tracking-wide"
+      class="inline-flex items-center gap-2 font-mono text-sm text-terra hover:text-terra-dark dark:text-terra-light dark:hover:text-terra transition-colors duration-200"
     >
       <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-      Ascend to writing
+      Back to writing
     </a>
   </div>
 </BaseLayout>

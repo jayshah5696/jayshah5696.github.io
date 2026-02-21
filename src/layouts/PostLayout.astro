@@ -16,7 +16,6 @@ interface Props {
 const { title, date, description, image, tags, body } = Astro.props;
 const stats = readingTime(body);
 
-// Generate TOC from markdown headings
 const headingRegex = /^(#{2,3})\s+(.+)$/gm;
 const headings: { depth: number; text: string; slug: string }[] = [];
 let match;
@@ -39,19 +38,18 @@ const showToc = headings.length > 3;
 
 <BaseLayout title={title} description={description} image={image}>
   <article>
-    <!-- Header — carved inscription panel -->
     <header class="mb-12">
       <div class="flex items-center gap-3 mb-5">
         <FormattedDate date={date} />
-        <span class="text-sand-300 dark:text-carved-600 text-xs select-none" aria-hidden="true">&bull;</span>
-        <span class="font-mono text-xs text-sand-500 dark:text-sand-500 tabular-nums">{stats.text}</span>
+        <span class="text-cream-400 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
+        <span class="font-mono text-xs text-ink-muted dark:text-silk-muted tabular-nums">{stats.text}</span>
       </div>
 
-      <h1 class="font-display text-3xl sm:text-4xl text-carved-950 dark:text-sand-50 leading-tight text-balance carved-heading">
+      <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk leading-tight text-balance carved-heading">
         {title}
       </h1>
 
-      <p class="mt-6 text-lg text-carved-600 dark:text-sand-400 leading-relaxed text-pretty">
+      <p class="mt-6 text-lg text-ink-light dark:text-silk-muted leading-relaxed text-pretty">
         {description}
       </p>
 
@@ -61,20 +59,21 @@ const showToc = headings.length > 3;
         </div>
       )}
 
-      <div class="mt-10 rangoli-border"></div>
+      <div class="mt-10 kolam-border">
+        <span class="kolam-motif">◆</span>
+      </div>
     </header>
 
-    <!-- TOC (ultra-wide screens) -->
     {showToc && (
       <aside class="hidden 2xl:block fixed right-8 top-16 w-56 z-20">
-        <nav class="text-xs border-l-2 border-terra/30 dark:border-terra/20 pl-4" aria-label="Table of contents">
-          <h4 class="font-mono uppercase text-sand-400 dark:text-sand-600 mb-3 text-[10px]" style="letter-spacing: 0.15em;">On this page</h4>
+        <nav class="text-xs border-l-2 border-terra/20 dark:border-terra-light/20 pl-4" aria-label="Table of contents">
+          <h4 class="font-mono uppercase text-ink-faint dark:text-silk-faint mb-3 text-[10px]" style="letter-spacing: 0.15em;">On this page</h4>
           <ul class="space-y-2">
             {headings.map(({ depth, text, slug }) => (
               <li class:list={[depth === 3 && 'pl-3']}>
                 <a
                   href={`#${slug}`}
-                  class="text-sand-500 dark:text-sand-500 hover:text-terra dark:hover:text-terra-light transition-colors duration-200 line-clamp-2 leading-snug"
+                  class="text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors duration-200 line-clamp-2 leading-snug"
                 >
                   {text}
                 </a>
@@ -85,18 +84,18 @@ const showToc = headings.length > 3;
       </aside>
     )}
 
-    <!-- Content -->
-    <div class="prose prose-sandstone dark:prose-invert prose-lg max-w-none">
+    <div class="prose prose-kolam dark:prose-invert prose-lg max-w-none">
       <slot />
     </div>
 
-    <!-- Footer -->
     <footer class="mt-16 pt-6">
-      <div class="rangoli-border mb-6"></div>
+      <div class="kolam-border mb-6">
+        <span class="kolam-motif">◆</span>
+      </div>
       <a
         href="/"
-        class="inline-flex items-center gap-2 text-sm text-sand-500 dark:text-sand-400 hover:text-terra dark:hover:text-terra-light transition-colors duration-200 font-mono"
-        style="letter-spacing: 0.08em;"
+        class="inline-flex items-center gap-2 text-sm text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors duration-200 font-mono"
+        style="letter-spacing: 0.06em;"
       >
         <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
         All posts

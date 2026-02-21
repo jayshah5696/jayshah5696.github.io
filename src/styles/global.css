@@ -9,280 +9,241 @@
     -moz-osx-font-smoothing: grayscale;
   }
 
+  /* ── LIGHT MODE: warm cream paper ── */
   body {
-    @apply bg-paper text-carved-800 font-body;
-    font-feature-settings: 'kern' 1, 'liga' 1;
+    @apply font-body text-ink;
+    background-color: #fdf9f1;
   }
 
+  /* ── DARK MODE: deep indigo night ── */
   .dark body {
-    @apply bg-paper-dark text-sand-200;
+    @apply text-silk;
+    background-color: #15111e;
   }
 
-  /* ============================================
-     INLINE CODE
-     ============================================ */
+  /* ── INLINE CODE ── */
   :not(pre) > code {
-    @apply bg-sand-100 dark:bg-carved-800 text-terra-dark dark:text-terra-light px-1.5 py-0.5 rounded text-sm font-mono;
-    border: 1px solid theme('colors.sand.200');
+    @apply px-1.5 py-0.5 rounded text-sm font-mono;
+    background: #f5edd8;
+    color: #a34e2d;
+    border: 1px solid #e8dbc0;
   }
-
   .dark :not(pre) > code {
-    border-color: theme('colors.carved.700');
+    background: #2a2438;
+    color: #e07a4f;
+    border-color: #3a3348;
   }
-
   :not(pre) > code::before,
   :not(pre) > code::after {
     content: '' !important;
   }
 
-  /* ============================================
-     CODE BLOCKS — jali lattice frame
-     ============================================ */
+  /* ── CODE BLOCKS ── */
   pre {
     @apply rounded-lg !important;
-    border: 2px solid theme('colors.sand.200') !important;
-    border-top: 4px solid theme('colors.terra.DEFAULT') !important;
+    border: 1px solid #e8dbc0 !important;
+    border-top: 3px solid #c4623a !important;
   }
-
   .dark pre {
-    border-color: theme('colors.carved.700') !important;
-    border-top-color: theme('colors.terra.DEFAULT') !important;
+    border-color: #2a2438 !important;
+    border-top-color: #e07a4f !important;
   }
 
-  /* ============================================
-     PROSE LINKS
-     ============================================ */
+  /* ── PROSE LINKS ── */
   .prose a {
-    @apply text-terra decoration-terra/25 underline-offset-2 transition-colors duration-200;
+    @apply text-terra underline-offset-2 transition-colors duration-200;
+    text-decoration-color: rgba(196, 98, 58, 0.3);
   }
-
   .prose a:hover {
-    @apply text-terra-dark dark:text-terra-light decoration-terra/60;
+    @apply text-terra-dark;
+    text-decoration-color: rgba(196, 98, 58, 0.8);
+  }
+  .dark .prose a {
+    @apply text-terra-light;
+    text-decoration-color: rgba(224, 122, 79, 0.3);
+  }
+  .dark .prose a:hover {
+    text-decoration-color: rgba(224, 122, 79, 0.8);
   }
 
-  /* ============================================
-     IMAGES
-     ============================================ */
+  /* ── IMAGES ── */
   .prose img {
     @apply rounded-lg mx-auto;
-    box-shadow: 0 4px 20px rgba(35, 30, 25, 0.1);
+    box-shadow: 0 4px 24px rgba(44, 36, 22, 0.1);
   }
-
   .dark .prose img {
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
   }
 
-  /* ============================================
-     BLOCKQUOTES — inscribed panel
-     ============================================ */
+  /* ── BLOCKQUOTES ── */
   .prose blockquote {
-    @apply not-italic font-normal text-carved-600 dark:text-sand-400;
-    border-left: 4px solid theme('colors.terra.DEFAULT');
-    background: theme('colors.sand.50');
+    @apply not-italic font-normal;
+    border-left: 4px solid #c4623a;
+    background: rgba(245, 237, 216, 0.5);
+    color: #5a4e3a;
     padding: 1rem 1.25rem;
     border-radius: 0 8px 8px 0;
   }
-
   .dark .prose blockquote {
-    background: theme('colors.carved.900');
+    background: rgba(42, 36, 56, 0.5);
+    border-left-color: #e07a4f;
+    color: #a89e8e;
   }
 
-  /* ============================================
-     HEADINGS — display font
-     ============================================ */
+  /* ── HEADINGS ── */
   .prose h2,
   .prose h3,
   .prose h4 {
     @apply font-display;
   }
 
-  /* ============================================
-     LEGACY MAGENTA SPANS
-     ============================================ */
+  /* ── LEGACY MAGENTA SPANS ── */
   .prose span[style*='color: magenta'] {
-    color: theme('colors.terra.DEFAULT') !important;
+    color: #c4623a !important;
     @apply font-medium;
   }
-
   .dark .prose span[style*='color: magenta'] {
-    color: theme('colors.terra.light') !important;
+    color: #e07a4f !important;
   }
-
   span[style*='color:#1abc9c'],
   span[style*='color:Blue'],
   span[style*='color: Blue'] {
-    color: theme('colors.terra.DEFAULT') !important;
+    color: #c4623a !important;
   }
-
   .dark span[style*='color:#1abc9c'],
   .dark span[style*='color:Blue'],
   .dark span[style*='color: Blue'] {
-    color: theme('colors.terra.light') !important;
+    color: #e07a4f !important;
   }
 
-  /* ============================================
-     SCROLLBAR
-     ============================================ */
-  ::-webkit-scrollbar {
-    @apply w-1.5;
-  }
+  /* ── SCROLLBAR ── */
+  ::-webkit-scrollbar { @apply w-1.5; }
+  ::-webkit-scrollbar-track { background: #f5edd8; }
+  .dark ::-webkit-scrollbar-track { background: #1e1928; }
+  ::-webkit-scrollbar-thumb { background: #d4c4a0; border-radius: 999px; }
+  .dark ::-webkit-scrollbar-thumb { background: #3a3348; border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: #c4623a; }
 
-  ::-webkit-scrollbar-track {
-    @apply bg-sand-100 dark:bg-carved-900;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    @apply bg-sand-400 dark:bg-carved-600 rounded-full;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    @apply bg-terra dark:bg-terra-light;
-  }
-
-  /* ============================================
-     SELECTION — turmeric gold
-     ============================================ */
+  /* ── SELECTION — turmeric gold ── */
   ::selection {
-    background: theme('colors.haldi.DEFAULT');
-    color: theme('colors.carved.950');
+    background: #d4a843;
+    color: #1a1408;
   }
-
   .dark ::selection {
-    background: theme('colors.haldi.dark');
-    color: theme('colors.sand.50');
+    background: #b08a2e;
+    color: #fefdfb;
   }
 }
 
 @layer components {
-  /* ============================================
-     TAG
-     ============================================ */
+  /* ── TAG ── */
   .tag {
-    @apply text-xs font-mono uppercase text-sand-600 dark:text-sand-400 
-           hover:text-terra dark:hover:text-terra-light transition-colors duration-200;
+    @apply text-xs font-mono uppercase transition-colors duration-200;
     letter-spacing: 0.08em;
+    color: #8a7d68;
   }
+  .tag:hover { color: #c4623a; }
+  .dark .tag { color: #a89e8e; }
+  .dark .tag:hover { color: #e07a4f; }
 
-  /* ============================================
-     RANGOLI BORDER — real visible ornamental divider
-     A CSS-only kolam-inspired pattern using repeating dots
-     ============================================ */
-  .rangoli-border {
-    @apply relative h-8 flex items-center justify-center overflow-hidden;
+  /* ── KOLAM BORDER ──
+     CSS-only kolam-inspired ornamental border using SVG data URI.
+     Creates a geometric diamond-dot pattern line. */
+  .kolam-border {
+    @apply relative py-4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
   }
-
-  .rangoli-border::before {
-    content: '◆ ◇ ◆ ◇ ◆ ◇ ◆';
-    @apply text-xs text-terra/40 dark:text-terra/30;
-    letter-spacing: 0.5em;
-  }
-
-  /* ============================================
-     KOLAM BORDER — geometric CSS pattern
-     Double-line frame with corner dots
-     ============================================ */
-  .kolam-frame {
-    border: 1px solid theme('colors.sand.200');
-    outline: 1px solid theme('colors.sand.200');
-    outline-offset: 3px;
-    border-radius: 2px;
-  }
-
-  .dark .kolam-frame {
-    border-color: theme('colors.carved.700');
-    outline-color: theme('colors.carved.700');
-  }
-
-  /* ============================================
-     STEPPED CARD — stepwell-inspired post list
-     Uses increasing left-padding to create descent
-     ============================================ */
-  .stepped-card {
-    @apply relative border-l-2 border-sand-200 dark:border-carved-700 transition-colors duration-200;
-    padding-left: 1.25rem;
-  }
-
-  .stepped-card::before {
+  .kolam-border::before {
     content: '';
-    @apply absolute top-6 size-2.5 rounded-full bg-sand-300 dark:bg-carved-600 transition-colors duration-200;
-    left: -6px;
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, transparent, #d4a843, #c4623a, #d4a843, transparent);
+    opacity: 0.5;
   }
-
-  .stepped-card:hover {
-    @apply border-l-terra dark:border-l-terra-light;
-  }
-
-  .stepped-card:hover::before {
-    @apply bg-terra dark:bg-terra-light;
-  }
-
-  /* Increasing depth for each card */
-  .stepped-card:nth-child(2) { margin-left: 0.5rem; }
-  .stepped-card:nth-child(3) { margin-left: 1rem; }
-  .stepped-card:nth-child(4) { margin-left: 1.5rem; }
-  .stepped-card:nth-child(5) { margin-left: 2rem; }
-  .stepped-card:nth-child(n+6) { margin-left: 2.5rem; }
-
-  @media (max-width: 640px) {
-    .stepped-card:nth-child(n+2) { margin-left: 0; }
-  }
-
-  /* ============================================
-     CARVED HEADING — visible stone chisel effect
-     ============================================ */
-  .carved-heading {
-    @apply relative;
-  }
-
-  .carved-heading::after {
+  .kolam-border::after {
     content: '';
-    @apply block mt-4 h-1 w-16 rounded-sm;
-    background: theme('colors.terra.DEFAULT');
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to left, transparent, #d4a843, #c4623a, #d4a843, transparent);
+    opacity: 0.5;
   }
-
-  .dark .carved-heading::after {
-    background: theme('colors.terra.light');
-    opacity: 0.8;
-  }
-
-  /* ============================================
-     ARCH — decorative arch shape for sections
-     Evokes temple/stepwell arched niches
-     ============================================ */
-  .arch-top {
-    @apply relative;
-  }
-
-  .arch-top::before {
-    content: '';
-    @apply absolute -top-4 left-1/2 -translate-x-1/2 w-24 h-4;
-    border-radius: 0 0 50% 50% / 0 0 100% 100%;
-    border-bottom: 2px solid theme('colors.terra.DEFAULT');
-    border-left: 2px solid theme('colors.terra.DEFAULT');
-    border-right: 2px solid theme('colors.terra.DEFAULT');
+  .dark .kolam-border::before,
+  .dark .kolam-border::after {
+    background: linear-gradient(to right, transparent, #e8c462, #e07a4f, #e8c462, transparent);
     opacity: 0.3;
   }
 
-  /* ============================================
-     MANDALA DOT — decorative accent dot
-     ============================================ */
-  .dot-accent::before {
-    content: '●';
-    @apply text-terra/30 dark:text-terra/20 text-[6px] mr-2;
+  /* Center diamond motif */
+  .kolam-motif {
+    @apply flex items-center gap-1.5 shrink-0;
+    color: #c4623a;
+    font-size: 10px;
+    opacity: 0.6;
+  }
+  .kolam-motif::before { content: '◆'; color: #d4a843; font-size: 6px; }
+  .kolam-motif::after { content: '◆'; color: #d4a843; font-size: 6px; }
+  .dark .kolam-motif { color: #e07a4f; }
+  .dark .kolam-motif::before,
+  .dark .kolam-motif::after { color: #e8c462; }
+
+  /* ── FEATURED CARD ── */
+  .featured-card {
+    border: 1px solid #e8dbc0;
+    border-radius: 12px;
+    padding: 2rem;
+    background: rgba(253, 249, 241, 0.6);
+    transition: all 0.2s;
+  }
+  .featured-card:hover {
+    border-color: #c4623a;
+    box-shadow: 0 4px 20px rgba(196, 98, 58, 0.08);
+  }
+  .dark .featured-card {
+    border-color: #2a2438;
+    background: rgba(30, 25, 40, 0.5);
+  }
+  .dark .featured-card:hover {
+    border-color: #e07a4f;
+    box-shadow: 0 4px 20px rgba(224, 122, 79, 0.1);
   }
 
-  /* ============================================
-     SIDEBAR KOLAM PATTERN
-     Visible dot grid that evokes kolam floor art
-     ============================================ */
-  .kolam-bg {
-    background-image: 
-      radial-gradient(circle, theme('colors.sand.300') 1px, transparent 1px);
-    background-size: 16px 16px;
+  /* ── POST CARD ── (clean, no stepwell indentation) */
+  .post-card {
+    @apply relative py-6;
+    border-bottom: 1px solid #f5edd8;
+  }
+  .post-card:last-child {
+    border-bottom: none;
+  }
+  .dark .post-card {
+    border-bottom-color: #1e1928;
   }
 
-  .dark .kolam-bg {
-    background-image: 
-      radial-gradient(circle, theme('colors.carved.700') 1px, transparent 1px);
+  /* ── CARVED HEADING ── */
+  .carved-heading::after {
+    content: '';
+    display: block;
+    margin-top: 12px;
+    height: 3px;
+    width: 48px;
+    background: #c4623a;
+    border-radius: 2px;
+  }
+  .dark .carved-heading::after {
+    background: #e07a4f;
+  }
+
+  /* ── SIDEBAR KOLAM DOT PATTERN ── */
+  .kolam-dots {
+    background-image: radial-gradient(circle, #d4c4a0 0.8px, transparent 0.8px);
+    background-size: 20px 20px;
+    opacity: 0.3;
+  }
+  .dark .kolam-dots {
+    background-image: radial-gradient(circle, #3a3348 0.8px, transparent 0.8px);
+    opacity: 0.4;
   }
 }

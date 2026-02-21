@@ -18,41 +18,41 @@ const stats = readingTime(body);
 ---
 
 {featured ? (
-  <!-- Featured post — the wide top step of the stepwell -->
-  <article class="group mb-12 pb-8">
-    <a href={`/posts/${slug}/`} class="block kolam-frame p-6 hover:border-terra/40 dark:hover:border-terra/30 hover:outline-terra/40 dark:hover:outline-terra/30 transition-all duration-200">
+  <article class="group mb-10">
+    <a href={`/posts/${slug}/`} class="block featured-card">
       <div class="flex items-center gap-3 mb-3">
         <FormattedDate date={date} />
-        <span class="text-sand-300 dark:text-carved-600 text-xs select-none" aria-hidden="true">&bull;</span>
-        <span class="font-mono text-xs text-sand-500 dark:text-sand-500 tabular-nums">{stats.text}</span>
+        <span class="text-cream-400 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
+        <span class="font-mono text-xs text-ink-muted dark:text-silk-muted tabular-nums">{stats.text}</span>
       </div>
-      <h2 class="font-display text-2xl sm:text-3xl leading-tight text-carved-900 dark:text-sand-50 group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-200 text-balance">
+      <h2 class="font-display text-2xl sm:text-3xl leading-tight text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-200 text-balance">
         {title}
       </h2>
-      <p class="mt-3 text-base leading-relaxed text-carved-600 dark:text-sand-400 text-pretty">
+      <p class="mt-3 text-base leading-relaxed text-ink-light dark:text-silk-muted text-pretty">
         {description}
       </p>
     </a>
     {tags.length > 0 && (
-      <div class="mt-4 pl-6">
+      <div class="mt-4">
         <TagList tags={tags} />
       </div>
     )}
-    <div class="mt-8 rangoli-border"></div>
+    <div class="mt-8 kolam-border">
+      <span class="kolam-motif">◆</span>
+    </div>
   </article>
 ) : (
-  <!-- Regular post — descending step -->
-  <article class="group stepped-card py-5">
+  <article class="group post-card">
     <a href={`/posts/${slug}/`} class="block">
       <div class="flex items-center gap-3 mb-1.5">
         <FormattedDate date={date} />
-        <span class="text-sand-300 dark:text-carved-600 text-xs select-none" aria-hidden="true">&bull;</span>
-        <span class="font-mono text-xs text-sand-500 dark:text-sand-500 tabular-nums">{stats.text}</span>
+        <span class="text-cream-400 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
+        <span class="font-mono text-xs text-ink-muted dark:text-silk-muted tabular-nums">{stats.text}</span>
       </div>
-      <h2 class="font-display text-xl leading-snug text-carved-900 dark:text-sand-50 group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-200 text-balance">
+      <h2 class="font-display text-xl leading-snug text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-200 text-balance">
         {title}
       </h2>
-      <p class="mt-1.5 text-sm leading-relaxed text-carved-600 dark:text-sand-400 text-pretty line-clamp-2">
+      <p class="mt-1.5 text-sm leading-relaxed text-ink-light dark:text-silk-muted text-pretty line-clamp-2">
         {description}
       </p>
     </a>

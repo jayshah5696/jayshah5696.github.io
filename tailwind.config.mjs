@@ -10,110 +10,93 @@ export default {
         mono: ['Fira Code', 'Menlo', 'monospace'],
       },
       colors: {
-        // Sandstone — the primary neutral scale (warm stone tones)
-        sand: {
-          50: '#faf8f4',
-          100: '#f3efe6',
-          200: '#e5dece',
-          300: '#d2c7ad',
-          400: '#bbab88',
-          500: '#a3926a',
-          600: '#8a7854',
-          700: '#6e5f43',
-          800: '#534738',
-          900: '#3b3229',
-          950: '#231e19',
+        // Light mode surface
+        cream: {
+          50: '#fefdfb',
+          100: '#fdf9f1',
+          200: '#f5edd8',
+          300: '#e8dbc0',
+          400: '#d4c4a0',
+          500: '#b8a580',
         },
-        // Deep carved shadow tones (for dark mode and depth)
-        carved: {
-          50: '#f5f3ef',
-          100: '#e8e3da',
-          200: '#cfc5b2',
-          300: '#b5a68a',
-          400: '#998765',
-          500: '#7d6c4f',
-          600: '#63553e',
-          700: '#4a3f30',
-          800: '#332b22',
-          900: '#1e1a15',
-          950: '#110f0c',
+        // Dark mode surface
+        night: {
+          700: '#2a2438',
+          800: '#1e1928',
+          900: '#15111e',
+          950: '#0d0a14',
         },
-        // Terracotta accent — temple red/orange
+        // Terracotta — primary accent
         terra: {
           DEFAULT: '#c4623a',
-          light: '#d87a52',
+          light: '#e07a4f',
           dark: '#a34e2d',
-          muted: '#9e6b52',
         },
-        // Indigo — secondary accent (from natural dye)
-        neel: {
-          DEFAULT: '#2d4a7a',
-          light: '#4a6fa3',
-          dark: '#1e3258',
-        },
-        // Stepwell water — used sparingly for highlights
-        jal: {
-          DEFAULT: '#3a8a7c',
-          light: '#5aad9e',
-          dark: '#2a6b5f',
-        },
-        // Turmeric — warm highlight
-        haldi: {
+        // Gold — secondary accent (haldi/turmeric)
+        gold: {
           DEFAULT: '#d4a843',
-          light: '#e4c46a',
+          light: '#e8c462',
           dark: '#b08a2e',
         },
-        // Background surfaces
-        paper: {
-          DEFAULT: '#f8f5ee', // raw cotton / unbleached paper
-          dark: '#15120e',   // deep carved shadow
+        // Deep red — rangoli accent
+        kumkum: {
+          DEFAULT: '#c0392b',
+          light: '#e74c3c',
+        },
+        // Peacock teal — rangoli accent
+        mor: {
+          DEFAULT: '#1a8a7a',
+          light: '#2ec4b6',
+        },
+        // Text
+        ink: {
+          DEFAULT: '#2c2416',
+          light: '#5a4e3a',
+          muted: '#8a7d68',
+          faint: '#b8ad98',
+        },
+        // Dark mode text
+        silk: {
+          DEFAULT: '#e8e0d4',
+          muted: '#a89e8e',
+          faint: '#6a6058',
         },
       },
-      backgroundImage: {
-        // Subtle kolam dot pattern (CSS-only, no images)
-        'kolam-dots': 'radial-gradient(circle, currentColor 0.5px, transparent 0.5px)',
-        // Stepwell depth layer
-        'step-down': 'linear-gradient(to bottom, transparent 0%, rgba(0,0,0,0.02) 100%)',
-        'step-down-dark': 'linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.02) 100%)',
-      },
-      backgroundSize: {
-        'kolam': '20px 20px',
-      },
       typography: (theme) => ({
-        sandstone: {
+        kolam: {
           css: {
-            '--tw-prose-body': theme('colors.carved.800'),
-            '--tw-prose-headings': theme('colors.carved.950'),
-            '--tw-prose-lead': theme('colors.sand.600'),
-            '--tw-prose-links': theme('colors.terra.DEFAULT'),
-            '--tw-prose-bold': theme('colors.carved.900'),
-            '--tw-prose-counters': theme('colors.sand.500'),
-            '--tw-prose-bullets': theme('colors.sand.400'),
-            '--tw-prose-hr': theme('colors.sand.300'),
-            '--tw-prose-quotes': theme('colors.carved.700'),
-            '--tw-prose-quote-borders': theme('colors.terra.DEFAULT'),
-            '--tw-prose-captions': theme('colors.sand.500'),
-            '--tw-prose-code': theme('colors.carved.900'),
-            '--tw-prose-pre-code': theme('colors.sand.200'),
-            '--tw-prose-pre-bg': theme('colors.carved.900'),
-            '--tw-prose-th-borders': theme('colors.sand.300'),
-            '--tw-prose-td-borders': theme('colors.sand.200'),
-            '--tw-prose-invert-body': theme('colors.sand.200'),
-            '--tw-prose-invert-headings': theme('colors.sand.50'),
-            '--tw-prose-invert-lead': theme('colors.sand.400'),
-            '--tw-prose-invert-links': theme('colors.terra.light'),
-            '--tw-prose-invert-bold': theme('colors.sand.100'),
-            '--tw-prose-invert-counters': theme('colors.sand.500'),
-            '--tw-prose-invert-bullets': theme('colors.sand.500'),
-            '--tw-prose-invert-hr': theme('colors.carved.700'),
-            '--tw-prose-invert-quotes': theme('colors.sand.300'),
-            '--tw-prose-invert-quote-borders': theme('colors.terra.DEFAULT'),
-            '--tw-prose-invert-captions': theme('colors.sand.500'),
-            '--tw-prose-invert-code': theme('colors.sand.100'),
-            '--tw-prose-invert-pre-code': theme('colors.sand.200'),
-            '--tw-prose-invert-pre-bg': theme('colors.carved.950'),
-            '--tw-prose-invert-th-borders': theme('colors.carved.600'),
-            '--tw-prose-invert-td-borders': theme('colors.carved.700'),
+            '--tw-prose-body': '#2c2416',
+            '--tw-prose-headings': '#1a1408',
+            '--tw-prose-lead': '#5a4e3a',
+            '--tw-prose-links': '#c4623a',
+            '--tw-prose-bold': '#2c2416',
+            '--tw-prose-counters': '#8a7d68',
+            '--tw-prose-bullets': '#d4a843',
+            '--tw-prose-hr': '#e8dbc0',
+            '--tw-prose-quotes': '#5a4e3a',
+            '--tw-prose-quote-borders': '#c4623a',
+            '--tw-prose-captions': '#8a7d68',
+            '--tw-prose-code': '#2c2416',
+            '--tw-prose-pre-code': '#e8e0d4',
+            '--tw-prose-pre-bg': '#1e1928',
+            '--tw-prose-th-borders': '#e8dbc0',
+            '--tw-prose-td-borders': '#f5edd8',
+            '--tw-prose-invert-body': '#e8e0d4',
+            '--tw-prose-invert-headings': '#fefdfb',
+            '--tw-prose-invert-lead': '#a89e8e',
+            '--tw-prose-invert-links': '#e07a4f',
+            '--tw-prose-invert-bold': '#e8e0d4',
+            '--tw-prose-invert-counters': '#a89e8e',
+            '--tw-prose-invert-bullets': '#e8c462',
+            '--tw-prose-invert-hr': '#2a2438',
+            '--tw-prose-invert-quotes': '#a89e8e',
+            '--tw-prose-invert-quote-borders': '#e07a4f',
+            '--tw-prose-invert-captions': '#6a6058',
+            '--tw-prose-invert-code': '#e8e0d4',
+            '--tw-prose-invert-pre-code': '#e8e0d4',
+            '--tw-prose-invert-pre-bg': '#0d0a14',
+            '--tw-prose-invert-th-borders': '#2a2438',
+            '--tw-prose-invert-td-borders': '#1e1928',
           },
         },
       }),

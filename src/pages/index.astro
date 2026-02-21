@@ -12,13 +12,12 @@ const [featured, ...rest] = posts;
 
 <BaseLayout>
   <header class="mb-14">
-    <h1 class="font-display text-4xl sm:text-5xl text-carved-950 dark:text-sand-50 carved-heading">Writing</h1>
-    <p class="mt-5 text-sand-600 dark:text-sand-400 text-pretty leading-relaxed">
+    <h1 class="font-display text-4xl sm:text-5xl text-ink dark:text-silk carved-heading">Writing</h1>
+    <p class="mt-5 text-ink-light dark:text-silk-muted text-pretty leading-relaxed">
       Notes on AI, LLMs, RAG, and building things that work.
     </p>
   </header>
 
-  <!-- Featured post — the first step -->
   {featured && (
     <PostCard
       title={featured.data.title}
@@ -31,8 +30,7 @@ const [featured, ...rest] = posts;
     />
   )}
 
-  <!-- Remaining posts — descending steps -->
-  <div class="space-y-1">
+  <div>
     {rest.map((post) => (
       <PostCard
         title={post.data.title}

@@ -3,24 +3,22 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
 <BaseLayout title="About" description="About Jay Shah — Lead Data Scientist, LLM/RAG Expert, AI Solutions Architect">
-  <article class="prose prose-sandstone dark:prose-invert prose-lg max-w-none">
+  <article class="prose prose-kolam dark:prose-invert prose-lg max-w-none">
     <header class="not-prose mb-12">
       <div class="flex items-start gap-6 mb-6">
-        <!-- Profile with carved medallion rings -->
         <div class="relative shrink-0">
-          <div class="absolute -inset-1.5 rounded-full border border-sand-300 dark:border-carved-600 opacity-60"></div>
-          <div class="absolute -inset-3 rounded-full border border-sand-200 dark:border-carved-700 opacity-30"></div>
+          <div class="absolute -inset-2 rounded-full border-2 border-dashed border-gold/30 dark:border-gold-dark/30"></div>
           <img
             src="/assets/images/Profile.jpg"
             alt="Jay Shah"
             width="88"
             height="88"
-            class="relative rounded-full size-[88px] object-cover grayscale"
+            class="relative rounded-full size-[88px] object-cover grayscale ring-2 ring-terra/20 dark:ring-terra-light/20"
           />
         </div>
         <div class="pt-1">
-          <h1 class="font-display text-3xl sm:text-4xl text-carved-950 dark:text-sand-50 carved-heading">Jay Shah</h1>
-          <p class="font-mono text-[10px] uppercase tracking-[0.15em] text-sand-500 dark:text-sand-500 mt-4">
+          <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">Jay Shah</h1>
+          <p class="font-mono text-[10px] uppercase text-ink-muted dark:text-silk-muted mt-4" style="letter-spacing: 0.12em;">
             Lead Data Scientist &bull; LLM/RAG &bull; AI Solutions Architect
           </p>
         </div>
@@ -122,13 +120,13 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     <!-- Social / Resume links — carved stone buttons -->
     <div class="not-prose mt-12">
-      <div class="rangoli-border mb-6"></div>
+      <div class="kolam-border mb-6"><span class="kolam-motif">◆</span></div>
       <div class="flex flex-wrap gap-3">
         <a
           href="https://github.com/jayshah5696"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-4 py-2 border border-sand-300 dark:border-carved-600 rounded text-sm text-carved-700 dark:text-sand-300 hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono tracking-wide"
+          class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono"
         >
           GitHub
         </a>
@@ -136,7 +134,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           href="https://linkedin.com/in/jayshah5696"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-4 py-2 border border-sand-300 dark:border-carved-600 rounded text-sm text-carved-700 dark:text-sand-300 hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono tracking-wide"
+          class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono"
         >
           LinkedIn
         </a>
@@ -144,7 +142,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           href="https://huggingface.co/jayshah5696"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-4 py-2 border border-sand-300 dark:border-carved-600 rounded text-sm text-carved-700 dark:text-sand-300 hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono tracking-wide"
+          class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono"
         >
           Hugging Face
         </a>
@@ -152,7 +150,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
           href="https://cv.jayshah.dev"
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-4 py-2 border border-sand-300 dark:border-carved-600 rounded text-sm text-carved-700 dark:text-sand-300 hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono tracking-wide"
+          class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono"
         >
           Resume
         </a>
