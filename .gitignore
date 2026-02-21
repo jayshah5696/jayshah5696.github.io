@@ -1,6 +1,19 @@
+# Astro
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Environment
+.env
+.env.*
+
+# OS
 .DS_Store
-_site
-.sass-cache
-.bundle
-vendor/
-.idea/*
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp

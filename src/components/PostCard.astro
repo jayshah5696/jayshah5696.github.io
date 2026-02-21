@@ -1,0 +1,61 @@
+---
+import FormattedDate from './FormattedDate.astro';
+import readingTime from 'reading-time';
+
+interface Props {
+  title: string;
+  date: Date;
+  description: string;
+  slug: string;
+  tags?: string[];
+  body?: string;
+  featured?: boolean;
+}
+
+const { title, date, description, slug, tags = [], body = '', featured = false } = Astro.props;
+const readTime = body ? readingTime(body) : null;
+---
+
+<article class:list={[
+  'group',
+  featured ? 'pb-10 mb-10 border-b border-ink-100 dark:border-ink-800/50' : 'py-6',
+]}>
+  <a href={`/posts/${slug}/`} class="block">
+    <div class="flex items-center gap-2 text-sm text-ink-400 dark:text-ink-500 mb-2.5">
+      <FormattedDate date={date} />
+      {readTime && (
+        <>
+          <span class="text-ink-200 dark:text-ink-700">&middot;</span>
+          <span>{readTime.text}</span>
+        </>
+      )}
+    </div>
+
+    <h2 class:list={[
+      'font-display text-ink-900 dark:text-ink-100 group-hover:text-accent dark:group-hover:text-accent-light transition-colors text-balance leading-snug',
+      featured ? 'text-2xl sm:text-3xl font-medium' : 'text-xl font-medium',
+    ]}>
+      {title}
+    </h2>
+
+    <p class:list={[
+      'mt-2 text-ink-500 dark:text-ink-400 text-pretty leading-relaxed',
+      featured ? 'text-base' : 'text-[0.925rem] line-clamp-2',
+    ]}>
+      {description}
+    </p>
+  </a>
+
+  {tags.length > 0 && (
+    <div class="mt-3 flex items-center gap-2 text-xs text-ink-300 dark:text-ink-600">
+      {tags.map((tag, i) => (
+        <>
+          {i > 0 && <span>&middot;</span>}
+          <a href={`/tags/${tag}`} class="hover:text-accent dark:hover:text-accent-light transition-colors">
+            {tag}
+          </a>
+        </>
+      ))}
+    </div>
+  )}
+</article>

@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog');
+
+const tagCounts = new Map<string, number>();
+posts.forEach((post) => {
+  post.data.tags?.forEach((tag: string) => {
+    tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+  });
+});
+
+const sortedTags = [...tagCounts.entries()].sort((a, b) => b[1] - a[1]);
+---
+
+<BaseLayout title="Tags">
+  <header class="mb-14">
+    <h1 class="font-display text-3xl sm:text-4xl font-medium text-ink-900 dark:text-ink-100">
+      Tags
+    </h1>
+    <p class="mt-2 text-ink-400 dark:text-ink-500">
+      Browse by topic.
+    </p>
+  </header>
+
+  <ul class="space-y-3">
+    {sortedTags.map(([tag, count]) => (
+      <li>
+        <a
+          href={`/tags/${tag}/`}
+          class="group flex items-baseline justify-between py-1 border-b border-ink-100 dark:border-ink-800/50 hover:border-accent/30 transition-colors"
+        >
+          <span class="font-display text-lg text-ink-700 dark:text-ink-300 group-hover:text-accent dark:group-hover:text-accent-light transition-colors">
+            {tag}
+          </span>
+          <span class="text-sm text-ink-300 dark:text-ink-600 tabular-nums">
+            {count}
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

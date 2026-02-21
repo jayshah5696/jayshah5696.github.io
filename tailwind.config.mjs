@@ -1,0 +1,77 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: ['./src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}'],
+  darkMode: 'class',
+  theme: {
+    extend: {
+      fontFamily: {
+        display: ['"Newsreader"', 'Georgia', 'serif'],
+        body: ['"Source Sans 3"', 'system-ui', 'sans-serif'],
+        mono: ['"JetBrains Mono"', 'Menlo', 'monospace'],
+      },
+      colors: {
+        ink: {
+          50: '#fafaf9',
+          100: '#f0efed',
+          200: '#e0dedb',
+          300: '#c5c2bc',
+          400: '#a19d95',
+          500: '#817c74',
+          600: '#6b665f',
+          700: '#56524c',
+          800: '#3d3a36',
+          900: '#2a2825',
+          950: '#1b1917',
+        },
+        paper: {
+          DEFAULT: '#fcfcfb',
+          dark: '#141311',
+        },
+        accent: {
+          DEFAULT: '#b44a28',
+          light: '#cf6340',
+          dark: '#923c20',
+        },
+      },
+      typography: ({ theme }) => ({
+        ink: {
+          css: {
+            '--tw-prose-body': theme('colors.ink.800'),
+            '--tw-prose-headings': theme('colors.ink.950'),
+            '--tw-prose-links': theme('colors.accent.DEFAULT'),
+            '--tw-prose-bold': theme('colors.ink.900'),
+            '--tw-prose-counters': theme('colors.ink.500'),
+            '--tw-prose-bullets': theme('colors.ink.300'),
+            '--tw-prose-hr': theme('colors.ink.200'),
+            '--tw-prose-quotes': theme('colors.ink.700'),
+            '--tw-prose-quote-borders': theme('colors.accent.DEFAULT'),
+            '--tw-prose-captions': theme('colors.ink.500'),
+            '--tw-prose-code': theme('colors.ink.900'),
+            '--tw-prose-pre-code': theme('colors.ink.200'),
+            '--tw-prose-pre-bg': theme('colors.ink.950'),
+            '--tw-prose-th-borders': theme('colors.ink.200'),
+            '--tw-prose-td-borders': theme('colors.ink.100'),
+            '--tw-prose-invert-body': theme('colors.ink.300'),
+            '--tw-prose-invert-headings': theme('colors.ink.50'),
+            '--tw-prose-invert-links': theme('colors.accent.light'),
+            '--tw-prose-invert-bold': theme('colors.ink.100'),
+            '--tw-prose-invert-counters': theme('colors.ink.500'),
+            '--tw-prose-invert-bullets': theme('colors.ink.600'),
+            '--tw-prose-invert-hr': theme('colors.ink.800'),
+            '--tw-prose-invert-quotes': theme('colors.ink.400'),
+            '--tw-prose-invert-quote-borders': theme('colors.accent.DEFAULT'),
+            '--tw-prose-invert-captions': theme('colors.ink.500'),
+            '--tw-prose-invert-code': theme('colors.ink.100'),
+            '--tw-prose-invert-pre-code': theme('colors.ink.300'),
+            '--tw-prose-invert-pre-bg': '#0c0b0a',
+            '--tw-prose-invert-th-borders': theme('colors.ink.700'),
+            '--tw-prose-invert-td-borders': theme('colors.ink.800'),
+          },
+        },
+      }),
+    },
+  },
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
+};

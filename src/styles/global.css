@@ -1,0 +1,87 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-paper text-ink-800 font-body antialiased;
+    @apply transition-colors duration-200;
+  }
+
+  .dark body {
+    @apply bg-paper-dark text-ink-300;
+  }
+
+  /* Prose tuning */
+  .prose :where(code):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    @apply font-mono text-[0.875em] px-1 py-0.5 rounded bg-ink-100 dark:bg-ink-900;
+  }
+
+  .prose :where(code):not(:where([class~="not-prose"],[class~="not-prose"] *))::before,
+  .prose :where(code):not(:where([class~="not-prose"],[class~="not-prose"] *))::after {
+    content: none;
+  }
+
+  .prose :where(pre):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    @apply rounded-md border border-ink-100 dark:border-ink-800/50;
+  }
+
+  .prose :where(a):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    @apply underline decoration-accent/30 underline-offset-[3px] transition-colors hover:decoration-accent;
+  }
+
+  .prose :where(img):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    @apply rounded-md mx-auto;
+  }
+
+  .prose :where(blockquote):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    @apply border-l-accent/60 not-italic;
+  }
+
+  .prose :where(h2):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    @apply font-display;
+  }
+
+  .prose :where(h3):not(:where([class~="not-prose"],[class~="not-prose"] *)) {
+    @apply font-display;
+  }
+
+  /* Remap old magenta spans to accent */
+  .prose span[style*="color: magenta"] {
+    @apply !text-accent dark:!text-accent-light font-medium;
+  }
+
+  /* Scrollbar - barely there */
+  ::-webkit-scrollbar {
+    @apply w-1;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-ink-200 dark:bg-ink-800 rounded-full;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-accent/15 text-ink-950;
+  }
+
+  .dark ::selection {
+    @apply bg-accent/25 text-ink-50;
+  }
+}
+
+@layer components {
+  .tag {
+    @apply text-xs text-ink-400 dark:text-ink-500
+           hover:text-accent dark:hover:text-accent-light
+           transition-colors;
+  }
+}

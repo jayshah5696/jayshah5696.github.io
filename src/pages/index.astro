@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+import { SITE_TITLE } from '../consts';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const [latest, ...rest] = posts;
+---
+
+<BaseLayout title={SITE_TITLE}>
+  <header class="mb-14">
+    <h1 class="font-display text-3xl sm:text-4xl font-medium text-ink-900 dark:text-ink-100 text-balance">
+      Writing
+    </h1>
+    <p class="mt-2 text-ink-400 dark:text-ink-500 text-pretty">
+      Notes on AI, LLMs, RAG, and building things that work.
+    </p>
+  </header>
+
+  <section>
+    {latest && (
+      <PostCard
+        title={latest.data.title}
+        date={latest.data.date}
+        description={latest.data.description}
+        slug={latest.id}
+        tags={latest.data.tags}
+        body={latest.body ?? ''}
+        featured
+      />
+    )}
+
+    <div class="divide-y divide-ink-100 dark:divide-ink-800/50">
+      {rest.map((post) => (
+        <PostCard
+          title={post.data.title}
+          date={post.data.date}
+          description={post.data.description}
+          slug={post.id}
+          tags={post.data.tags}
+          body={post.body ?? ''}
+        />
+      ))}
+    </div>
+  </section>
+</BaseLayout>

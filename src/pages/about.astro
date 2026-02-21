@@ -1,0 +1,56 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SOCIAL_LINKS } from '../consts';
+---
+
+<BaseLayout title="About">
+  <article>
+    <header class="mb-12">
+      <img
+        src="/assets/images/Profile.jpg"
+        alt="Jay Shah"
+        class="size-20 rounded-full object-cover grayscale-[20%] mb-6"
+      />
+      <h1 class="font-display text-3xl sm:text-4xl font-medium text-ink-900 dark:text-ink-100">
+        Jay Shah
+      </h1>
+      <p class="mt-2 text-ink-400 dark:text-ink-500">
+        Lead Data Scientist &middot; LLM/RAG &middot; AI Solutions Architect
+      </p>
+    </header>
+
+    <div class="prose prose-ink dark:prose-invert max-w-none
+                prose-p:text-base prose-p:leading-[1.8]
+                prose-headings:font-display">
+      <p>
+        I build production systems with Large Language Models and Retrieval Augmented Generation.
+        I write here about what works, what breaks, and the decisions behind the architecture.
+      </p>
+
+      <p>
+        Posts range from hands-on tutorials -- deploying ColBERT on Modal, optimizing RAG pipelines --
+        to opinions on tooling and workflow. I also write about hackathons, the AI landscape,
+        and occasionally things that aren't code.
+      </p>
+
+      <p>
+        Previously: hackathon addict, Sadhguru student, person who deploys things on Fridays.
+      </p>
+
+      <hr />
+
+      <div class="not-prose flex flex-col sm:flex-row sm:items-center gap-4 sm:gap-6 text-sm">
+        <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer"
+           class="text-ink-500 hover:text-accent transition-colors">GitHub</a>
+        <a href={SOCIAL_LINKS.twitter} target="_blank" rel="noopener noreferrer"
+           class="text-ink-500 hover:text-accent transition-colors">Twitter / X</a>
+        <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer"
+           class="text-ink-500 hover:text-accent transition-colors">LinkedIn</a>
+        <a href={SOCIAL_LINKS.email}
+           class="text-ink-500 hover:text-accent transition-colors">Email</a>
+        <a href="/assets/pdfs/JayShah_Resume_0221.pdf" target="_blank"
+           class="text-ink-500 hover:text-accent transition-colors">Resume (PDF)</a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

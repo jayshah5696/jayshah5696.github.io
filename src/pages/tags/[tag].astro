@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  const tags = new Set<string>();
+  posts.forEach((post) => post.data.tags?.forEach((tag: string) => tags.add(tag)));
+
+  return [...tags].map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: posts
+        .filter((post) => post.data.tags?.includes(tag))
+        .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf()),
+    },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<BaseLayout title={`${tag}`}>
+  <header class="mb-14">
+    <a href="/tags" class="inline-flex items-center gap-1.5 text-sm text-ink-400 dark:text-ink-500 hover:text-accent transition-colors mb-4">
+      <svg class="size-3.5" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+      </svg>
+      All tags
+    </a>
+    <h1 class="font-display text-3xl font-medium text-ink-900 dark:text-ink-100">
+      {tag}
+    </h1>
+    <p class="mt-1 text-sm text-ink-400 dark:text-ink-500">
+      {posts.length} post{posts.length !== 1 ? 's' : ''}
+    </p>
+  </header>
+
+  <div class="divide-y divide-ink-100 dark:divide-ink-800/50">
+    {posts.map((post: any) => (
+      <PostCard
+        title={post.data.title}
+        date={post.data.date}
+        description={post.data.description}
+        slug={post.id}
+        tags={post.data.tags}
+        body={post.body ?? ''}
+      />
+    ))}
+  </div>
+</BaseLayout>
