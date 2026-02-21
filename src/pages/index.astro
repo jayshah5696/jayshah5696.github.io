@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const [featured, ...rest] = posts;
+---
+
+<BaseLayout>
+  <header class="mb-14">
+    <h1 class="font-display text-4xl sm:text-5xl text-carved-950 dark:text-sand-50 carved-heading">Writing</h1>
+    <p class="mt-5 text-sand-600 dark:text-sand-400 text-pretty leading-relaxed">
+      Notes on AI, LLMs, RAG, and building things that work.
+    </p>
+  </header>
+
+  <!-- Featured post — the first step -->
+  {featured && (
+    <PostCard
+      title={featured.data.title}
+      date={featured.data.date}
+      description={featured.data.description}
+      slug={featured.id}
+      tags={featured.data.tags}
+      body={featured.body ?? ''}
+      featured
+    />
+  )}
+
+  <!-- Remaining posts — descending steps -->
+  <div class="space-y-1">
+    {rest.map((post) => (
+      <PostCard
+        title={post.data.title}
+        date={post.data.date}
+        description={post.data.description}
+        slug={post.id}
+        tags={post.data.tags}
+        body={post.body ?? ''}
+      />
+    ))}
+  </div>
+</BaseLayout>

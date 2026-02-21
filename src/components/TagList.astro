@@ -1,0 +1,20 @@
+---
+interface Props {
+  tags: string[];
+}
+
+const { tags } = Astro.props;
+---
+
+{tags.length > 0 && (
+  <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
+    {tags.map((tag, i) => (
+      <>
+        <a href={`/tags/${tag}`} class="tag">{tag}</a>
+        {i < tags.length - 1 && (
+          <span class="text-sand-300 dark:text-carved-600 text-xs select-none" aria-hidden="true">&bull;</span>
+        )}
+      </>
+    ))}
+  </div>
+)}

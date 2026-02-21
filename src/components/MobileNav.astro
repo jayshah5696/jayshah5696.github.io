@@ -1,0 +1,53 @@
+---
+import { SITE_TITLE, NAV_ITEMS } from '../consts';
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="lg:hidden fixed top-0 left-0 right-0 z-40 bg-sand-50/90 dark:bg-carved-950/90 backdrop-blur-md border-b border-sand-200 dark:border-carved-800">
+  <div class="flex items-center justify-between px-4 h-14">
+    <a href="/" class="flex items-center gap-2.5">
+      <div class="relative">
+        <div class="absolute -inset-0.5 rounded-full border border-sand-300 dark:border-carved-600 opacity-50"></div>
+        <img
+          src="/assets/images/Profile.jpg"
+          alt={SITE_TITLE}
+          width="28"
+          height="28"
+          class="relative rounded-full size-7 grayscale object-cover"
+        />
+      </div>
+      <span class="font-display text-sm text-carved-900 dark:text-sand-50">{SITE_TITLE}</span>
+    </a>
+
+    <div class="flex items-center gap-4">
+      <nav class="flex items-center gap-3">
+        {NAV_ITEMS.map(({ label, href }) => {
+          const isActive = href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+          return (
+            <a
+              href={href}
+              class:list={[
+                'text-[10px] font-mono uppercase tracking-[0.15em] transition-colors duration-200',
+                isActive
+                  ? 'text-terra dark:text-terra-light font-medium'
+                  : 'text-sand-500 dark:text-sand-500 hover:text-carved-800 dark:hover:text-sand-200',
+              ]}
+            >
+              {label}
+            </a>
+          );
+        })}
+      </nav>
+
+      <button
+        id="theme-toggle-mobile"
+        class="text-sand-500 dark:text-sand-500 hover:text-terra dark:hover:text-terra-light transition-colors cursor-pointer"
+        aria-label="Toggle dark mode"
+      >
+        <svg class="size-4 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
+        <svg class="size-4 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </div>
+</header>

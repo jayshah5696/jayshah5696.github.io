@@ -1,0 +1,53 @@
+---
+import FormattedDate from './FormattedDate.astro';
+import TagList from './TagList.astro';
+import readingTime from 'reading-time';
+
+interface Props {
+  title: string;
+  date: Date;
+  description: string;
+  slug: string;
+  tags: string[];
+  body: string;
+  featured?: boolean;
+}
+
+const { title, date, description, slug, tags, body, featured = false } = Astro.props;
+const stats = readingTime(body);
+---
+
+<article class:list={[
+  'group',
+  featured
+    ? 'pb-10 mb-10'
+    : 'stepped-card py-5',
+]}>
+  <a href={`/posts/${slug}/`} class="block">
+    <div class="flex items-center gap-3 mb-2">
+      <FormattedDate date={date} />
+      <span class="text-sand-300 dark:text-carved-600 text-xs select-none" aria-hidden="true">&bull;</span>
+      <span class="font-mono text-xs text-sand-500 dark:text-sand-500 tabular-nums">{stats.text}</span>
+    </div>
+    <h2 class:list={[
+      'font-display text-carved-900 dark:text-sand-50 group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-200 text-balance',
+      featured ? 'text-2xl sm:text-3xl leading-tight' : 'text-xl leading-snug',
+    ]}>
+      {title}
+    </h2>
+    <p class:list={[
+      'mt-2 text-carved-600 dark:text-sand-400 text-pretty',
+      featured ? 'text-base leading-relaxed' : 'text-sm leading-relaxed line-clamp-2',
+    ]}>
+      {description}
+    </p>
+  </a>
+  {tags.length > 0 && (
+    <div class="mt-3">
+      <TagList tags={tags} />
+    </div>
+  )}
+  {featured && (
+    <div class="mt-8 rangoli-border"></div>
+  )}
+</article>

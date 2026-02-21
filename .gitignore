@@ -1,6 +1,22 @@
+# build output
+dist/
+
+# dependencies
+node_modules/
+
+# astro
+.astro/
+
+# environment
+.env
+.env.*
+
+# OS
 .DS_Store
-_site
-.sass-cache
-.bundle
-vendor/
-.idea/*
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo

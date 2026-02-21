@@ -1,0 +1,285 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    @apply bg-paper text-carved-800 font-body;
+    font-feature-settings: 'kern' 1, 'liga' 1;
+  }
+
+  .dark body {
+    @apply bg-paper-dark text-sand-200;
+  }
+
+  /* ============================================
+     STEPWELL DEPTH SYSTEM
+     Each "step" descends deeper into the content
+     ============================================ */
+
+  .step {
+    @apply relative;
+  }
+
+  .step::before {
+    content: '';
+    @apply absolute inset-x-0 top-0 h-px;
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      theme('colors.sand.300') 20%,
+      theme('colors.sand.300') 80%,
+      transparent 100%
+    );
+  }
+
+  .dark .step::before {
+    background: linear-gradient(
+      to right,
+      transparent 0%,
+      theme('colors.carved.700') 20%,
+      theme('colors.carved.700') 80%,
+      transparent 100%
+    );
+  }
+
+  /* ============================================
+     RANGOLI BORDER — decorative line pattern
+     Used for section dividers
+     ============================================ */
+
+  .rangoli-border {
+    @apply relative py-4;
+  }
+
+  .rangoli-border::before,
+  .rangoli-border::after {
+    content: '';
+    @apply absolute left-0 right-0 h-px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      theme('colors.terra.DEFAULT') 15%,
+      theme('colors.haldi.DEFAULT') 35%,
+      theme('colors.terra.DEFAULT') 50%,
+      theme('colors.haldi.DEFAULT') 65%,
+      theme('colors.terra.DEFAULT') 85%,
+      transparent
+    );
+    opacity: 0.4;
+  }
+
+  .rangoli-border::before {
+    @apply top-0;
+  }
+
+  .rangoli-border::after {
+    @apply bottom-0;
+  }
+
+  .dark .rangoli-border::before,
+  .dark .rangoli-border::after {
+    opacity: 0.25;
+  }
+
+  /* ============================================
+     JALI PATTERN — lattice screen for code blocks
+     ============================================ */
+
+  /* Inline code */
+  :not(pre) > code {
+    @apply bg-sand-100 dark:bg-carved-800 text-terra-dark dark:text-terra-light px-1.5 py-0.5 rounded text-sm font-mono;
+    border: 1px solid theme('colors.sand.200');
+  }
+
+  .dark :not(pre) > code {
+    border-color: theme('colors.carved.700');
+  }
+
+  :not(pre) > code::before,
+  :not(pre) > code::after {
+    content: '' !important;
+  }
+
+  /* Code blocks — jali lattice frame */
+  pre {
+    @apply rounded-lg !important;
+    border: 1px solid theme('colors.sand.300') !important;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.04);
+  }
+
+  .dark pre {
+    border-color: theme('colors.carved.700') !important;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
+  }
+
+  /* ============================================
+     LINKS — terracotta with warm transitions
+     ============================================ */
+
+  .prose a {
+    @apply text-terra decoration-terra/25 underline-offset-2 transition-colors duration-200;
+  }
+
+  .prose a:hover {
+    @apply text-terra-dark dark:text-terra-light decoration-terra/60;
+  }
+
+  /* ============================================
+     IMAGES — carved frame effect
+     ============================================ */
+
+  .prose img {
+    @apply rounded-lg mx-auto;
+    box-shadow: 0 2px 12px rgba(35, 30, 25, 0.08);
+  }
+
+  .dark .prose img {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  /* ============================================
+     BLOCKQUOTES — temple inscription style
+     ============================================ */
+
+  .prose blockquote {
+    @apply not-italic font-normal text-carved-600 dark:text-sand-400;
+    border-left-color: theme('colors.terra.DEFAULT');
+    border-left-width: 3px;
+  }
+
+  /* ============================================
+     HEADINGS — carved stone display font
+     ============================================ */
+
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    @apply font-display;
+  }
+
+  /* ============================================
+     LEGACY CONTENT SUPPORT
+     ============================================ */
+
+  /* Old Jekyll magenta spans → terracotta accent */
+  .prose span[style*='color: magenta'] {
+    color: theme('colors.terra.DEFAULT') !important;
+    @apply font-medium;
+  }
+
+  .dark .prose span[style*='color: magenta'] {
+    color: theme('colors.terra.light') !important;
+  }
+
+  /* Old Jekyll colored spans */
+  span[style*='color:#1abc9c'],
+  span[style*='color:Blue'],
+  span[style*='color: Blue'] {
+    color: theme('colors.terra.DEFAULT') !important;
+  }
+
+  .dark span[style*='color:#1abc9c'],
+  .dark span[style*='color:Blue'],
+  .dark span[style*='color: Blue'] {
+    color: theme('colors.terra.light') !important;
+  }
+
+  /* ============================================
+     SCROLLBAR — minimal stone channel
+     ============================================ */
+
+  ::-webkit-scrollbar {
+    @apply w-1.5;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-sand-100 dark:bg-carved-900;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-sand-400 dark:bg-carved-600 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-terra dark:bg-terra-light;
+  }
+
+  /* ============================================
+     SELECTION — turmeric highlight
+     ============================================ */
+
+  ::selection {
+    background: theme('colors.haldi.DEFAULT');
+    color: theme('colors.carved.950');
+    opacity: 0.9;
+  }
+
+  .dark ::selection {
+    background: theme('colors.haldi.dark');
+    color: theme('colors.sand.50');
+  }
+}
+
+@layer components {
+  /* Tag — like a carved label or stamp */
+  .tag {
+    @apply text-xs font-mono uppercase tracking-widest text-sand-600 dark:text-sand-400 
+           hover:text-terra dark:hover:text-terra-light transition-colors duration-200;
+  }
+
+  /* Kolam dot grid — used as subtle background decoration */
+  .kolam-bg {
+    background-image: radial-gradient(circle, theme('colors.sand.300') 0.5px, transparent 0.5px);
+    background-size: 24px 24px;
+  }
+
+  .dark .kolam-bg {
+    background-image: radial-gradient(circle, theme('colors.carved.800') 0.5px, transparent 0.5px);
+  }
+
+  /* Stepped card — each card in the feed descends slightly */
+  .stepped-card {
+    @apply relative pl-5 border-l-2 border-sand-200 dark:border-carved-700;
+  }
+
+  .stepped-card::before {
+    content: '';
+    @apply absolute left-[-5px] top-3 size-2 rounded-full bg-sand-400 dark:bg-carved-500;
+  }
+
+  .stepped-card:hover::before {
+    @apply bg-terra dark:bg-terra-light;
+  }
+
+  /* Carved heading ornament */
+  .carved-heading {
+    @apply relative;
+  }
+
+  .carved-heading::after {
+    content: '';
+    @apply block mt-3 h-0.5 w-12;
+    background: linear-gradient(
+      to right,
+      theme('colors.terra.DEFAULT'),
+      theme('colors.haldi.DEFAULT')
+    );
+    border-radius: 1px;
+  }
+
+  .dark .carved-heading::after {
+    background: linear-gradient(
+      to right,
+      theme('colors.terra.light'),
+      theme('colors.haldi.light')
+    );
+    opacity: 0.7;
+  }
+}
