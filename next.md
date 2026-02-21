@@ -125,7 +125,7 @@ After merging to `master` and pushing:
 - Builds cleanly: 22 pages, 0 errors, ~1.5s
 - **About page has FULL content** — all 8 sections match Chirpy (Journey, Skills, Projects, Honors, Experience, Education, Patents, Languages)
 - Has HuggingFace link in social links ✅
-- Resume PDF linked from about page ✅
+- Resume linked from about page (cv.jayshah.dev) ✅
 - Custom design system: Yeseva One + Outfit fonts, sand/carved/terra color tokens, rangoli borders, kolam dot-grid backgrounds
 - Dark mode with localStorage persistence ✅
 - README already has full docs (quick start, project structure, post guide, design system docs, deployment) ✅

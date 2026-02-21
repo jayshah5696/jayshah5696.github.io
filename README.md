@@ -95,7 +95,7 @@ In your repo **Settings → Pages → Source**, select **"GitHub Actions"** (not
 ├── _sass/                 # Custom Sass overrides
 ├── assets/
 │   ├── images/            # Post images, profile photo, favicons
-│   └── pdfs/              # Resume and other documents
+│   └── pdfs/              # Documents
 ├── Gemfile                # Ruby dependencies
 ├── .github/workflows/
 │   └── pages.yml          # GitHub Actions deploy workflow
@@ -118,7 +118,7 @@ The `astro-migration` branch is a full rewrite using Astro 5, Tailwind CSS, and 
 
 - **About page**: Only has a 3-paragraph blurb. Missing: Skills, Projects, Experience, Education, Patents, Awards, Languages sections.
 - **Missing pages**: No dedicated Projects page, no Archives page, no Categories page.
-- **Missing resume link** in navigation (PDF exists in assets but not linked from nav).
+- **Resume link** uses cv.jayshah.dev (not PDF).
 
 The Chirpy branch has full content parity with the original site.
 

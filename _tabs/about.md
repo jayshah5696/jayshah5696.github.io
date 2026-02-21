@@ -114,3 +114,7 @@ I'm eager to connect with others passionate about data and AI. Let's collaborate
 - [Calculating energy loss during an outage](https://patents.google.com/patent/US20230213560A1/en)<br>US20230213560A1 · Filed Dec 30, 2021
 - [Predicting energy production for energy generating assets](https://patents.google.com/patent/US20230214703A1/en)<br>US20230214703A1 · Filed Dec 30, 2021
 - [Dimension Measurement Using Image Processing and Separation of Defective Products](https://patents.google.com/patent/IN201721044402A/en)<br>IN 201721044402 · Filed Dec 11, 2017<br>Other inventors
+
+---
+
+📄 [View my full Resume / CV](https://cv.jayshah.dev)
