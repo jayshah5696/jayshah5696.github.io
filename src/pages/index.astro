@@ -1,37 +1,17 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
+import RightSidebar from '../components/RightSidebar.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
-
-const [featured, ...rest] = posts;
 ---
 
-<BaseLayout>
-  <header class="mb-14">
-    <h1 class="font-display text-4xl sm:text-5xl text-ink dark:text-silk carved-heading">Writing</h1>
-    <p class="mt-5 text-ink-light dark:text-silk-muted text-pretty leading-relaxed">
-      Notes on AI, LLMs, RAG, and building things that work.
-    </p>
-  </header>
-
-  {featured && (
-    <PostCard
-      title={featured.data.title}
-      date={featured.data.date}
-      description={featured.data.description}
-      slug={featured.id}
-      tags={featured.data.tags}
-      body={featured.body ?? ''}
-      featured
-    />
-  )}
-
-  <div>
-    {rest.map((post) => (
+<BaseLayout rightSidebar={true}>
+  <div class="space-y-5">
+    {posts.map((post, i) => (
       <PostCard
         title={post.data.title}
         date={post.data.date}
@@ -39,7 +19,11 @@ const [featured, ...rest] = posts;
         slug={post.id}
         tags={post.data.tags}
         body={post.body ?? ''}
+        image={post.data.image}
+        featured={i === 0}
       />
     ))}
   </div>
+
+  <RightSidebar slot="right-sidebar" />
 </BaseLayout>

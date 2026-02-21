@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const recentPosts = posts.slice(0, 5);
+
+const tagCounts: Record<string, number> = {};
+posts.forEach((post) => {
+  post.data.tags.forEach((tag) => {
+    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+  });
+});
+const trendingTags = Object.entries(tagCounts)
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 10);
+---
+
+<aside class="hidden xl:block w-[240px] shrink-0">
+  <div class="sticky top-8 space-y-8">
+    <!-- Recently Updated -->
+    <section>
+      <h3 class="text-sm font-semibold text-ink dark:text-silk mb-3 flex items-center gap-2">
+        <svg class="size-4 text-terra dark:text-terra-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Recently Updated
+      </h3>
+      <ul class="space-y-2">
+        {recentPosts.map((post) => (
+          <li>
+            <a
+              href={`/posts/${post.id}/`}
+              class="text-sm text-ink-light dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors line-clamp-1"
+            >
+              {post.data.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+
+    <!-- Trending Tags -->
+    <section>
+      <h3 class="text-sm font-semibold text-ink dark:text-silk mb-3 flex items-center gap-2">
+        <svg class="size-4 text-gold dark:text-gold-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+        Trending Tags
+      </h3>
+      <div class="flex flex-wrap gap-2">
+        {trendingTags.map(([tag, count]) => (
+          <a
+            href={`/tags/${tag}`}
+            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-mono
+              bg-cream-100 dark:bg-night-800 text-ink-light dark:text-silk-muted
+              hover:bg-terra/10 hover:text-terra dark:hover:bg-terra-light/10 dark:hover:text-terra-light
+              transition-colors"
+          >
+            {tag}
+          </a>
+        ))}
+      </div>
+    </section>
+  </div>
+</aside>

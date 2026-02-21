@@ -8,9 +8,10 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  rightSidebar?: boolean;
 }
 
-const { title, description = SITE_DESCRIPTION, image } = Astro.props;
+const { title, description = SITE_DESCRIPTION, image, rightSidebar = false } = Astro.props;
 const pageTitle = title ? `${title} -- ${SITE_TITLE}` : SITE_TITLE;
 ---
 
@@ -19,41 +20,31 @@ const pageTitle = title ? `${title} -- ${SITE_TITLE}` : SITE_TITLE;
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
 
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="/assets/images/favicon/favicon.ico" />
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png" />
 
-    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Outfit:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
+    <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Outfit:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
 
-    <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={Astro.url} />
     {image && <meta property="og:image" content={new URL(image, SITE_URL)} />}
 
-    <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     {image && <meta name="twitter:image" content={new URL(image, SITE_URL)} />}
 
-    <!-- RSS -->
     <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
 
-    <!-- Theme: apply before paint -->
     <script is:inline>
       ;(function() {
         var t = localStorage.getItem('theme');
@@ -69,13 +60,17 @@ const pageTitle = title ? `${title} -- ${SITE_TITLE}` : SITE_TITLE;
     <Sidebar />
     <MobileNav />
 
-    <main class="lg:ml-[272px] pt-14 lg:pt-0">
-      <div class="max-w-2xl mx-auto px-6 py-12 lg:py-16">
-        <slot />
+    <div class="lg:ml-[260px] pt-14 lg:pt-0">
+      <div class="max-w-6xl mx-auto px-6 py-10 lg:py-14 flex gap-10">
+        <main class="flex-1 min-w-0">
+          <slot />
+        </main>
+        {rightSidebar && (
+          <slot name="right-sidebar" />
+        )}
       </div>
-    </main>
+    </div>
 
-    <!-- Theme toggle script — runs after all components are in the DOM -->
     <script is:inline>
       (function() {
         var btns = document.querySelectorAll('#theme-toggle-desktop, #theme-toggle-mobile');

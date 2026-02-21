@@ -2,28 +2,27 @@
 import { SITE_TITLE, NAV_ITEMS } from '../consts';
 
 const currentPath = Astro.url.pathname;
+// Show subset on mobile to avoid overflow
+const mobileNavItems = NAV_ITEMS.filter(n => ['Home', 'Tags', 'About'].includes(n.label));
 ---
 
-<header class="lg:hidden fixed top-0 left-0 right-0 z-40 border-b border-cream-300 dark:border-night-700"
-  style="background: rgba(253, 249, 241, 0.92); backdrop-filter: blur(12px);">
-  <!-- Top accent line -->
-  <div class="h-0.5" style="background: linear-gradient(to right, #c4623a, #d4a843, #c4623a);" aria-hidden="true"></div>
-
-  <div class="flex items-center justify-between px-4 h-14" style="backdrop-filter: none;">
+<header class="lg:hidden fixed top-0 left-0 right-0 z-40 border-b border-cream-200 dark:border-night-700
+  bg-cream-50/92 dark:bg-night-900/92" style="backdrop-filter: blur(12px);">
+  <div class="flex items-center justify-between px-4 h-14">
     <a href="/" class="flex items-center gap-2.5">
       <img
         src="/assets/images/Profile.jpg"
         alt={SITE_TITLE}
         width="28"
         height="28"
-        class="rounded-full size-7 grayscale object-cover ring-1 ring-terra/20"
+        class="rounded-full size-7 object-cover ring-1 ring-terra/20"
       />
       <span class="font-display text-sm text-ink dark:text-silk">{SITE_TITLE}</span>
     </a>
 
     <div class="flex items-center gap-4">
       <nav class="flex items-center gap-3">
-        {NAV_ITEMS.map(({ label, href }) => {
+        {mobileNavItems.map(({ label, href }) => {
           const isActive = href === '/' ? currentPath === '/' : currentPath.startsWith(href);
           return (
             <a
@@ -34,7 +33,7 @@ const currentPath = Astro.url.pathname;
                   ? 'text-terra dark:text-terra-light font-medium'
                   : 'text-ink-muted dark:text-silk-muted hover:text-ink dark:hover:text-silk',
               ]}
-              style="letter-spacing: 0.12em;"
+              style="letter-spacing: 0.1em;"
             >
               {label}
             </a>
@@ -54,8 +53,3 @@ const currentPath = Astro.url.pathname;
     </div>
   </div>
 </header>
-
-<!-- Dark mode override for mobile nav background -->
-<style>
-  .dark header { background: rgba(21, 17, 30, 0.92) !important; }
-</style>

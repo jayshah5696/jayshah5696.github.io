@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+// Group by year
+const byYear: Record<string, typeof posts> = {};
+posts.forEach((post) => {
+  const year = post.data.date.getFullYear().toString();
+  if (!byYear[year]) byYear[year] = [];
+  byYear[year].push(post);
+});
+
+const years = Object.keys(byYear).sort((a, b) => Number(b) - Number(a));
+---
+
+<BaseLayout title="Archives" description="All posts chronologically">
+  <h1 class="font-display text-3xl text-ink dark:text-silk carved-heading mb-10">Archives</h1>
+
+  {years.map((year) => (
+    <section class="mb-10">
+      <h2 class="font-display text-xl text-terra dark:text-terra-light mb-4">{year}</h2>
+      <ul class="space-y-3 border-l-2 border-cream-200 dark:border-night-700 pl-5">
+        {byYear[year].map((post) => (
+          <li class="relative">
+            <div class="absolute -left-[25px] top-1.5 size-2 rounded-full bg-cream-400 dark:bg-night-700"></div>
+            <a href={`/posts/${post.id}/`} class="group flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4">
+              <span class="font-mono text-xs text-ink-muted dark:text-silk-faint tabular-nums shrink-0">
+                {post.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+              </span>
+              <span class="text-sm text-ink-light dark:text-silk-muted group-hover:text-terra dark:group-hover:text-terra-light transition-colors">
+                {post.data.title}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </section>
+  ))}
+</BaseLayout>
