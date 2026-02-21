@@ -3,7 +3,7 @@
 ## Ready to ship
 - ✅ All 7 blog posts migrated
 - ✅ About page has full content (Skills, Projects, Experience, Education, Patents, Awards, Languages)
-- ✅ Resume PDF linked from about page
+- ✅ Resume linked from about page (cv.jayshah.dev)
 - ✅ Dark mode with localStorage persistence
 - ✅ RSS feed, sitemap, reading time
 - ✅ Clean build: 22 pages, 0 errors, ~1.5s
@@ -82,7 +82,7 @@ In repo **Settings → Pages → Source**, select **"GitHub Actions"**.
 - [ ] Add `/archives/` page — chronological post listing
 - [ ] Add `/projects/` page — dedicated project showcase (currently only in About)
 - [ ] Add `/categories/` page (or merge with Tags if categories aren't used)
-- [ ] Add resume/CV link to sidebar nav
+- [ ] Add CV/resume link to sidebar nav (cv.jayshah.dev)
 - [ ] Add Open Graph images per post (currently only uses `image` frontmatter)
 
 ---

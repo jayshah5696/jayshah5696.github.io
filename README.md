@@ -49,7 +49,7 @@ src/
 public/
 └── assets/
     ├── images/          # Blog images, profile photo, favicons
-    └── pdfs/            # Resume
+    └── pdfs/            # Documents
 ```
 
 ## Adding a New Post
