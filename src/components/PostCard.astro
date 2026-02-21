@@ -19,7 +19,7 @@ const stats = readingTime(body);
 
 {featured ? (
   <article class="group mb-10">
-    <a href={`/posts/${slug}/`} class="block featured-card">
+    <a href={`/posts/${slug}/`} class="block featured-card rangoli-corners">
       <div class="flex items-center gap-3 mb-3">
         <FormattedDate date={date} />
         <span class="text-cream-400 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
@@ -37,9 +37,7 @@ const stats = readingTime(body);
         <TagList tags={tags} />
       </div>
     )}
-    <div class="mt-8 kolam-border">
-      <span class="kolam-motif">◆</span>
-    </div>
+    <div class="mt-8 kolam-border"></div>
   </article>
 ) : (
   <article class="group post-card">

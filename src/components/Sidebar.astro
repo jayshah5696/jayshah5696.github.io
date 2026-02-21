@@ -7,36 +7,34 @@ const currentPath = Astro.url.pathname;
 <aside class="hidden lg:flex flex-col fixed left-0 top-0 bottom-0 w-[272px] z-30 overflow-y-auto
   bg-cream-50 dark:bg-night-900 border-r border-cream-300 dark:border-night-700">
 
-  <!-- Kolam dot pattern -->
+  <!-- Kolam dot grid background -->
   <div class="absolute inset-0 kolam-dots pointer-events-none" aria-hidden="true"></div>
 
-  <!-- Top accent bar: terracotta → gold -->
-  <div class="h-1 shrink-0" style="background: linear-gradient(to right, #c4623a, #d4a843);" aria-hidden="true"></div>
+  <!-- Kolam hero pattern — geometric art at top -->
+  <div class="kolam-hero shrink-0" aria-hidden="true"></div>
 
-  <div class="relative flex flex-col h-full px-6 py-8">
-    <!-- Profile -->
-    <a href="/" class="group flex flex-col items-center text-center mb-5">
-      <div class="relative mb-4">
-        <div class="absolute -inset-2 rounded-full border-2 border-dashed border-gold/30 dark:border-gold-dark/30"></div>
+  <div class="relative flex flex-col flex-1 px-6 py-6">
+    <!-- Profile overlapping the hero -->
+    <a href="/" class="group flex flex-col items-center text-center -mt-14 mb-4">
+      <div class="relative mb-3">
+        <div class="absolute -inset-2.5 rounded-full border-2 border-dashed border-gold/40 dark:border-gold-light/30"></div>
         <img
           src="/assets/images/Profile.jpg"
           alt={SITE_TITLE}
           width="72"
           height="72"
-          class="relative rounded-full size-[72px] object-cover grayscale group-hover:grayscale-0 transition-all duration-500 ring-2 ring-terra/20 dark:ring-terra-light/20"
+          class="relative rounded-full size-[72px] object-cover grayscale group-hover:grayscale-0 transition-all duration-500 ring-2 ring-terra/30 dark:ring-terra-light/30 bg-cream-100 dark:bg-night-800"
         />
       </div>
       <h1 class="font-display text-xl text-ink dark:text-silk">{SITE_TITLE}</h1>
     </a>
 
-    <p class="text-[10px] font-mono text-ink-muted dark:text-silk-muted leading-relaxed uppercase text-center mb-6" style="letter-spacing: 0.12em;">
+    <p class="text-[10px] font-mono text-ink-muted dark:text-silk-muted leading-relaxed uppercase text-center mb-5" style="letter-spacing: 0.12em;">
       {SITE_TAGLINE}
     </p>
 
     <!-- Kolam divider -->
-    <div class="kolam-border mb-4">
-      <span class="kolam-motif">◆</span>
-    </div>
+    <div class="kolam-border mb-5"></div>
 
     <!-- Navigation -->
     <nav class="flex flex-col gap-0.5 mb-8">
@@ -49,7 +47,7 @@ const currentPath = Astro.url.pathname;
               'px-4 py-2.5 text-sm font-body transition-all duration-200 rounded',
               isActive
                 ? 'bg-terra/10 dark:bg-terra-light/10 text-terra dark:text-terra-light font-medium border-l-[3px] border-terra dark:border-terra-light'
-                : 'text-ink-light dark:text-silk-muted hover:text-ink dark:hover:text-silk hover:bg-cream-200/50 dark:hover:bg-night-800/50 border-l-[3px] border-transparent',
+                : 'text-ink-light dark:text-silk-muted hover:text-ink dark:hover:text-silk hover:bg-cream-200/60 dark:hover:bg-night-800/60 border-l-[3px] border-transparent',
             ]}
           >
             {label}
