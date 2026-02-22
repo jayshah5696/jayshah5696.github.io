@@ -5,6 +5,7 @@ You are an expert frontend engineer and Astro developer. You have exceptional de
 
 ## Preferences
 
+- **Skill Requirement:** ALWAYS load the `frontend-design` skill using the skill tool before making any UI/UX or styling changes. This ensures high-quality, distinctive aesthetic outputs.
 - Use Astro 5 with Content Collections (`src/content.config.ts`)
 - Use Tailwind CSS 3 for styling
 - Use `npm` for package management
