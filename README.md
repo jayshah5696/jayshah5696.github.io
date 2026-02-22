@@ -1,6 +1,19 @@
 # jayshah5696.github.io
 
-Personal blog built with [Astro](https://astro.build), Tailwind CSS, and a design system inspired by Indian stepwell architecture and rangoli geometry.
+Personal blog and portfolio built with [Astro](https://astro.build), Tailwind CSS, and a custom design system inspired by Indian Kolam and Rangoli geometry.
+
+**Live Site:** [https://jayshah.dev](https://jayshah.dev)
+
+## Features
+
+- **Custom "Vav" Design System**: Light mode (Kolam) with warm cream/brown ink and dark mode (Rangoli) with deep indigo/vibrant accents
+- **SVG Geometry**: Procedurally generated inline SVG patterns for borders, corners, and hero elements
+- **Color-coded Tags**: Semantic categorization (terra for AI, teal for dev tools, gold for ML, red for personal)
+- **View Transitions**: Smooth, app-like navigation between pages while preserving theme state
+- **Reading Enhancements**: Scroll progress bar, calculated reading time, floating table of contents
+- **Developer Tools**: One-click copy buttons on code blocks with Shiki syntax highlighting
+- **Giscus Comments**: GitHub Discussions-powered comment system on all posts
+- **SEO & Analytics**: Google Analytics (`G-ZQ651N672F`), Open Graph tags, canonical URLs, auto-generated sitemap and RSS feed
 
 ## Quick Start
 
@@ -19,53 +32,20 @@ npm run build
 npm run preview
 ```
 
-## Project Structure
-
-```
-src/
-├── components/          # Astro components
-│   ├── FormattedDate.astro
-│   ├── MobileNav.astro
-│   ├── PostCard.astro
-│   ├── Sidebar.astro
-│   └── TagList.astro
-├── content/
-│   └── blog/            # Markdown blog posts
-├── layouts/
-│   ├── BaseLayout.astro # Root HTML shell
-│   └── PostLayout.astro # Individual post wrapper
-├── pages/
-│   ├── posts/[...slug].astro
-│   ├── tags/[tag].astro
-│   ├── tags/index.astro
-│   ├── about.astro
-│   ├── 404.astro
-│   ├── index.astro
-│   └── rss.xml.ts
-├── styles/
-│   └── global.css       # Tailwind + custom design system
-├── consts.ts            # Site metadata, nav, social links
-└── content.config.ts    # Content collection schema
-public/
-└── assets/
-    ├── images/          # Blog images, profile photo, favicons
-    └── pdfs/            # Documents
-```
-
-## Adding a New Post
+## Writing a New Post
 
 Create a markdown file in `src/content/blog/`:
 
 ```markdown
 ---
 title: "Your Post Title"
-date: 2025-01-15
+date: 2026-05-15
 description: A short description for cards and meta tags.
 image: /assets/images/your-hero.jpg  # optional
 tags:
   - llm
   - rag
-draft: false  # set true to hide from production
+draft: false  # set true to hide from production listings
 ---
 
 Your content here...
@@ -82,39 +62,29 @@ Your content here...
 | `tags`        | `string[]` | no       | Array of tag slugs                   |
 | `draft`       | `boolean`  | no       | If `true`, excluded from production  |
 
-## Routes
+## Design System: "Vav" (Kolam & Rangoli)
 
-| Route              | Description                    |
-|--------------------|--------------------------------|
-| `/`                | Home — post list with featured |
-| `/about`           | About page                     |
-| `/tags`            | Tag index with post counts     |
-| `/tags/[tag]`      | Posts filtered by tag           |
-| `/posts/[slug]/`   | Individual blog post           |
-| `/rss.xml`         | RSS feed                       |
-| `/404`             | Not found page                 |
+The visual identity fuses two elements of Indian art:
 
-## Design System
-
-The visual identity fuses two elements of Indian architecture:
-
-- **Stepwell (Vav)** — layered depth, descending navigation, carved stone typography
-- **Rangoli/Kolam** — geometric dot patterns, multi-color gradient dividers
+- **Light Mode (Kolam):** Warm cream paper (`#fdf9f1`), dark brown ink text (`#2c2416`), delicate woven knot patterns.
+- **Dark Mode (Rangoli):** Deep indigo night (`#15111e`), cream silk text (`#e8e0d4`), vibrant colorful accents.
 
 ### Color Tokens
 
-| Token    | Hex         | Reference                       |
-|----------|-------------|----------------------------------|
-| `sand`   | warm stone  | Rajasthani sandstone             |
-| `carved` | deep shadow | Carved interiors                 |
-| `terra`  | `#c4623a`   | Temple terracotta                |
-| `neel`   | `#2d4a7a`   | Indigo dye                       |
-| `jal`    | `#3a8a7c`   | Stepwell water                   |
-| `haldi`  | `#d4a843`   | Turmeric                         |
+| Token    | Usage                                  |
+|----------|----------------------------------------|
+| `cream`  | Light mode surfaces, borders           |
+| `night`  | Dark mode surfaces, code blocks        |
+| `terra`  | Primary accent (terracotta). Links, AI tags |
+| `mor`    | Peacock teal. Dev tool tags            |
+| `gold`   | Turmeric yellow. ML tags, decorative dots |
+| `kumkum` | Vermilion red. Personal tags           |
+| `ink`    | Light mode text hierarchy              |
+| `silk`   | Dark mode text hierarchy               |
 
 ### Fonts
 
-- **Yeseva One** — display headings (carved inscription weight)
+- **Yeseva One** — display headings (serif)
 - **Outfit** — body text (geometric sans)
 - **Fira Code** — monospace (tags, dates, code)
 
@@ -122,86 +92,34 @@ The visual identity fuses two elements of Indian architecture:
 
 | Class             | Purpose                                    |
 |-------------------|--------------------------------------------|
-| `.rangoli-border` | Tri-color gradient divider between sections |
-| `.kolam-bg`       | Subtle dot-grid background pattern          |
-| `.stepped-card`   | Timeline-style post card with dot marker    |
+| `.kolam-border`   | Horizontal figure-8 woven interlocking pattern |
+| `.kolam-dots`     | Background pattern of dots + grid lines for sidebar |
+| `.kolam-hero`     | Large multi-layered geometric art header |
+| `.rangoli-corners`| Pseudo-elements adding 52px SVG lotus corner ornaments |
+| `.featured-card`  | Card with subtle tiled diamond background pattern |
 | `.carved-heading` | Heading with gradient underline ornament    |
-| `.tag`            | Mono uppercase tag link                     |
+| `.tag-*`          | Color-coded tag pills (`tag-ai`, `tag-dev`, etc.) |
 
 ## Tech Stack
 
-- **Astro 5** — static site generator
-- **Tailwind CSS 3** — utility-first styling
-- **@tailwindcss/typography** — prose styling
+- **Astro 5** — zero-JS static site generator
+- **Tailwind CSS 3** — utility-first styling with custom tokens
+- **@tailwindcss/typography** — prose styling with custom `prose-kolam` theme
 - **MDX** — markdown with components
 - **Shiki** — syntax highlighting (github-light/github-dark)
 - **rehype-slug + rehype-autolink-headings** — auto-linked headings
 - **reading-time** — per-post reading time estimates
-- **@astrojs/sitemap** — auto-generated sitemap
-- **@astrojs/rss** — RSS feed generation
-
-## Dark Mode
-
-Class-based toggle (`dark` on `<html>`), persisted to `localStorage`. Respects `prefers-color-scheme` as default. Flash-free — theme is applied before first paint via inline script in `<head>`.
 
 ## Deployment
 
-This site is configured for GitHub Pages. The build output is in `dist/`.
+This site is configured for GitHub Pages with a custom domain (`jayshah.dev`). 
 
-### GitHub Actions (recommended)
+Deployment is fully automated via GitHub Actions (`.github/workflows/deploy.yml`). Any push to the `master` branch triggers a build and deploy.
 
-Use the official [Astro GitHub Pages deploy action](https://docs.astro.build/en/guides/deploy/github/). Add `.github/workflows/deploy.yml`:
+### Domain Configuration Notes
+- Cloudflare DNS: 4 A records pointing to GitHub IPs (`185.199.108.153` etc.), proxy status set to **DNS only** (grey cloud).
+- GitHub Pages: Source set to "GitHub Actions", Custom domain set to `jayshah.dev` with Enforce HTTPS checked.
+- Root `public/CNAME` file ensures GitHub Pages recognizes the domain during build.
 
-```yaml
-name: Deploy to GitHub Pages
-
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: npm install
-      - run: npm run build
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: dist/
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
-```
-
-### Manual
-
-```bash
-npm run build
-# Upload contents of dist/ to your hosting provider
-```
-
-## Commands
-
-| Command          | Action                                 |
-|------------------|----------------------------------------|
-| `npm run dev`    | Start dev server at `localhost:4321`   |
-| `npm run build`  | Build production site to `dist/`       |
-| `npm run preview`| Preview production build locally       |
-| `npm run astro`  | Run Astro CLI commands                 |
+### Comments Configuration
+Giscus is configured to use the "Announcements" category in GitHub Discussions for this repository. To manage comments, go to the Discussions tab in the GitHub repo.
