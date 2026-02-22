@@ -18,19 +18,42 @@ const { title, date, description, slug, tags, body, image, featured = false } = 
 const stats = readingTime(body);
 ---
 
-<article class="group rounded-xl border border-cream-200 dark:border-night-700 
-  bg-white dark:bg-night-800 hover:shadow-lg hover:border-cream-300 dark:hover:border-night-600
-  transition-all duration-200 overflow-hidden rangoli-corners">
-  <a href={`/posts/${slug}/`} class="flex flex-col sm:flex-row">
+<article class:list={[
+  'group rounded-xl border overflow-hidden transition-all duration-200',
+  featured
+    ? 'featured-card border-terra/20 dark:border-terra-light/15 hover:border-terra dark:hover:border-terra-light hover:shadow-lg rangoli-corners'
+    : 'border-cream-200 dark:border-night-700 bg-white dark:bg-night-800 hover:shadow-lg hover:border-cream-300 dark:hover:border-night-600 rangoli-corners',
+]}>
+  <a href={`/posts/${slug}/`} class:list={[
+    'flex',
+    featured ? 'flex-col' : 'flex-col sm:flex-row',
+  ]}>
+    <!-- Hero image — full width on featured -->
+    {image && featured && (
+      <div class="w-full h-[200px] overflow-hidden">
+        <img
+          src={image}
+          alt={title}
+          class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+        />
+      </div>
+    )}
+
     <!-- Text content -->
-    <div class="flex-1 p-5">
+    <div class:list={['flex-1', featured ? 'p-6' : 'p-5']}>
+      {featured && (
+        <span class="inline-block font-mono text-[10px] uppercase text-terra dark:text-terra-light mb-2 px-2 py-0.5 rounded bg-terra/10 dark:bg-terra-light/10" style="letter-spacing: 0.12em;">Latest</span>
+      )}
       <h2 class:list={[
         'font-display text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-200 text-balance leading-snug',
-        featured ? 'text-xl' : 'text-lg',
+        featured ? 'text-2xl' : 'text-lg',
       ]}>
         {title}
       </h2>
-      <p class="mt-2 text-sm text-ink-light dark:text-silk-muted text-pretty line-clamp-2 leading-relaxed">
+      <p class:list={[
+        'mt-2 text-ink-light dark:text-silk-muted text-pretty leading-relaxed',
+        featured ? 'text-base line-clamp-3' : 'text-sm line-clamp-2',
+      ]}>
         {description}
       </p>
       <div class="flex items-center gap-3 mt-3 text-ink-muted dark:text-silk-faint">
@@ -43,8 +66,8 @@ const stats = readingTime(body);
       </div>
     </div>
 
-    <!-- Hero image -->
-    {image && (
+    <!-- Hero image — sidebar on non-featured -->
+    {image && !featured && (
       <div class="sm:w-[200px] h-[140px] sm:h-auto shrink-0 overflow-hidden">
         <img
           src={image}
@@ -57,7 +80,7 @@ const stats = readingTime(body);
   </a>
 
   {tags.length > 0 && (
-    <div class="px-5 pb-4 -mt-1">
+    <div class:list={[featured ? 'px-6 pb-5' : 'px-5 pb-4', '-mt-1']}>
       <TagList tags={tags} />
     </div>
   )}

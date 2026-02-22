@@ -7,9 +7,27 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('blog'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const totalPosts = posts.length;
 ---
 
 <BaseLayout rightSidebar={true}>
+  <!-- Hero welcome section -->
+  <section class="mb-8">
+    <p class="text-ink-light dark:text-silk-muted text-base leading-relaxed">
+      Writing about <span class="text-terra dark:text-terra-light font-medium">AI</span>,
+      <span class="text-mor dark:text-mor-light font-medium">developer tools</span>, and
+      <span class="text-gold-dark dark:text-gold-light font-medium">machine learning</span>
+      -- from LLMs and RAG to building real systems.
+    </p>
+    <div class="flex items-center gap-3 mt-3">
+      <span class="font-mono text-xs text-ink-faint dark:text-silk-faint uppercase" style="letter-spacing: 0.1em;">{totalPosts} writings</span>
+      <span class="text-cream-300 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
+      <a href="/rss.xml" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">RSS</a>
+    </div>
+    <div class="kolam-border mt-5"></div>
+  </section>
+
   <div class="space-y-5">
     {posts.map((post, i) => (
       <PostCard

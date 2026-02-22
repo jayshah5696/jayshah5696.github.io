@@ -1,8 +1,8 @@
 export const SITE_TITLE = 'Jay Shah';
-export const SITE_TAGLINE = 'Personal Website';
+export const SITE_TAGLINE = 'Data Scientist & AI Engineer';
 export const SITE_DESCRIPTION =
   'Personal blog about AI, Machine Learning, LLMs, RAG, and data science.';
-export const SITE_URL = 'https://jayshah5696.github.io';
+export const SITE_URL = 'https://jayshah.dev';
 
 export const SOCIAL_LINKS = {
   github: 'https://github.com/jayshah5696',
@@ -14,8 +14,8 @@ export const SOCIAL_LINKS = {
 
 export const NAV_ITEMS = [
   { label: 'Home', href: '/', icon: 'home' },
-  { label: 'Tags', href: '/tags', icon: 'tags' },
-  { label: 'Archives', href: '/archives', icon: 'archive' },
   { label: 'About', href: '/about', icon: 'about' },
   { label: 'Projects', href: '/projects', icon: 'projects' },
+  { label: 'Archives', href: '/archives', icon: 'archive' },
+  { label: 'Resume', href: 'https://cv.jayshah.dev', icon: 'resume' },
 ] as const;

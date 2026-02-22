@@ -43,10 +43,40 @@
     @apply rounded-lg !important;
     border: 1px solid #e8dbc0 !important;
     border-top: 3px solid #c4623a !important;
+    position: relative;
   }
   .dark pre {
     border-color: #2a2438 !important;
     border-top-color: #e07a4f !important;
+  }
+
+  /* Copy button on code blocks */
+  pre .copy-code-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-family: 'Fira Code', monospace;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s, background-color 0.2s;
+    background: rgba(196,98,58,0.1);
+    color: #c4623a;
+    border: 1px solid rgba(196,98,58,0.2);
+  }
+  .dark pre .copy-code-btn {
+    background: rgba(224,122,79,0.1);
+    color: #e07a4f;
+    border-color: rgba(224,122,79,0.2);
+  }
+  pre:hover .copy-code-btn { opacity: 1; }
+  pre .copy-code-btn:hover {
+    background: rgba(196,98,58,0.2);
+  }
+  .dark pre .copy-code-btn:hover {
+    background: rgba(224,122,79,0.2);
   }
 
   /* ── PROSE ── */
@@ -102,17 +132,18 @@
 @layer components {
 
   /* ═══════════════════════════════════════
-     KOLAM BORDER — SVG interlocking loops
-     Real geometric pattern, not text chars
+     KOLAM BORDER — figure-8 petal chain
+     Continuous infinity loops: terra upper petals,
+     gold lower petals, diamond knots at crossings
      ═══════════════════════════════════════ */
   .kolam-border {
-    height: 32px;
-    background-image: url("data:image/svg+xml,%3Csvg width='80' height='32' viewBox='0 0 80 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 16 C20 8, 28 0, 40 0 C52 0, 60 8, 60 16 C60 24, 52 32, 40 32 C28 32, 20 24, 20 16Z' fill='none' stroke='%23c4623a' stroke-width='1.2' opacity='0.4'/%3E%3Ccircle cx='40' cy='0' r='2' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='40' cy='32' r='2' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='20' cy='16' r='1.5' fill='%23c4623a' opacity='0.4'/%3E%3Ccircle cx='60' cy='16' r='1.5' fill='%23c4623a' opacity='0.4'/%3E%3C/svg%3E");
+    height: 24px;
+    background-image: url("data:image/svg+xml,%3Csvg width='64' height='24' viewBox='0 0 64 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 12 Q8 0, 16 0 Q24 0, 32 12' fill='none' stroke='%23c4623a' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M0 12 Q8 24, 16 24 Q24 24, 32 12' fill='none' stroke='%23d4a843' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M32 12 Q40 0, 48 0 Q56 0, 64 12' fill='none' stroke='%23c4623a' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M32 12 Q40 24, 48 24 Q56 24, 64 12' fill='none' stroke='%23d4a843' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M-1 12 L2 9 L5 12 L2 15 Z' fill='%23c4623a' fill-opacity='0.15' stroke='%23c4623a' stroke-width='0.6' opacity='0.35'/%3E%3Cpath d='M29 12 L32 9 L35 12 L32 15 Z' fill='%23c4623a' fill-opacity='0.12' stroke='%23c4623a' stroke-width='0.6' opacity='0.4'/%3E%3Ccircle cx='16' cy='0' r='1.5' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='16' cy='24' r='1.5' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='48' cy='0' r='1.5' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='48' cy='24' r='1.5' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='32' cy='12' r='1.5' fill='%23c4623a' opacity='0.3'/%3E%3C/svg%3E");
     background-repeat: repeat-x;
     background-position: center;
   }
   .dark .kolam-border {
-    background-image: url("data:image/svg+xml,%3Csvg width='80' height='32' viewBox='0 0 80 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20 16 C20 8, 28 0, 40 0 C52 0, 60 8, 60 16 C60 24, 52 32, 40 32 C28 32, 20 24, 20 16Z' fill='none' stroke='%23e07a4f' stroke-width='1.2' opacity='0.35'/%3E%3Ccircle cx='40' cy='0' r='2' fill='%23e8c462' opacity='0.4'/%3E%3Ccircle cx='40' cy='32' r='2' fill='%23e8c462' opacity='0.4'/%3E%3Ccircle cx='20' cy='16' r='1.5' fill='%23e07a4f' opacity='0.35'/%3E%3Ccircle cx='60' cy='16' r='1.5' fill='%23e07a4f' opacity='0.35'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg width='64' height='24' viewBox='0 0 64 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 12 Q8 0, 16 0 Q24 0, 32 12' fill='none' stroke='%23e07a4f' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M0 12 Q8 24, 16 24 Q24 24, 32 12' fill='none' stroke='%23e8c462' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M32 12 Q40 0, 48 0 Q56 0, 64 12' fill='none' stroke='%23e07a4f' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M32 12 Q40 24, 48 24 Q56 24, 64 12' fill='none' stroke='%23e8c462' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M-1 12 L2 9 L5 12 L2 15 Z' fill='%23e07a4f' fill-opacity='0.15' stroke='%23e07a4f' stroke-width='0.6' opacity='0.35'/%3E%3Cpath d='M29 12 L32 9 L35 12 L32 15 Z' fill='%23e07a4f' fill-opacity='0.12' stroke='%23e07a4f' stroke-width='0.6' opacity='0.4'/%3E%3Ccircle cx='16' cy='0' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='16' cy='24' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='48' cy='0' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='48' cy='24' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='32' cy='12' r='1.5' fill='%23e07a4f' opacity='0.3'/%3E%3C/svg%3E");
   }
 
   /* ═══════════════════════════════════════
@@ -137,8 +168,9 @@
   }
 
   /* ═══════════════════════════════════════
-     RANGOLI CORNER — SVG petal/lotus motif
-     Used on featured card corners
+     RANGOLI CORNER — lotus petal motif
+     Multiple layered curves radiating from corner
+     with dot accents — like a quarter-rangoli bloom
      ═══════════════════════════════════════ */
   .rangoli-corners {
     position: relative;
@@ -147,9 +179,9 @@
   .rangoli-corners::after {
     content: '';
     position: absolute;
-    width: 48px;
-    height: 48px;
-    background-image: url("data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 C0 0, 24 4, 24 24' fill='none' stroke='%23c4623a' stroke-width='1' opacity='0.3'/%3E%3Cpath d='M0 0 C4 0, 4 24, 24 24' fill='none' stroke='%23d4a843' stroke-width='1' opacity='0.25'/%3E%3Ccircle cx='4' cy='4' r='2.5' fill='%23c4623a' opacity='0.35'/%3E%3Ccircle cx='12' cy='12' r='1.5' fill='%23d4a843' opacity='0.3'/%3E%3C/svg%3E");
+    width: 52px;
+    height: 52px;
+    background-image: url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3C!-- Outer petal arc --%3E%3Cpath d='M2 2 Q2 28, 28 28' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.25'/%3E%3C!-- Middle petal arc --%3E%3Cpath d='M2 2 Q2 20, 20 20' fill='none' stroke='%23d4a843' stroke-width='0.8' opacity='0.3'/%3E%3C!-- Inner petal arc --%3E%3Cpath d='M2 2 Q2 12, 12 12' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.35'/%3E%3C!-- Diagonal spine --%3E%3Cpath d='M3 3 L22 22' fill='none' stroke='%23c4623a' stroke-width='0.6' opacity='0.15'/%3E%3C!-- Curved petals along diagonal --%3E%3Cpath d='M6 2 Q10 6, 6 10' fill='none' stroke='%23d4a843' stroke-width='0.7' opacity='0.3'/%3E%3Cpath d='M2 6 Q6 10, 10 6' fill='none' stroke='%23c4623a' stroke-width='0.7' opacity='0.25'/%3E%3C!-- Dots at intersections --%3E%3Ccircle cx='3' cy='3' r='2.5' fill='%23c4623a' opacity='0.35'/%3E%3Ccircle cx='10' cy='10' r='1.5' fill='%23d4a843' opacity='0.35'/%3E%3Ccircle cx='18' cy='18' r='1' fill='%23c4623a' opacity='0.25'/%3E%3Ccircle cx='6' cy='2' r='1' fill='%23d4a843' opacity='0.25'/%3E%3Ccircle cx='2' cy='6' r='1' fill='%23d4a843' opacity='0.25'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     pointer-events: none;
   }
@@ -162,25 +194,26 @@
   }
   .dark .rangoli-corners::before,
   .dark .rangoli-corners::after {
-    background-image: url("data:image/svg+xml,%3Csvg width='48' height='48' viewBox='0 0 48 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0 C0 0, 24 4, 24 24' fill='none' stroke='%23e07a4f' stroke-width='1' opacity='0.3'/%3E%3Cpath d='M0 0 C4 0, 4 24, 24 24' fill='none' stroke='%23e8c462' stroke-width='1' opacity='0.25'/%3E%3Ccircle cx='4' cy='4' r='2.5' fill='%23e07a4f' opacity='0.35'/%3E%3Ccircle cx='12' cy='12' r='1.5' fill='%23e8c462' opacity='0.3'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2 Q2 28, 28 28' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.25'/%3E%3Cpath d='M2 2 Q2 20, 20 20' fill='none' stroke='%23e8c462' stroke-width='0.8' opacity='0.3'/%3E%3Cpath d='M2 2 Q2 12, 12 12' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.35'/%3E%3Cpath d='M3 3 L22 22' fill='none' stroke='%23e07a4f' stroke-width='0.6' opacity='0.15'/%3E%3Cpath d='M6 2 Q10 6, 6 10' fill='none' stroke='%23e8c462' stroke-width='0.7' opacity='0.3'/%3E%3Cpath d='M2 6 Q6 10, 10 6' fill='none' stroke='%23e07a4f' stroke-width='0.7' opacity='0.25'/%3E%3Ccircle cx='3' cy='3' r='2.5' fill='%23e07a4f' opacity='0.35'/%3E%3Ccircle cx='10' cy='10' r='1.5' fill='%23e8c462' opacity='0.35'/%3E%3Ccircle cx='18' cy='18' r='1' fill='%23e07a4f' opacity='0.25'/%3E%3Ccircle cx='6' cy='2' r='1' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='2' cy='6' r='1' fill='%23e8c462' opacity='0.25'/%3E%3C/svg%3E");
   }
 
   /* ═══════════════════════════════════════
      SIDEBAR HERO PATTERN — large kolam motif
-     Visible geometric art at top of sidebar
+     Multi-layered geometric art: nested diamonds,
+     petal arcs, lotus curves, and dot grid
      ═══════════════════════════════════════ */
   .kolam-hero {
     height: 120px;
     background-color: rgba(196,98,58,0.06);
-    background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3C!-- Central diamond --%3E%3Crect x='42' y='42' width='36' height='36' rx='2' fill='none' stroke='%23c4623a' stroke-width='1.5' opacity='0.2' transform='rotate(45 60 60)'/%3E%3C!-- Outer diamond --%3E%3Crect x='30' y='30' width='60' height='60' rx='2' fill='none' stroke='%23d4a843' stroke-width='1' opacity='0.15' transform='rotate(45 60 60)'/%3E%3C!-- Corner dots --%3E%3Ccircle cx='60' cy='18' r='3' fill='%23c4623a' opacity='0.25'/%3E%3Ccircle cx='60' cy='102' r='3' fill='%23c4623a' opacity='0.25'/%3E%3Ccircle cx='18' cy='60' r='3' fill='%23c4623a' opacity='0.25'/%3E%3Ccircle cx='102' cy='60' r='3' fill='%23c4623a' opacity='0.25'/%3E%3C!-- Center dot --%3E%3Ccircle cx='60' cy='60' r='4' fill='%23d4a843' opacity='0.3'/%3E%3C!-- Curves --%3E%3Cpath d='M60 18 Q85 35, 102 60' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M102 60 Q85 85, 60 102' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M60 102 Q35 85, 18 60' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M18 60 Q35 35, 60 18' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.15'/%3E%3C!-- Petal arcs --%3E%3Cpath d='M60 30 Q75 45, 60 60' fill='none' stroke='%23d4a843' stroke-width='0.8' opacity='0.2'/%3E%3Cpath d='M60 60 Q75 75, 60 90' fill='none' stroke='%23d4a843' stroke-width='0.8' opacity='0.2'/%3E%3Cpath d='M30 60 Q45 45, 60 60' fill='none' stroke='%23d4a843' stroke-width='0.8' opacity='0.2'/%3E%3Cpath d='M60 60 Q45 75, 30 60' fill='none' stroke='%23d4a843' stroke-width='0.8' opacity='0.2'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg width='180' height='120' viewBox='0 0 180 120' xmlns='http://www.w3.org/2000/svg'%3E%3C!-- Outer diamond --%3E%3Crect x='48' y='18' width='84' height='84' rx='2' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.12' transform='rotate(45 90 60)'/%3E%3C!-- Middle diamond --%3E%3Crect x='58' y='28' width='64' height='64' rx='2' fill='none' stroke='%23d4a843' stroke-width='1' opacity='0.15' transform='rotate(45 90 60)'/%3E%3C!-- Inner diamond --%3E%3Crect x='70' y='40' width='40' height='40' rx='2' fill='none' stroke='%23c4623a' stroke-width='1.5' opacity='0.2' transform='rotate(45 90 60)'/%3E%3C!-- Cardinal dots --%3E%3Ccircle cx='90' cy='6' r='3' fill='%23c4623a' opacity='0.3'/%3E%3Ccircle cx='90' cy='114' r='3' fill='%23c4623a' opacity='0.2'/%3E%3Ccircle cx='30' cy='60' r='3' fill='%23c4623a' opacity='0.2'/%3E%3Ccircle cx='150' cy='60' r='3' fill='%23c4623a' opacity='0.2'/%3E%3C!-- Center dot cluster --%3E%3Ccircle cx='90' cy='60' r='4' fill='%23d4a843' opacity='0.3'/%3E%3Ccircle cx='90' cy='60' r='8' fill='none' stroke='%23d4a843' stroke-width='0.6' opacity='0.15'/%3E%3C!-- Connecting curves: cardinal to center --%3E%3Cpath d='M90 6 Q115 25, 150 60' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M150 60 Q115 95, 90 114' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M90 114 Q65 95, 30 60' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M30 60 Q65 25, 90 6' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.15'/%3E%3C!-- Petal arcs: lotus petals around center --%3E%3Cpath d='M90 28 Q105 44, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 28 Q75 44, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 92 Q105 76, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 92 Q75 76, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M58 60 Q74 45, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M58 60 Q74 75, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M122 60 Q106 45, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M122 60 Q106 75, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3C!-- Diagonal accent dots --%3E%3Ccircle cx='58' cy='28' r='1.5' fill='%23d4a843' opacity='0.25'/%3E%3Ccircle cx='122' cy='28' r='1.5' fill='%23d4a843' opacity='0.25'/%3E%3Ccircle cx='58' cy='92' r='1.5' fill='%23d4a843' opacity='0.25'/%3E%3Ccircle cx='122' cy='92' r='1.5' fill='%23d4a843' opacity='0.25'/%3E%3C!-- Petal tips --%3E%3Ccircle cx='90' cy='28' r='2' fill='%23c4623a' opacity='0.25'/%3E%3Ccircle cx='90' cy='92' r='2' fill='%23c4623a' opacity='0.2'/%3E%3Ccircle cx='58' cy='60' r='2' fill='%23c4623a' opacity='0.2'/%3E%3Ccircle cx='122' cy='60' r='2' fill='%23c4623a' opacity='0.2'/%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 120px 120px;
+    background-size: 180px 120px;
     border-bottom: 1px solid rgba(196,98,58,0.15);
   }
   .dark .kolam-hero {
     background-color: rgba(224,122,79,0.04);
-    background-image: url("data:image/svg+xml,%3Csvg width='120' height='120' viewBox='0 0 120 120' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='42' y='42' width='36' height='36' rx='2' fill='none' stroke='%23e07a4f' stroke-width='1.5' opacity='0.2' transform='rotate(45 60 60)'/%3E%3Crect x='30' y='30' width='60' height='60' rx='2' fill='none' stroke='%23e8c462' stroke-width='1' opacity='0.15' transform='rotate(45 60 60)'/%3E%3Ccircle cx='60' cy='18' r='3' fill='%23e07a4f' opacity='0.25'/%3E%3Ccircle cx='60' cy='102' r='3' fill='%23e07a4f' opacity='0.25'/%3E%3Ccircle cx='18' cy='60' r='3' fill='%23e07a4f' opacity='0.25'/%3E%3Ccircle cx='102' cy='60' r='3' fill='%23e07a4f' opacity='0.25'/%3E%3Ccircle cx='60' cy='60' r='4' fill='%23e8c462' opacity='0.3'/%3E%3Cpath d='M60 18 Q85 35, 102 60' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M102 60 Q85 85, 60 102' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M60 102 Q35 85, 18 60' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M18 60 Q35 35, 60 18' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M60 30 Q75 45, 60 60' fill='none' stroke='%23e8c462' stroke-width='0.8' opacity='0.2'/%3E%3Cpath d='M60 60 Q75 75, 60 90' fill='none' stroke='%23e8c462' stroke-width='0.8' opacity='0.2'/%3E%3Cpath d='M30 60 Q45 45, 60 60' fill='none' stroke='%23e8c462' stroke-width='0.8' opacity='0.2'/%3E%3Cpath d='M60 60 Q45 75, 30 60' fill='none' stroke='%23e8c462' stroke-width='0.8' opacity='0.2'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg width='180' height='120' viewBox='0 0 180 120' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='48' y='18' width='84' height='84' rx='2' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.12' transform='rotate(45 90 60)'/%3E%3Crect x='58' y='28' width='64' height='64' rx='2' fill='none' stroke='%23e8c462' stroke-width='1' opacity='0.15' transform='rotate(45 90 60)'/%3E%3Crect x='70' y='40' width='40' height='40' rx='2' fill='none' stroke='%23e07a4f' stroke-width='1.5' opacity='0.2' transform='rotate(45 90 60)'/%3E%3Ccircle cx='90' cy='6' r='3' fill='%23e07a4f' opacity='0.3'/%3E%3Ccircle cx='90' cy='114' r='3' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='30' cy='60' r='3' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='150' cy='60' r='3' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='90' cy='60' r='4' fill='%23e8c462' opacity='0.3'/%3E%3Ccircle cx='90' cy='60' r='8' fill='none' stroke='%23e8c462' stroke-width='0.6' opacity='0.15'/%3E%3Cpath d='M90 6 Q115 25, 150 60' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M150 60 Q115 95, 90 114' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M90 114 Q65 95, 30 60' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M30 60 Q65 25, 90 6' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M90 28 Q105 44, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 28 Q75 44, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 92 Q105 76, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 92 Q75 76, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M58 60 Q74 45, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M58 60 Q74 75, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M122 60 Q106 45, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M122 60 Q106 75, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Ccircle cx='58' cy='28' r='1.5' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='122' cy='28' r='1.5' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='58' cy='92' r='1.5' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='122' cy='92' r='1.5' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='90' cy='28' r='2' fill='%23e07a4f' opacity='0.25'/%3E%3Ccircle cx='90' cy='92' r='2' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='58' cy='60' r='2' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='122' cy='60' r='2' fill='%23e07a4f' opacity='0.2'/%3E%3C/svg%3E");
     border-bottom-color: rgba(224,122,79,0.1);
   }
 
@@ -239,7 +272,8 @@
   }
 
   /* ═══════════════════════════════════════
-     TAG
+     TAG — base + color-coded variants
+     Using full Vav palette: terra, mor, gold, kumkum
      ═══════════════════════════════════════ */
   .tag {
     @apply text-xs font-mono uppercase transition-colors duration-200;
@@ -249,6 +283,46 @@
   .tag:hover { color: #c4623a; }
   .dark .tag { color: #a89e8e; }
   .dark .tag:hover { color: #e07a4f; }
+
+  /* AI/LLM tags — terra (terracotta) */
+  .tag-ai {
+    @apply text-xs font-mono uppercase transition-colors duration-200;
+    letter-spacing: 0.08em;
+    color: #c4623a;
+  }
+  .tag-ai:hover { color: #a34e2d; }
+  .dark .tag-ai { color: #e07a4f; }
+  .dark .tag-ai:hover { color: #f0a070; }
+
+  /* Dev tools tags — mor (peacock teal) */
+  .tag-dev {
+    @apply text-xs font-mono uppercase transition-colors duration-200;
+    letter-spacing: 0.08em;
+    color: #1a8a7a;
+  }
+  .tag-dev:hover { color: #147062; }
+  .dark .tag-dev { color: #2ec4b6; }
+  .dark .tag-dev:hover { color: #5dd8cc; }
+
+  /* ML/Research tags — gold (haldi) */
+  .tag-ml {
+    @apply text-xs font-mono uppercase transition-colors duration-200;
+    letter-spacing: 0.08em;
+    color: #b08a2e;
+  }
+  .tag-ml:hover { color: #8a6c20; }
+  .dark .tag-ml { color: #e8c462; }
+  .dark .tag-ml:hover { color: #f0d480; }
+
+  /* Personal/Spiritual tags — kumkum (vermilion red) */
+  .tag-personal {
+    @apply text-xs font-mono uppercase transition-colors duration-200;
+    letter-spacing: 0.08em;
+    color: #c0392b;
+  }
+  .tag-personal:hover { color: #962d22; }
+  .dark .tag-personal { color: #e74c3c; }
+  .dark .tag-personal:hover { color: #f07060; }
 
   /* ═══════════════════════════════════════
      PAGE BACKGROUND PATTERN

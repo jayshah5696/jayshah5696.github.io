@@ -16,6 +16,26 @@ posts.forEach((post) => {
 const trendingTags = Object.entries(tagCounts)
   .sort((a, b) => b[1] - a[1])
   .slice(0, 10);
+
+// Color-code tags by category
+const AI_TAGS = ['gen-ai', 'llm', 'rag', 'ai-agents', 'prompt'];
+const DEV_TAGS = ['coding-tools', 'developer-tools', 'pi-coding-agent', 'typescript'];
+const ML_TAGS = ['ml', 'fine-tuning', 'nlp', 'analytics', 'statistics', 'qc', 'research', 'energy'];
+const PERSONAL_TAGS = ['spiritual', 'personal'];
+
+function getTagClasses(tag: string): string {
+  const t = tag.toLowerCase();
+  const base = 'inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-mono transition-colors';
+  if (AI_TAGS.includes(t))
+    return `${base} bg-terra/10 dark:bg-terra-light/10 text-terra dark:text-terra-light hover:bg-terra/20 dark:hover:bg-terra-light/20`;
+  if (DEV_TAGS.includes(t))
+    return `${base} bg-mor/10 dark:bg-mor-light/10 text-mor dark:text-mor-light hover:bg-mor/20 dark:hover:bg-mor-light/20`;
+  if (ML_TAGS.includes(t))
+    return `${base} bg-gold/10 dark:bg-gold-light/10 text-gold-dark dark:text-gold-light hover:bg-gold/20 dark:hover:bg-gold-light/20`;
+  if (PERSONAL_TAGS.includes(t))
+    return `${base} bg-kumkum/10 dark:bg-kumkum-light/10 text-kumkum dark:text-kumkum-light hover:bg-kumkum/20 dark:hover:bg-kumkum-light/20`;
+  return `${base} bg-cream-100 dark:bg-night-800 text-ink-light dark:text-silk-muted hover:bg-terra/10 hover:text-terra dark:hover:bg-terra-light/10 dark:hover:text-terra-light`;
+}
 ---
 
 <aside class="hidden xl:block w-[240px] shrink-0">
@@ -50,10 +70,7 @@ const trendingTags = Object.entries(tagCounts)
         {trendingTags.map(([tag, count]) => (
           <a
             href={`/tags/${tag}`}
-            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-mono
-              bg-cream-100 dark:bg-night-800 text-ink-light dark:text-silk-muted
-              hover:bg-terra/10 hover:text-terra dark:hover:bg-terra-light/10 dark:hover:text-terra-light
-              transition-colors"
+            class={getTagClasses(tag)}
           >
             {tag}
           </a>

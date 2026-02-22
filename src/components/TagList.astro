@@ -4,13 +4,28 @@ interface Props {
 }
 
 const { tags } = Astro.props;
+
+// Color-code tags by category using the full Vav palette
+const AI_TAGS = ['gen-ai', 'llm', 'rag', 'ai-agents', 'prompt'];
+const DEV_TAGS = ['coding-tools', 'developer-tools', 'pi-coding-agent', 'typescript'];
+const ML_TAGS = ['ml', 'fine-tuning', 'nlp', 'analytics', 'statistics', 'qc', 'research', 'energy'];
+const PERSONAL_TAGS = ['spiritual', 'personal'];
+
+function getTagColorClass(tag: string): string {
+  const t = tag.toLowerCase();
+  if (AI_TAGS.includes(t)) return 'tag-ai';
+  if (DEV_TAGS.includes(t)) return 'tag-dev';
+  if (ML_TAGS.includes(t)) return 'tag-ml';
+  if (PERSONAL_TAGS.includes(t)) return 'tag-personal';
+  return 'tag';
+}
 ---
 
 {tags.length > 0 && (
   <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
     {tags.map((tag, i) => (
       <>
-        <a href={`/tags/${tag}`} class="tag">{tag}</a>
+        <a href={`/tags/${tag}`} class={getTagColorClass(tag)}>{tag}</a>
         {i < tags.length - 1 && (
           <span class="text-cream-400 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
         )}

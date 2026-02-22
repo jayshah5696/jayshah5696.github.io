@@ -1,9 +1,10 @@
 ---
 import { SITE_TITLE, NAV_ITEMS } from '../consts';
+import NavIcon from './NavIcon.astro';
 
 const currentPath = Astro.url.pathname;
-// Show subset on mobile to avoid overflow
-const mobileNavItems = NAV_ITEMS.filter(n => ['Home', 'Tags', 'About'].includes(n.label));
+// Quick links shown inline on the header bar
+const inlineNavItems = NAV_ITEMS.filter(n => ['Home', 'About', 'Projects'].includes(n.label));
 ---
 
 <header class="lg:hidden fixed top-0 left-0 right-0 z-40 border-b border-cream-200 dark:border-night-700
@@ -20,9 +21,9 @@ const mobileNavItems = NAV_ITEMS.filter(n => ['Home', 'Tags', 'About'].includes(
       <span class="font-display text-sm text-ink dark:text-silk">{SITE_TITLE}</span>
     </a>
 
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-3">
       <nav class="flex items-center gap-3">
-        {mobileNavItems.map(({ label, href }) => {
+        {inlineNavItems.map(({ label, href }) => {
           const isActive = href === '/' ? currentPath === '/' : currentPath.startsWith(href);
           return (
             <a
@@ -50,6 +51,49 @@ const mobileNavItems = NAV_ITEMS.filter(n => ['Home', 'Tags', 'About'].includes(
         <svg class="size-4 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
         <svg class="size-4 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
       </button>
+
+      <!-- Hamburger menu button -->
+      <button
+        id="mobile-menu-toggle"
+        type="button"
+        class="text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors cursor-pointer"
+        aria-label="Open menu"
+      >
+        <svg class="size-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+      </button>
     </div>
   </div>
+
+  <!-- Slide-down mobile menu -->
+  <nav
+    id="mobile-menu"
+    class="hidden border-t border-cream-200 dark:border-night-700 bg-cream-50/98 dark:bg-night-900/98 px-4 py-3"
+    style="backdrop-filter: blur(12px);"
+  >
+    <div class="flex flex-col gap-1">
+      {NAV_ITEMS.map(({ label, href, icon }) => {
+        const isExternal = href.startsWith('http');
+        const isActive = isExternal ? false : (href === '/' ? currentPath === '/' : currentPath.startsWith(href));
+        return (
+          <a
+            href={href}
+            {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            class:list={[
+              'flex items-center gap-3 px-3 py-2 text-sm font-body rounded-lg transition-all duration-200',
+              isActive
+                ? 'bg-terra/10 dark:bg-terra-light/10 text-terra dark:text-terra-light font-medium'
+                : 'text-ink-light dark:text-silk-muted hover:text-ink dark:hover:text-silk hover:bg-cream-100 dark:hover:bg-night-800',
+            ]}
+          >
+            <NavIcon icon={icon} />
+            {label}
+            {isExternal && (
+              <svg class="size-3 ml-auto opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            )}
+          </a>
+        );
+      })}
+    </div>
+  </nav>
 </header>
+

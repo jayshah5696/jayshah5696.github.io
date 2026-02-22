@@ -6,7 +6,7 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 
 export default defineConfig({
-  site: 'https://jayshah5696.github.io',
+  site: 'https://jayshah.dev',
   integrations: [tailwind(), mdx(), sitemap()],
   markdown: {
     shikiConfig: {
