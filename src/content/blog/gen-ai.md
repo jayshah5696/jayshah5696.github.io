@@ -1,0 +1,23 @@
+---
+title: Euphoria of Gen AI
+date: 2024-02-26
+image: /assets/images/euphoria-gen-ai.jpeg
+tags:
+  - llm
+  - gen-ai
+description: Gen AI and its euphoria
+---
+
+<img src="/assets/images/euphoria-gen-ai.jpeg" alt="Gen AI and its euphoria" width="450" height="300" style="display: block; margin-left: auto; margin-right: auto;"/>
+
+**ChatGPT arrived over a year ago**, and the world of technology has been irrevocably changed. Generative AI has sparked a major shake-up, and we are only beginning to grasp the extent of its impact on our lives.
+
+This new technology is not only exciting but also promising. Companies are emerging or rapidly pivoting to leverage generative AI, affecting everything from language translation to online searching. Many creative professions are undergoing disruption. One of its most significant promises is to **enhance our productivity**, a potential that tools like [GitHub Copilot](https://github.blog/2021-06-29-introducing-github-copilot-ai-pair-programmer/) had already hinted at before the explosion of generative AI.
+
+Businesses are exploring new tools and concepts, leading to swift increases in market values. The year 2023 witnessed the rapid growth of certain companies' market shares. However, data has become more crucial than ever, aiming to personalize experiences. Consequently, entities are hoarding data, intent on safeguarding this valuable commodity (e.g., [Twitter](https://www.theverge.com/2023/3/30/23662832/twitter-api-tiers-free-bot-novelty-accounts-basic-enterprice-monthly-price), [Reddit](https://www.techtarget.com/whatis/feature/Reddit-pricing-API-charge-explained) increasing API prices).
+
+Despite the flurry of activity, discerning tangible differences can sometimes be challenging. For example, many platforms offer similar user interfaces from OpenAI but with different models operating behind the scenes, such as Gemini and Mistral. RAG (Retrieval-Augmented Generation) application tools have also become ubiquitous (e.g., [Adobe RAG tool](https://news.adobe.com/news/news-details/2024/Adobe-Brings-Conversational-AI-to-Trillions-of-PDFs-with-the-New-AI-Assistant-in-Reader-and-Acrobat/default.aspx), [Nvidia RAG](https://www.zdnet.com/article/nvidias-new-ai-chatbot-runs-locally-on-your-pc-and-its-free/)), and it seems every company is looking to capture a \$20 monthly subscription fee OpenAI, Gemini, Perplexity. But why \$20 and not \$10?
+
+These AI-powered tools are set to become a routine part of our daily lives, with digital assistants tailored to our personal and professional environments. If all competitors target identical use cases and market strategies, the landscape could become saturated. **Will the thousands of companies currently in existence still be around?** The upcoming days promise to be fascinating.
+
+In conclusion, **Generative AI is here to stay**, poised to fundamentally alter our work and lifestyle. Its adoption will be as widespread and rapid as that of our smartphones, signifying not just a technological revolution but also a gateway to building a better, more thrilling future.

@@ -1,0 +1,210 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About" description="About Jay Shah — Lead Data Scientist, LLM/RAG Expert, AI Solutions Architect">
+  <article class="prose prose-kolam dark:prose-invert prose-lg max-w-none">
+    <header class="not-prose mb-12">
+      <div class="flex items-start gap-6 mb-6">
+        <!-- Profile photo with ornate kolam frame -->
+        <div class="relative shrink-0">
+          <!-- Outer decorative ring: kolam petal arcs -->
+          <div class="absolute -inset-5 rounded-full" aria-hidden="true">
+            <svg class="size-full" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Rotating petal arcs around the circle -->
+              <circle cx="60" cy="60" r="56" stroke="currentColor" stroke-width="0.5" class="text-terra/15 dark:text-terra-light/15"/>
+              <!-- Cardinal dots -->
+              <circle cx="60" cy="3" r="2.5" class="fill-terra/30 dark:fill-terra-light/30"/>
+              <circle cx="60" cy="117" r="2.5" class="fill-terra/30 dark:fill-terra-light/30"/>
+              <circle cx="3" cy="60" r="2.5" class="fill-terra/30 dark:fill-terra-light/30"/>
+              <circle cx="117" cy="60" r="2.5" class="fill-terra/30 dark:fill-terra-light/30"/>
+              <!-- Diagonal dots -->
+              <circle cx="18" cy="18" r="1.5" class="fill-gold/35 dark:fill-gold-light/35"/>
+              <circle cx="102" cy="18" r="1.5" class="fill-gold/35 dark:fill-gold-light/35"/>
+              <circle cx="18" cy="102" r="1.5" class="fill-gold/35 dark:fill-gold-light/35"/>
+              <circle cx="102" cy="102" r="1.5" class="fill-gold/35 dark:fill-gold-light/35"/>
+              <!-- Petal curves between dots -->
+              <path d="M60 3 Q80 15, 102 18" stroke="currentColor" stroke-width="0.7" class="text-gold/25 dark:text-gold-light/25"/>
+              <path d="M102 18 Q115 40, 117 60" stroke="currentColor" stroke-width="0.7" class="text-gold/25 dark:text-gold-light/25"/>
+              <path d="M117 60 Q115 80, 102 102" stroke="currentColor" stroke-width="0.7" class="text-gold/25 dark:text-gold-light/25"/>
+              <path d="M102 102 Q80 115, 60 117" stroke="currentColor" stroke-width="0.7" class="text-gold/25 dark:text-gold-light/25"/>
+              <path d="M60 117 Q40 115, 18 102" stroke="currentColor" stroke-width="0.7" class="text-gold/25 dark:text-gold-light/25"/>
+              <path d="M18 102 Q5 80, 3 60" stroke="currentColor" stroke-width="0.7" class="text-gold/25 dark:text-gold-light/25"/>
+              <path d="M3 60 Q5 40, 18 18" stroke="currentColor" stroke-width="0.7" class="text-gold/25 dark:text-gold-light/25"/>
+              <path d="M18 18 Q40 5, 60 3" stroke="currentColor" stroke-width="0.7" class="text-gold/25 dark:text-gold-light/25"/>
+            </svg>
+          </div>
+          <!-- Inner dashed ring -->
+          <div class="absolute -inset-2 rounded-full border-2 border-dashed border-gold/30 dark:border-gold-light/25"></div>
+          <img
+            src="/assets/images/Profile.jpg"
+            alt="Jay Shah"
+            width="88"
+            height="88"
+            class="relative rounded-full size-[88px] object-cover ring-2 ring-white dark:ring-night-800 shadow-lg"
+          />
+        </div>
+        <div class="pt-2">
+          <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">Jay Shah</h1>
+          <p class="font-mono text-[10px] uppercase text-ink-muted dark:text-silk-muted mt-4" style="letter-spacing: 0.12em;">
+            Lead Data Scientist &bull; LLM/RAG &bull; AI Solutions Architect
+          </p>
+        </div>
+      </div>
+    </header>
+
+    <h2>My Journey in Data Science and AI</h2>
+
+    <p>
+      With over seven years of experience in the field, I'm passionate about using data and AI to create a better, more sustainable future. I thrive in environments that value innovation and progress, and I find immense satisfaction in tackling complex challenges and transforming them into impactful solutions.
+    </p>
+
+    <p>
+      Currently, I'm leading AI efforts at <a href="https://avathon.com">Avathon</a>, where I've led the development of industry-relevant foundation-model MLops platforms, built agent platforms with MCP tools, and launched RAG compliance solutions. My work has resulted in significant improvements including 45% faster release times, 25% reduction in false positives, and over $500k in customer savings through anomaly detection systems.
+    </p>
+
+    <p>
+      Before my current role, I developed my skills at Texas A&M University, researching machine learning to predict wind energy system failures under Dr. Yu Ding. I also gained experience at Utilities and Energy Services, creating weather-controlled baseline regression models for digitally metered utilities.
+    </p>
+
+    <p>
+      I'm passionate about using AI for positive change. My goal is to build AI solutions that make the world better, especially in areas like sustainability. I served as a Data Ambassador at DataKind, where I collaborated with John Jay College to develop machine learning models for predicting student dropout.
+    </p>
+
+    <p>I'm eager to connect with others passionate about data and AI. Let's collaborate to drive positive change with data-driven solutions.</p>
+
+    <h2>Skills</h2>
+
+    <div class="not-prose space-y-6">
+      <!-- Data Science & ML -->
+      <div>
+        <h3 class="font-display text-lg text-ink dark:text-silk mb-3">Data Science & Machine Learning</h3>
+        <div class="flex flex-wrap gap-2">
+          {['Predictive Modeling', 'Time Series Forecasting', 'Anomaly Detection', 'Deep Learning', 'CNN', 'RNN', 'LSTM', 'Transformers', 'LLM Fine-tuning', 'RAG', 'AI Agents', 'Hyperparameter Tuning', 'Feature Engineering'].map(skill => (
+            <span class="inline-block px-3 py-1.5 text-xs font-mono rounded-lg bg-terra/10 dark:bg-terra-light/10 text-terra dark:text-terra-light border border-terra/15 dark:border-terra-light/15">
+              {skill}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <!-- Libraries & Frameworks -->
+      <div>
+        <h3 class="font-display text-lg text-ink dark:text-silk mb-3">Libraries & Frameworks</h3>
+        <div class="flex flex-wrap gap-2">
+          {['PyTorch', 'TensorFlow', 'Scikit-learn', 'XGBoost', 'Statsmodels', 'Darts', 'Transformers', 'LangChain', 'LlamaIndex', 'ColBERT'].map(skill => (
+            <span class="inline-block px-3 py-1.5 text-xs font-mono rounded-lg bg-mor/10 dark:bg-mor-light/10 text-mor dark:text-mor-light border border-mor/15 dark:border-mor-light/15">
+              {skill}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <!-- Cloud & Data Engineering -->
+      <div>
+        <h3 class="font-display text-lg text-ink dark:text-silk mb-3">Cloud & Data Engineering</h3>
+        <div class="flex flex-wrap gap-2">
+          {['AWS', 'GCP', 'Azure', 'Apache Airflow', 'Dask', 'Pandas', 'Spark', 'Hadoop', 'ETL Pipelines'].map(skill => (
+            <span class="inline-block px-3 py-1.5 text-xs font-mono rounded-lg bg-gold/10 dark:bg-gold-light/10 text-gold-dark dark:text-gold-light border border-gold/15 dark:border-gold-light/15">
+              {skill}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <!-- MLOps & Development -->
+      <div>
+        <h3 class="font-display text-lg text-ink dark:text-silk mb-3">MLOps & Development</h3>
+        <div class="flex flex-wrap gap-2">
+          {['MLflow', 'BentoML', 'Modal', 'Docker', 'Kubernetes', 'Git', 'FastAPI', 'Flask', 'CI/CD', 'Python', 'SQL', 'Bash', 'JavaScript'].map(skill => (
+            <span class="inline-block px-3 py-1.5 text-xs font-mono rounded-lg bg-kumkum/10 dark:bg-kumkum-light/10 text-kumkum dark:text-kumkum-light border border-kumkum/15 dark:border-kumkum-light/15">
+              {skill}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <h2>Projects</h2>
+    <ul>
+      <li><a href="https://github.com/jayshah5696/pravah">Pravāha: AI-Powered Search Engine</a> — LLM enhanced search relevance with specialized ranking/chunking</li>
+      <li><a href="https://github.com/rohrao/llamaindex_RAGathon">StreamLens</a> — Winner at Rag-a-thon 2024, multi-model RAG system for AV streams</li>
+      <li><a href="https://huggingface.co/jayshah5696/Gujarati-Llama-7b-Base">Gujarati Llama</a> — Fine-tuned Llama-2 with 60k bilingual pairs</li>
+      <li><a href="https://devpost.com/software/neurobuddy">NeuroBuddy</a> — Personalized chatbot for mental health support</li>
+      <li><a href="https://jayshah5696.github.io/drowsy_driving/">Predicting Drowsiness Related Lane Departures</a> — Published research</li>
+      <li><a href="https://github.com/jayshah5696/Power_Curve_Estimation">Power Curve Estimation for Wind Energy Farms</a></li>
+      <li><a href="https://github.com/jayshah5696/Crm-Analytics">Customer Relationship Prediction</a> — Churn, appetency, and up-selling</li>
+      <li><a href="https://github.com/jayshah5696/Phase1_Analysis">Phase 1 Analysis of Multivariate Quality Control Data</a> — Industrial forging process analysis</li>
+    </ul>
+
+    <h2>Honors & Awards</h2>
+    <ul>
+      <li>Winner at Ragathon by LlamaIndex (Feb 2024)</li>
+      <li>Outstanding Master's of Science Student (Apr 2019)</li>
+      <li>2nd Runner-up at Texas Datathon by Citadel (Feb 2018)</li>
+    </ul>
+
+    <h2>Experience</h2>
+    <ul>
+      <li><strong><a href="https://www.avathon.com/">Avathon</a></strong> — Data Scientist III (Jan 2022–Present), Data Scientist II (May 2021–Dec 2021), Data Scientist (June 2019–May 2021)</li>
+      <li><strong><a href="https://www.datakind.org/">DataKind</a></strong> — Data Ambassador (Jan 2022–Sep 2022)</li>
+      <li><strong><a href="https://aml.engr.tamu.edu/">Texas A&M University</a></strong> — Graduate Research Assistant (Jan 2019–May 2019)</li>
+      <li><strong><a href="https://utilities.tamu.edu/">Utilities and Energy Services</a></strong> — Graduate Student Analyst (Dec 2017–Jun 2018)</li>
+    </ul>
+
+    <h2>Education</h2>
+    <ul>
+      <li><strong><a href="https://www.tamu.edu/">Texas A&M University</a></strong> — M.S. in Industrial and Systems Engineering, minor in Applied Statistics (2017–2019)</li>
+      <li><strong><a href="https://gtu.ac.in/">Gujarat Technological University</a></strong> — B.E. in Mechanical Engineering (2013–2017)</li>
+    </ul>
+
+    <h2>Patents</h2>
+    <ul>
+      <li><a href="https://patents.google.com/patent/US20230213560A1/en">Calculating energy loss during an outage</a> — US20230213560A1, Filed Dec 30, 2021</li>
+      <li><a href="https://patents.google.com/patent/US20230214703A1/en">Predicting energy production for energy generating assets</a> — US20230214703A1, Filed Dec 30, 2021</li>
+      <li><a href="https://patents.google.com/patent/IN201721044402A/en">Dimension Measurement Using Image Processing</a> — IN 201721044402, Filed Dec 11, 2017</li>
+    </ul>
+
+    <h2>Languages</h2>
+    <p>English, Hindi, Gujarati, German (elementary)</p>
+
+    <!-- Social / Resume links — carved stone buttons -->
+    <div class="not-prose mt-12">
+      <div class="kolam-border mb-6"></div>
+      <div class="flex flex-wrap gap-3">
+        <a
+          href="https://github.com/jayshah5696"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono"
+        >
+          GitHub
+        </a>
+        <a
+          href="https://linkedin.com/in/jayshah5696"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono"
+        >
+          LinkedIn
+        </a>
+        <a
+          href="https://huggingface.co/jayshah5696"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono"
+        >
+          Hugging Face
+        </a>
+        <a
+          href="https://cv.jayshah.dev"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono"
+        >
+          Resume
+        </a>
+      </div>
+    </div>
+  </article>
+</BaseLayout>

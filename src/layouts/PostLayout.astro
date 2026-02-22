@@ -1,0 +1,184 @@
+---
+import BaseLayout from './BaseLayout.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import TagList from '../components/TagList.astro';
+import Giscus from '../components/Giscus.astro';
+import readingTime from 'reading-time';
+
+interface PostLink {
+  slug: string;
+  title: string;
+}
+
+interface Props {
+  title: string;
+  date: Date;
+  description: string;
+  image?: string;
+  tags: string[];
+  body: string;
+  prevPost?: PostLink | null;
+  nextPost?: PostLink | null;
+}
+
+const { title, date, description, image, tags, body, prevPost, nextPost } = Astro.props;
+const stats = readingTime(body);
+
+const headingRegex = /^(#{2,3})\s+(.+)$/gm;
+const headings: { depth: number; text: string; slug: string }[] = [];
+let match;
+while ((match = headingRegex.exec(body)) !== null) {
+  const depth = match[1].length;
+  const text = match[2]
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    .replace(/[*_`~]/g, '')
+    .trim();
+  const slug = text
+    .toLowerCase()
+    .replace(/[^a-z0-9\s-]/g, '')
+    .replace(/\s+/g, '-')
+    .replace(/-+/g, '-');
+  headings.push({ depth, text, slug });
+}
+
+const showToc = headings.length > 3;
+---
+
+<BaseLayout title={title} description={description} image={image}>
+  <!-- Reading progress bar -->
+  <div id="reading-progress" class="fixed top-0 left-0 right-0 z-50 h-[3px] lg:left-[260px]" aria-hidden="true">
+    <div id="reading-progress-bar" class="h-full w-0 transition-none" style="background: linear-gradient(to right, #c4623a, #d4a843);"></div>
+  </div>
+
+  <article>
+    <header class="mb-12">
+      <div class="flex items-center gap-3 mb-5">
+        <FormattedDate date={date} />
+        <span class="text-cream-400 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
+        <span class="font-mono text-xs text-ink-muted dark:text-silk-muted tabular-nums">{stats.text}</span>
+      </div>
+
+      <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk leading-tight text-balance carved-heading">
+        {title}
+      </h1>
+
+      <p class="mt-6 text-lg text-ink-light dark:text-silk-muted leading-relaxed text-pretty">
+        {description}
+      </p>
+
+      {tags.length > 0 && (
+        <div class="mt-5">
+          <TagList tags={tags} />
+        </div>
+      )}
+
+      <div class="mt-10 kolam-border"></div>
+    </header>
+
+    {showToc && (
+      <aside class="hidden 2xl:block fixed right-8 top-16 w-56 z-20">
+        <nav class="text-xs border-l-2 border-terra/20 dark:border-terra-light/20 pl-4" aria-label="Table of contents">
+          <h4 class="font-mono uppercase text-ink-faint dark:text-silk-faint mb-3 text-[10px]" style="letter-spacing: 0.15em;">On this page</h4>
+          <ul class="space-y-2">
+            {headings.map(({ depth, text, slug }) => (
+              <li class:list={[depth === 3 && 'pl-3']}>
+                <a
+                  href={`#${slug}`}
+                  class="text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors duration-200 line-clamp-2 leading-snug"
+                >
+                  {text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </aside>
+    )}
+
+    <div class="prose prose-kolam dark:prose-invert prose-lg max-w-none">
+      <slot />
+    </div>
+
+    <!-- Comments -->
+    <Giscus />
+
+    <footer class="mt-16 pt-6">
+      <div class="kolam-border mb-6"></div>
+
+      <!-- Prev / Next navigation -->
+      {(prevPost || nextPost) && (
+        <nav class="grid grid-cols-2 gap-4 mb-8" aria-label="Post navigation">
+          {prevPost ? (
+            <a
+              href={`/posts/${prevPost.slug}/`}
+              class="group flex flex-col gap-1 p-4 rounded-lg border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors"
+            >
+              <span class="font-mono text-[10px] uppercase text-ink-faint dark:text-silk-faint" style="letter-spacing: 0.1em;">
+                <svg class="size-3 inline-block mr-1 -mt-px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+                Newer
+              </span>
+              <span class="text-sm font-display text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors line-clamp-2">
+                {prevPost.title}
+              </span>
+            </a>
+          ) : <div />}
+          {nextPost ? (
+            <a
+              href={`/posts/${nextPost.slug}/`}
+              class="group flex flex-col items-end gap-1 p-4 rounded-lg border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors text-right"
+            >
+              <span class="font-mono text-[10px] uppercase text-ink-faint dark:text-silk-faint" style="letter-spacing: 0.1em;">
+                Older
+                <svg class="size-3 inline-block ml-1 -mt-px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+              </span>
+              <span class="text-sm font-display text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors line-clamp-2">
+                {nextPost.title}
+              </span>
+            </a>
+          ) : <div />}
+        </nav>
+      )}
+
+      <a
+        href="/"
+        class="inline-flex items-center gap-2 text-sm text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors duration-200 font-mono"
+        style="letter-spacing: 0.06em;"
+      >
+        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+        All posts
+      </a>
+    </footer>
+  </article>
+
+  <script is:inline>
+    (function() {
+      // Reading progress bar
+      var bar = document.getElementById('reading-progress-bar');
+      if (bar) {
+        function update() {
+          var h = document.documentElement.scrollHeight - window.innerHeight;
+          var pct = h > 0 ? Math.min((window.scrollY / h) * 100, 100) : 0;
+          bar.style.width = pct + '%';
+        }
+        window.addEventListener('scroll', update, { passive: true });
+        update();
+      }
+
+      // Copy button on code blocks
+      document.querySelectorAll('pre').forEach(function(pre) {
+        var btn = document.createElement('button');
+        btn.className = 'copy-code-btn';
+        btn.textContent = 'Copy';
+        btn.addEventListener('click', function() {
+          var code = pre.querySelector('code');
+          var text = code ? code.innerText : pre.innerText;
+          navigator.clipboard.writeText(text).then(function() {
+            btn.textContent = 'Copied!';
+            setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
+          });
+        });
+        pre.appendChild(btn);
+      });
+    })();
+  </script>
+</BaseLayout>

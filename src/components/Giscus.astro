@@ -1,0 +1,65 @@
+---
+/**
+ * Giscus comments component
+ * 
+ * SETUP REQUIRED:
+ * 1. Enable GitHub Discussions on repo: Settings > General > Features > Discussions
+ * 2. Install Giscus app: https://github.com/apps/giscus
+ * 3. Create a "Blog Comments" discussion category (Announcements type)
+ * 
+ * Config generated from https://giscus.app with:
+ *   repo: jayshah5696/jayshah5696.github.io
+ *   mapping: pathname
+ *   category: Blog Comments (or General)
+ */
+---
+
+<section class="mt-16 pt-6">
+  <div class="kolam-border mb-8"></div>
+  <h3 class="font-display text-lg text-ink dark:text-silk mb-6">Comments</h3>
+  <div id="giscus-container">
+    <script
+      is:inline
+      src="https://giscus.app/client.js"
+      data-repo="jayshah5696/jayshah5696.github.io"
+      data-repo-id="MDEwOlJlcG9zaXRvcnkyNjkyNzM4ODE="
+      data-category="Announcements"
+      data-category-id="DIC_kwDOEAzLGc4C29MJ"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="preferred_color_scheme"
+      data-lang="en"
+      data-loading="lazy"
+      crossorigin="anonymous"
+      async
+    ></script>
+  </div>
+</section>
+
+<script is:inline>
+  // Sync Giscus theme with site dark/light mode
+  function updateGiscusTheme() {
+    var isDark = document.documentElement.classList.contains('dark');
+    var theme = isDark ? 'dark_dimmed' : 'light';
+    var iframe = document.querySelector('iframe.giscus-frame');
+    if (iframe) {
+      iframe.contentWindow.postMessage(
+        { giscus: { setConfig: { theme: theme } } },
+        'https://giscus.app'
+      );
+    }
+  }
+
+  // Watch for theme changes
+  var observer = new MutationObserver(function(mutations) {
+    mutations.forEach(function(mutation) {
+      if (mutation.attributeName === 'class') {
+        updateGiscusTheme();
+      }
+    });
+  });
+  observer.observe(document.documentElement, { attributes: true });
+</script>

@@ -1,0 +1,337 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ═══════════════════════════════════════════════
+   KOLAM & RANGOLI DESIGN SYSTEM
+   Light = Kolam: geometric, line art, cream paper
+   Dark  = Rangoli: vibrant, colorful, deep night
+   ═══════════════════════════════════════════════ */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply font-body text-ink;
+    background-color: #fdf9f1;
+  }
+  .dark body {
+    @apply text-silk;
+    background-color: #15111e;
+  }
+
+  /* ── INLINE CODE ── */
+  :not(pre) > code {
+    @apply px-1.5 py-0.5 rounded text-sm font-mono;
+    background: #f5edd8;
+    color: #a34e2d;
+    border: 1px solid #e8dbc0;
+  }
+  .dark :not(pre) > code {
+    background: #2a2438;
+    color: #e07a4f;
+    border-color: #3a3348;
+  }
+  :not(pre) > code::before,
+  :not(pre) > code::after { content: '' !important; }
+
+  /* ── CODE BLOCKS ── */
+  pre {
+    @apply rounded-lg !important;
+    border: 1px solid #e8dbc0 !important;
+    border-top: 3px solid #c4623a !important;
+    position: relative;
+  }
+  .dark pre {
+    border-color: #2a2438 !important;
+    border-top-color: #e07a4f !important;
+  }
+
+  /* Copy button on code blocks */
+  pre .copy-code-btn {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-family: 'Fira Code', monospace;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s, background-color 0.2s;
+    background: rgba(196,98,58,0.1);
+    color: #c4623a;
+    border: 1px solid rgba(196,98,58,0.2);
+  }
+  .dark pre .copy-code-btn {
+    background: rgba(224,122,79,0.1);
+    color: #e07a4f;
+    border-color: rgba(224,122,79,0.2);
+  }
+  pre:hover .copy-code-btn { opacity: 1; }
+  pre .copy-code-btn:hover {
+    background: rgba(196,98,58,0.2);
+  }
+  .dark pre .copy-code-btn:hover {
+    background: rgba(224,122,79,0.2);
+  }
+
+  /* ── PROSE ── */
+  .prose a {
+    @apply text-terra underline-offset-2 transition-colors duration-200;
+    text-decoration-color: rgba(196,98,58,0.3);
+  }
+  .prose a:hover { @apply text-terra-dark; text-decoration-color: rgba(196,98,58,0.8); }
+  .dark .prose a { @apply text-terra-light; text-decoration-color: rgba(224,122,79,0.3); }
+  .dark .prose a:hover { text-decoration-color: rgba(224,122,79,0.8); }
+
+  .prose img {
+    @apply rounded-lg mx-auto;
+    box-shadow: 0 4px 24px rgba(44,36,22,0.1);
+  }
+  .dark .prose img { box-shadow: 0 4px 24px rgba(0,0,0,0.4); }
+
+  .prose blockquote {
+    @apply not-italic font-normal;
+    border-left: 4px solid #c4623a;
+    background: rgba(245,237,216,0.5);
+    color: #5a4e3a;
+    padding: 1rem 1.25rem;
+    border-radius: 0 8px 8px 0;
+  }
+  .dark .prose blockquote {
+    background: rgba(42,36,56,0.5);
+    border-left-color: #e07a4f;
+    color: #a89e8e;
+  }
+
+  .prose h2, .prose h3, .prose h4 { @apply font-display; }
+
+  /* Legacy spans */
+  .prose span[style*='color: magenta'] { color: #c4623a !important; @apply font-medium; }
+  .dark .prose span[style*='color: magenta'] { color: #e07a4f !important; }
+  span[style*='color:#1abc9c'], span[style*='color:Blue'], span[style*='color: Blue'] { color: #c4623a !important; }
+  .dark span[style*='color:#1abc9c'], .dark span[style*='color:Blue'], .dark span[style*='color: Blue'] { color: #e07a4f !important; }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { @apply w-1.5; }
+  ::-webkit-scrollbar-track { background: #f5edd8; }
+  .dark ::-webkit-scrollbar-track { background: #1e1928; }
+  ::-webkit-scrollbar-thumb { background: #d4c4a0; border-radius: 999px; }
+  .dark ::-webkit-scrollbar-thumb { background: #3a3348; }
+  ::-webkit-scrollbar-thumb:hover { background: #c4623a; }
+
+  /* Selection */
+  ::selection { background: #d4a843; color: #1a1408; }
+  .dark ::selection { background: #b08a2e; color: #fefdfb; }
+}
+
+@layer components {
+
+  /* ═══════════════════════════════════════
+     KOLAM BORDER — figure-8 petal chain
+     Continuous infinity loops: terra upper petals,
+     gold lower petals, diamond knots at crossings
+     ═══════════════════════════════════════ */
+  .kolam-border {
+    height: 24px;
+    background-image: url("data:image/svg+xml,%3Csvg width='64' height='24' viewBox='0 0 64 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 12 Q8 0, 16 0 Q24 0, 32 12' fill='none' stroke='%23c4623a' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M0 12 Q8 24, 16 24 Q24 24, 32 12' fill='none' stroke='%23d4a843' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M32 12 Q40 0, 48 0 Q56 0, 64 12' fill='none' stroke='%23c4623a' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M32 12 Q40 24, 48 24 Q56 24, 64 12' fill='none' stroke='%23d4a843' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M-1 12 L2 9 L5 12 L2 15 Z' fill='%23c4623a' fill-opacity='0.15' stroke='%23c4623a' stroke-width='0.6' opacity='0.35'/%3E%3Cpath d='M29 12 L32 9 L35 12 L32 15 Z' fill='%23c4623a' fill-opacity='0.12' stroke='%23c4623a' stroke-width='0.6' opacity='0.4'/%3E%3Ccircle cx='16' cy='0' r='1.5' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='16' cy='24' r='1.5' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='48' cy='0' r='1.5' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='48' cy='24' r='1.5' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='32' cy='12' r='1.5' fill='%23c4623a' opacity='0.3'/%3E%3C/svg%3E");
+    background-repeat: repeat-x;
+    background-position: center;
+  }
+  .dark .kolam-border {
+    background-image: url("data:image/svg+xml,%3Csvg width='64' height='24' viewBox='0 0 64 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 12 Q8 0, 16 0 Q24 0, 32 12' fill='none' stroke='%23e07a4f' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M0 12 Q8 24, 16 24 Q24 24, 32 12' fill='none' stroke='%23e8c462' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M32 12 Q40 0, 48 0 Q56 0, 64 12' fill='none' stroke='%23e07a4f' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M32 12 Q40 24, 48 24 Q56 24, 64 12' fill='none' stroke='%23e8c462' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M-1 12 L2 9 L5 12 L2 15 Z' fill='%23e07a4f' fill-opacity='0.15' stroke='%23e07a4f' stroke-width='0.6' opacity='0.35'/%3E%3Cpath d='M29 12 L32 9 L35 12 L32 15 Z' fill='%23e07a4f' fill-opacity='0.12' stroke='%23e07a4f' stroke-width='0.6' opacity='0.4'/%3E%3Ccircle cx='16' cy='0' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='16' cy='24' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='48' cy='0' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='48' cy='24' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='32' cy='12' r='1.5' fill='%23e07a4f' opacity='0.3'/%3E%3C/svg%3E");
+  }
+
+  /* ═══════════════════════════════════════
+     KOLAM DOT GRID — sidebar background
+     Larger, more visible dots + connecting lines
+     ═══════════════════════════════════════ */
+  .kolam-dots {
+    background-image:
+      radial-gradient(circle, #c4623a 1.2px, transparent 1.2px),
+      linear-gradient(to right, rgba(196,98,58,0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(196,98,58,0.06) 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.25;
+  }
+  .dark .kolam-dots {
+    background-image:
+      radial-gradient(circle, #e07a4f 1.2px, transparent 1.2px),
+      linear-gradient(to right, rgba(224,122,79,0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(224,122,79,0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+    opacity: 0.2;
+  }
+
+  /* ═══════════════════════════════════════
+     RANGOLI CORNER — lotus petal motif
+     Multiple layered curves radiating from corner
+     with dot accents — like a quarter-rangoli bloom
+     ═══════════════════════════════════════ */
+  .rangoli-corners {
+    position: relative;
+  }
+  .rangoli-corners::before,
+  .rangoli-corners::after {
+    content: '';
+    position: absolute;
+    width: 52px;
+    height: 52px;
+    background-image: url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3C!-- Outer petal arc --%3E%3Cpath d='M2 2 Q2 28, 28 28' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.25'/%3E%3C!-- Middle petal arc --%3E%3Cpath d='M2 2 Q2 20, 20 20' fill='none' stroke='%23d4a843' stroke-width='0.8' opacity='0.3'/%3E%3C!-- Inner petal arc --%3E%3Cpath d='M2 2 Q2 12, 12 12' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.35'/%3E%3C!-- Diagonal spine --%3E%3Cpath d='M3 3 L22 22' fill='none' stroke='%23c4623a' stroke-width='0.6' opacity='0.15'/%3E%3C!-- Curved petals along diagonal --%3E%3Cpath d='M6 2 Q10 6, 6 10' fill='none' stroke='%23d4a843' stroke-width='0.7' opacity='0.3'/%3E%3Cpath d='M2 6 Q6 10, 10 6' fill='none' stroke='%23c4623a' stroke-width='0.7' opacity='0.25'/%3E%3C!-- Dots at intersections --%3E%3Ccircle cx='3' cy='3' r='2.5' fill='%23c4623a' opacity='0.35'/%3E%3Ccircle cx='10' cy='10' r='1.5' fill='%23d4a843' opacity='0.35'/%3E%3Ccircle cx='18' cy='18' r='1' fill='%23c4623a' opacity='0.25'/%3E%3Ccircle cx='6' cy='2' r='1' fill='%23d4a843' opacity='0.25'/%3E%3Ccircle cx='2' cy='6' r='1' fill='%23d4a843' opacity='0.25'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    pointer-events: none;
+  }
+  .rangoli-corners::before {
+    top: -1px; left: -1px;
+  }
+  .rangoli-corners::after {
+    bottom: -1px; right: -1px;
+    transform: rotate(180deg);
+  }
+  .dark .rangoli-corners::before,
+  .dark .rangoli-corners::after {
+    background-image: url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2 Q2 28, 28 28' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.25'/%3E%3Cpath d='M2 2 Q2 20, 20 20' fill='none' stroke='%23e8c462' stroke-width='0.8' opacity='0.3'/%3E%3Cpath d='M2 2 Q2 12, 12 12' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.35'/%3E%3Cpath d='M3 3 L22 22' fill='none' stroke='%23e07a4f' stroke-width='0.6' opacity='0.15'/%3E%3Cpath d='M6 2 Q10 6, 6 10' fill='none' stroke='%23e8c462' stroke-width='0.7' opacity='0.3'/%3E%3Cpath d='M2 6 Q6 10, 10 6' fill='none' stroke='%23e07a4f' stroke-width='0.7' opacity='0.25'/%3E%3Ccircle cx='3' cy='3' r='2.5' fill='%23e07a4f' opacity='0.35'/%3E%3Ccircle cx='10' cy='10' r='1.5' fill='%23e8c462' opacity='0.35'/%3E%3Ccircle cx='18' cy='18' r='1' fill='%23e07a4f' opacity='0.25'/%3E%3Ccircle cx='6' cy='2' r='1' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='2' cy='6' r='1' fill='%23e8c462' opacity='0.25'/%3E%3C/svg%3E");
+  }
+
+  /* ═══════════════════════════════════════
+     SIDEBAR HERO PATTERN — large kolam motif
+     Multi-layered geometric art: nested diamonds,
+     petal arcs, lotus curves, and dot grid
+     ═══════════════════════════════════════ */
+  .kolam-hero {
+    height: 120px;
+    background-color: rgba(196,98,58,0.06);
+    background-image: url("data:image/svg+xml,%3Csvg width='180' height='120' viewBox='0 0 180 120' xmlns='http://www.w3.org/2000/svg'%3E%3C!-- Outer diamond --%3E%3Crect x='48' y='18' width='84' height='84' rx='2' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.12' transform='rotate(45 90 60)'/%3E%3C!-- Middle diamond --%3E%3Crect x='58' y='28' width='64' height='64' rx='2' fill='none' stroke='%23d4a843' stroke-width='1' opacity='0.15' transform='rotate(45 90 60)'/%3E%3C!-- Inner diamond --%3E%3Crect x='70' y='40' width='40' height='40' rx='2' fill='none' stroke='%23c4623a' stroke-width='1.5' opacity='0.2' transform='rotate(45 90 60)'/%3E%3C!-- Cardinal dots --%3E%3Ccircle cx='90' cy='6' r='3' fill='%23c4623a' opacity='0.3'/%3E%3Ccircle cx='90' cy='114' r='3' fill='%23c4623a' opacity='0.2'/%3E%3Ccircle cx='30' cy='60' r='3' fill='%23c4623a' opacity='0.2'/%3E%3Ccircle cx='150' cy='60' r='3' fill='%23c4623a' opacity='0.2'/%3E%3C!-- Center dot cluster --%3E%3Ccircle cx='90' cy='60' r='4' fill='%23d4a843' opacity='0.3'/%3E%3Ccircle cx='90' cy='60' r='8' fill='none' stroke='%23d4a843' stroke-width='0.6' opacity='0.15'/%3E%3C!-- Connecting curves: cardinal to center --%3E%3Cpath d='M90 6 Q115 25, 150 60' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M150 60 Q115 95, 90 114' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M90 114 Q65 95, 30 60' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M30 60 Q65 25, 90 6' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.15'/%3E%3C!-- Petal arcs: lotus petals around center --%3E%3Cpath d='M90 28 Q105 44, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 28 Q75 44, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 92 Q105 76, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 92 Q75 76, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M58 60 Q74 45, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M58 60 Q74 75, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M122 60 Q106 45, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M122 60 Q106 75, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3C!-- Diagonal accent dots --%3E%3Ccircle cx='58' cy='28' r='1.5' fill='%23d4a843' opacity='0.25'/%3E%3Ccircle cx='122' cy='28' r='1.5' fill='%23d4a843' opacity='0.25'/%3E%3Ccircle cx='58' cy='92' r='1.5' fill='%23d4a843' opacity='0.25'/%3E%3Ccircle cx='122' cy='92' r='1.5' fill='%23d4a843' opacity='0.25'/%3E%3C!-- Petal tips --%3E%3Ccircle cx='90' cy='28' r='2' fill='%23c4623a' opacity='0.25'/%3E%3Ccircle cx='90' cy='92' r='2' fill='%23c4623a' opacity='0.2'/%3E%3Ccircle cx='58' cy='60' r='2' fill='%23c4623a' opacity='0.2'/%3E%3Ccircle cx='122' cy='60' r='2' fill='%23c4623a' opacity='0.2'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 180px 120px;
+    border-bottom: 1px solid rgba(196,98,58,0.15);
+  }
+  .dark .kolam-hero {
+    background-color: rgba(224,122,79,0.04);
+    background-image: url("data:image/svg+xml,%3Csvg width='180' height='120' viewBox='0 0 180 120' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='48' y='18' width='84' height='84' rx='2' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.12' transform='rotate(45 90 60)'/%3E%3Crect x='58' y='28' width='64' height='64' rx='2' fill='none' stroke='%23e8c462' stroke-width='1' opacity='0.15' transform='rotate(45 90 60)'/%3E%3Crect x='70' y='40' width='40' height='40' rx='2' fill='none' stroke='%23e07a4f' stroke-width='1.5' opacity='0.2' transform='rotate(45 90 60)'/%3E%3Ccircle cx='90' cy='6' r='3' fill='%23e07a4f' opacity='0.3'/%3E%3Ccircle cx='90' cy='114' r='3' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='30' cy='60' r='3' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='150' cy='60' r='3' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='90' cy='60' r='4' fill='%23e8c462' opacity='0.3'/%3E%3Ccircle cx='90' cy='60' r='8' fill='none' stroke='%23e8c462' stroke-width='0.6' opacity='0.15'/%3E%3Cpath d='M90 6 Q115 25, 150 60' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M150 60 Q115 95, 90 114' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M90 114 Q65 95, 30 60' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M30 60 Q65 25, 90 6' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M90 28 Q105 44, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 28 Q75 44, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 92 Q105 76, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 92 Q75 76, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M58 60 Q74 45, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M58 60 Q74 75, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M122 60 Q106 45, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M122 60 Q106 75, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Ccircle cx='58' cy='28' r='1.5' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='122' cy='28' r='1.5' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='58' cy='92' r='1.5' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='122' cy='92' r='1.5' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='90' cy='28' r='2' fill='%23e07a4f' opacity='0.25'/%3E%3Ccircle cx='90' cy='92' r='2' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='58' cy='60' r='2' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='122' cy='60' r='2' fill='%23e07a4f' opacity='0.2'/%3E%3C/svg%3E");
+    border-bottom-color: rgba(224,122,79,0.1);
+  }
+
+  /* ═══════════════════════════════════════
+     FEATURED CARD — with pattern background
+     ═══════════════════════════════════════ */
+  .featured-card {
+    position: relative;
+    border: 1px solid #e8dbc0;
+    border-radius: 12px;
+    padding: 2rem;
+    overflow: hidden;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    /* Subtle kolam tile background */
+    background-color: #fdf9f1;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='20' y='20' width='20' height='20' rx='1' fill='none' stroke='%23c4623a' stroke-width='0.5' opacity='0.08' transform='rotate(45 30 30)'/%3E%3Ccircle cx='30' cy='30' r='1' fill='%23d4a843' opacity='0.12'/%3E%3C/svg%3E");
+  }
+  .featured-card:hover {
+    border-color: #c4623a;
+    box-shadow: 0 8px 32px rgba(196,98,58,0.12);
+  }
+  .dark .featured-card {
+    border-color: #2a2438;
+    background-color: #1e1928;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='20' y='20' width='20' height='20' rx='1' fill='none' stroke='%23e07a4f' stroke-width='0.5' opacity='0.06' transform='rotate(45 30 30)'/%3E%3Ccircle cx='30' cy='30' r='1' fill='%23e8c462' opacity='0.08'/%3E%3C/svg%3E");
+  }
+  .dark .featured-card:hover {
+    border-color: #e07a4f;
+    box-shadow: 0 8px 32px rgba(224,122,79,0.15);
+  }
+
+  /* ═══════════════════════════════════════
+     POST CARD
+     ═══════════════════════════════════════ */
+  .post-card {
+    @apply relative py-6;
+    border-bottom: 1px solid #f5edd8;
+  }
+  .post-card:last-child { border-bottom: none; }
+  .dark .post-card { border-bottom-color: #1e1928; }
+
+  /* ═══════════════════════════════════════
+     CARVED HEADING
+     ═══════════════════════════════════════ */
+  .carved-heading::after {
+    content: '';
+    display: block;
+    margin-top: 12px;
+    height: 3px;
+    width: 48px;
+    background: linear-gradient(to right, #c4623a, #d4a843);
+    border-radius: 2px;
+  }
+  .dark .carved-heading::after {
+    background: linear-gradient(to right, #e07a4f, #e8c462);
+  }
+
+  /* ═══════════════════════════════════════
+     TAG — base + color-coded variants
+     Using full Vav palette: terra, mor, gold, kumkum
+     ═══════════════════════════════════════ */
+  .tag {
+    @apply text-xs font-mono uppercase transition-colors duration-200;
+    letter-spacing: 0.08em;
+    color: #8a7d68;
+  }
+  .tag:hover { color: #c4623a; }
+  .dark .tag { color: #a89e8e; }
+  .dark .tag:hover { color: #e07a4f; }
+
+  /* AI/LLM tags — terra (terracotta) */
+  .tag-ai {
+    @apply text-xs font-mono uppercase transition-colors duration-200;
+    letter-spacing: 0.08em;
+    color: #c4623a;
+  }
+  .tag-ai:hover { color: #a34e2d; }
+  .dark .tag-ai { color: #e07a4f; }
+  .dark .tag-ai:hover { color: #f0a070; }
+
+  /* Dev tools tags — mor (peacock teal) */
+  .tag-dev {
+    @apply text-xs font-mono uppercase transition-colors duration-200;
+    letter-spacing: 0.08em;
+    color: #1a8a7a;
+  }
+  .tag-dev:hover { color: #147062; }
+  .dark .tag-dev { color: #2ec4b6; }
+  .dark .tag-dev:hover { color: #5dd8cc; }
+
+  /* ML/Research tags — gold (haldi) */
+  .tag-ml {
+    @apply text-xs font-mono uppercase transition-colors duration-200;
+    letter-spacing: 0.08em;
+    color: #b08a2e;
+  }
+  .tag-ml:hover { color: #8a6c20; }
+  .dark .tag-ml { color: #e8c462; }
+  .dark .tag-ml:hover { color: #f0d480; }
+
+  /* Personal/Spiritual tags — kumkum (vermilion red) */
+  .tag-personal {
+    @apply text-xs font-mono uppercase transition-colors duration-200;
+    letter-spacing: 0.08em;
+    color: #c0392b;
+  }
+  .tag-personal:hover { color: #962d22; }
+  .dark .tag-personal { color: #e74c3c; }
+  .dark .tag-personal:hover { color: #f07060; }
+
+  /* ═══════════════════════════════════════
+     PAGE BACKGROUND PATTERN
+     Subtle tiling rangoli on the main content area
+     ═══════════════════════════════════════ */
+  .page-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='1' fill='%23c4623a' opacity='0.04'/%3E%3Ccircle cx='0' cy='0' r='1' fill='%23d4a843' opacity='0.03'/%3E%3Ccircle cx='100' cy='0' r='1' fill='%23d4a843' opacity='0.03'/%3E%3Ccircle cx='0' cy='100' r='1' fill='%23d4a843' opacity='0.03'/%3E%3Ccircle cx='100' cy='100' r='1' fill='%23d4a843' opacity='0.03'/%3E%3C/svg%3E");
+  }
+  .dark .page-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='1' fill='%23e07a4f' opacity='0.03'/%3E%3Ccircle cx='0' cy='0' r='1' fill='%23e8c462' opacity='0.02'/%3E%3Ccircle cx='100' cy='0' r='1' fill='%23e8c462' opacity='0.02'/%3E%3Ccircle cx='0' cy='100' r='1' fill='%23e8c462' opacity='0.02'/%3E%3Ccircle cx='100' cy='100' r='1' fill='%23e8c462' opacity='0.02'/%3E%3C/svg%3E");
+  }
+}

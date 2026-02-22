@@ -1,0 +1,139 @@
+---
+import '../styles/global.css';
+import { ViewTransitions } from 'astro:transitions';
+import Sidebar from '../components/Sidebar.astro';
+import MobileNav from '../components/MobileNav.astro';
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL } from '../consts';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  rightSidebar?: boolean;
+}
+
+const { title, description = SITE_DESCRIPTION, image, rightSidebar = false } = Astro.props;
+const pageTitle = title ? `${title} -- ${SITE_TITLE}` : SITE_TITLE;
+const canonicalURL = new URL(Astro.url.pathname, SITE_URL);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+
+    <link rel="icon" type="image/x-icon" href="/assets/images/favicon/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/favicon/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/images/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Yeseva+One&family=Outfit:wght@300;400;500;600&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={Astro.url} />
+    {image && <meta property="og:image" content={new URL(image, SITE_URL)} />}
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    {image && <meta name="twitter:image" content={new URL(image, SITE_URL)} />}
+
+    <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Google Analytics -->
+    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-ZQ651N672F"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-ZQ651N672F');
+    </script>
+
+    <ViewTransitions />
+
+    <script is:inline>
+      // Apply theme immediately to prevent flash (runs before paint)
+      ;(function() {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body class="min-h-dvh page-pattern">
+    <Sidebar />
+    <MobileNav />
+
+    <div class="lg:ml-[260px] pt-14 lg:pt-0">
+      <div class="max-w-6xl mx-auto px-6 py-10 lg:py-14 flex gap-10">
+        <main class="flex-1 min-w-0">
+          <slot />
+        </main>
+        {rightSidebar && (
+          <slot name="right-sidebar" />
+        )}
+      </div>
+    </div>
+
+    <script is:inline>
+      // Theme toggle + View Transitions compatibility
+      function initThemeToggle() {
+        var btns = document.querySelectorAll('#theme-toggle-desktop, #theme-toggle-mobile');
+        btns.forEach(function(btn) {
+          // Remove old listeners by cloning
+          var newBtn = btn.cloneNode(true);
+          btn.parentNode.replaceChild(newBtn, btn);
+          newBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            var isDark = document.documentElement.classList.toggle('dark');
+            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+          });
+        });
+      }
+
+      // Mobile menu toggle
+      function initMobileMenu() {
+        var btn = document.getElementById('mobile-menu-toggle');
+        var menu = document.getElementById('mobile-menu');
+        if (btn && menu) {
+          var newBtn = btn.cloneNode(true);
+          btn.parentNode.replaceChild(newBtn, btn);
+          newBtn.addEventListener('click', function() {
+            menu.classList.toggle('hidden');
+          });
+        }
+      }
+
+      // Re-apply theme after View Transition swap (before new page renders)
+      document.addEventListener('astro:after-swap', function() {
+        var t = localStorage.getItem('theme');
+        if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+        }
+      });
+
+      // Re-bind event listeners after each page load (initial + transitions)
+      document.addEventListener('astro:page-load', function() {
+        initThemeToggle();
+        initMobileMenu();
+      });
+
+      // Also run on initial page load (before astro:page-load fires)
+      initThemeToggle();
+      initMobileMenu();
+    </script>
+  </body>
+</html>
