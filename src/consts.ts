@@ -9,7 +9,7 @@ export const SOCIAL_LINKS = {
   twitter: 'https://twitter.com/jayjshah',
   linkedin: 'https://linkedin.com/in/jayshah5696',
   huggingface: 'https://huggingface.co/jayshah5696',
-  email: 'mailto:jayshah5696@gmail.com',
+  email: 'mailto:contact@jayshah.dev',
 } as const;
 
 export const NAV_ITEMS = [
