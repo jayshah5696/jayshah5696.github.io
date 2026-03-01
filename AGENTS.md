@@ -1,7 +1,7 @@
 # jayshah5696.github.io
 
 ## Role
-You are an expert frontend engineer and Astro developer. You have exceptional design taste and specialize in building distinctive, culturally-inspired interfaces that avoid generic "AI slop" aesthetics. 
+You are an expert frontend engineer and Astro developer. You have exceptional design taste and specialize in building distinctive, culturally-inspired interfaces that avoid generic "AI slop" aesthetics.
 
 ## Preferences
 
@@ -31,23 +31,29 @@ This site uses a custom Indian-inspired design system:
 - Use `BaseLayout` as the root wrapper for all pages
 - Use `PostCard` for rendering individual blog entries in lists
 - Date formatting should use the `FormattedDate.astro` component
-- Tags should use the `TagList.astro` component
+- Tags should use `TagList.astro` which imports from `src/utils/tags.ts` — do NOT duplicate tag color logic
+- Project data lives in `src/data/projects.ts` — do NOT inline it in pages
+- Use `.prose :where(img)` (not `.prose img`) in global CSS to avoid specificity conflicts with utility classes
+- Ultra-wide layout is handled by `.app-sidebar`, `.app-content`, `.app-progress` classes in `global.css` — no `justify-center` wrapper needed
+- Search uses Pagefind — build pipeline is `astro build && npx pagefind --site dist`
+- Blog images must be WebP format in `public/assets/images/`
+- Content schema supports `series` and `seriesOrder` frontmatter for grouping related posts
 
 ## What NOT to Do
 
-- Do NOT add React/Vue/Svelte islands unless absolutely necessary for complex interactivity. Prefer Astro's zero-JS approach or lightweight vanilla JS `<script is:inline>`.
+- Do NOT add React/Vue/Svelte islands unless absolutely necessary. Prefer Astro's zero-JS approach or lightweight vanilla JS `<script is:inline>`.
 - Do NOT use absolute file paths for images in Markdown (use `/assets/images/...` not `../assets/...`)
 - Do NOT modify `src/styles/global.css` without checking the SVG data URIs carefully—they are hand-tuned for the design system.
+- Do NOT use `.prose img` — always use `.prose :where(img)` to avoid overriding utility classes.
+- Do NOT use PNG/JPG for new blog images — convert to WebP first.
+- Do NOT duplicate tag categorization logic — it lives in `src/utils/tags.ts`.
 
 ## Working Agreement
-
-### Branching
-- Always work on a feature branch, never directly on `master`.
-- The current main development branch for the redesign is `astro-redesign`.
 
 ### Safety
 - Before modifying CSS, verify the impact using local preview (`npm run dev`).
 - Ensure dark mode toggle works correctly when adding new UI components.
+- Run `npm run build` to verify both Astro build and Pagefind indexing succeed.
 
 ## Key Learnings
 
@@ -57,3 +63,7 @@ This site uses a custom Indian-inspired design system:
 | 2025-02-21 | User | Dark/Light toggle got stuck due to script loading order | Place theme toggle script at the very end of `BaseLayout` body to ensure DOM elements exist |
 | 2025-02-21 | User | Design looked like "mud" (too brown) | Use clear contrast: cream/brown for light mode, deep indigo/cream for dark mode |
 | 2025-02-21 | User | Astro build failed due to `post.render()` | In Astro 5 with `glob` loader, import `render` from `astro:content` and call `await render(post)` |
+| 2026-02-28 | Agent | `.prose img` overrode `rounded-full` on profile image | Use `.prose :where(img)` to lower specificity so utility classes win |
+| 2026-02-28 | Agent | Centered content created left gap on all monitors | Remove `justify-center` wrapper; use app centering CSS for ultra-wide only |
+| 2026-02-28 | Agent | Tag color logic duplicated in TagList and RightSidebar | Centralize in `src/utils/tags.ts`, import in both components |
+| 2026-02-28 | Agent | SVG decorative frame clipped at edges on about page | Use CSS borders (`border-dashed`, `rounded-full`) instead of SVGs with tight viewBox |
