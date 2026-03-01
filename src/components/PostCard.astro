@@ -19,10 +19,10 @@ const stats = readingTime(body);
 ---
 
 <article class:list={[
-  'group rounded-xl border overflow-hidden transition-all duration-200',
+  'group rounded-xl border overflow-hidden transition-all duration-200 featured-card rangoli-corners',
   featured
-    ? 'featured-card border-terra/20 dark:border-terra-light/15 hover:border-terra dark:hover:border-terra-light hover:shadow-lg rangoli-corners'
-    : 'border-cream-200 dark:border-night-700 bg-white dark:bg-night-800 hover:shadow-lg hover:border-cream-300 dark:hover:border-night-600 rangoli-corners',
+    ? 'border-terra/20 dark:border-terra-light/15 hover:border-terra dark:hover:border-terra-light hover:shadow-lg'
+    : 'border-terra/20 dark:border-terra-light/15 hover:border-terra dark:hover:border-terra-light hover:shadow-lg',
 ]}>
   <a href={`/posts/${slug}/`} class:list={[
     'flex',
