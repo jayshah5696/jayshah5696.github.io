@@ -34,14 +34,18 @@ import BaseLayout from '../layouts/BaseLayout.astro';
               <path d="M18 18 Q40 5, 60 3" stroke="currentColor" stroke-width="0.7" class="text-gold/25 dark:text-gold-light/25"/>
             </svg>
           </div>
-          <!-- Inner dashed ring -->
-          <div class="absolute -inset-2 rounded-full border-2 border-dashed border-gold/30 dark:border-gold-light/25"></div>
+          <!-- Inner decorative ring (SVG circle with dashes) -->
+          <div class="absolute -inset-2 rounded-full" aria-hidden="true">
+            <svg class="size-full" viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="60" cy="60" r="54" stroke="currentColor" stroke-width="1.5" stroke-dasharray="3,3" class="text-gold/40 dark:text-gold-light/35"/>
+            </svg>
+          </div>
           <img
             src="/assets/images/Profile.jpg"
             alt="Jay Shah"
             width="88"
             height="88"
-            class="relative rounded-full size-[88px] object-cover ring-2 ring-white dark:ring-night-800 shadow-lg"
+            class="relative z-10 rounded-full !rounded-full size-[88px] flex-shrink-0 object-cover ring-2 ring-white dark:ring-night-800 shadow-lg"
           />
         </div>
         <div class="pt-2">
