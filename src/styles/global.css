@@ -88,11 +88,11 @@
   .dark .prose a { @apply text-terra-light; text-decoration-color: rgba(224,122,79,0.3); }
   .dark .prose a:hover { text-decoration-color: rgba(224,122,79,0.8); }
 
-  .prose img {
+  .prose :where(img) {
     @apply rounded-lg mx-auto;
     box-shadow: 0 4px 24px rgba(44,36,22,0.1);
   }
-  .dark .prose img { box-shadow: 0 4px 24px rgba(0,0,0,0.4); }
+  .dark .prose :where(img) { box-shadow: 0 4px 24px rgba(0,0,0,0.4); }
 
   .prose blockquote {
     @apply not-italic font-normal;

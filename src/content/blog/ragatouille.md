@@ -1,7 +1,7 @@
 ---
 title: "Concept to Code - Deploying ColBERT with RAGatouille on Modal Labs in Minutes"
 date: 2024-09-07
-image: /assets/images/ragatouille.png
+image: /assets/images/ragatouille.webp
 tags:
   - gen-ai
   - llm
@@ -19,7 +19,7 @@ The ideal solution would combine the strengths of both. We want the broad unders
 
 That's where [ColBERT](https://huggingface.co/colbert-ir/colbertv2.0) (Contextualized Late Interaction over BERT) comes into play, and I think it's a game-changer. ColBERT offers the best of both worlds by using dense embeddings while also preserving some of the precision we see with sparse methods. What makes ColBERT unique is its late interaction mechanism, which allows it to perform more detailed, term-level matching after generating embeddings, unlike standard dense models that blend everything upfront. And its downloaded over [**4.5M**](https://huggingface.co/colbert-ir/colbertv2.0) times in last month on huggingface.
 
-![Colbert](/assets/images/2024-09-06-colbert-1.png)
+![Colbert](/assets/images/2024-09-06-colbert-1.webp)
 
 ColBERT excels at understanding the context of a query while also ensuring that important keywords are considered. This makes it a powerful tool for various tasks, from analyzing contracts to searching technical documents, as it offers both a deep understanding of meaning and precise keyword matching.
 
@@ -49,7 +49,7 @@ When it comes to ColBERT, you have options! The original ColBERTv2 model boasts 
 
 However, a newer, leaner ColBERT model has entered the scene: ["answerai-colbert-small-v1"](https://www.answer.ai/posts/2024-08-13-small-but-mighty-colbert.html). This compact version weighs in at just 33 million parameters, falling within the "MiniLM-size range" – what we usually consider "small" for embedding models.
 
-![results_colbert](/assets/images/2024-09-06-colbert-2.jpeg)
+![results_colbert](/assets/images/2024-09-06-colbert-2.webp)
 
 The smaller 33M parameter ColBERT model offers significant advantages:
 
@@ -113,7 +113,7 @@ RAG.search("Who is famous yogi?", index_name=index_path, k=3)
 ```
 
 This should return the top 3 documents from the indexed documents.
-![results-notebook](/assets/images/2024-09-06-colbert-3.jpeg)
+![results-notebook](/assets/images/2024-09-06-colbert-3.webp)
 
 In just a few lines of code, you have implemented a ColBERT model with Ragatouille. This demonstrates how easy it is to use ColBERT with Ragatouille.
 
@@ -459,7 +459,7 @@ def fastapi_app():
     return fast_app
 ```
 
-![Log of modal](/assets/images/2024-09-06-colbert-4.jpeg)
+![Log of modal](/assets/images/2024-09-06-colbert-4.webp)
 
 You can test this by running the following command:
 

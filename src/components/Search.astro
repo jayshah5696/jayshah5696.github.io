@@ -1,0 +1,118 @@
+---
+// Pagefind search — loads only when user interacts
+---
+
+<div class="hidden lg:block">
+  <button
+    id="search-trigger"
+    type="button"
+    class="flex items-center gap-2 w-full px-3 py-2 text-sm text-ink-muted dark:text-silk-muted
+      bg-cream-100 dark:bg-night-800 border border-cream-200 dark:border-night-700
+      rounded-lg hover:border-terra/40 dark:hover:border-terra-light/40 transition-colors cursor-pointer"
+    aria-label="Search posts"
+  >
+    <svg class="size-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <span class="font-mono text-xs">Search...</span>
+    <kbd class="ml-auto font-mono text-[10px] px-1.5 py-0.5 rounded bg-cream-200 dark:bg-night-700 text-ink-faint dark:text-silk-faint">/</kbd>
+  </button>
+</div>
+
+<!-- Search modal -->
+<div id="search-modal" class="hidden fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label="Search">
+  <div id="search-backdrop" class="absolute inset-0 bg-black/40" style="backdrop-filter: blur(4px);"></div>
+  <div class="relative max-w-lg mx-auto mt-[15vh] mx-4 sm:mx-auto">
+    <div class="bg-cream-50 dark:bg-night-900 rounded-xl border border-cream-200 dark:border-night-700 shadow-2xl overflow-hidden">
+      <div id="search-container" class="pagefind-search"></div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function() {
+    var trigger = document.getElementById('search-trigger');
+    var modal = document.getElementById('search-modal');
+    var backdrop = document.getElementById('search-backdrop');
+    var loaded = false;
+
+    function openSearch() {
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+
+      if (!loaded) {
+        loaded = true;
+        // Dynamically load Pagefind
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = '/pagefind/pagefind-ui.css';
+        document.head.appendChild(link);
+
+        var script = document.createElement('script');
+        script.src = '/pagefind/pagefind-ui.js';
+        script.onload = function() {
+          new PagefindUI({
+            element: '#search-container',
+            showSubResults: true,
+            showImages: false,
+            autofocus: true,
+          });
+          // Focus the input after init
+          setTimeout(function() {
+            var input = document.querySelector('#search-container input');
+            if (input) input.focus();
+          }, 100);
+        };
+        document.head.appendChild(script);
+      } else {
+        setTimeout(function() {
+          var input = document.querySelector('#search-container input');
+          if (input) { input.value = ''; input.focus(); }
+        }, 50);
+      }
+    }
+
+    function closeSearch() {
+      if (!modal) return;
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    if (trigger) trigger.addEventListener('click', openSearch);
+    if (backdrop) backdrop.addEventListener('click', closeSearch);
+
+    // Keyboard shortcut: "/" to open, Escape to close
+    document.addEventListener('keydown', function(e) {
+      if (e.key === '/' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+        e.preventDefault();
+        openSearch();
+      }
+      if (e.key === 'Escape') closeSearch();
+    });
+  })();
+</script>
+
+<style is:global>
+  /* Pagefind theme overrides */
+  .pagefind-ui {
+    --pagefind-ui-scale: 0.9;
+    --pagefind-ui-primary: #c4623a;
+    --pagefind-ui-text: #2c2416;
+    --pagefind-ui-background: #fefdfb;
+    --pagefind-ui-border: #e8dbc0;
+    --pagefind-ui-tag: #f5edd8;
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 8px;
+    --pagefind-ui-font: 'Outfit', system-ui, sans-serif;
+  }
+  .dark .pagefind-ui {
+    --pagefind-ui-primary: #e07a4f;
+    --pagefind-ui-text: #e8e0d4;
+    --pagefind-ui-background: #15111e;
+    --pagefind-ui-border: #2a2438;
+    --pagefind-ui-tag: #1e1928;
+  }
+  .pagefind-ui .pagefind-ui__search-input {
+    font-family: 'Fira Code', monospace;
+    font-size: 14px;
+  }
+</style>

@@ -1,14 +1,14 @@
 ---
 title: Prompt Injection
 date: 2023-10-16
-image: /assets/images/prompt-injection.png
+image: /assets/images/prompt-injection.webp
 tags:
   - llm
   - prompt
 description: Prompt Injection and lessons
 ---
 
-<img src="/assets/images/prompt-injection.png" alt="prompt-injection" width="300" height="300" style="display: block; margin-left: auto; margin-right: auto;"/>
+<img src="/assets/images/prompt-injection.webp" alt="prompt-injection" width="300" height="300" style="display: block; margin-left: auto; margin-right: auto;"/>
 
 ## AI and Prompt Injection: The Chessboard of Hidden Moves
 

@@ -45,7 +45,7 @@
     var isDark = document.documentElement.classList.contains('dark');
     var theme = isDark ? 'dark_dimmed' : 'light';
     var iframe = document.querySelector('iframe.giscus-frame');
-    if (iframe) {
+    if (iframe && iframe.contentWindow) {
       iframe.contentWindow.postMessage(
         { giscus: { setConfig: { theme: theme } } },
         'https://giscus.app'
@@ -62,4 +62,17 @@
     });
   });
   observer.observe(document.documentElement, { attributes: true });
+
+  // Sync theme when Giscus iframe first loads
+  var container = document.getElementById('giscus-container');
+  if (container) {
+    var iframeObserver = new MutationObserver(function() {
+      var iframe = container.querySelector('iframe.giscus-frame');
+      if (iframe) {
+        iframe.addEventListener('load', updateGiscusTheme);
+        iframeObserver.disconnect();
+      }
+    });
+    iframeObserver.observe(container, { childList: true, subtree: true });
+  }
 </script>

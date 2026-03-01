@@ -7,17 +7,35 @@ export async function getStaticPaths() {
     .filter((p) => !p.data.draft)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-  return allPosts.map((post, i) => ({
-    params: { slug: post.id },
-    props: {
-      post,
-      prevPost: i > 0 ? { slug: allPosts[i - 1].id, title: allPosts[i - 1].data.title } : null,
-      nextPost: i < allPosts.length - 1 ? { slug: allPosts[i + 1].id, title: allPosts[i + 1].data.title } : null,
-    },
-  }));
+  return allPosts.map((post, i) => {
+    // Build series info if this post belongs to a series
+    let seriesPosts: { slug: string; title: string; order: number; current: boolean }[] = [];
+    if (post.data.series) {
+      seriesPosts = allPosts
+        .filter((p) => p.data.series === post.data.series)
+        .sort((a, b) => (a.data.seriesOrder ?? 0) - (b.data.seriesOrder ?? 0))
+        .map((p) => ({
+          slug: p.id,
+          title: p.data.title,
+          order: p.data.seriesOrder ?? 0,
+          current: p.id === post.id,
+        }));
+    }
+
+    return {
+      params: { slug: post.id },
+      props: {
+        post,
+        prevPost: i > 0 ? { slug: allPosts[i - 1].id, title: allPosts[i - 1].data.title } : null,
+        nextPost: i < allPosts.length - 1 ? { slug: allPosts[i + 1].id, title: allPosts[i + 1].data.title } : null,
+        seriesName: post.data.series || null,
+        seriesPosts: seriesPosts.length > 1 ? seriesPosts : [],
+      },
+    };
+  });
 }
 
-const { post, prevPost, nextPost } = Astro.props;
+const { post, prevPost, nextPost, seriesName, seriesPosts } = Astro.props;
 const { Content } = await render(post);
 ---
 
@@ -30,6 +48,8 @@ const { Content } = await render(post);
   body={post.body ?? ''}
   prevPost={prevPost}
   nextPost={nextPost}
+  seriesName={seriesName}
+  seriesPosts={seriesPosts}
 >
   <Content />
 </PostLayout>

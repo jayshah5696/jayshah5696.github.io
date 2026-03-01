@@ -1,7 +1,7 @@
 ---
 title: "Stop Renting Your Workflow: Building a Custom AI Coding Agent with Pi"
 date: 2026-02-11
-image: /assets/images/pi-coding-agent/2025-02-11-pi-terminal-header.png
+image: /assets/images/pi-coding-agent/2025-02-11-pi-terminal-header.webp
 tags:
   - ai-agents
   - coding-tools
@@ -44,7 +44,7 @@ At the same time, I still think Claude Code sets the bar for coding quality and 
 When you use a tool long enough and it won't stay consistent, you reach a fork. Keep adapting to its whims. Or build something you control.
 
 <div class="center">
-<img src="/assets/images/pi-coding-agent/2025-02-10-drake-hotline-bling-pi-meme.png" alt="Drake Hotline Bling meme - Paying $200/mo vs Building custom Pi rig" width="500" style="margin: 20px auto;"/>
+<img src="/assets/images/pi-coding-agent/2025-02-10-drake-hotline-bling-pi-meme.webp" alt="Drake Hotline Bling meme - Paying $200/mo vs Building custom Pi rig" width="500" style="margin: 20px auto;"/>
 </div>
 
 ---
@@ -66,12 +66,12 @@ Pi doesn't do linear chat. It builds a tree. You're deep into an approach, the m
 [Helmut Januschka wrote about switching to Pi](https://www.januschka.com/pi-coding-agent.html) and called mid-session model switching the killer feature. I'd add the session tree. When you've spent twenty minutes building context and the model takes a wrong turn, being able to branch instead of starting over changes how you work.
 
 <div class="center">
-    <img class="image" src="/assets/images/pi-coding-agent/pi-tree-branching-session.png" alt="Pi /tree output showing a branching session with multiple paths">
+    <img class="image" src="/assets/images/pi-coding-agent/pi-tree-branching-session.webp" alt="Pi /tree output showing a branching session with multiple paths">
     <figcaption class="caption">Pi's session tree showing multiple conversation branches</figcaption>
 </div>
 
 <div class="center">
-<img src="/assets/images/pi-coding-agent/2025-02-10-omniman-pi-meme.png" alt="Omni-Man meme - Pi with 4 tools vs Claude Code" width="500" style="margin: 20px auto;"/>
+<img src="/assets/images/pi-coding-agent/2025-02-10-omniman-pi-meme.webp" alt="Omni-Man meme - Pi with 4 tools vs Claude Code" width="500" style="margin: 20px auto;"/>
 </div>
 
 Install is one line:
@@ -91,7 +91,7 @@ Pi's extension system is straightforward. You write TypeScript, register tools o
 I spent a week building my setup. I wrote some from scratch, adapted others from open-source repos, pulled the rest off npm. All of it lives in [one repo](https://github.com/jayshah5696/pi-agent-extensions).
 
 <div class="center">
-    <img class="image" src="/assets/images/pi-coding-agent/pi-extensions-loaded-startup.png" alt="Pi startup showing loaded extensions list with powerline footer">
+    <img class="image" src="/assets/images/pi-coding-agent/pi-extensions-loaded-startup.webp" alt="Pi startup showing loaded extensions list with powerline footer">
     <figcaption class="caption">Pi startup screen with custom extensions and powerline footer</figcaption>
 </div>
 
@@ -122,7 +122,7 @@ I rebuilt that pattern for Pi.
 You're not starting fresh. You're handing notes to a new instance of yourself.
 
 <div class="center">
-    <img class="image" src="/assets/images/pi-coding-agent/pi-handoff-context-extraction.png" alt="/handoff output showing extracted files, decisions, and open questions">
+    <img class="image" src="/assets/images/pi-coding-agent/pi-handoff-context-extraction.webp" alt="/handoff output showing extracted files, decisions, and open questions">
     <figcaption class="caption">Handoff extension extracting context for a new session</figcaption>
 </div>
 
@@ -163,12 +163,12 @@ The whimsical extension swaps in context-aware loading messages: Bollywood dialo
 Cosmetic. But it makes the terminal feel like mine.
 
 <div class="center">
-    <img class="image" src="/assets/images/pi-coding-agent/pi-whimsical-bollywood-loading.png" alt="Whimsical extension showing a Bollywood loading message">
+    <img class="image" src="/assets/images/pi-coding-agent/pi-whimsical-bollywood-loading.webp" alt="Whimsical extension showing a Bollywood loading message">
     <figcaption class="caption">Custom Bollywood loading message from the whimsical extension</figcaption>
 </div>
 
 <div class="center">
-    <img class="image" src="/assets/images/pi-coding-agent/pi-whimsical-exit-message.png" alt="Whimsical extension exit message">
+    <img class="image" src="/assets/images/pi-coding-agent/pi-whimsical-exit-message.webp" alt="Whimsical extension exit message">
     <figcaption class="caption">Personalized exit message from the whimsical extension</figcaption>
 </div>
 
@@ -197,7 +197,7 @@ Pi had no NIM provider config and no community plugin when I set this up.
 I pointed Pi at the [NIM API reference](https://docs.api.nvidia.com/nim/reference/llm-apis). NIM uses an OpenAI-compatible endpoint, so the config was standard. Pi generated provider config, I dropped it into settings, and model switching was live.
 
 <div class="center">
-<img src="/assets/images/pi-coding-agent/2025-02-10-snap-villain-pi-meme.png" alt="Thanos meme - Fine, I'll build it myself" width="500" style="margin: 20px auto;"/>
+<img src="/assets/images/pi-coding-agent/2025-02-10-snap-villain-pi-meme.webp" alt="Thanos meme - Fine, I'll build it myself" width="500" style="margin: 20px auto;"/>
 </div>
 
 ---
@@ -219,7 +219,7 @@ There's a difference between a tool that works for you and a service that works 
 Build your own rig. Or at least pick one you can take apart.
 
 <div class="center">
-<img src="/assets/images/pi-coding-agent/2025-02-10-captain-phillips-orchestrator-meme.png" alt="Captain Phillips meme - Look at me. I am the orchestrator now." width="500" style="margin: 20px auto;"/>
+<img src="/assets/images/pi-coding-agent/2025-02-10-captain-phillips-orchestrator-meme.webp" alt="Captain Phillips meme - Look at me. I am the orchestrator now." width="500" style="margin: 20px auto;"/>
 </div>
 
 ---

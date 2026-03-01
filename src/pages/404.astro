@@ -1,14 +1,39 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 3);
 ---
 
 <BaseLayout title="Not Found">
-  <div class="text-center py-24">
+  <div class="text-center py-16">
     <p class="font-display text-7xl text-cream-300 dark:text-night-800 mb-2">404</p>
-    <p class="font-mono text-xs uppercase text-ink-muted dark:text-silk-faint mb-10" style="letter-spacing: 0.2em;">
+    <p class="font-mono text-xs uppercase text-ink-muted dark:text-silk-faint mb-8" style="letter-spacing: 0.2em;">
       Page not found
     </p>
     <div class="kolam-border mb-8"></div>
+
+    {posts.length > 0 && (
+      <div class="text-left max-w-md mx-auto mb-10">
+        <h2 class="font-mono text-[10px] uppercase text-ink-faint dark:text-silk-faint mb-4" style="letter-spacing: 0.15em;">Recent posts</h2>
+        <ul class="space-y-3">
+          {posts.map((post) => (
+            <li>
+              <a
+                href={`/posts/${post.id}/`}
+                class="text-sm text-ink-light dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors"
+              >
+                {post.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )}
+
     <a
       href="/"
       class="inline-flex items-center gap-2 font-mono text-sm text-terra hover:text-terra-dark dark:text-terra-light dark:hover:text-terra transition-colors duration-200"

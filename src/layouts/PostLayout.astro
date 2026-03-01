@@ -3,11 +3,19 @@ import BaseLayout from './BaseLayout.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import TagList from '../components/TagList.astro';
 import Giscus from '../components/Giscus.astro';
+import JsonLd from '../components/JsonLd.astro';
 import readingTime from 'reading-time';
 
 interface PostLink {
   slug: string;
   title: string;
+}
+
+interface SeriesPost {
+  slug: string;
+  title: string;
+  order: number;
+  current: boolean;
 }
 
 interface Props {
@@ -19,9 +27,11 @@ interface Props {
   body: string;
   prevPost?: PostLink | null;
   nextPost?: PostLink | null;
+  seriesName?: string | null;
+  seriesPosts?: SeriesPost[];
 }
 
-const { title, date, description, image, tags, body, prevPost, nextPost } = Astro.props;
+const { title, date, description, image, tags, body, prevPost, nextPost, seriesName, seriesPosts = [] } = Astro.props;
 const stats = readingTime(body);
 
 const headingRegex = /^(#{2,3})\s+(.+)$/gm;
@@ -45,9 +55,10 @@ const showToc = headings.length > 3;
 ---
 
 <BaseLayout title={title} description={description} image={image} rightSidebar={showToc}>
+  <JsonLd type="BlogPosting" title={title} description={description} date={date} image={image} tags={tags} />
   <!-- Reading progress bar -->
-  <div id="reading-progress" class="fixed top-0 left-0 right-0 z-50 h-[3px] app-progress" aria-hidden="true">
-    <div id="reading-progress-bar" class="h-full w-0 transition-none" style="background: linear-gradient(to right, #c4623a, #d4a843);"></div>
+  <div id="reading-progress" class="fixed top-0 left-0 right-0 z-50 h-1 app-progress" aria-hidden="true">
+    <div id="reading-progress-bar" class="h-full w-0 transition-none shadow-sm" style="background: linear-gradient(to right, #c4623a, #d4a843); box-shadow: 0 1px 3px rgba(196,98,58,0.3);"></div>
   </div>
 
   <article>
@@ -74,6 +85,28 @@ const showToc = headings.length > 3;
 
       <div class="mt-10 kolam-border"></div>
     </header>
+
+    {seriesPosts.length > 0 && seriesName && (
+      <nav class="mb-10 p-4 rounded-lg border border-cream-200 dark:border-night-700 bg-cream-50/50 dark:bg-night-800/50" aria-label="Post series">
+        <h4 class="font-mono text-[10px] uppercase text-ink-faint dark:text-silk-faint mb-3" style="letter-spacing: 0.15em;">
+          Series: {seriesName}
+        </h4>
+        <ol class="space-y-1.5">
+          {seriesPosts.map((sp, i) => (
+            <li class="flex items-baseline gap-2">
+              <span class="font-mono text-[10px] text-ink-faint dark:text-silk-faint tabular-nums shrink-0">{i + 1}.</span>
+              {sp.current ? (
+                <span class="text-sm font-medium text-terra dark:text-terra-light">{sp.title}</span>
+              ) : (
+                <a href={`/posts/${sp.slug}/`} class="text-sm text-ink-light dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors">
+                  {sp.title}
+                </a>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
 
     <div class="prose prose-kolam dark:prose-invert prose-lg max-w-none">
       <slot />

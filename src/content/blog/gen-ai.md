@@ -1,14 +1,14 @@
 ---
 title: Euphoria of Gen AI
 date: 2024-02-26
-image: /assets/images/euphoria-gen-ai.jpeg
+image: /assets/images/euphoria-gen-ai.webp
 tags:
   - llm
   - gen-ai
 description: Gen AI and its euphoria
 ---
 
-<img src="/assets/images/euphoria-gen-ai.jpeg" alt="Gen AI and its euphoria" width="450" height="300" style="display: block; margin-left: auto; margin-right: auto;"/>
+<img src="/assets/images/euphoria-gen-ai.webp" alt="Gen AI and its euphoria" width="450" height="300" style="display: block; margin-left: auto; margin-right: auto;"/>
 
 **ChatGPT arrived over a year ago**, and the world of technology has been irrevocably changed. Generative AI has sparked a major shake-up, and we are only beginning to grasp the extent of its impact on our lives.
 

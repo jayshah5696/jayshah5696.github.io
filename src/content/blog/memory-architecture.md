@@ -1,7 +1,7 @@
 ---
 title: "File-Based Memory Is a Terrible Idea That Somehow Works"
 date: 2026-02-28
-image: /assets/images/2026-03-01-02-52-00-memory-architecture-hero-v2.png
+image: /assets/images/2026-03-01-02-52-00-memory-architecture-hero-v2.webp
 tags:
   - ai-agents
   - openclaw
@@ -10,7 +10,7 @@ tags:
 description: "A production diary of tiered episodic memory in AI agents. Three markdown files, an SQLite database, and a lobster that somehow remembers what you said three days ago."
 ---
 
-<img src="/assets/images/2026-03-01-02-52-00-memory-architecture-hero-v2.png" alt="Clawdy the OpenClaw lobster juggling MEMORY.md, AGENTS.md, and SOUL.md on a tightrope over production" width="800" style="display: block; margin-left: auto; margin-right: auto;"/>
+<img src="/assets/images/2026-03-01-02-52-00-memory-architecture-hero-v2.webp" alt="Clawdy the OpenClaw lobster juggling MEMORY.md, AGENTS.md, and SOUL.md on a tightrope over production" width="800" style="display: block; margin-left: auto; margin-right: auto;"/>
 
 *A production diary of tiered episodic memory in AI agents*
 
@@ -62,7 +62,7 @@ There's also `SOUL.md` (personality file, defines writing style and the persona)
 
 Search runs two passes: vector search for semantic similarity, plus [SQLite FTS5](https://www.sqlite.org/fts5.html) for exact term matching. The FTS5 layer matters more than I expected. Vector search misses bug IDs, specific model names, exact version strings. FTS5 catches those. The hybrid approach outperforms either alone.
 
-<img src="/assets/images/blog-memory/memory-arch.png" alt="Three-tier memory architecture: Ephemeral daily logs, Durable MEMORY.md, and Session AGENTS.md with hybrid search layer" width="700" style="display: block; margin-left: auto; margin-right: auto;"/>
+<img src="/assets/images/blog-memory/memory-arch.webp" alt="Three-tier memory architecture: Ephemeral daily logs, Durable MEMORY.md, and Session AGENTS.md with hybrid search layer" width="700" style="display: block; margin-left: auto; margin-right: auto;"/>
 
 No graph database. No custom embedding pipeline. Just markdown, SQLite, and a model expected to be a competent reader of its own notes.
 
@@ -132,7 +132,7 @@ NVIDIA NIM open-source models I tested had the same problem. A few data points:
 
 Claude Sonnet 4.6 is a different tier entirely. With Sonnet, the agent handles multi-step tasks correctly, maintains state, follows complex instructions. The capability jump is not incremental. It's the difference between the system being a novelty and being something I actually depend on.
 
-<img src="/assets/images/blog-memory/model-cliff.png" alt="Model quality cliff: flat line for Flash/NIM models, sharp vertical cliff, then stable high line for Sonnet 4.6 class" width="700" style="display: block; margin-left: auto; margin-right: auto;"/>
+<img src="/assets/images/blog-memory/model-cliff.webp" alt="Model quality cliff: flat line for Flash/NIM models, sharp vertical cliff, then stable high line for Sonnet 4.6 class" width="700" style="display: block; margin-left: auto; margin-right: auto;"/>
 
 The implication for anyone building on file-based memory: the memory system is load-bearing, but only if the model underneath is capable enough to use it correctly. A weak model will ignore context, mis-parse files, fail to update memory at the right times. File-based memory doesn't rescue a weak model. It gives a capable model better tools.
 
@@ -150,9 +150,9 @@ For session recall, Hermes uses SQLite FTS5 search over all past conversation tr
 
 The way I see it: OpenClaw gives the model a filing cabinet and trusts it to organize. Hermes gives the model a Post-it note and forces aggressive curation.
 
-<img src="/assets/images/blog-memory/filing-vs-postit.png" alt="Filing cabinet vs. Post-it note: OpenClaw accumulates in a filing cabinet, Hermes forces curation on a Post-it note" width="700" style="display: block; margin-left: auto; margin-right: auto;"/>
+<img src="/assets/images/blog-memory/filing-vs-postit.webp" alt="Filing cabinet vs. Post-it note: OpenClaw accumulates in a filing cabinet, Hermes forces curation on a Post-it note" width="700" style="display: block; margin-left: auto; margin-right: auto;"/>
 
-<img src="/assets/images/blog-memory/comparison-table.png" alt="OpenClaw vs. Hermes comparison: storage, housekeeping, session recall, and main risk side by side" width="700" style="display: block; margin-left: auto; margin-right: auto;"/>
+<img src="/assets/images/blog-memory/comparison-table.webp" alt="OpenClaw vs. Hermes comparison: storage, housekeeping, session recall, and main risk side by side" width="700" style="display: block; margin-left: auto; margin-right: auto;"/>
 
 That framing gets at a genuine design philosophy difference. OpenClaw's model can accumulate everything and sort it later. Hermes's model has to decide, constantly, what matters enough to keep. The character limits make every write a trade-off.
 

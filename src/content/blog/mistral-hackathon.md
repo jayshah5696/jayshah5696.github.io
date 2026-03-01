@@ -1,14 +1,14 @@
 ---
 title: "Hackathons - A Condensed Time for Learning, Building, and Networking"
 date: 2024-03-25
-image: /assets/images/mistral-hackathon.jpeg
+image: /assets/images/mistral-hackathon.webp
 tags:
   - gen-ai
   - hackathon
 description: Hackathon Experience at Mistral Hackathon in San Francisco
 ---
 
-<img src="/assets/images/hackathon.jpeg" alt="mistral-hackathon" width="450" height="300" style="display: block; margin-left: auto; margin-right: auto;"/>
+<img src="/assets/images/hackathon.webp" alt="mistral-hackathon" width="450" height="300" style="display: block; margin-left: auto; margin-right: auto;"/>
 
 
 Hello everyone,

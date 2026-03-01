@@ -21,8 +21,8 @@ const stats = readingTime(body);
 <article class:list={[
   'group rounded-xl border overflow-hidden transition-all duration-200 featured-card rangoli-corners',
   featured
-    ? 'border-terra/20 dark:border-terra-light/15 hover:border-terra dark:hover:border-terra-light hover:shadow-lg'
-    : 'border-terra/20 dark:border-terra-light/15 hover:border-terra dark:hover:border-terra-light hover:shadow-lg',
+    ? 'border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light hover:shadow-lg shadow-sm'
+    : 'border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light hover:shadow-md',
 ]}>
   <a href={`/posts/${slug}/`} class:list={[
     'flex',
@@ -35,6 +35,7 @@ const stats = readingTime(body);
           src={image}
           alt={title}
           class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          loading="lazy"
         />
       </div>
     )}

@@ -1,7 +1,7 @@
 ---
 title: "Beyond the Hype- Practical Strategies for Implementing Superior RAG"
 date: 2024-09-03
-image: /assets/images/rag-llm.jpeg
+image: /assets/images/rag-llm.webp
 tags:
   - gen-ai
   - llm
@@ -9,7 +9,7 @@ tags:
 description: Practical strategies for implementing and optimizing Retrieval Augmented Generation (RAG) in LLM systems.
 ---
 
-<img src="/assets/images/rag-llm.jpeg" alt="applied-rag" width="450" height="450" style="display: block; margin-left: auto; margin-right: auto;"/>
+<img src="/assets/images/rag-llm.webp" alt="applied-rag" width="450" height="450" style="display: block; margin-left: auto; margin-right: auto;"/>
 
 Hello everyone,
 
@@ -212,7 +212,7 @@ Evaluating the generation component of a RAG system is inherently more challengi
    - **Example:** The response should directly address the user's question, without unnecessary digressions.
 
 #### Summary
-![[RagChecker](https://github.com/amazon-science/RAGChecker)](/assets/images/ragchecker.png)
+![[RagChecker](https://github.com/amazon-science/RAGChecker)](/assets/images/ragchecker.webp)
 In summary, while retrieval evaluation is more straightforward due to its reliance on objective metrics, generation evaluation requires a more nuanced approach. By focusing on prompt engineering, contextual relevance, and consistency checks, and by evaluating faithfulness, coherence, and relevance, you can ensure that your RAG system produces high-quality, reliable outputs. Continuous iteration and refinement of these strategies are essential for optimizing the performance of the generation component.
 
 ### Best Practices for Evaluation
