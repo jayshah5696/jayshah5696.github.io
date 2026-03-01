@@ -334,4 +334,37 @@
   .dark .page-pattern {
     background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='1' fill='%23e07a4f' opacity='0.03'/%3E%3Ccircle cx='0' cy='0' r='1' fill='%23e8c462' opacity='0.02'/%3E%3Ccircle cx='100' cy='0' r='1' fill='%23e8c462' opacity='0.02'/%3E%3Ccircle cx='0' cy='100' r='1' fill='%23e8c462' opacity='0.02'/%3E%3Ccircle cx='100' cy='100' r='1' fill='%23e8c462' opacity='0.02'/%3E%3C/svg%3E");
   }
+
+  /* ═══════════════════════════════════════
+     APP CENTERING — ultra-wide layout
+     Centers sidebar + content as a cohesive unit
+     on screens wider than 1536px, like GitHub/Twitter.
+     Background tiles edge-to-edge; the app sits centered.
+     ═══════════════════════════════════════ */
+  .app-sidebar {
+    left: 0;
+  }
+
+  @media (min-width: 1024px) {
+    .app-content {
+      margin-left: 260px;
+    }
+    .app-progress {
+      left: 260px;
+    }
+  }
+
+  @media (min-width: 1536px) {
+    .app-sidebar {
+      left: calc((100vw - 1536px) / 2);
+    }
+    .app-content {
+      margin-left: calc((100vw - 1536px) / 2 + 260px);
+      margin-right: calc((100vw - 1536px) / 2);
+    }
+    .app-progress {
+      left: calc((100vw - 1536px) / 2 + 260px);
+      right: calc((100vw - 1536px) / 2);
+    }
+  }
 }

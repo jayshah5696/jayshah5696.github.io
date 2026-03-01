@@ -75,13 +75,15 @@ const canonicalURL = new URL(Astro.url.pathname, SITE_URL);
     <Sidebar />
     <MobileNav />
 
-    <div class="lg:ml-[260px] pt-14 lg:pt-0">
-      <div class="max-w-6xl mx-auto px-6 py-10 lg:py-14 flex gap-10">
-        <main class="flex-1 min-w-0">
+    <div class="app-content pt-14 lg:pt-0">
+      <div class="w-full max-w-[1152px] px-6 lg:px-10 py-10 lg:py-14 flex justify-between gap-10 xl:gap-16">
+        <main class="w-full max-w-[768px] min-w-0">
           <slot />
         </main>
         {rightSidebar && (
-          <slot name="right-sidebar" />
+          <div class="hidden xl:block w-[240px] shrink-0">
+            <slot name="right-sidebar" />
+          </div>
         )}
       </div>
     </div>

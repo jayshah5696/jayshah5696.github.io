@@ -44,9 +44,9 @@ while ((match = headingRegex.exec(body)) !== null) {
 const showToc = headings.length > 3;
 ---
 
-<BaseLayout title={title} description={description} image={image}>
+<BaseLayout title={title} description={description} image={image} rightSidebar={showToc}>
   <!-- Reading progress bar -->
-  <div id="reading-progress" class="fixed top-0 left-0 right-0 z-50 h-[3px] lg:left-[260px]" aria-hidden="true">
+  <div id="reading-progress" class="fixed top-0 left-0 right-0 z-50 h-[3px] app-progress" aria-hidden="true">
     <div id="reading-progress-bar" class="h-full w-0 transition-none" style="background: linear-gradient(to right, #c4623a, #d4a843);"></div>
   </div>
 
@@ -74,26 +74,6 @@ const showToc = headings.length > 3;
 
       <div class="mt-10 kolam-border"></div>
     </header>
-
-    {showToc && (
-      <aside class="hidden 2xl:block fixed right-8 top-16 w-56 z-20">
-        <nav class="text-xs border-l-2 border-terra/20 dark:border-terra-light/20 pl-4" aria-label="Table of contents">
-          <h4 class="font-mono uppercase text-ink-faint dark:text-silk-faint mb-3 text-[10px]" style="letter-spacing: 0.15em;">On this page</h4>
-          <ul class="space-y-2">
-            {headings.map(({ depth, text, slug }) => (
-              <li class:list={[depth === 3 && 'pl-3']}>
-                <a
-                  href={`#${slug}`}
-                  class="text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors duration-200 line-clamp-2 leading-snug"
-                >
-                  {text}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      </aside>
-    )}
 
     <div class="prose prose-kolam dark:prose-invert prose-lg max-w-none">
       <slot />
@@ -149,6 +129,28 @@ const showToc = headings.length > 3;
       </a>
     </footer>
   </article>
+
+  {showToc && (
+    <aside slot="right-sidebar" class="hidden xl:block w-[240px] shrink-0">
+      <div class="sticky top-16">
+        <nav class="text-xs border-l-2 border-terra/20 dark:border-terra-light/20 pl-4" aria-label="Table of contents">
+          <h4 class="font-mono uppercase text-ink-faint dark:text-silk-faint mb-3 text-[10px]" style="letter-spacing: 0.15em;">On this page</h4>
+          <ul class="space-y-2">
+            {headings.map(({ depth, text, slug }) => (
+              <li class:list={[depth === 3 && 'pl-3']}>
+                <a
+                  href={`#${slug}`}
+                  class="text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors duration-200 line-clamp-2 leading-snug"
+                >
+                  {text}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </aside>
+  )}
 
   <script is:inline>
     (function() {

@@ -4,6 +4,9 @@ export default {
   darkMode: 'class',
   theme: {
     extend: {
+      fontSize: {
+        base: '16px', // Slightly larger base for better readability
+      },
       fontFamily: {
         display: ['Yeseva One', 'Georgia', 'serif'],
         body: ['Outfit', 'system-ui', 'sans-serif'],

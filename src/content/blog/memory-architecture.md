@@ -24,7 +24,7 @@ Then I asked it a follow-up question about a model benchmark I'd mentioned in pa
 
 It got it right. Exact context. No confusion.
 
-I'm a Senior Data Scientist. I've built enough ML systems to be professionally skeptical of things that "just work." My first thought wasn't "wow, great memory." My first thought was: is it actually recalling this, or did it just get lucky on a retrieval? I still don't have a clean answer to that. But the mechanism I was staring at was three markdown files and an SQLite database. That's it.
+I'm a Data Scientist. I've built enough ML systems to be professionally skeptical of things that "just work." My first thought wasn't "wow, great memory." My first thought was: is it actually recalling this, or did it just get lucky on a retrieval? I still don't have a clean answer to that. But the mechanism I was staring at was three markdown files and an SQLite database. That's it.
 
 This post is about running these systems, what broke, what I had to build on top, and why I'm still not sure whether "memory" is even the right word for what's happening.
 
@@ -224,4 +224,3 @@ Five observations for anyone making product or architecture decisions here.
 
 ---
 
-*Jay Shah is a Senior Data Scientist building production agentic systems on self-hosted infrastructure. He writes about what actually works, including when the answer is "markdown files."*
