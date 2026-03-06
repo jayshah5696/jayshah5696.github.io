@@ -11,6 +11,9 @@ test.describe('PostCard Component', () => {
     // Expect it to have the hover lift class
     await expect(firstArticle).toHaveClass(/hover:-translate-y-1/);
 
+    // Hover the article to trigger opacity transition
+    await firstArticle.hover();
+
     // Expect to find a read article indicator inside it
     const readIndicator = firstArticle.locator('text=Read article');
     await expect(readIndicator).toBeVisible();
