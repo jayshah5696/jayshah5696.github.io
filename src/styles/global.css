@@ -50,6 +50,33 @@
     border-top-color: #e07a4f !important;
   }
 
+  /* Fix for Astro Shiki dual themes to respect the .dark class */
+  html.dark pre.astro-code,
+  html.dark pre.astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
+  /* Force dark mode pre background to match Vav design system night-800 */
+  html.dark pre.astro-code {
+    background-color: #1e1928 !important;
+  }
+
+  html:not(.dark) pre.astro-code,
+  html:not(.dark) pre.astro-code span {
+    color: var(--shiki-light) !important;
+    background-color: var(--shiki-light-bg) !important;
+    font-style: var(--shiki-light-font-style) !important;
+    font-weight: var(--shiki-light-font-weight) !important;
+    text-decoration: var(--shiki-light-text-decoration) !important;
+  }
+  /* Force light mode pre background to match Vav design system cream-50 */
+  html:not(.dark) pre.astro-code {
+    background-color: #fdf9f1 !important;
+  }
+
   /* Copy button on code blocks */
   pre .copy-code-btn {
     position: absolute;
@@ -333,6 +360,107 @@
   }
   .dark .page-pattern {
     background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='1' fill='%23e07a4f' opacity='0.03'/%3E%3Ccircle cx='0' cy='0' r='1' fill='%23e8c462' opacity='0.02'/%3E%3Ccircle cx='100' cy='0' r='1' fill='%23e8c462' opacity='0.02'/%3E%3Ccircle cx='0' cy='100' r='1' fill='%23e8c462' opacity='0.02'/%3E%3Ccircle cx='100' cy='100' r='1' fill='%23e8c462' opacity='0.02'/%3E%3C/svg%3E");
+  }
+
+  /* ═══════════════════════════════════════
+     MERMAID DIAGRAMS
+     Styling for build-time rendered SVGs
+     ═══════════════════════════════════════ */
+  .mermaid {
+    @apply flex justify-center my-12 bg-cream-50/30 dark:bg-night-950/30 rounded-xl p-8 border border-cream-200 dark:border-night-700 !important;
+  }
+  .mermaid svg {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+  /* Hide the copy button on mermaid blocks as it breaks the diagram syntax */
+  pre.mermaid .copy-code-btn {
+    display: none !important;
+  }
+
+  /* Node Rects */
+  .mermaid .node rect, .mermaid .node circle, .mermaid .node ellipse, .mermaid .node polygon, .mermaid .node path {
+    fill: #fdf9f1 !important;
+    stroke: #c4623a !important;
+    stroke-width: 1.5px !important;
+  }
+  .dark .mermaid .node rect, .dark .mermaid .node circle, .dark .mermaid .node ellipse, .dark .mermaid .node polygon, .dark .mermaid .node path {
+    fill: #1e1928 !important;
+    stroke: #e07a4f !important;
+  }
+  /* Labels (Color ONLY, no font changes to prevent clipping) */
+  .mermaid .node .label, .mermaid .label text, .mermaid span {
+    fill: #2c2416 !important;
+    color: #2c2416 !important;
+  }
+  .dark .mermaid .node .label, .dark .mermaid .label text, .dark .mermaid span {
+    fill: #e8e0d4 !important;
+    color: #e8e0d4 !important;
+  }
+  /* Edges/Paths */
+  .mermaid .edgePath .path {
+    stroke: #d4a843 !important;
+    stroke-width: 1.5px !important;
+  }
+  .dark .mermaid .edgePath .path {
+    stroke: #e8c462 !important;
+  }
+  /* Arrows */
+  .mermaid .arrowheadPath {
+    fill: #d4a843 !important;
+  }
+  .dark .mermaid .arrowheadPath {
+    fill: #e8c462 !important;
+  }
+  /* Cluster/Subgraph */
+  .mermaid .cluster rect {
+    fill: #f5edd8 !important;
+    stroke: #d4c4a0 !important;
+    stroke-dasharray: 4 !important;
+  }
+  .dark .mermaid .cluster rect {
+    fill: #15111e !important;
+    stroke: #2a2438 !important;
+  }
+  .mermaid .cluster-label text, .mermaid .cluster-label span {
+    fill: #8a7d68 !important;
+    color: #8a7d68 !important;
+  }
+  .dark .mermaid .cluster-label text, .dark .mermaid .cluster-label span {
+    fill: #a89e8e !important;
+    color: #a89e8e !important;
+  }
+  
+  /* Edge Labels ("Dimensionality Slicing") —
+     Mermaid injects inline background-color on deeply nested elements.
+     We use wildcard descendant + !important to nuke all of them. */
+  .mermaid .edgeLabel,
+  .mermaid .edgeLabel *,
+  .mermaid .labelBkg {
+    background-color: transparent !important;
+    background: transparent !important;
+  }
+  .mermaid .edgeLabel rect,
+  .mermaid .labelBkg {
+    fill: transparent !important;
+  }
+
+  /* Edge label text color */
+  .mermaid .edgeLabel,
+  .mermaid .edgeLabel *,
+  .mermaid .edgeLabel text,
+  .mermaid .edgeLabel span,
+  .mermaid .edgeLabel div {
+    color: #c4623a !important;
+    fill: #c4623a !important;
+  }
+  .dark .mermaid .edgeLabel,
+  .dark .mermaid .edgeLabel *,
+  .dark .mermaid .edgeLabel text,
+  .dark .mermaid .edgeLabel span,
+  .dark .mermaid .edgeLabel div {
+    color: #e07a4f !important;
+    fill: #e07a4f !important;
   }
 
   /* ═══════════════════════════════════════
