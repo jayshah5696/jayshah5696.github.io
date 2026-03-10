@@ -7,6 +7,24 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    title: 'Session Aggregator',
+    description: 'A unified powerhouse for AI coding history. Sync, search, and export sessions from across all your AI development tools with a beautiful TUI and semantic search.',
+    url: 'https://github.com/jayshah5696/session-aggregator',
+    tags: ['AI', 'TUI', 'PYTHON', 'SEMANTIC-SEARCH'],
+  },
+  {
+    title: 'Medha (\u092e\u0947\u0927\u093e) IDE',
+    description: 'A local-first SQL IDE for flat files. Leverages DuckDB, FastAPI, and Vite, featuring LangGraph for semantic query generation.',
+    url: 'https://github.com/jayshah5696/medha',
+    tags: ['SQL', 'LOCAL-FIRST', 'LANGGRAPH', 'DUCKDB'],
+  },
+  {
+    title: 'ER Metric & Model POC',
+    description: 'High-scale entity resolution comparing dense embedding models against BM25 with Matryoshka Rep. Learning (MRL) for efficient ANN retrieval.',
+    url: 'https://github.com/jayshah5696/entity-resolution-poc',
+    tags: ['ML', 'ELASTICSEARCH', 'MRL', 'ENTITY-RESOLUTION'],
+  },
+  {
     title: 'Prav\u0101ha: AI-Powered Search Engine',
     description: 'LLM enhanced search relevance with specialized ranking and chunking strategies.',
     url: 'https://github.com/jayshah5696/pravah',
