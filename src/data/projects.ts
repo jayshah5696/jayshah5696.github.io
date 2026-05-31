@@ -72,4 +72,16 @@ export const projects: Project[] = [
     url: 'https://github.com/jayshah5696/Phase1_Analysis',
     tags: ['Statistics', 'QC', 'Manufacturing'],
   },
+  {
+    title: 'Arka (अर्क)',
+    description: 'Config-driven synthetic data generation pipeline for LLM fine-tuning. Integrates multi-source ingestion, Evol-Instruct, MinHash+LSH near-deduplication, and SQLite checkpoints.',
+    url: 'https://github.com/jayshah5696/arka',
+    tags: ['LLM', 'Data-Generation', 'Python', 'YAML'],
+  },
+  {
+    title: 'Humanizer-RL',
+    description: 'Two-layer AI writing detection and humanization pipeline. Distills a Ridge classifier from LLM evaluations to build an RL reward function (hosted at humanize-reward.lakebed.app) for training Gemma 4 via DAPO.',
+    url: 'https://github.com/jayshah5696/humanize-rl',
+    tags: ['RLHF', 'Fine-Tuning', 'Gemma-4', 'Python'],
+  },
 ];
