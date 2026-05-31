@@ -6,7 +6,8 @@
     "dev": "astro dev",
     "build": "astro build && npx pagefind --site dist",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "add-read": "node scripts/add-read.js"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.0",
