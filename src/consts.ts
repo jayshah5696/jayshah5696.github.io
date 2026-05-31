@@ -16,6 +16,8 @@ export const NAV_ITEMS = [
   { label: 'Home', href: '/', icon: 'home' },
   { label: 'About', href: '/about', icon: 'about' },
   { label: 'Projects', href: '/projects', icon: 'projects' },
+  { label: 'Links', href: '/links', icon: 'links' },
   { label: 'Archives', href: '/archives', icon: 'archive' },
   { label: 'Resume', href: 'https://cv.jayshah.dev', icon: 'resume' },
 ] as const;
+
