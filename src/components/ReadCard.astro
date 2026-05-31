@@ -1,0 +1,58 @@
+---
+import { render } from 'astro:content';
+import FormattedDate from './FormattedDate.astro';
+import TagList from './TagList.astro';
+
+interface Props {
+  entry: any;
+}
+
+const { entry } = Astro.props;
+const { title, url, date, tags } = entry.data;
+const { Content } = await render(entry);
+
+let domain = '';
+try {
+  domain = new URL(url).hostname.replace('www.', '');
+} catch (e) {
+  domain = url;
+}
+---
+
+<article class="featured-card hover:-translate-y-0.5 border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light hover:shadow-md transition-all duration-200 relative p-5 rounded-xl flex flex-col gap-3">
+  <!-- Top bar: Date & Domain -->
+  <div class="flex items-center gap-2 font-mono text-[11px] text-ink-muted dark:text-silk-muted">
+    <span class="inline-flex items-center gap-1">
+      <svg class="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4m-5 4h18"/></svg>
+      <FormattedDate date={date} />
+    </span>
+    <span class="text-cream-400 dark:text-night-700 select-none" aria-hidden="true">&bull;</span>
+    <span class="text-gold-dark dark:text-gold-light font-medium">{domain}</span>
+  </div>
+
+  <!-- Title Link -->
+  <h3 class="font-display text-base sm:text-lg text-ink dark:text-silk leading-snug">
+    <a href={url} target="_blank" rel="noopener noreferrer" class="hover:text-terra dark:hover:text-terra-light inline-flex items-center gap-1.5 align-middle group-hover:text-terra">
+      <span class="underline-offset-4 group-hover:underline">{title}</span>
+      <svg class="size-4 shrink-0 opacity-60 hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+        <polyline points="15 3 21 3 21 9"/>
+        <line x1="10" y1="14" x2="21" y2="3"/>
+      </svg>
+    </a>
+  </h3>
+
+  <!-- Tags -->
+  {tags.length > 0 && (
+    <div class="-mt-1">
+      <TagList tags={tags} />
+    </div>
+  )}
+
+  <!-- Commentary (Markdown Body) -->
+  {entry.body && entry.body.trim().length > 0 && (
+    <div class="prose prose-kolam dark:prose-invert prose-sm max-w-none bg-cream-50/50 dark:bg-night-950/30 p-3.5 rounded-lg border border-cream-200/50 dark:border-night-700/50 mt-1">
+      <Content />
+    </div>
+  )}
+</article>

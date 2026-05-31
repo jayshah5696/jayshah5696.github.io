@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ReadCard from '../components/ReadCard.astro';
+import RightSidebar from '../components/RightSidebar.astro';
+import { getCollection } from 'astro:content';
+
+const entries = (await getCollection('reads'))
+  .filter((r) => !r.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const totalLinks = entries.length;
+
+// Group by Year and Month
+const grouped: Record<string, Record<string, typeof entries>> = {};
+entries.forEach((entry) => {
+  const date = entry.data.date;
+  const year = date.getFullYear().toString();
+  const month = date.toLocaleString('en-US', { month: 'long' });
+
+  if (!grouped[year]) {
+    grouped[year] = {};
+  }
+  if (!grouped[year][month]) {
+    grouped[year][month] = [];
+  }
+  grouped[year][month].push(entry);
+});
+
+const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
+---
+
+<BaseLayout title="Reads" description="Curated links and weekly reads on AI, RAG, engineering, and technology — with brief notes." rightSidebar={true}>
+  <!-- Header -->
+  <header class="mb-8">
+    <h1 class="font-display text-4xl text-ink dark:text-silk carved-heading">Reads</h1>
+    <p class="mt-4 text-ink-light dark:text-silk-muted text-base leading-relaxed">
+      A collection of interesting articles, papers, tools, and links I come across, with brief summaries and personal commentary.
+    </p>
+    <div class="flex items-center gap-3 mt-3">
+      <span class="font-mono text-xs text-ink-faint dark:text-silk-faint uppercase" style="letter-spacing: 0.1em;">
+        {totalLinks} {totalLinks === 1 ? 'link' : 'links'} shared
+      </span>
+    </div>
+    <div class="kolam-border mt-5"></div>
+  </header>
+
+  {totalLinks === 0 ? (
+    <div class="featured-card p-8 text-center text-ink-muted dark:text-silk-muted">
+      <p class="mb-4">No recommended reads shared yet.</p>
+      <p class="text-xs">Add markdown files to <code class="bg-cream-200 dark:bg-night-800 px-1 py-0.5 rounded font-mono">src/content/reads/</code> to populate this page.</p>
+    </div>
+  ) : (
+    <div class="space-y-12">
+      {years.map((year) => (
+        <section>
+          <!-- Year Heading -->
+          <h2 class="font-display text-2xl text-ink dark:text-silk mb-6 border-b border-cream-200 dark:border-night-700 pb-2 flex items-center gap-3">
+            <span class="font-mono text-xl text-ink-muted dark:text-silk-muted select-none">#</span>
+            {year}
+          </h2>
+          
+          <!-- Months under this year -->
+          <div class="space-y-8">
+            {Object.keys(grouped[year]).map((month) => (
+              <div class="relative pl-6 sm:pl-8 border-l border-dashed border-cream-300 dark:border-night-700 ml-3">
+                <!-- Timeline Dot -->
+                <div class="absolute -left-[5px] top-2 size-2.5 rounded-full bg-terra dark:bg-terra-light ring-4 ring-cream-100 dark:ring-night-900" aria-hidden="true" />
+                
+                <h3 class="font-display text-lg text-terra dark:text-terra-light mb-4">{month}</h3>
+                
+                <div class="space-y-5">
+                  {grouped[year][month].map((entry) => (
+                    <ReadCard entry={entry} />
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
+    </div>
+  )}
+
+  <RightSidebar slot="right-sidebar" />
+</BaseLayout>

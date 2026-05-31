@@ -6,14 +6,25 @@ const posts = (await getCollection('blog'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
+const reads = (await getCollection('reads'))
+  .filter((r) => !r.data.draft);
+
 const recentPosts = posts.slice(0, 5);
 
 const tagCounts: Record<string, number> = {};
+
 posts.forEach((post) => {
   post.data.tags.forEach((tag) => {
     tagCounts[tag] = (tagCounts[tag] || 0) + 1;
   });
 });
+
+reads.forEach((read) => {
+  read.data.tags.forEach((tag) => {
+    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+  });
+});
+
 const trendingTags = Object.entries(tagCounts)
   .sort((a, b) => b[1] - a[1])
   .slice(0, 10);

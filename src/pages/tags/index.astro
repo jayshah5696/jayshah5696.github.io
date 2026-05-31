@@ -3,10 +3,18 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
+const reads = (await getCollection('reads')).filter((r) => !r.data.draft);
 
 const tagCounts: Record<string, number> = {};
+
 posts.forEach((post) => {
   post.data.tags.forEach((tag) => {
+    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+  });
+});
+
+reads.forEach((read) => {
+  read.data.tags.forEach((tag) => {
     tagCounts[tag] = (tagCounts[tag] || 0) + 1;
   });
 });
