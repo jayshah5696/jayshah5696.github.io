@@ -1,3 +1,7 @@
+@import "@fontsource/yeseva-one";
+@import "@fontsource-variable/outfit";
+@import "@fontsource/fira-code";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -168,6 +172,7 @@
     background-image: url("data:image/svg+xml,%3Csvg width='64' height='24' viewBox='0 0 64 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 12 Q8 0, 16 0 Q24 0, 32 12' fill='none' stroke='%23c4623a' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M0 12 Q8 24, 16 24 Q24 24, 32 12' fill='none' stroke='%23d4a843' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M32 12 Q40 0, 48 0 Q56 0, 64 12' fill='none' stroke='%23c4623a' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M32 12 Q40 24, 48 24 Q56 24, 64 12' fill='none' stroke='%23d4a843' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M-1 12 L2 9 L5 12 L2 15 Z' fill='%23c4623a' fill-opacity='0.15' stroke='%23c4623a' stroke-width='0.6' opacity='0.35'/%3E%3Cpath d='M29 12 L32 9 L35 12 L32 15 Z' fill='%23c4623a' fill-opacity='0.12' stroke='%23c4623a' stroke-width='0.6' opacity='0.4'/%3E%3Ccircle cx='16' cy='0' r='1.5' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='16' cy='24' r='1.5' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='48' cy='0' r='1.5' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='48' cy='24' r='1.5' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='32' cy='12' r='1.5' fill='%23c4623a' opacity='0.3'/%3E%3C/svg%3E");
     background-repeat: repeat-x;
     background-position: center;
+    animation: kolamFlow 4s linear infinite;
   }
   .dark .kolam-border {
     background-image: url("data:image/svg+xml,%3Csvg width='64' height='24' viewBox='0 0 64 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 12 Q8 0, 16 0 Q24 0, 32 12' fill='none' stroke='%23e07a4f' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M0 12 Q8 24, 16 24 Q24 24, 32 12' fill='none' stroke='%23e8c462' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M32 12 Q40 0, 48 0 Q56 0, 64 12' fill='none' stroke='%23e07a4f' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M32 12 Q40 24, 48 24 Q56 24, 64 12' fill='none' stroke='%23e8c462' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M-1 12 L2 9 L5 12 L2 15 Z' fill='%23e07a4f' fill-opacity='0.15' stroke='%23e07a4f' stroke-width='0.6' opacity='0.35'/%3E%3Cpath d='M29 12 L32 9 L35 12 L32 15 Z' fill='%23e07a4f' fill-opacity='0.12' stroke='%23e07a4f' stroke-width='0.6' opacity='0.4'/%3E%3Ccircle cx='16' cy='0' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='16' cy='24' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='48' cy='0' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='48' cy='24' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='32' cy='12' r='1.5' fill='%23e07a4f' opacity='0.3'/%3E%3C/svg%3E");
@@ -431,7 +436,7 @@
     color: #a89e8e !important;
   }
   
-  /* Edge Labels ("Dimensionality Slicing") —
+  /* Edge Labels (Dimensionality Slicing) -
      Mermaid injects inline background-color on deeply nested elements.
      We use wildcard descendant + !important to nuke all of them. */
   .mermaid .edgeLabel,
@@ -494,5 +499,56 @@
       left: calc((100vw - 1536px) / 2 + 260px);
       right: calc((100vw - 1536px) / 2);
     }
+  }
+}
+
+@keyframes kolamFlow {
+  from {
+    background-position-x: 0;
+  }
+  to {
+    background-position-x: 64px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kolam-border {
+    animation: none !important;
+  }
+}
+
+@media print {
+  body {
+    background-color: white !important;
+    color: black !important;
+  }
+  .app-sidebar,
+  .mobile-nav,
+  header,
+  aside,
+  button,
+  footer,
+  #reading-progress,
+  .copy-code-btn,
+  #giscus-container,
+  nav[aria-label='Post navigation'],
+  a[href='/'] {
+    display: none !important;
+  }
+  .app-content {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  main {
+    max-width: 100% !important;
+  }
+  a[href]::after {
+    content: ' (' attr(href) ')';
+    font-size: 0.8em;
+    color: #666;
+  }
+  a[href^='#']::after,
+  a[href^='javascript:']::after {
+    content: '';
   }
 }

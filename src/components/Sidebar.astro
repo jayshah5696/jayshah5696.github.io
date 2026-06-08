@@ -2,6 +2,8 @@
 import { SITE_TITLE, SITE_TAGLINE, SOCIAL_LINKS, NAV_ITEMS } from '../consts';
 import NavIcon from './NavIcon.astro';
 import Search from './Search.astro';
+import { Image } from 'astro:assets';
+import profileImage from '../../public/assets/images/Profile.jpg';
 
 const currentPath = Astro.url.pathname;
 ---
@@ -20,11 +22,11 @@ const currentPath = Astro.url.pathname;
     <a href="/" class="group flex flex-col items-center text-center -mt-14 mb-3">
       <div class="relative mb-3">
         <div class="absolute -inset-2 rounded-full border-2 border-dashed border-gold/40 dark:border-gold-light/30"></div>
-        <img
-          src="/assets/images/Profile.jpg"
+        <Image
+          src={profileImage}
           alt={SITE_TITLE}
-          width="80"
-          height="80"
+          width={80}
+          height={80}
           class="relative rounded-full size-20 object-cover group-hover:scale-105 transition-transform duration-300 ring-2 ring-white dark:ring-night-800 shadow-lg"
         />
       </div>

@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import JsonLd from '../components/JsonLd.astro';
+import { Image } from 'astro:assets';
+import profileImage from '../../public/assets/images/Profile.jpg';
 ---
 
 <BaseLayout title="About" description="About Jay Shah — Senior Data Scientist at 6sense, building production AI applications, foundational model systems, and agent evaluation frameworks">
@@ -18,11 +20,11 @@ import JsonLd from '../components/JsonLd.astro';
           <div class="absolute top-1/2 -left-5 -translate-y-1/2 size-1.5 rounded-full bg-terra/30 dark:bg-terra-light/30"></div>
           <div class="absolute top-1/2 -right-5 -translate-y-1/2 size-1.5 rounded-full bg-terra/30 dark:bg-terra-light/30"></div>
           <div class="rounded-full size-[88px] overflow-hidden ring-2 ring-white dark:ring-night-800 shadow-lg">
-            <img
-              src="/assets/images/Profile.jpg"
+            <Image
+              src={profileImage}
               alt="Jay Shah"
-              width="88"
-              height="88"
+              width={88}
+              height={88}
               class="size-full object-cover"
             />
           </div>

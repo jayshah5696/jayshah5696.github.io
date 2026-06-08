@@ -1,6 +1,8 @@
 ---
 import { SITE_TITLE, NAV_ITEMS } from '../consts';
 import NavIcon from './NavIcon.astro';
+import { Image } from 'astro:assets';
+import profileImage from '../../public/assets/images/Profile.jpg';
 
 const currentPath = Astro.url.pathname;
 // Quick links shown inline on the header bar
@@ -11,11 +13,11 @@ const inlineNavItems = NAV_ITEMS.filter(n => ['Home', 'About', 'Projects'].inclu
   bg-cream-50/92 dark:bg-night-900/92" style="backdrop-filter: blur(12px);">
   <div class="flex items-center justify-between px-4 h-14">
     <a href="/" class="flex items-center gap-2.5">
-      <img
-        src="/assets/images/Profile.jpg"
+      <Image
+        src={profileImage}
         alt={SITE_TITLE}
-        width="28"
-        height="28"
+        width={28}
+        height={28}
         class="rounded-full size-7 object-cover ring-1 ring-terra/20"
       />
       <span class="font-display text-sm text-ink dark:text-silk">{SITE_TITLE}</span>

@@ -25,33 +25,18 @@ interface Props {
   image?: string;
   tags: string[];
   body: string;
+  headings?: { depth: number; text: string; slug: string }[];
   prevPost?: PostLink | null;
   nextPost?: PostLink | null;
   seriesName?: string | null;
   seriesPosts?: SeriesPost[];
 }
 
-const { title, date, description, image, tags, body, prevPost, nextPost, seriesName, seriesPosts = [] } = Astro.props;
+const { title, date, description, image, tags, body, headings = [], prevPost, nextPost, seriesName, seriesPosts = [] } = Astro.props;
 const stats = readingTime(body);
 
-const headingRegex = /^(#{2,3})\s+(.+)$/gm;
-const headings: { depth: number; text: string; slug: string }[] = [];
-let match;
-while ((match = headingRegex.exec(body)) !== null) {
-  const depth = match[1].length;
-  const text = match[2]
-    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-    .replace(/[*_`~]/g, '')
-    .trim();
-  const slug = text
-    .toLowerCase()
-    .replace(/[^a-z0-9\s-]/g, '')
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-');
-  headings.push({ depth, text, slug });
-}
-
-const showToc = headings.length > 3;
+const filteredHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
+const showToc = filteredHeadings.length > 3;
 ---
 
 <BaseLayout title={title} description={description} image={image} rightSidebar={showToc}>
@@ -169,7 +154,7 @@ const showToc = headings.length > 3;
         <nav class="text-xs border-l-2 border-terra/20 dark:border-terra-light/20 pl-4" aria-label="Table of contents">
           <h4 class="font-mono uppercase text-ink-faint dark:text-silk-faint mb-3 text-[10px]" style="letter-spacing: 0.15em;">On this page</h4>
           <ul class="space-y-2">
-            {headings.map(({ depth, text, slug }) => (
+            {filteredHeadings.map(({ depth, text, slug }) => (
               <li class:list={[depth === 3 && 'pl-3']}>
                 <a
                   href={`#${slug}`}
@@ -187,33 +172,83 @@ const showToc = headings.length > 3;
 
   <script is:inline>
     (function() {
-      // Reading progress bar
-      var bar = document.getElementById('reading-progress-bar');
-      if (bar) {
-        function update() {
-          var h = document.documentElement.scrollHeight - window.innerHeight;
-          var pct = h > 0 ? Math.min((window.scrollY / h) * 100, 100) : 0;
-          bar.style.width = pct + '%';
+      function initPostLayout() {
+        // Reading progress bar
+        var bar = document.getElementById('reading-progress-bar');
+        if (bar) {
+          function update() {
+            var h = document.documentElement.scrollHeight - window.innerHeight;
+            var pct = h > 0 ? Math.min((window.scrollY / h) * 100, 100) : 0;
+            bar.style.width = pct + '%';
+          }
+          window.addEventListener('scroll', update, { passive: true });
+          update();
         }
-        window.addEventListener('scroll', update, { passive: true });
-        update();
+
+        // Copy button on code blocks
+        document.querySelectorAll('pre:not(.mermaid)').forEach(function(pre) {
+          if (pre.querySelector('.copy-code-btn')) return;
+          var btn = document.createElement('button');
+          btn.className = 'copy-code-btn';
+          btn.textContent = 'Copy';
+          btn.addEventListener('click', function() {
+            var code = pre.querySelector('code');
+            var text = code ? code.innerText : pre.innerText;
+            navigator.clipboard.writeText(text).then(function() {
+              btn.textContent = 'Copied!';
+              setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
+            });
+          });
+          pre.appendChild(btn);
+        });
+
+        // Intersection Observer active section highlighting
+        var tocLinks = document.querySelectorAll('aside[slot="right-sidebar"] nav a');
+        var headings = Array.from(document.querySelectorAll('article h2, article h3'));
+        if (tocLinks.length > 0 && headings.length > 0) {
+          var observerOptions = {
+            root: null,
+            rootMargin: '-100px 0px -60% 0px',
+            threshold: 0
+          };
+
+          var activeId = '';
+          var observer = new IntersectionObserver(function(entries) {
+            var visibleHeadings = entries.filter(function(e) { return e.isIntersecting; });
+            if (visibleHeadings.length > 0) {
+              activeId = visibleHeadings[0].target.id;
+            } else {
+              var topHeading = headings.find(function(h) {
+                return h.getBoundingClientRect().top > 0;
+              });
+              if (topHeading) {
+                var index = headings.indexOf(topHeading);
+                activeId = index > 0 ? headings[index - 1].id : headings[0].id;
+              }
+            }
+            
+            if (activeId) {
+              tocLinks.forEach(function(link) {
+                var href = link.getAttribute('href');
+                if (href === '#' + activeId) {
+                  link.classList.add('text-terra', 'dark:text-terra-light', 'font-semibold');
+                  link.classList.remove('text-ink-muted', 'dark:text-silk-muted');
+                } else {
+                  link.classList.remove('text-terra', 'dark:text-terra-light', 'font-semibold');
+                  link.classList.add('text-ink-muted', 'dark:text-silk-muted');
+                }
+              });
+            }
+          }, observerOptions);
+
+          headings.forEach(function(h) {
+            if (h.id) observer.observe(h);
+          });
+        }
       }
 
-      // Copy button on code blocks
-      document.querySelectorAll('pre:not(.mermaid)').forEach(function(pre) {
-        var btn = document.createElement('button');
-        btn.className = 'copy-code-btn';
-        btn.textContent = 'Copy';
-        btn.addEventListener('click', function() {
-          var code = pre.querySelector('code');
-          var text = code ? code.innerText : pre.innerText;
-          navigator.clipboard.writeText(text).then(function() {
-            btn.textContent = 'Copied!';
-            setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
-          });
-        });
-        pre.appendChild(btn);
-      });
+      document.addEventListener('astro:page-load', initPostLayout);
+      initPostLayout();
     })();
   </script>
 </BaseLayout>
