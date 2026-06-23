@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { ViewTransitions } from 'astro:transitions';
+import { ClientRouter } from 'astro:transitions';
 import Sidebar from '../components/Sidebar.astro';
 import MobileNav from '../components/MobileNav.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL } from '../consts';
@@ -55,7 +55,7 @@ const canonicalURL = new URL(Astro.url.pathname, SITE_URL);
       gtag('config', 'G-ZQ651N672F');
     </script>
 
-    <ViewTransitions />
+    <ClientRouter />
 
     <script is:inline>
       // Apply theme immediately to prevent flash (runs before paint)
