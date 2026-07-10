@@ -36,12 +36,12 @@ const canonicalURL = new URL(Astro.url.pathname, SITE_URL);
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={Astro.url} />
-    <meta property="og:image" content={new URL(image || '/assets/images/Profile.jpg', SITE_URL)} />
+    <meta property="og:image" content={new URL(image || '/assets/images/profile.webp', SITE_URL)} />
 
     <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={new URL(image || '/assets/images/Profile.jpg', SITE_URL)} />
+    <meta name="twitter:image" content={new URL(image || '/assets/images/profile.webp', SITE_URL)} />
 
     <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
     <link rel="canonical" href={canonicalURL} />
