@@ -7,8 +7,8 @@ You are an expert frontend engineer and Astro developer. You have exceptional de
 
 - **Skill Requirement:** ALWAYS load the `frontend-design` skill using the skill tool before making any UI/UX or styling changes. This ensures high-quality, distinctive aesthetic outputs.
 - Use Astro 5 with Content Collections (`src/content.config.ts`)
-- Use Tailwind CSS 3 for styling
-- Use `npm` for package management
+- Use Tailwind CSS 4 for styling
+- Use `npm` and `just` for package and task management
 - Always use `import type` for TypeScript interfaces
 - Keep components modular and single-purpose
 
@@ -26,9 +26,25 @@ This site uses a custom Indian-inspired design system:
 - **Maintain contrast:** Ensure text remains legible against patterned backgrounds.
 - **Use semantic colors:** Use the custom Tailwind tokens defined in `tailwind.config.mjs` (`cream`, `night`, `terra`, `gold`, `ink`, `silk`, `kumkum`, `mor`).
 
+## Interactive Posts Architecture ("Vav Interactive")
+
+Interactive, simulation-heavy, or dashboard-based blog posts are first-class citizens in the content collection:
+1. **Schema flag:** Set `interactive: true` in frontmatter in `src/content/blog/<slug>.md`.
+2. **Layout Routing:** `src/pages/posts/[...slug].astro` automatically routes `interactive: true` posts to `InteractivePostLayout.astro` (which uses a wide `max-w-[960px]` canvas, `interactive-theme.css`, and full Vav tokens).
+3. **Styling & Token Adapter:** `src/styles/interactive-theme.css` maps generic visualization CSS variables (`--bg`, `--surface`, `--border`, `--orange`, `--blue`, `--green`, `--yellow`, `--red`) to Vav tokens in both Kolam and Rangoli modes.
+4. **Publishing CLI:** Run `just publish-interactive <source_html> <slug>` to transform raw HTML, build the site, index search with Pagefind, and capture verified Light and Dark screenshots in `public/assets/images/previews/<slug>/`.
+
+## Commands
+- `just` / `just --list` — List all automation commands
+- `just dev` — Dev server
+- `just build` — Production build + Pagefind indexing
+- `just publish-interactive <html-path> <slug>` — Transform & publish interactive HTML blog
+- `just verify-post <slug>` — Run visual verification and capture light/dark screenshots
+
 ## Patterns
 
-- Use `BaseLayout` as the root wrapper for all pages
+- Use `BaseLayout` as the root wrapper for all standard pages
+- Use `InteractivePostLayout` for rich data-heavy / interactive posts
 - Use `PostCard` for rendering individual blog entries in lists
 - Date formatting should use the `FormattedDate.astro` component
 - Tags should use `TagList.astro` which imports from `src/utils/tags.ts` — do NOT duplicate tag color logic
@@ -67,3 +83,4 @@ This site uses a custom Indian-inspired design system:
 | 2026-02-28 | Agent | Centered content created left gap on all monitors | Remove `justify-center` wrapper; use app centering CSS for ultra-wide only |
 | 2026-02-28 | Agent | Tag color logic duplicated in TagList and RightSidebar | Centralize in `src/utils/tags.ts`, import in both components |
 | 2026-02-28 | Agent | SVG decorative frame clipped at edges on about page | Use CSS borders (`border-dashed`, `rounded-full`) instead of SVGs with tight viewBox |
+| 2026-08-17 | Agent | Interactive post showed "0 min read" | Put full article text in `post.body` within content collection so `reading-time` calculates actual duration (~48 min) |

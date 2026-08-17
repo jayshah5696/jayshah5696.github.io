@@ -1017,7 +1017,10 @@
     color: #a89e8e;
   }
 
-  .prose h2, .prose h3, .prose h4 { @apply font-display; }
+  .prose h2, .prose h3, .prose h4 {
+    @apply font-display;
+    scroll-margin-top: 5rem;
+  }
 
   /* Legacy spans */
   .prose span[style*='color: magenta'] { color: #c4623a !important; @apply font-medium; }

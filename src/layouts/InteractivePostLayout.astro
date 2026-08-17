@@ -5,6 +5,7 @@ import TagList from '../components/TagList.astro';
 import Giscus from '../components/Giscus.astro';
 import JsonLd from '../components/JsonLd.astro';
 import readingTime from 'reading-time';
+import '../styles/interactive-theme.css';
 
 interface PostLink {
   slug: string;
@@ -24,7 +25,7 @@ interface Props {
   description: string;
   image?: string;
   tags: string[];
-  body: string;
+  body?: string;
   headings?: { depth: number; text: string; slug: string }[];
   prevPost?: PostLink | null;
   nextPost?: PostLink | null;
@@ -32,43 +33,58 @@ interface Props {
   seriesPosts?: SeriesPost[];
 }
 
-const { title, date, description, image, tags, body, headings = [], prevPost, nextPost, seriesName, seriesPosts = [] } = Astro.props;
-const stats = readingTime(body);
+const {
+  title,
+  date,
+  description,
+  image,
+  tags,
+  body = '',
+  headings = [],
+  prevPost,
+  nextPost,
+  seriesName,
+  seriesPosts = [],
+} = Astro.props;
 
+const stats = readingTime(body);
 const filteredHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
-const showToc = filteredHeadings.length > 3;
+const showToc = filteredHeadings.length > 2;
 ---
 
 <BaseLayout title={title} description={description} image={image} rightSidebar={showToc}>
   <JsonLd type="BlogPosting" title={title} description={description} date={date} image={image} tags={tags} />
+  
   <!-- Reading progress bar -->
   <div id="reading-progress" class="fixed top-0 left-0 right-0 z-50 h-1 app-progress" aria-hidden="true">
     <div id="reading-progress-bar" class="h-full w-0 transition-none shadow-sm" style="background: linear-gradient(to right, #c4623a, #d4a843); box-shadow: 0 1px 3px rgba(196,98,58,0.3);"></div>
   </div>
 
-  <article>
-    <header class="mb-12">
-      <div class="flex items-center gap-3 mb-5">
+  <article class="vav-interactive-root w-full min-w-0 py-2">
+    <header class="mb-10">
+      <div class="flex items-center gap-3 mb-4">
         <FormattedDate date={date} />
         <span class="text-cream-400 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
         <span class="font-mono text-xs text-ink-muted dark:text-silk-muted tabular-nums">{stats.text}</span>
+        <span class="text-cream-400 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
+        <span class="font-mono text-xs text-terra dark:text-terra-light font-semibold">Interactive Laboratory</span>
       </div>
 
-      <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk leading-tight text-balance carved-heading">
+      <h1 class="font-display text-3xl sm:text-4xl lg:text-5xl text-ink dark:text-silk leading-tight carved-heading mb-6">
         {title}
       </h1>
 
-      <p class="mt-6 text-lg text-ink-light dark:text-silk-muted leading-relaxed text-pretty">
+      <p class="text-lg text-ink-light dark:text-silk-muted leading-relaxed mb-6 text-pretty">
         {description}
       </p>
 
       {tags.length > 0 && (
-        <div class="mt-5">
+        <div class="mb-8">
           <TagList tags={tags} />
         </div>
       )}
 
-      <div class="mt-10 kolam-border"></div>
+      <div class="kolam-border mb-8"></div>
     </header>
 
     {seriesPosts.length > 0 && seriesName && (
@@ -93,14 +109,16 @@ const showToc = filteredHeadings.length > 3;
       </nav>
     )}
 
-    <div class="prose prose-kolam dark:prose-invert prose-lg max-w-none">
+    <div class="interactive-content">
       <slot />
     </div>
 
-    <!-- Comments -->
-    <Giscus />
+    <!-- Comments & Discussion -->
+    <div class="mt-16 pt-8 border-t border-cream-200 dark:border-night-700">
+      <Giscus />
+    </div>
 
-    <footer class="mt-16 pt-6">
+    <footer class="mt-12 pt-6">
       <div class="kolam-border mb-6"></div>
 
       <!-- Prev / Next navigation -->
@@ -140,14 +158,14 @@ const showToc = filteredHeadings.length > 3;
       <a
         href="/"
         class="inline-flex items-center gap-2 text-sm text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors duration-200 font-mono"
-        style="letter-spacing: 0.06em;"
       >
         <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-        All posts
+        Back to all writings
       </a>
     </footer>
   </article>
 
+  <!-- Right Sidebar with Table of Contents -->
   {showToc && (
     <aside slot="right-sidebar" class="hidden xl:block w-[240px] shrink-0">
       <div id="toc-container" class="sticky top-16 max-h-[calc(100dvh-5rem)] overflow-y-auto pr-2 scrollbar-none">
@@ -227,7 +245,7 @@ const showToc = filteredHeadings.length > 3;
     (function() {
       var cleanup = null;
 
-      function initPostLayout() {
+      function initInteractivePostLayout() {
         if (cleanup) {
           cleanup();
           cleanup = null;
@@ -378,11 +396,11 @@ const showToc = filteredHeadings.length > 3;
         };
       }
 
-      document.addEventListener('astro:page-load', initPostLayout);
+      document.addEventListener('astro:page-load', initInteractivePostLayout);
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initPostLayout);
+        document.addEventListener('DOMContentLoaded', initInteractivePostLayout);
       } else {
-        initPostLayout();
+        initInteractivePostLayout();
       }
     })();
   </script>
