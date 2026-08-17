@@ -9,7 +9,10 @@ const posts = (await getCollection('blog'))
 const reads = (await getCollection('reads'))
   .filter((r) => !r.data.draft);
 
-const recentPosts = posts.slice(0, 5);
+// Pick 3 cornerstone posts (most tags, excluding the latest 3 already visible in the feed)
+const startHerePosts = posts.slice(3)
+  .sort((a, b) => b.data.tags.length - a.data.tags.length)
+  .slice(0, 3);
 
 const tagCounts: Record<string, number> = {};
 
@@ -32,18 +35,18 @@ const trendingTags = Object.entries(tagCounts)
 
 <div class="hidden xl:block w-[240px] shrink-0">
   <div class="sticky top-8 space-y-8">
-    <!-- Recently Updated -->
+    <!-- Start Here -->
     <section>
       <h3 class="text-sm font-semibold text-ink dark:text-silk mb-3 flex items-center gap-2">
-        <svg class="size-4 text-terra dark:text-terra-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        Recently Updated
+        <svg class="size-4 text-terra dark:text-terra-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+        Start Here
       </h3>
       <ul class="space-y-2">
-        {recentPosts.map((post) => (
+        {startHerePosts.map((post) => (
           <li>
             <a
               href={`/posts/${post.id}/`}
-              class="text-sm text-ink-light dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors line-clamp-1"
+              class="text-sm text-ink-light dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors line-clamp-2"
             >
               {post.data.title}
             </a>

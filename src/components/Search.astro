@@ -33,9 +33,39 @@
     var modal = document.getElementById('search-modal');
     var backdrop = document.getElementById('search-backdrop');
     var loaded = false;
+    var previousFocus = null;
+
+    function getFocusableElements() {
+      if (!modal) return [];
+      return Array.from(modal.querySelectorAll(
+        'input, button, [href], [tabindex]:not([tabindex="-1"])'
+      )).filter(function(el) {
+        return !el.closest('[hidden]') && !el.closest('.hidden') && el.offsetParent !== null;
+      });
+    }
+
+    function trapFocus(e) {
+      if (e.key !== 'Tab' || !modal || modal.classList.contains('hidden')) return;
+      var focusable = getFocusableElements();
+      if (focusable.length === 0) return;
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
 
     function openSearch() {
       if (!modal) return;
+      previousFocus = document.activeElement;
       modal.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
 
@@ -75,18 +105,23 @@
       if (!modal) return;
       modal.classList.add('hidden');
       document.body.style.overflow = '';
+      if (previousFocus && previousFocus.focus) {
+        previousFocus.focus();
+        previousFocus = null;
+      }
     }
 
     if (trigger) trigger.addEventListener('click', openSearch);
     if (backdrop) backdrop.addEventListener('click', closeSearch);
 
-    // Keyboard shortcut: "/" to open, Escape to close
+    // Keyboard: "/" to open, Escape to close, Tab to trap
     document.addEventListener('keydown', function(e) {
       if (e.key === '/' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
         e.preventDefault();
         openSearch();
       }
       if (e.key === 'Escape') closeSearch();
+      trapFocus(e);
     });
   })();
 </script>

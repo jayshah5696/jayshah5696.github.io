@@ -119,10 +119,16 @@ const canonicalURL = new URL(Astro.url.pathname, SITE_URL);
         var menu = document.getElementById('mobile-menu');
         if (btn && menu) {
           menu.classList.add('hidden');
+          btn.setAttribute('aria-expanded', 'false');
+          btn.setAttribute('aria-label', 'Open menu');
           var newBtn = btn.cloneNode(true);
           btn.parentNode.replaceChild(newBtn, btn);
           newBtn.addEventListener('click', function() {
+            var isOpen = !menu.classList.contains('hidden');
             menu.classList.toggle('hidden');
+            var nowOpen = !menu.classList.contains('hidden');
+            newBtn.setAttribute('aria-expanded', String(nowOpen));
+            newBtn.setAttribute('aria-label', nowOpen ? 'Close menu' : 'Open menu');
           });
         }
       }
