@@ -54,6 +54,24 @@ export function getTagPillClasses(tag: string): string {
   }
 }
 
+export function getTagMicroPillClasses(tag: string): string {
+  const base = 'inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-mono uppercase transition-colors';
+  const cat = getTagCategory(tag);
+  switch (cat) {
+    case 'ai':
+      return `${base} bg-terra/10 dark:bg-terra-light/10 text-terra dark:text-terra-light hover:bg-terra/20 dark:hover:bg-terra-light/20`;
+    case 'dev':
+      return `${base} bg-mor/10 dark:bg-mor-light/10 text-mor dark:text-mor-light hover:bg-mor/20 dark:hover:bg-mor-light/20`;
+    case 'ml':
+      return `${base} bg-gold/10 dark:bg-gold-light/10 text-gold-dark dark:text-gold-light hover:bg-gold/20 dark:hover:bg-gold-light/20`;
+    case 'personal':
+      return `${base} bg-kumkum/10 dark:bg-kumkum-light/10 text-kumkum dark:text-kumkum-light hover:bg-kumkum/20 dark:hover:bg-kumkum-light/20`;
+    default:
+      return `${base} bg-cream-200 dark:bg-night-800 text-ink-light dark:text-silk-muted hover:text-terra dark:hover:text-terra-light`;
+  }
+}
+
 export function getTagIndicator(tag: string): string {
   return TAG_INDICATORS[getTagCategory(tag)] || '';
 }
+

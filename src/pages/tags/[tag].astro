@@ -93,4 +93,26 @@ const totalCount = posts.length + reads.length;
       </section>
     )}
   </div>
+
+  <script is:inline>
+    function initTagReadsCards() {
+      document.querySelectorAll('.read-card-item').forEach(function(card) {
+        card.addEventListener('click', function(e) {
+          if (e.target.closest('a') || e.target.closest('.read-card-notes')) return;
+          var notes = card.querySelector('.read-card-notes');
+          var indicator = card.querySelector('.notes-indicator');
+          if (notes) {
+            var isHidden = notes.classList.toggle('hidden');
+            if (indicator) {
+              indicator.style.transform = !isHidden ? 'rotate(45deg)' : 'none';
+            }
+          }
+        });
+      });
+    }
+    document.addEventListener('astro:page-load', initTagReadsCards);
+    initTagReadsCards();
+  </script>
 </BaseLayout>
+
+
