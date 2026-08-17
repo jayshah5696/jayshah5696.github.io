@@ -61,7 +61,7 @@ const trendingTags = Object.entries(tagCounts)
       <div class="flex flex-wrap gap-2">
         {trendingTags.map(([tag, count]) => (
           <a
-            href={`/tags/${tag}`}
+            href={`/tags/${encodeURIComponent(tag)}/`}
             class={getTagPillClasses(tag)}
           >
             {getTagIndicator(tag) && (
