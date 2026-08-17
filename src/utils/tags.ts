@@ -2,10 +2,10 @@
 // Used by TagList, RightSidebar, and tag pages
 
 export const TAG_CATEGORIES = {
-  ai: ['gen-ai', 'llm', 'rag', 'ai-agents', 'prompt'],
-  dev: ['coding-tools', 'developer-tools', 'pi-coding-agent', 'typescript'],
-  ml: ['ml', 'fine-tuning', 'nlp', 'analytics', 'statistics', 'qc', 'research', 'energy'],
-  personal: ['spiritual', 'personal'],
+  ai: ['gen-ai', 'llm', 'rag', 'ai-agents', 'prompt', 'ai-safety'],
+  dev: ['coding-tools', 'developer-tools', 'pi-coding-agent', 'typescript', 'systems', 'software-engineering'],
+  ml: ['ml', 'fine-tuning', 'nlp', 'analytics', 'statistics', 'qc', 'research', 'energy', 'rl', 'distillation', 'evals'],
+  personal: ['spiritual', 'personal', 'career'],
 } as const;
 
 // Shape indicators for accessibility (distinguishable without color)
