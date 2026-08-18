@@ -58,13 +58,13 @@ interactive: true
 <p>We scale the observed excess by this expected baseline movement to calculate the z-score:</p>
 <div class="formula-block highlight"><span class="formula">z = <span class="frac"><span class="frac-num">12 extra heads</span><span class="frac-den">3.87 heads of ordinary standard deviation</span></span> = <b>3.10</b></span></div>
 <p>The z-score measures standard deviation distance from baseline chance. It is an evidence distance, not a probability that a watermark exists.</p>
-<p>Turning a score into an alarm requires a locked decision threshold. Our experiment locked a cutoff of z &gt; 3 before collecting data. Our 3.10 crosses it. Under the exact baseline coin model, 32 or more heads in 80 flips occur about 0.224% of the time. Rare and impossible are different words.</p>
+<p>Turning a score into an alarm requires a locked decision threshold. Our experiment locked a cutoff of z &gt; 3 before collecting data. Our 3.10 crosses it. In concrete terms: under the baseline coin, 32 or more heads in 80 flips occur about 0.2% of the time, so a score above 3 means the observed pattern has less than a 0.13% chance of arising from baseline randomness alone. Rare and impossible are different words.</p>
 
 
 ### More flips, clearer signal
 
 
-<p>Holding the two probabilities fixed while increasing sample length reveals the central scaling law of text watermarking.</p>
+<p>Coin flips are independent. Real text tokens are conditional on their predecessors, so real-world variance is higher than the coin predicts. Still, the scaling law holds in both: holding the two probabilities fixed while increasing sample length reveals the mechanism.</p>
 <p>The nudged source accumulates an expected excess of 0.15 &times; <var>T</var> heads. Baseline random fluctuations grow as &radic;<span class="sqrt-content"><var>T</var> &times; 0.25 &times; 0.75</span>. The watermark signal grows linearly with length (<i>O</i>(<var>T</var>)), while random noise grows only with the square root of length (<i>O</i>(&radic;<var>T</var>)).</p>
 <p>At 40 flips, the expected excess is 6 heads and baseline noise is 2.74 (<var>z</var> = 2.19). At 400 flips, the expected excess expands to 60 heads while baseline noise reaches only 8.66 (<var>z</var> = 6.93). The signal outruns the noise as text length grows. Toggle the length below to watch the bars separate:</p>
 
@@ -311,7 +311,7 @@ for length in config.lengths:
 </tr>
 </tbody>
 </table></div>
-<p>Each output ended after 22-28 generated tokens. The checker had only 20-26 eligible positions. I kept the declared stopping behavior instead of searching for a crossing.</p>
+<p>Each output ended after 22-28 generated tokens. The checker had only 20-26 eligible positions, too few for the signal to outrun baseline noise at z > 3. I kept the declared stopping behavior instead of searching for a crossing.</p>
 <p>A later natural-length ladder produced 12 marked and 12 paired control outputs. Eight marked rows crossed <code>z &gt; 3</code>; no control did. Achieved copied lengths ranged from 200 to 800 tokens. Prompt content and length changed together, so the ladder doesn't isolate length as the cause.</p>
 <p>The committed evidence uses a public key so anyone can verify it. A private service would keep key material inside the host process and expose a version identifier, not the key itself.</p>
 
@@ -416,7 +416,7 @@ for length in config.lengths:
 </tbody>
 </table></div>
 <p>The averages separate cleanly. The rows do not. Some differences are small, rank <code>1001</code> is exactly zero against its model control, and at least one row points against the mean. Three marked rows crossed <code>z &gt; 3</code>; none of the three control families did at this prefix. The intervals summarize 24 frozen documents, not a population.</p>
-<p>The matched cohort shrank with prefix length. Counts at 40, 80, 160, 200, and 400 copied tokens were <code>24</code>, <code>24</code>, <code>21</code>, <code>17</code>, and <code>0</code>. A 400-token generation cap produced no pair with 400 copied tokens in both conditions. At 200 tokens, four of 17 marked rows crossed, along with one natural-web row. Because the documents changed as the prefix grew, that sequence can't support a clean causal claim about length.</p>
+<p>The matched cohort shrank with prefix length. Counts at 40, 80, 160, 200, and 400 copied tokens were <code>24</code>, <code>24</code>, <code>21</code>, <code>17</code>, and <code>0</code>. A 400-token generation cap meant both the marked and control outputs terminated before reaching 400 copied tokens, so no pair completed at that length. At 200 tokens, four of 17 marked rows crossed, along with one natural-web row. Because the documents changed as the prefix grew, that sequence can't support a clean causal claim about length.</p>
 
 <p>Select the comparison below. Row order stays fixed so you can track individual documents across contrasts:</p>
 
@@ -425,7 +425,7 @@ for length in config.lengths:
 
 <p>These scores come from unedited text. Editing rewrites the checker's history.</p>
 
-## Fragility
+## Fragility: how edits dissolve the signal
 
 ### Edits rebuild the checker history
 
@@ -484,7 +484,7 @@ for length in config.lengths:
 </tr>
 </tbody>
 </table></div>
-<p>Homoglyph substitution swapped ASCII letters for similar Unicode code points, testing tokenizer sensitivity and expanding token length.</p>
+<p>Homoglyph substitution swapped ASCII letters for visually identical Unicode code points. For example, replacing Latin 'a' (<code>U+0061</code>) with Cyrillic 'а' (<code>U+0430</code>) looks the same to a reader, but the tokenizer splits the word into unknown byte sequences, scrambling the context hashes for every later position.</p>
 <p>Deletion and mixing can damage grammar or claims. Lower detector scores alone say nothing about meaning preservation.</p>
 <p>All 12 paraphrases passed the declared length, decimal-number, and embedding-cosine screens. A non-independent assistant review marked ten pass, two uncertain. Every passed rewrite reduced z, and no paraphrase crossed the cutoff.</p>
 <p>Theo Hicks's Declaude explainer reports known-key rewrite tests against open KGW and EXP implementations.<sup class="ref"><a href="#fn-declaude" aria-label="Source 13">13</a></sup> Those results point the same direction: recomposition erases token-history evidence. They don't test Claude's private SynthID configuration or replace this project's measurements.</p>
@@ -532,7 +532,7 @@ for length in config.lengths:
 </tr>
 </tbody>
 </table></div>
-<p>Mean z rose with delta. Mean conditional NLL also rose, meaning the Gemma checkpoint found the outputs more surprising. Repeated adjacent pairs rose. Ranks <code>1004</code> and <code>1006</code> had lower z at delta 3 than at delta 2, so individual paths don't climb monotonically.</p>
+<p>Mean z rose with delta. Mean conditional NLL also rose. NLL measures how surprised the model is by its own output, a proxy for how far the text has drifted from the model's natural distribution. Higher NLL correlates with degraded fluency. Repeated adjacent pairs rose too. Ranks <code>1004</code> and <code>1006</code> had lower z at delta 3 than at delta 2, so individual paths don't climb monotonically.</p>
 <p>NLL and repetition are model-based proxies. They can't tell which answer a person would prefer, whether a fact remained correct, or whether a story improved. Eight prompts can't establish a universal setting.</p>
 
 <p>Select a delta below. Each path is one frozen prompt; the two coral lines are ranks 1004 and 1006, which fell from delta 2 to delta 3:</p>
