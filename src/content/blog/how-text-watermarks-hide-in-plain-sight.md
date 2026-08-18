@@ -25,10 +25,12 @@ interactive: true
 <p>Someone who knows the rule can walk through the text, rebuild the favored groups, and count how often those choices appeared. One position says almost nothing. A few hundred start to add up.</p>
 <p>The entire mechanism reduces to three core steps:</p>
 <div class="step-cards"><div class="step-card"><span class="step-num">1</span><b>Generate</b><p>Bias pseudorandom sampling toward keyed subsets of valid tokens.</p></div><div class="step-card"><span class="step-num">2</span><b>Check</b><p>Reconstruct those subsets from context and count observed choices.</p></div><div class="step-card"><span class="step-num">3</span><b>Judge</b><p>Test whether the green count exceeds ordinary baseline chance.</p></div></div>
-<p>Before introducing tokenizers, logits, vocabulary matrices, and hash algorithms, we can isolate the pure statistical engine using a simpler physical system: two weighted coins.</p>
+<p>Before introducing tokenizers, logits, vocabulary matrices, and hash algorithms, I can isolate the pure statistical engine using a simpler physical system: two weighted coins.</p>
 
 
-## Start with two weighted coins
+## The statistical engine
+
+### Start with two weighted coins
 
 
 <p>One coin lands heads 25% of the time. Another lands heads 40% of the time. Flip each one 40 times and count the heads. Can you tell which coin produced which sequence?</p>
@@ -38,7 +40,7 @@ interactive: true
 <p>Rerun it. The individual sequences change but the averages hold: baseline near one head in four, nudged near two in five. That difference is visible when you know which coin produced which sequence. The harder question: given one unlabeled batch, can you tell whether the nudged coin produced it?</p>
 
 
-## From head count to z score
+### From head count to z score
 
 
 <p>Now isolate a single observed batch: 32 heads in 80 flips.</p>
@@ -53,7 +55,7 @@ interactive: true
 <figure class="opening-viz" id="coin-worked"><div class="worked-grid"><div class="observed"><span>Observed</span><strong>32</strong><b>heads in 80 flips</b><small>Baseline chance: 25%</small></div><div><div class="calc-steps"><div class="calc-step" data-calc="1"><i>1</i><span><b>Baseline average</b><small>80 x 25%</small></span><output>20 heads</output></div><div class="calc-step" data-calc="2"><i>2</i><span><b>Observed excess</b><small>32 - 20</small></span><output>12 extra</output></div><div class="calc-step" data-calc="3"><i>3</i><span><b>Ordinary movement</b><small>sqrt(80 x .25 x .75)</small></span><output>3.87 heads</output></div><div class="calc-step" data-calc="4"><i>4</i><span><b>Evidence score</b><small>12 / 3.87</small></span><output>z = 3.10</output></div></div><div class="controls"><button class="primary" id="calcNext">Reveal the average</button><button id="calcAll">Show all four</button><button id="calcReset">Reset</button></div></div></div><div class="variation-box"><header><b>Twenty ordinary 80-flip batches</b><span>Same baseline coin, different draws</span></header><div class="batch-grid" id="batchGrid"></div><div class="controls"><button id="batchAgain">Draw 20 new batches</button></div></div><div class="score-ruler" aria-label="Head counts translated into z scores"><div class="ruler-line"></div><div class="ruler-point" style="left:8%"><i></i><b>20 heads</b><span>z = 0</span></div><div class="ruler-point" style="left:34%"><i></i><b>24 heads</b><span>z about 1</span></div><div class="ruler-point" style="left:60%"><i></i><b>28 heads</b><span>z about 2</span></div><div class="ruler-point focus" style="left:86%"><i></i><b>32 heads</b><span>z = 3.10</span></div></div></figure>
 
 
-## More flips, clearer signal
+### More flips, clearer signal
 
 
 <p>Holding the two probabilities fixed while increasing sample length reveals the central scaling law of text watermarking.</p>
@@ -66,7 +68,9 @@ interactive: true
 <figure class="opening-viz" id="coin-distribution"><div class="dist-stacked"><svg id="distributionPlot" class="opening-plot" viewBox="0 0 820 430" role="img" aria-labelledby="distTitle distDesc"><title id="distTitle">Baseline and nudged score distributions</title><desc id="distDesc">Two score histograms and a movable cutoff.</desc></svg><div class="dist-controls-bar"><div class="dist-group"><label>Length</label><div class="controls" id="distLengths"></div></div><div class="dist-group"><label>Cutoff</label><div class="controls" id="cutoffButtons"></div></div><div class="dist-rates"><div class="rate-box baseline"><span>Baseline over line</span><strong id="distFalse">0%</strong></div><div class="rate-box nudged"><span>Nudged over line</span><strong id="distCaught">0%</strong></div></div></div><p class="overlap-note" id="distLesson"><b>The hills overlap.</b> Move the cutoff and watch both rates change.</p></div></figure>
 
 
-## Coins are tokens
+## From coins to code
+
+### Coins are tokens
 
 
 <p>A language model choosing its next token faces the same structure. Each eligible position is one flip. A token landing in the favored set counts as heads. The z formula, the 25% null rate, and the cutoff tradeoff all carry over unchanged.</p>
@@ -75,7 +79,7 @@ interactive: true
 <figure class="opening-viz" id="coin-to-token"><div class="object-map"><div class="object-card"><span>Coin version</span><b>One weighted flip</b><div class="coin-face">H</div><p>Heads is a hit. Tails is not.</p></div><div class="map-mark">becomes</div><div class="object-card"><span>Text version</span><b>One next-token choice</b><p class="prompt">The small boat was...</p><div class="token-row"><i class="favored">quiet</i><i>old</i><i class="favored">blue</i><i>ready</i></div><p>The key marks <code>quiet</code> and <code>blue</code> favored for this context.</p></div></div><div class="mapping-grid"><b>Coin</b><b>Text</b><span>One flip</span><span>One eligible token position</span><span>Heads</span><span>Chosen token is in the favored set</span><span>Count and score heads</span><span>Count and score favored tokens</span></div></figure>
 
 
-## The first experiment, in code
+### The first experiment, in code
 
 
 The repository is small. `src/watermark_lab/stats.py` owns the statistics. `labs/01_biased_coin.py` reads the frozen configuration, simulates both sources, scores every batch, and writes raw rows.
@@ -169,37 +173,35 @@ for length in config.lengths:
 <p>The coin demonstrated that a weak preference becomes measurable given enough flips, and that any fixed cutoff trades misses against false alarms. But it has no way to decide which specific text choices should count as heads. That requires a key.</p>
 
 
-## Give the coin a key
+### The key mechanism
 
 
-<p>I needed a rule that could look at one token position and say, repeatably, whether a candidate belonged to the favored group.</p>
-<p>I used 20 visible words and one sentence small enough to inspect by hand:</p>
+<p>The coin had no way to decide which token choices count as heads. I needed a rule that looks at one position and says, repeatably, whether a candidate belongs to the favored group. I built one with 20 visible words and one sentence small enough to trace by hand:</p>
 <blockquote>
 <p>Early one morning Jack went up the hill.</p>
 </blockquote>
-<p>The program begins with <code>Early one morning Jack</code>. For each of the 20 possible next words, it hashes the public teaching key, those four token IDs, and the candidate ID. Sorting the 20 hashes gives a stable ranking. The first five candidates are green.</p>
-<p>For this context, the lesson key selects <code>Early</code>, <code>went</code>, <code>walked</code>, <code>snow</code>, and <code>trail</code>. Some are bad continuations after <code>Jack</code>. That is fine. The selector reads token IDs, not grammar. The hand-written starting scores still make awkward words unlikely.</p>
-<p>Changing the key changes the ranking. The comparison key selects <code>the</code>, <code>hill</code>, <code>path</code>, <code>snow</code>, and <code>home</code> for the same context. Five words remain green because the 25 percent fraction stayed fixed. Eight memberships changed.</p>
-<p>Now the program adds <code>2</code> to the five selected scores and normalizes all 20 into probabilities. <code>went</code> rises from 22.85 percent to 46.51 percent. <code>ran</code> keeps its score of 1.9, yet its probability falls from 27.91 percent to 7.69 percent because every candidate takes a share of the same total. The odds of a selected word relative to an unchanged word are multiplied by <code>exp(2)</code>, about 7.39, before normalization. Its final probability does not simply get multiplied by 7.39.</p>
-<p>The saved draw is <code>0.30</code>. It selects <code>walked</code> from the original distribution and <code>went</code> after the increase. The program appends <code>went</code>, drops <code>Early</code> from the four-token window, and runs the same rule again with <code>one morning Jack went</code>.</p>
-<p>Four choices finish the sentence: <code>went</code>, <code>up</code>, <code>the</code>, <code>hill</code>. The first two were green for their contexts. The last two won despite being outside the selected set. A watermark leans on the sampler. It does not dictate every token.</p>
-<p>Checking runs the selection rule in reverse order through the copied sentence. Before <code>went</code>, the checker rebuilds the group from <code>Early one morning Jack</code>. It repeats that work before <code>up</code>, <code>the</code>, and <code>hill</code>. The checker needs the observed token history, key, tokenizer, context width, green fraction, selector, and counting rule. It never sees the generation scores or random draws.</p>
-<p>This sentence produces <code>G=2</code> hits across <code>T=4</code> checked positions. Random selection predicts one hit, so z is <code>1.155</code>. I assigned no cutoff to this four-position fixture. The comparison key produces zero hits here, although another wrong key could match some positions by chance.</p>
-<p>The key printed in the page is for teaching. Anyone can read it, reproduce the sets, and study how to remove or forge the pattern. A service using a symmetric watermark would keep the generation key out of prompts, browser code, model files, and public logs.</p>
-<p>Walk through each stage in the interactive below. Switch between tabs to see selection, probability shift, generation, and checking on the same sentence:</p>
+<p>The four tabs below walk through the full cycle on this sentence. Start with tab 1:</p>
 
-<figure class="opening-viz mechanism-viz" id="toy-key"><div class="mechanism-tabs" role="tablist" aria-label="Toy watermark operation"><button id="toySelect" class="active" aria-pressed="true">1. Select five words</button><button id="toySample" aria-pressed="false">2. Change the chances</button><button id="toyGenerate" aria-pressed="false">3. Move the context</button><button id="toyCheck" aria-pressed="false">4. Check the sentence</button></div><section class="toy-scene"><div class="toy-sentence" id="toySentence" aria-label="Current sentence and generation slots"></div><div class="context-rack"><span>Four words used for this choice</span><div class="toy-context" id="toyContext"></div></div><div class="toy-work"><div><header class="scene-head"><div><span class="figure-kicker" id="toySceneLabel">Selection</span><b id="toySceneTitle">The key ranks all 20 candidates.</b></div><div class="key-switch" id="toyKeyControls"><button id="toyLessonKey" class="active" aria-pressed="true">Lesson key</button><button id="toyComparisonKey" aria-pressed="false">Comparison key</button></div></header><div class="vocab sentence-vocab" id="toyVocab"></div></div><aside class="toy-inspector" id="toyInspector"></aside></div><div class="probability-stage" id="toyProbability"><div class="draw-scale"><i id="toyDrawMarker"></i><span>fixed draw <b id="toyDrawValue">0.30</b></span></div><div class="probability-rows" id="toyProbabilityRows"></div></div><div class="checker-stage" id="toyChecker"><div class="checked-words" id="toyCheckedWords"></div><div class="checker-metrics"><div><span>Green hits</span><strong id="toyHits">0</strong></div><div><span>Checked positions</span><strong id="toyTrials">0</strong></div><div><span>Expected hits</span><strong id="toyExpected">0</strong></div><div><span>z score</span><strong id="toyZ">--</strong></div></div></div><div class="toy-footer"><div class="controls"><button id="toyPrev">Previous</button><button class="primary" id="toyNext">Add the score increase</button><button id="toyReplay">Start over</button></div><p class="feedback" id="toyFeedback" aria-live="polite"></p></div></section><p class="evidence-note"><b>Teaching fixture.</b> I wrote this sentence and fixed its scores and draws. The repository's anonymous four-position trace separately checks the implementation.</p></figure>
+<figure class="opening-viz mechanism-viz" id="toy-key"><div class="mechanism-tabs" role="tablist" aria-label="Toy watermark operation"><button id="toySelect" class="active" aria-pressed="true">1. Select five words</button><button id="toySample" aria-pressed="false">2. Change the chances</button><button id="toyGenerate" aria-pressed="false">3. Move the context</button><button id="toyCheck" aria-pressed="false">4. Check the sentence</button></div><section class="toy-scene"><div class="toy-sentence" id="toySentence" aria-label="Current sentence and generation slots"></div><div class="context-rack"><span>Four words used for this choice</span><div class="toy-context" id="toyContext"></div></div><div class="toy-work"><div><header class="scene-head"><div><span class="figure-kicker" id="toySceneLabel">Selection</span><b id="toySceneTitle">The key ranks all 20 candidates.</b></div><div class="key-switch" id="toyKeyControls"><button id="toyLessonKey" class="active" aria-pressed="true">Lesson key</button><button id="toyComparisonKey" aria-pressed="false">Comparison key</button></div></header><div class="vocab sentence-vocab" id="toyVocab"></div></div><aside class="toy-inspector" id="toyInspector"></aside></div><div class="probability-stage" id="toyProbability"><div class="draw-scale"><i id="toyDrawMarker"></i><span>fixed draw <b id="toyDrawValue">0.30</b></span></div><div class="probability-rows" id="toyProbabilityRows"></div></div><div class="checker-stage" id="toyChecker"><div class="checked-words" id="toyCheckedWords"></div><div class="checker-metrics"><div><span>Green hits</span><strong id="toyHits">0</strong></div><div><span>Checked positions</span><strong id="toyTrials">0</strong></div><div><span>Expected hits</span><strong id="toyExpected">0</strong></div><div><span>z score</span><strong id="toyZ">--</strong></div></div></div><div class="toy-footer"><div class="controls"><button id="toyPrev">Previous</button><button class="primary" id="toyNext">Add the score increase</button><button id="toyReplay">Start over</button></div><p class="feedback" id="toyFeedback" aria-live="polite"></p></div></section></figure>
+
+<p><b>Tab 1: Selection.</b> The program hashes the teaching key, the four context token IDs (<code>Early one morning Jack</code>), and each candidate ID. Sorting the 20 hashes gives a stable ranking. The first five become green: <code>Early</code>, <code>went</code>, <code>walked</code>, <code>snow</code>, <code>trail</code>. Some are bad continuations. That's fine. The selector reads token IDs, not grammar. Switch to the comparison key in the interactive to see eight memberships change while the 25% fraction stays fixed.</p>
+<p><b>Tab 2: Score increase.</b> The program adds <code>2</code> to the five green scores and normalizes all 20 into probabilities. <code>went</code> rises from 22.85% to 46.51%. <code>ran</code> keeps its raw score of 1.9, yet its probability falls from 27.91% to 7.69% because every candidate shares the same total. The relative odds of a green word multiply by <code>exp(2)</code> (about 7.39) before normalization.</p>
+<p><b>Tab 3: Generation.</b> The saved draw is <code>0.30</code>. It picks <code>walked</code> from the original distribution and <code>went</code> after the increase. The program appends <code>went</code>, drops <code>Early</code> from the four-token window, and reruns selection with <code>one morning Jack went</code>. Four choices finish the sentence: <code>went</code>, <code>up</code>, <code>the</code>, <code>hill</code>. The first two landed in green. The last two won despite being outside the favored set. A watermark leans on the sampler; it doesn't dictate every token.</p>
+<p><b>Tab 4: Checking.</b> The checker replays the selection rule through the copied sentence. Before <code>went</code>, it rebuilds the group from <code>Early one morning Jack</code>. It repeats before <code>up</code>, <code>the</code>, and <code>hill</code>. It never sees generation scores or random draws. Result: <code>G=2</code> hits across <code>T=4</code> positions, z = <code>1.155</code>. The comparison key produces zero hits.</p>
+<p>The key printed here is for teaching. Anyone can read it and study how to remove the pattern. A production service would keep the generation key out of prompts, browser code, and public logs.</p>
 
 
-## Replace the hand-written scores
+## Real model evidence
+
+### One real model step
 
 
-<p>The toy sentence demonstrated the mechanism with hand-written scores and fixed draws. The next question: does the same score increase produce detectable excess inside an actual language model, where scores span five orders of magnitude and the sampler applies temperature, top-k, and top-p before the watermark has any effect?</p>
-<p>I loaded the pinned <code>mlx-community/LFM2-350M-4bit</code> checkpoint and wrote out one autoregressive loop on an Apple GPU.<sup class="ref"><a href="#fn-lab03" aria-label="Source 15">15</a></sup> The prompt ended here:</p>
-<blockquote>
-<p>Early one morning Jack went up the hill. At the top he</p>
-</blockquote>
-<p>The control and marked paths began with the same model state and seed. At the first generated position, the key put <code>Jack</code>, token ID <code>30604</code>, in the green group.</p>
+<p>Does the same score increase produce detectable excess inside a real language model, where scores span five orders of magnitude and the sampler applies temperature, top-k, and top-p before the watermark takes effect?</p>
+<p>I loaded <code>mlx-community/LFM2-350M-4bit</code> on an Apple GPU<sup class="ref"><a href="#fn-lab03" aria-label="Source 15">15</a></sup> and ran one autoregressive loop from the prompt "Early one morning Jack went up the hill. At the top he". The control and marked paths shared the same model state and seed. Toggle the watermark on below to see how the probability bars shift at the first generated position:</p>
+
+<figure class="opening-viz real-viz" id="real-token"><div class="real-prompt"><span>Model input ends here</span><p>Early one morning Jack went up the hill. At the top he <i></i></p></div><div class="real-layout"><div><div class="controls"><button id="realOff" class="active" aria-pressed="true">Raw model scores</button><button id="realOn" aria-pressed="false">Add 2 to green scores</button></div><div class="candidate-bars" id="realCandidates"></div></div><aside class="jack-focus"><span class="figure-kicker">Follow one candidate</span><div class="jack-token">Jack <small>token 30604</small></div><div class="score-change"><div><span>Raw score</span><b>14.6875</b></div><i>+2</i><div><span>Marked score</span><b id="jackScore">14.6875</b></div></div><div class="jack-chance"><span>Chance of Jack</span><strong id="jackChance">11.642%</strong></div><div class="fixed-draw"><span>Saved random draw</span><b>same in both paths</b><p id="jackDrawResult">It selects Jack.</p></div></aside></div><div class="real-outcomes"><div><span>Control continuation</span><p id="realControlText"></p><b id="realControlScore"></b></div><div class="marked"><span>Marked continuation</span><p id="realMarkedText"></p><b id="realMarkedScore"></b></div><div><span>Marked text, comparison key</span><p>The copied text stays fixed. Only the checker key changes.</p><b id="realComparisonScore"></b></div></div><p class="feedback" id="realFeedback" aria-live="polite"></p></figure>
+
+<p>The top five candidates at this position:</p>
 <div class="table-wrap" role="region" aria-label="Data table" tabindex="0"><table>
 <thead>
 <tr>
@@ -248,41 +250,37 @@ for length in config.lengths:
 </tr>
 </tbody>
 </table></div>
-<p><code>Jack</code> rose from 11.642% to 18.582% after the increase. The saved draw chose <code>Jack</code> in both paths — a non-event that matters. Two probability distributions can return the same token. A later draw eventually split the continuations, after which each path conditioned on its own history.</p>
-<p>The marked continuation began:</p>
-<blockquote>
-<p>Jack climbed slowly, his boots sinking slightly into the soft snow-covered earth.</p>
-</blockquote>
-<p>I copied the continuation, tokenized it again, and scored the copied IDs. The first copied token supplied context, leaving 39 eligible positions. With the generation key, the marked text scored <code>21/39</code>, z <code>4.160</code>. The same marked text scored <code>7/39</code>, z <code>-1.017</code>, with the comparison key. The paired control scored <code>8/39</code>, z <code>-0.647</code>, with the generation key.</p>
-<p>All three fixed marked passages had higher same-key counts than their controls. Three examples prove the path runs. They cannot estimate accuracy or writing quality. Toggle the watermark on below to watch the probability bars shift:</p>
-
-<figure class="opening-viz real-viz" id="real-token"><div class="real-prompt"><span>Model input ends here</span><p>Early one morning Jack went up the hill. At the top he <i></i></p></div><div class="real-layout"><div><div class="controls"><button id="realOff" class="active" aria-pressed="true">Raw model scores</button><button id="realOn" aria-pressed="false">Add 2 to green scores</button></div><div class="candidate-bars" id="realCandidates"></div></div><aside class="jack-focus"><span class="figure-kicker">Follow one candidate</span><div class="jack-token">Jack <small>token 30604</small></div><div class="score-change"><div><span>Raw score</span><b>14.6875</b></div><i>+2</i><div><span>Marked score</span><b id="jackScore">14.6875</b></div></div><div class="jack-chance"><span>Chance of Jack</span><strong id="jackChance">11.642%</strong></div><div class="fixed-draw"><span>Saved random draw</span><b>same in both paths</b><p id="jackDrawResult">It selects Jack.</p></div></aside></div><div class="real-outcomes"><div><span>Control continuation</span><p id="realControlText"></p><b id="realControlScore"></b></div><div class="marked"><span>Marked continuation</span><p id="realMarkedText"></p><b id="realMarkedScore"></b></div><div><span>Marked text, comparison key</span><p>The copied text stays fixed. Only the checker key changes.</p><b id="realComparisonScore"></b></div></div><p class="feedback" id="realFeedback" aria-live="polite"></p></figure>
+<p><code>Jack</code> rose from 11.642% to 18.582%. The saved draw chose <code>Jack</code> in both paths, a non-event that matters: two distributions can return the same token. A later draw split the continuations, after which each path conditioned on its own history.</p>
+<p>The marked path produced: "Jack climbed slowly, his boots sinking slightly into the soft snow-covered earth." I copied the continuation, tokenized it, and scored. 39 eligible positions. Generation key: <code>21/39</code>, z <code>4.160</code>. Comparison key on the same text: <code>7/39</code>, z <code>-1.017</code>. Paired control with generation key: <code>8/39</code>, z <code>-0.647</code>.</p>
+<p>Three fixed marked passages all scored higher than their controls. Three examples prove the path runs. They can't estimate accuracy or quality.</p>
 
 
-## Operation order changes the sampler
+### Operation order
 
 
-<p>Recording <code>delta=2</code> does not fully specify a watermark. My first loop applied the green score increase before temperature and filtering. The Transformers library applies them in a different order:<sup class="ref"><a href="#fn-lab04" aria-label="Source 16">16</a></sup></p>
+<p>Recording <code>delta=2</code> doesn't fully specify a watermark. My first loop applied the increase before temperature and filtering. Transformers 5.14.1 applies them differently:<sup class="ref"><a href="#fn-lab04" aria-label="Source 16">16</a></sup></p>
 <pre><code class="language-text">temperature -&gt; top-k -&gt; top-p -&gt; watermark processor -&gt; softmax -&gt; sample
 </code></pre>
-<p>The earlier teaching loop used:</p>
+<p>My earlier teaching loop used:</p>
 <pre><code class="language-text">watermark increase -&gt; temperature -&gt; top-p -&gt; top-k -&gt; softmax -&gt; sample
 </code></pre>
-<p>I replayed both routes on the same 50,257 saved GPT-2 scores. The Transformers route kept 40 candidates after top-k and 19 after top-p. The earlier route kept 11 after top-p. For token <code> was</code>, the final probabilities were 8.643% and 8.826%.</p>
-<p>The difference for that token is only 0.18 percentage points, but the structural difference is larger. Temperature changes the effective score increase. Filtering can remove a candidate before the watermark reaches it. The operation sequence is part of the watermark profile.</p>
-<p>A six-token compatibility fixture found another mismatch. It alternated token IDs 373 and 21272, producing five pair occurrences but only two distinct pair values. Both settings of Transformers' <code>ignore_repeated_ngrams</code> option returned <code>3/5</code>, z <code>1.807</code>, in the pinned version. My explicit distinct-value count returned <code>1/2</code>, z <code>0.816</code>.</p>
-<p>Those six tokens were a test fixture, not model output. The lesson: inspect maintained behavior instead of inferring it from an option name. Step through both routes below — both start with the same 50,257 scores and settings:</p>
+<p>I replayed both on the same 50,257 saved GPT-2 scores. Step through them below:</p>
 
 <figure class="opening-viz order-viz" id="operation-order"><div class="order-controls"><div class="controls"><button id="orderReference" class="active" aria-pressed="true">Transformers route</button><button id="orderEarlier" aria-pressed="false">Earlier teaching route</button></div><div class="controls"><button id="orderBack">Previous operation</button><button class="primary" id="orderNext">Run next operation</button><button id="orderAll">Show final state</button></div></div><div class="order-rails" id="orderRails"></div><div class="order-result" id="orderReadout"></div><section class="pair-fixture"><header><span class="figure-kicker">A separate compatibility check</span><b>Does a repeated pair count once or every time it appears?</b></header><div class="pair-sequence" id="pairSequence"></div><div class="controls"><button id="pairEvery" class="active" aria-pressed="true">Count every occurrence</button><button id="pairDistinct" aria-pressed="false">Count each pair value once</button></div><div class="pair-counting" id="pairCounting"></div><p class="feedback" id="pairFeedback"></p></section></figure>
 
+<p>The Transformers route kept 40 after top-k and 19 after top-p. My earlier route kept 11 after top-p. For token <code> was</code>, final probabilities: 8.643% vs 8.826%. Only 0.18 percentage points apart, but the structural difference matters. Temperature changes the effective increase. Filtering can remove a candidate before the watermark reaches it. The operation sequence is part of the watermark profile.</p>
+<p>A six-token compatibility fixture exposed another mismatch. It alternated token IDs 373 and 21272, producing five pair occurrences but only two distinct pair values. Both <code>ignore_repeated_ngrams</code> settings in Transformers returned <code>3/5</code>, z <code>1.807</code>. My explicit distinct-value count returned <code>1/2</code>, z <code>0.816</code>. The lesson: inspect maintained behavior instead of inferring it from an option name.</p>
 
-## Run the same mechanism on Gemma
+
+### Gemma end-to-end
 
 
-<p>The watermark core should not depend on how a specific model formats chat. I kept the shared interface small: pass a watermark profile into generation, extract copied assistant text, build the matching checker. A Gemma-specific adapter owned prompt rendering, tokenization, assistant-content extraction, and generated-ID slicing.</p>
-<p>The project pinned <code>google/gemma-4-E2B-it</code> in BF16 with Transformers 5.14.1 and PyTorch 2.13.0 on one Modal NVIDIA L4.<sup class="ref"><a href="#fn-lab05" aria-label="Source 17">17</a></sup> Modal provided the disposable machine. The watermark algorithm did not depend on Modal.</p>
-<p>The model downloaded in 36.739 seconds and loaded in 5.782 seconds. Peak reserved memory was 9.682 GiB of the reported 22.034 GiB. The three marked smoke outputs generated between 18.422 and 19.259 tokens per second. Synchronized processor replays took 5.373 to 7.165 milliseconds per complete marked continuation. Those replay timings measure one component under instrumentation, not an end-to-end speed penalty.</p>
-<p>The first result was a miss three times over:</p>
+<p>The watermark core shouldn't depend on how a specific model formats chat. I kept the shared interface small: pass a watermark profile into generation, extract copied assistant text, build the matching checker. A Gemma-specific adapter owned prompt rendering, tokenization, and generated-ID slicing.</p>
+<p>I pinned <code>google/gemma-4-E2B-it</code> in BF16 on one Modal NVIDIA L4 with Transformers 5.14.1.<sup class="ref"><a href="#fn-lab05" aria-label="Source 17">17</a></sup> Advance the request below to see what crosses each component boundary:</p>
+
+<figure class="opening-viz gemma-viz" id="gemma-path"><div class="gemma-flow"><div class="path" id="pathNodes"></div><div class="packet-line"><i id="pathPacket"></i></div><div class="controls"><button id="pathPrev">Previous boundary</button><button class="primary" id="pathNext">Advance request</button><button id="pathReset">Start over</button></div><p class="feedback" id="pathFeedback"></p></div><section class="smoke-panel"><header><span class="figure-kicker">The first three marked outputs</span><b>All three stopped short and stayed below z = 3.</b></header><div class="smoke" id="smokeRows"></div><div class="smoke-scale"><span>z 0</span><i></i><b>strict cutoff z &gt; 3</b></div><p>I kept these misses. The outputs ended after 22 to 28 generated token IDs, so each checker had only 20 to 26 eligible positions.</p></section><section class="ladder-panel"><div><span class="figure-kicker">The later length ladder</span><b>8 of 12 marked rows crossed.</b><p>No paired control crossed. Achieved copied lengths ranged from 200 to 800 tokens.</p></div><div><b>What this does not isolate</b><p>The prompts and achieved lengths changed together. The ladder cannot assign the change to length alone.</p></div></section></figure>
+
+<p>The model loaded in 5.8 seconds. The three smoke outputs generated at 18-19 tokens/sec. The first result missed three times over:</p>
 <div class="table-wrap" role="region" aria-label="Data table" tabindex="0"><table>
 <thead>
 <tr>
@@ -309,11 +307,9 @@ for length in config.lengths:
 </tr>
 </tbody>
 </table></div>
-<p>Each marked output ended after 22 to 28 generated token IDs. The checker had only 20 to 26 eligible positions. I kept the prompts, seeds, keys, and stopping behavior as declared instead of searching for a crossing.</p>
-<p>A later natural-length ladder produced 12 marked and 12 paired control outputs. Eight marked rows crossed <code>z &gt; 3</code>; no control did. The achieved copied lengths ranged from 200 to 800 tokens. Prompt content and length changed together, so the ladder does not isolate length as the cause.</p>
-<p>The committed evidence uses a public key so anyone can verify it. A private service would load key material inside the host process and expose a key version, not the key itself. Advance the request below to see what crosses each boundary:</p>
-
-<figure class="opening-viz gemma-viz" id="gemma-path"><div class="gemma-flow"><div class="path" id="pathNodes"></div><div class="packet-line"><i id="pathPacket"></i></div><div class="controls"><button id="pathPrev">Previous boundary</button><button class="primary" id="pathNext">Advance request</button><button id="pathReset">Start over</button></div><p class="feedback" id="pathFeedback"></p></div><section class="smoke-panel"><header><span class="figure-kicker">The first three marked outputs</span><b>All three stopped short and stayed below z = 3.</b></header><div class="smoke" id="smokeRows"></div><div class="smoke-scale"><span>z 0</span><i></i><b>strict cutoff z &gt; 3</b></div><p>I kept these misses. The outputs ended after 22 to 28 generated token IDs, so each checker had only 20 to 26 eligible positions.</p></section><section class="ladder-panel"><div><span class="figure-kicker">The later length ladder</span><b>8 of 12 marked rows crossed.</b><p>No paired control crossed. Achieved copied lengths ranged from 200 to 800 tokens.</p></div><div><b>What this does not isolate</b><p>The prompts and achieved lengths changed together. The ladder cannot assign the change to length alone.</p></div></section></figure>
+<p>Each output ended after 22-28 generated tokens. The checker had only 20-26 eligible positions. I kept the declared stopping behavior instead of searching for a crossing.</p>
+<p>A later natural-length ladder produced 12 marked and 12 paired control outputs. Eight marked rows crossed <code>z &gt; 3</code>; no control did. Achieved copied lengths ranged from 200 to 800 tokens. Prompt content and length changed together, so the ladder doesn't isolate length as the cause.</p>
+<p>The committed evidence uses a public key so anyone can verify it. A private service would keep key material inside the host process and expose a version identifier, not the key itself.</p>
 
 
 ## Score outside text before trusting the cutoff
