@@ -13,27 +13,26 @@ interactive: true
 
 <aside class="tldr">
 <h2>TL;DR</h2>
-<p><strong>How watermarks hide:</strong> Plain text contains no invisible pixel slack or file metadata. Autoregressive models embed watermarks by using a secret key to partition candidate vocabularies into green and red subsets, adding a logit bias to green tokens at every generation step.</p>
-<p><strong>Why frontier labs deploy watermarks:</strong> Providers watermark text to comply with the European Union AI Act Article 50(2) transparency mandate by August 2026. Watermarks provide a verifiable audit trail for direct model completions, not an infallible plagiarism detector.</p>
-<p><strong>What watermarks cannot encode:</strong> Generation-time watermarks function as zero-bit statistical tests. A detector verifies whether text matches a key schedule; it cannot extract user IDs, account metadata, or timestamps.</p>
-<p><strong>What breaks the watermark:</strong> Watermarks depend strictly on exact context token histories. While detection survives minor typos, any meaning-preserving paraphrase or second-pass rewrite generates a fresh token sequence, resetting context hashes and dissolving the signal.</p>
+<p><strong>How watermarks hide:</strong> Plain text contains no invisible pixel slack or file metadata. A generation-time watermark instead changes which acceptable token the model is likely to choose. In the KGW-style system tested here, a secret key selects a favored vocabulary subset at each step, and the sampler raises the scores of those tokens.</p>
+<p><strong>Why deployment is timely:</strong> Article 50 of the EU AI Act requires machine-readable marking where technically feasible from August 2026. Anthropic announced Claude's watermark soon after the requirement took effect and signed the corresponding Code of Practice. A matching detector can provide evidence that text carries a configured mark, but it cannot prove plagiarism or authorship.</p>
+<p><strong>What Claude's disclosed mark does not encode:</strong> Claude's disclosed detector answers whether text carries evidence associated with a configured key. It does not decode an identity; Anthropic says the mark contains no user, organization, or chat identifier.</p>
+<p><strong>What weakens the signal:</strong> In the KGW-style system tested here, edits change the token history used to reconstruct each keyed group. All 12 paraphrases that passed the declared automatic screens scored lower, and none crossed the configured cutoff. An assistant review rated ten pass and two uncertain. These results do not establish the removal rate for Claude's private SynthID-Text configuration.</p>
 </aside>
 
-<p>On August 11, Anthropic announced that future Claude models will watermark their text output.<sup class="ref"><a href="#fn-anthropic-support" aria-label="Source 1">1</a></sup> Three days later, a longer post clarified that Claude's watermark is "a version of the SynthID-Text approach," that it changes randomness among acceptable next-word choices, and that a detection API is planned.<sup class="ref"><a href="#fn-anthropic-news" aria-label="Source 2">2</a></sup> Neither post published the algorithm, keying scheme, threshold, or production evaluation data.</p>
-<p>The timing wasn't accidental. The EU AI Act's Article 50 requires providers of systems generating synthetic text to make outputs machine-readable and detectable as AI-generated, as far as technically feasible, starting August 2, 2026.<sup class="ref"><a href="#fn-article50" aria-label="Source 3">3</a></sup> Anthropic had signed the corresponding Code of Practice on transparency.</p>
-<p>The announcements didn't explain the mechanism. Where does a watermark go in plain text?</p>
-<p>I knew how image watermarking worked. A 4K frame has 8,294,400 pixel values. Shift a few low-order color channels and the picture looks the same. Video repeats that grid across thousands of frames. The hiding space is enormous.</p>
-<p>Text doesn't have pixel channels. Every character is visible. Swap one word and the reader can tell. Copy-paste strips file metadata and container formats, so a durable mark can't live in a wrapper either.</p>
-<p>Theo Browne made the same observation in his video about Claude's announcement: images and video carry massive numerical redundancy, while text operates under strict discrete constraints.<sup class="ref"><a href="#fn-theo" aria-label="Source 4">4</a></sup> Dr. Mike Pound's Computerphile video on the Kirchenbauer et al. paper showed me the answer: partition the vocabulary into favored and unfavored groups at each generation step, using a secret key.<sup class="ref"><a href="#fn-computerphile" aria-label="Source 5">5</a></sup></p>
+<p>Plain text leaves nowhere obvious to hide a watermark.</p>
+<p>An image has millions of pixel values that can shift without changing what a person sees. Video repeats that grid across thousands of frames. Text has no comparable slack. Every character is visible, and copy-paste discards file metadata.</p>
+<p>I started pulling on that question after Anthropic announced that future Claude models would watermark their text output.<sup class="ref"><a href="#fn-anthropic-support" aria-label="Source 1">1</a></sup> Three days later, the company said Claude uses "a version of the SynthID-Text approach" that changes randomness among acceptable next-word choices.<sup class="ref"><a href="#fn-anthropic-news" aria-label="Source 2">2</a></sup> Anthropic plans to provide a detection API, but it has not published the algorithm, keying scheme, threshold, or production evaluation data.</p>
+<p>The timing matters. Article 50 of the EU AI Act requires providers of systems that generate synthetic text to make their output machine-readable and detectable where technically feasible, starting August 2, 2026.<sup class="ref"><a href="#fn-article50" aria-label="Source 3">3</a></sup> Anthropic signed the corresponding Code of Practice on transparency.</p>
+<p>Theo Browne framed the same constraint in his video about Claude's announcement: images and video carry massive numerical redundancy, while text operates under discrete constraints.<sup class="ref"><a href="#fn-theo" aria-label="Source 4">4</a></sup> Dr. Mike Pound's Computerphile explanation led me to the green-list method introduced by Kirchenbauer and colleagues. A secret key partitions the vocabulary into favored and unfavored groups at each generation step.<sup class="ref"><a href="#fn-computerphile" aria-label="Source 5">5</a></sup><sup class="ref"><a href="#fn-kgw" aria-label="Source 10">10</a></sup></p>
 <p>The difference in hiding space is structural. Compare how each medium encodes a mark:</p>
 
 <figure class="opening-viz" id="media-slack"><div class="modality-row"><div><div class="mod-name">Video</div><div class="mod-dim">spatial + temporal</div><div class="video-strip"><div class="video-frame"><div class="frame-pixels"><i></i><i></i><i></i><i class="marked"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="marked"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="video-frame"><div class="frame-pixels"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="marked"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="marked"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="video-frame"><div class="frame-pixels"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="marked"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="marked"></i><i></i><i></i><i></i></div></div><div class="video-frame"><div class="frame-pixels"><i></i><i></i><i></i><i></i><i></i><i class="marked"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="video-frame"><div class="frame-pixels"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="marked"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div><div class="video-frame"><div class="frame-pixels"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="marked"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div><div class="temporal-axis"><i class="arrow">&#9666;</i><span class="axis-line"></span><span>time</span><span class="axis-line"></span><i class="arrow">&#9656;</i></div></div><div><div class="mod-name">Image</div><div class="mod-dim">spatial</div><div class="image-grid"><div class="image-pixels"><i></i><i></i><i></i><i></i><i></i><i></i><i class="marked"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="marked"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i class="marked"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></div></div><div><div class="mod-name">Text</div><div class="mod-dim">sequential</div><div class="token-stream" id="tokenStream"><div class="token-block green-token">The</div><div class="token-block">small</div><div class="token-block green-token">boat</div><div class="token-block">reached</div><div class="token-block green-token">the</div><div class="token-block green-token">quiet</div><div class="token-block">shore</div></div></div></div><div class="dim-annotations"><div class="dim-note"><b>Frames &times; pixels.</b> Each frame is a 2D grid. Time adds a third axis. Marks scatter across all three.</div><div class="dim-note"><b>Pixels.</b> One 2D grid. A few shifted values vanish among millions.</div><div class="dim-note"><b>Tokens.</b> One axis: the sequence. Each choice is visible. The mark is which token the model picked.</div></div><div class="media-answer"><b>A text watermark can't scatter marks across a pixel grid. It can only lean on which word the model chose when several words would have worked.</b></div></figure>
 <p>The mark appears when the model chooses the next token. A language model writes one token at a time. At many positions, several continuations are reasonable. A secret rule can favor some of them by a small amount.</p>
 <p>The copied text carries no label. The signal is in the pattern of choices the model made, accumulated across many positions.</p>
-<p>Someone who knows the rule can walk through the text, rebuild the favored groups, and count how often those choices appeared. One position says almost nothing. A few hundred start to add up.</p>
+<p>Someone who knows the rule can walk through the text, rebuild the favored groups, and count how often those choices appeared. One position says almost nothing. Evidence accumulates with length, but the required length depends on the watermark profile and the choices available in the text.</p>
 <p>The entire mechanism reduces to three core steps:</p>
 <div class="step-cards"><div class="step-card"><span class="step-num">1</span><b>Generate</b><p>Bias pseudorandom sampling toward keyed subsets of valid tokens.</p></div><div class="step-card"><span class="step-num">2</span><b>Check</b><p>Reconstruct those subsets from context and count observed choices.</p></div><div class="step-card"><span class="step-num">3</span><b>Judge</b><p>Test whether the green count exceeds ordinary baseline chance.</p></div></div>
-<p>I wanted to understand the mechanism. Start with two coins to get the statistics. Add a key and a 20-word vocabulary to see how the partition works. Run it on a real model to check nothing breaks. Scale to Gemma on a cloud GPU with paired controls. Score natural web text to calibrate the background. Then edit the output and measure how much evidence the checker loses.</p>
+<p>I worked outward from the smallest test I could inspect. The weighted coins supplied the statistics, and a 20-word vocabulary exposed the keyed partition. I then moved the same idea into a local language model, reproduced it with Gemma under paired controls, calibrated the checker on natural-web text, and measured what editing removed.</p>
 
 
 ## The statistical engine
@@ -45,31 +44,31 @@ interactive: true
 <p>The 25% coin averages 10 heads in 40 flips. The 40% coin averages 16. But 40 flips aren't many, and the counts can overlap. The 25% coin can get lucky. The 40% coin can have a cold run. Try it:</p>
 
 <figure class="opening-viz" id="coin-lab"><div class="coin-compare"><section class="coin-panel baseline"><header><div><b>Baseline coin</b><span>No added preference</span></div><strong>p = 25%</strong></header><div class="coin-intro"><div class="coin-face">H</div><div class="ratio ratio-4"><i></i><i></i><i></i><i></i><small>About 1 head in 4</small></div></div><div class="flip-grid" id="baselineFlips" aria-label="Forty baseline coin flips"></div><output class="coin-count" id="baselineCount"></output></section><section class="coin-panel nudged"><header><div><b>Nudged coin</b><span>A persistent preference for heads</span></div><strong>p = 40%</strong></header><div class="coin-intro"><div class="coin-face">H</div><div class="ratio ratio-5"><i></i><i></i><i></i><i></i><i></i><small>About 2 heads in 5</small></div></div><div class="flip-grid" id="nudgedFlips" aria-label="Forty nudged coin flips"></div><output class="coin-count" id="nudgedCount"></output></section></div><div class="figure-actions"><button class="primary" id="flipAgain">Flip both again</button><p id="flipLesson">Watch the counts, not one particular flip.</p></div></figure>
-<p>Rerun it. The individual sequences change but the averages hold: baseline near one head in four, nudged near two in five. That difference is visible when you know which coin produced which sequence. Given one unlabeled batch, can you tell whether the nudged coin produced it?</p>
+<p>Each run produces new sequences, but the long-run averages remain near one head in four and two heads in five. A single unlabeled batch is harder to identify because chance can reverse the expected order.</p>
 
 
 ### From head count to z score
 
 
 <p>Take a single observed batch: 32 heads in 80 flips.</p>
-<p>The baseline coin produces an expected average of 20 heads in 80 flips (80 &times; 0.25 = 20). Our batch observed 12 extra heads. A raw difference of 12 lacks meaning without a scale: 12 extra heads in 20 flips is extraordinary, while 12 extra in 20,000 is negligible.</p>
+<p>The baseline coin produces an expected average of 20 heads in 80 flips (80 &times; 0.25 = 20). The batch contains 12 more heads than that expectation. A raw difference of 12 lacks meaning without a scale: 12 extra heads in 20 flips is extraordinary, while 12 extra in 20,000 is negligible.</p>
 <p>Under the baseline model, 80-flip batches fluctuate by a standard deviation (&sigma;) of about 3.87 heads around their average. Here <var>T</var> is the number of flips and <var>p</var> is the baseline probability of heads:</p>
 <div class="formula-block"><span class="formula">&sigma; = &radic;<span class="sqrt-content"><var>T</var> &times; <var>p</var> &times; (1 &minus; <var>p</var>)</span> = &radic;<span class="sqrt-content">80 &times; 0.25 &times; 0.75</span> &approx; 3.87 heads</span></div>
-<p>We scale the observed excess by this expected baseline movement to calculate the z-score:</p>
+<p>Dividing the observed excess by the expected baseline movement gives the z-score:</p>
 <div class="formula-block highlight"><span class="formula">z = <span class="frac"><span class="frac-num">12 extra heads</span><span class="frac-den">3.87 heads of ordinary standard deviation</span></span> = <b>3.10</b></span></div>
 <p>The z-score measures how many standard deviations the observed count sits from baseline chance. It quantifies evidence strength, and the formula contains no claim about whether a watermark exists.</p>
-<p>Turning a score into an alarm requires a locked decision threshold. Our experiment locked a cutoff of z &gt; 3 before collecting data. Our 3.10 crosses it. In concrete terms: under the baseline coin, 32 or more heads in 80 flips occur about 0.2% of the time, so a score above 3 means the observed pattern has less than a 0.13% chance of arising from baseline randomness alone. That's rare, but a 0.2% event happens five times in every 2,500 trials.</p>
+<p>Turning a score into an alarm requires a locked decision threshold. I set the experiment's cutoff at z &gt; 3 before collecting data, so 3.10 crosses it. Under the exact binomial model, 32 or more heads in 80 flips occur about 0.224% of the time. The familiar one-sided normal tail beyond z = 3 is about 0.135%, but this discrete 80-flip example does not match that approximation exactly. Either rate is small enough to look persuasive in one trial and common enough to produce false alarms at scale.</p>
 
 
 ### More flips, clearer signal
 
 
-<p>Coin flips are independent. Real text tokens are conditional on their predecessors, so real-world variance is higher than the coin predicts. Still, the scaling law holds in both: holding the two probabilities fixed while increasing sample length reveals the mechanism.</p>
+<p>Coin flips are independent. Real text tokens are conditional on their predecessors, so the coin's variance calculation no longer has a guaranteed fit. Context, repeated tokens, and tokenizer behavior can inflate or suppress the green count.</p>
 <p>The nudged source accumulates an expected excess of 0.15 &times; <var>T</var> heads. Baseline random fluctuations grow as &radic;<span class="sqrt-content"><var>T</var> &times; 0.25 &times; 0.75</span>. The watermark signal grows linearly with length (<i>O</i>(<var>T</var>)), while random noise grows only with the square root of length (<i>O</i>(&radic;<var>T</var>)).</p>
-<p>At 40 flips, the expected excess is 6 heads and baseline noise is 2.74 (<var>z</var> = 2.19). At 400 flips, the expected excess expands to 60 heads while baseline noise reaches only 8.66 (<var>z</var> = 6.93). The signal outruns the noise as text length grows. Toggle the length below to watch the bars separate:</p>
+<p>At 40 flips, the expected excess is 6 heads and baseline noise is 2.74 (<var>z</var> = 2.19). At 400 flips, the expected excess reaches 60 heads while baseline noise reaches only 8.66 (<var>z</var> = 6.93). The length control holds both probabilities fixed while increasing <var>T</var>, making the signal separate from baseline variation.</p>
 
 <figure class="opening-viz" id="coin-length"><div class="length-layout"><div class="length-controls"><b>Number of flips</b><div class="controls" id="lengthButtons"></div><div class="watch-box"><b>Watch excess outrun scatter as T grows.</b></div></div><div><div class="metric-grid"><div><span>Baseline average</span><strong id="lenBase">10</strong><small>heads</small></div><div><span>Nudged average</span><strong id="lenNudge">16</strong><small>heads</small></div><div><span>Persistent excess</span><strong id="lenExcess">6</strong><small>heads</small></div><div><span>Expected z</span><strong id="lenExpectedZ">2.19</strong><small>movement units</small></div></div><div class="growth-row"><b>Baseline movement</b><div><i id="noiseBar"></i></div><output id="noiseValue">2.74</output></div><div class="growth-row"><b>Persistent excess</b><div><i class="signal" id="signalBar"></i></div><output id="signalValue">6.00</output></div><p class="figure-lesson" id="lengthLesson"></p></div></div></figure>
-<p>A single z score says nothing about error rates. Run 2,000 batches from each coin and two distributions appear. At short lengths they overlap heavily; at long lengths they separate. Move the cutoff below to see how every threshold trades false alarms against missed detections:</p>
+<p>A single z-score says nothing about error rates. Simulating 2,000 batches from each coin produces two distributions. They overlap heavily at short lengths and separate as the sample grows. The cutoff control shows how each threshold trades false alarms against missed detections.</p>
 
 <figure class="opening-viz" id="coin-distribution"><div class="dist-stacked"><svg id="distributionPlot" class="opening-plot" viewBox="0 0 820 430" role="img" aria-labelledby="distTitle distDesc"><title id="distTitle">Baseline and nudged score distributions</title><desc id="distDesc">Two score histograms and a movable cutoff.</desc></svg><div class="dist-controls-bar"><div class="dist-group"><label>Length</label><div class="controls" id="distLengths"></div></div><div class="dist-group"><label>Cutoff</label><div class="controls" id="cutoffButtons"></div></div><div class="dist-rates"><div class="rate-box baseline"><span>Baseline over line</span><strong id="distFalse">0%</strong></div><div class="rate-box nudged"><span>Nudged over line</span><strong id="distCaught">0%</strong></div></div></div><p class="overlap-note" id="distLesson"><b>The hills overlap.</b> Move the cutoff and watch both rates change.</p></div></figure>
 
@@ -79,7 +78,7 @@ interactive: true
 ### Coins are tokens
 
 
-<p>A language model choosing its next token faces the same structure. Each eligible position is one flip. A token landing in the favored set counts as heads. The z formula, the 25% null rate, and the cutoff tradeoff all carry over unchanged.</p>
+<p>A language model choosing its next token faces the same basic structure. Each eligible position is one flip. A token landing in the favored set counts as heads. The implementation reuses the z formula and the configured 25% null rate. Their interpretation does not transfer unchanged because token choices are dependent, which is why the later experiment measures an empirical background distribution.</p>
 <p>Independence doesn't carry over. Coin flips don't depend on each other, but token choices depend on context, repeat within a sentence, and pass through a tokenizer that splits words unpredictably. Those dependencies can inflate or suppress the green count in ways a coin never would.</p>
 
 <figure class="opening-viz" id="coin-to-token"><div class="object-map"><div class="object-card"><span>Coin version</span><b>One weighted flip</b><div class="coin-face">H</div><p>Heads is a hit. Tails is not.</p></div><div class="map-mark">becomes</div><div class="object-card"><span>Text version</span><b>One next-token choice</b><p class="prompt">The small boat was...</p><div class="token-row"><i class="favored">quiet</i><i>old</i><i class="favored">blue</i><i>ready</i></div><p>The key marks <code>quiet</code> and <code>blue</code> favored for this context.</p></div></div><div class="mapping-grid"><b>Coin</b><b>Text</b><span>One flip</span><span>One eligible token position</span><span>Heads</span><span>Chosen token is in the favored set</span><span>Count and score heads</span><span>Count and score favored tokens</span></div></figure>
@@ -176,7 +175,7 @@ for length in config.lengths:
 <p>The null rates wobble rather than falling smoothly. They are finite Monte Carlo estimates. The 100% at 400 means all 10,000 nudged batches crossed under this coin setup, not a promise about real model output. The chart shows both lines diverging:</p>
 
 <figure class="inline-viz" id="coin-results"><div class="result-stacked"><svg id="stage1ResultPlot" class="opening-plot" viewBox="0 0 820 380" role="img" aria-labelledby="resultTitle resultDesc"><title id="resultTitle">Recorded Stage 1 detection rates by length</title><desc id="resultDesc">Nudged and baseline rates at five lengths.</desc></svg><div class="legend-bar"><span><i class="legend nudge"></i> Nudged batches above cutoff</span><span><i class="legend base"></i> Baseline batches above cutoff</span><span class="legend-note">10,000 batches per point, cutoff z &gt; 3</span></div></div></figure>
-<p>The coin demonstrated that a weak preference becomes measurable given enough flips, and that any fixed cutoff trades misses against false alarms. But it has no way to decide which specific text choices should count as heads, because that decision requires a key tied to context.</p>
+<p>The simulation shows how a fixed preference becomes easier to detect as the number of flips grows. It also shows why every cutoff trades misses against false alarms. The coin still cannot decide which text choices count as heads; that requires a key tied to context.</p>
 
 
 ### The key mechanism
@@ -186,14 +185,14 @@ for length in config.lengths:
 <blockquote>
 <p>Early one morning Jack went up the hill.</p>
 </blockquote>
-<p>The four tabs below walk through the full cycle on this sentence. Start with tab 1:</p>
+<p>The four tabs trace selection, score adjustment, generation, and checking on this sentence.</p>
 
 <figure class="opening-viz mechanism-viz" id="toy-key"><div class="mechanism-tabs" role="tablist" aria-label="Toy watermark operation"><button id="toySelect" class="active" aria-pressed="true">1. Select five words</button><button id="toySample" aria-pressed="false">2. Change the chances</button><button id="toyGenerate" aria-pressed="false">3. Move the context</button><button id="toyCheck" aria-pressed="false">4. Check the sentence</button></div><section class="toy-scene"><div class="toy-sentence" id="toySentence" aria-label="Current sentence and generation slots"></div><div class="context-rack"><span>Four words used for this choice</span><div class="toy-context" id="toyContext"></div></div><div class="toy-work"><div><header class="scene-head"><div><span class="figure-kicker" id="toySceneLabel">Selection</span><b id="toySceneTitle">The key ranks all 20 candidates.</b></div><div class="key-switch" id="toyKeyControls"><button id="toyLessonKey" class="active" aria-pressed="true">Lesson key</button><button id="toyComparisonKey" aria-pressed="false">Comparison key</button></div></header><div class="vocab sentence-vocab" id="toyVocab"></div></div><aside class="toy-inspector" id="toyInspector"></aside></div><div class="probability-stage" id="toyProbability"><div class="draw-scale"><i id="toyDrawMarker"></i><span>fixed draw <b id="toyDrawValue">0.30</b></span></div><div class="probability-rows" id="toyProbabilityRows"></div></div><div class="checker-stage" id="toyChecker"><div class="checked-words" id="toyCheckedWords"></div><div class="checker-metrics"><div><span>Green hits</span><strong id="toyHits">0</strong></div><div><span>Checked positions</span><strong id="toyTrials">0</strong></div><div><span>Expected hits</span><strong id="toyExpected">0</strong></div><div><span>z score</span><strong id="toyZ">--</strong></div></div></div><div class="toy-footer"><div class="controls"><button id="toyPrev">Previous</button><button class="primary" id="toyNext">Add the score increase</button><button id="toyReplay">Start over</button></div><p class="feedback" id="toyFeedback" aria-live="polite"></p></div></section></figure>
 
-<p><b>Tab 1: Selection.</b> The program hashes the teaching key, the four context token IDs (<code>Early one morning Jack</code>), and each candidate ID. Sorting the 20 hashes gives a stable ranking. The first five become green: <code>Early</code>, <code>went</code>, <code>walked</code>, <code>snow</code>, <code>trail</code>. Some are bad continuations. That's fine. The selector reads token IDs, not grammar. Switch to the comparison key in the interactive to see eight memberships change while the 25% fraction stays fixed.</p>
-<p><b>Tab 2: Score increase.</b> The program adds <code>2</code> to the five green scores and normalizes all 20 into probabilities. <code>went</code> rises from 22.85% to 46.51%. <code>ran</code> keeps its raw score of 1.9, yet its probability falls from 27.91% to 7.69% because every candidate shares the same total. The relative odds of a green word multiply by <code>exp(2)</code> (about 7.39) before normalization.</p>
-<p><b>Tab 3: Generation.</b> The saved draw is <code>0.30</code>. It picks <code>walked</code> from the original distribution and <code>went</code> after the increase. The program appends <code>went</code>, drops <code>Early</code> from the four-token window, and reruns selection with <code>one morning Jack went</code>. Four choices finish the sentence: <code>went</code>, <code>up</code>, <code>the</code>, <code>hill</code>. The first two landed in green. The last two won despite being outside the favored set. A watermark leans on the sampler; it doesn't dictate every token.</p>
-<p><b>Tab 4: Checking.</b> The checker replays the selection rule through the copied sentence. Before <code>went</code>, it rebuilds the group from <code>Early one morning Jack</code>. It repeats before <code>up</code>, <code>the</code>, and <code>hill</code>. It never sees generation scores or random draws. Result: <code>G=2</code> hits across <code>T=4</code> positions, z = <code>1.155</code>. The comparison key produces zero hits.</p>
+<p><b>Selection.</b> The program hashes the teaching key, the four context token IDs (<code>Early one morning Jack</code>), and each candidate ID. Sorting the 20 hashes gives a stable ranking. The first five become green: <code>Early</code>, <code>went</code>, <code>walked</code>, <code>snow</code>, and <code>trail</code>. Some are poor continuations because the selector reads token IDs, not grammar. The comparison key changes eight memberships while preserving the five-of-20 fraction.</p>
+<p><b>Score increase.</b> The program adds <code>2</code> to the five green logits before normalization. The relative odds of each green word therefore multiply by <code>exp(2)</code>, about <code>7.39</code>. In this step, <code>went</code> rises from 22.85% to 46.51%, while the unmodified <code>ran</code> falls from 27.91% to 7.69% because all candidates share the new probability total.</p>
+<p><b>Generation.</b> The saved draw of <code>0.30</code> selects <code>walked</code> from the original distribution and <code>went</code> after the increase. The program appends <code>went</code>, drops <code>Early</code> from the four-token window, and rebuilds the favored set from <code>one morning Jack went</code>. The first two generated words land in green; the last two win despite falling outside the favored set. The watermark changes the odds without dictating every token.</p>
+<p><b>Checking.</b> The checker replays the selection rule through the copied sentence. It rebuilds the favored group before each of the four generated words without access to generation scores or random draws. The result is <code>G=2</code> hits across <code>T=4</code> positions, z = <code>1.155</code>. The comparison key produces zero hits.</p>
 <p>The key printed here is for teaching. Anyone can read it and study how to remove the pattern. A production service would keep the generation key out of prompts, browser code, and public logs.</p>
 
 
@@ -203,11 +202,11 @@ for length in config.lengths:
 
 
 <p>Does the same score increase produce detectable excess inside a real language model, where scores span five orders of magnitude and the sampler applies temperature, top-k, and top-p before the watermark takes effect?</p>
-<p>I loaded <code>mlx-community/LFM2-350M-4bit</code> on an Apple GPU and ran one autoregressive loop from the prompt "Early one morning Jack went up the hill. At the top he". The control and marked paths shared the same model state and seed. Toggle the watermark on below to see how the probability bars shift at the first generated position:</p>
+<p>I loaded <code>mlx-community/LFM2-350M-4bit</code> at revision <code>18dc72abf3b2337f9123cfd6eeeb58dfa7947066</code> on an Apple GPU with MLX-LM 0.31.3 and MLX 0.32.0. I then ran one autoregressive loop from the prompt "Early one morning Jack went up the hill. At the top he". The control and marked paths shared the same model state and seed. The figure compares the raw distribution with the distribution after adding <code>2</code> to green logits at the first generated position.</p>
 
 <figure class="opening-viz real-viz" id="real-token"><div class="real-prompt"><span>Model input ends here</span><p>Early one morning Jack went up the hill. At the top he <i></i></p></div><div class="real-layout"><div><div class="controls"><button id="realOff" class="active" aria-pressed="true">Raw model scores</button><button id="realOn" aria-pressed="false">Add 2 to green scores</button></div><div class="candidate-bars" id="realCandidates"></div></div><aside class="jack-focus"><span class="figure-kicker">Follow one candidate</span><div class="jack-token">Jack <small>token 30604</small></div><div class="score-change"><div><span>Raw score</span><b>14.6875</b></div><i>+2</i><div><span>Marked score</span><b id="jackScore">14.6875</b></div></div><div class="jack-chance"><span>Chance of Jack</span><strong id="jackChance">11.642%</strong></div><div class="fixed-draw"><span>Saved random draw</span><b>same in both paths</b><p id="jackDrawResult">It selects Jack.</p></div></aside></div><div class="real-outcomes"><div><span>Control continuation</span><p id="realControlText"></p><b id="realControlScore"></b></div><div class="marked"><span>Marked continuation</span><p id="realMarkedText"></p><b id="realMarkedScore"></b></div><div><span>Marked text, comparison key</span><p>The copied text stays fixed. Only the checker key changes.</p><b id="realComparisonScore"></b></div></div><p class="feedback" id="realFeedback" aria-live="polite"></p></figure>
 
-<p>The top five candidates at this position:</p>
+<p>The table exposes the effect of the score increase. <code>He</code> begins with the highest raw score but falls behind four green candidates after the processor runs.</p>
 <div class="table-wrap" role="region" aria-label="Data table" tabindex="0"><table>
 <thead>
 <tr>
@@ -257,8 +256,8 @@ for length in config.lengths:
 </tbody>
 </table></div>
 <p><code>Jack</code> rose from 11.642% to 18.582%. The saved draw chose <code>Jack</code> in both paths, a non-event that matters: two distributions can return the same token. A later draw split the continuations, after which each path conditioned on its own history.</p>
-<p>The marked path produced: "Jack climbed slowly, his boots sinking slightly into the soft snow-covered earth." I copied the continuation, tokenized it, and scored. 39 eligible positions. Generation key: <code>21/39</code>, z <code>4.160</code>. Comparison key on the same text: <code>7/39</code>, z <code>-1.017</code>. Paired control with generation key: <code>8/39</code>, z <code>-0.647</code>.</p>
-<p>All three fixed marked passages scored higher than their controls, confirming that the generation-to-detection path runs end-to-end. Three examples can't estimate accuracy or quality.</p>
+<p>The marked path began, "Jack climbed slowly, his boots sinking slightly into the soft snow-covered earth." I scored the copied continuation across 39 eligible positions. The generation key produced <code>21/39</code>, z <code>4.160</code>. The comparison key on the same text produced <code>7/39</code>, z <code>-1.017</code>. The paired control with the generation key produced <code>8/39</code>, z <code>-0.647</code>.</p>
+<p>All three fixed marked passages scored higher than their paired controls. This smoke test shows that the generation and detection code connect correctly; three passages cannot estimate detection accuracy or text quality.</p>
 
 
 ### Operation order
@@ -268,7 +267,7 @@ for length in config.lengths:
 <div class="pipeline-row"><span class="pipe-chip">Temperature</span><span class="pipe-arrow">&rarr;</span><span class="pipe-chip">Top-K</span><span class="pipe-arrow">&rarr;</span><span class="pipe-chip">Top-P</span><span class="pipe-arrow">&rarr;</span><span class="pipe-chip highlight">Watermark Processor</span><span class="pipe-arrow">&rarr;</span><span class="pipe-chip">Softmax</span><span class="pipe-arrow">&rarr;</span><span class="pipe-chip">Sample</span></div>
 <p>My earlier teaching loop used:</p>
 <div class="pipeline-row"><span class="pipe-chip highlight">Watermark Bias</span><span class="pipe-arrow">&rarr;</span><span class="pipe-chip">Temperature</span><span class="pipe-arrow">&rarr;</span><span class="pipe-chip">Top-P</span><span class="pipe-arrow">&rarr;</span><span class="pipe-chip">Top-K</span><span class="pipe-arrow">&rarr;</span><span class="pipe-chip">Softmax</span><span class="pipe-arrow">&rarr;</span><span class="pipe-chip">Sample</span></div>
-<p>I replayed both on the same 50,257 saved GPT-2 scores. Step through them below:</p>
+<p>I replayed both sequences on the same 50,257 saved GPT-2 scores. The operation control exposes the candidate count and selected-token probability after each step.</p>
 
 <figure class="opening-viz order-viz" id="operation-order"><div class="order-controls"><div class="controls"><button id="orderReference" class="active" aria-pressed="true">Transformers route</button><button id="orderEarlier" aria-pressed="false">Earlier teaching route</button></div><div class="controls"><button id="orderBack">Previous operation</button><button class="primary" id="orderNext">Run next operation</button><button id="orderAll">Show final state</button></div></div><div class="order-rails" id="orderRails"></div><div class="order-result" id="orderReadout"></div><section class="pair-fixture"><header><span class="figure-kicker">A separate compatibility check</span><b>Does a repeated pair count once or every time it appears?</b></header><div class="pair-sequence" id="pairSequence"></div><div class="controls"><button id="pairEvery" class="active" aria-pressed="true">Count every occurrence</button><button id="pairDistinct" aria-pressed="false">Count each pair value once</button></div><div class="pair-counting" id="pairCounting"></div><p class="feedback" id="pairFeedback"></p></section></figure>
 
@@ -280,7 +279,7 @@ for length in config.lengths:
 
 
 <p>The watermark core shouldn't depend on how a specific model formats chat. I kept the shared interface small: pass a watermark profile into generation, extract copied assistant text, build the matching checker. A Gemma-specific adapter owned prompt rendering, tokenization, and generated-ID slicing.</p>
-<p>I pinned <code>google/gemma-4-E2B-it</code> in BF16 on one Modal NVIDIA L4 with Transformers 5.14.1. Both the control and watermarked calls share every argument except one:</p>
+<p>I pinned <code>google/gemma-4-E2B-it</code> at revision <code>3e22461f65e89153144f8adb70e3b8c2cc9845a7</code> in BF16 on one Modal NVIDIA L4 with Transformers 5.14.1. Both the control and watermarked calls share every argument except one:</p>
 
 <div class="code-diff">
 <div class="diff-col">
@@ -316,11 +315,11 @@ model.generate(
 </div>
 </div>
 
-<p>Advance the request below to see what crosses each component boundary:</p>
+<p>The component trace shows which data cross each boundary and where the private key enters.</p>
 
 <figure class="opening-viz gemma-viz" id="gemma-path"><div class="gemma-flow"><div class="path" id="pathNodes"></div><div class="packet-line"><i id="pathPacket"></i></div><div class="controls"><button id="pathPrev">Previous boundary</button><button class="primary" id="pathNext">Advance request</button><button id="pathReset">Start over</button></div><p class="feedback" id="pathFeedback"></p></div></figure>
 
-<p>The model loaded in 5.8 seconds. The three smoke outputs generated at 18-19 tokens/sec. Select a prompt below to compare both outputs side by side:</p>
+<p>The model loaded in 5.8 seconds. The three marked smoke outputs generated at 18.422, 18.747, and 19.259 tokens per second. Each appears beside its paired control below.</p>
 
 <figure class="opening-viz smoke-viz" id="smoke-compare"><div class="smoke-selector"><button class="active" id="smoke0" aria-pressed="true">continuity</button><button id="smoke1" aria-pressed="false">notebook</button><button id="smoke2" aria-pressed="false">library</button></div><div class="smoke-pair"><div class="smoke-col"><span class="diff-label control">CONTROL</span><p class="smoke-text" id="smokeControlText"></p><div class="smoke-scores"><div><span>G / T</span><strong id="smokeControlGT"></strong></div><div><span>z</span><strong id="smokeControlZ"></strong></div></div></div><div class="smoke-col"><span class="diff-label watermarked">WATERMARKED</span><p class="smoke-text" id="smokeWatermarkedText"></p><div class="smoke-scores"><div><span>G / T</span><strong id="smokeWatermarkedGT"></strong></div><div><span>z</span><strong id="smokeWatermarkedZ"></strong></div></div></div></div><div class="smoke-bars"><div><span>Control z</span><div class="z-track"><i id="smokeControlBar"></i></div></div><div><span>Watermarked z</span><div class="z-track wm"><i id="smokeWatermarkedBar"></i></div></div><div class="z-cutoff-label">z = 3</div></div><p class="feedback" id="smokeFeedback">All three stayed below z &gt; 3. Too few eligible positions for the signal to outrun baseline noise.</p></figure>
 
@@ -336,16 +335,16 @@ model.generate(
 ### Score outside text before trusting the cutoff
 
 
-<p>A crossing means nothing until the same checker runs on text that was never watermarked.</p>
-<p>I froze 1,000 C4 <code>realnewslike</code> continuations as a calibration set, then reserved the next 24 passing rows for paired generation. Selection followed a pinned validation shard in file order, requiring at least 500 Gemma tokens and passing fixed duplicate, list, code, and letter-fraction filters before scoring.</p>
+<p>A crossing means nothing until the same checker runs on text that did not receive this experiment's watermark.</p>
+<p>I scanned the pinned C4 <code>realnewslike</code> validation shard in file order. A passage needed at least 500 Gemma tokens, at least 65% Unicode letters among non-whitespace characters, and no duplicate text, code dump, or obvious list structure. The selector scanned 2,479 rows, rejected 1,451 as too short and four as obvious lists, froze the first 1,000 passing rows for calibration, and reserved the next 24 for paired generation. Detector scores played no role in that split.</p>
 <p>C4 is natural-web text scraped from Common Crawl. The corpus contains no verification that any passage was written by a human.</p>
 <p>With the public Gemma key and all-pair counting, the 1,000 scores had a median of <code>0.029</code>, a 99th percentile of <code>2.457</code>, and a maximum of <code>3.729</code>. Four rows crossed strict <code>z &gt; 3</code>. A thousand rows can't validate one-in-100,000 behavior, but four crossings in a declared negative set are enough to distrust the cutoff in isolation.</p>
 <p>The maximum row exposed the counting rule. Counting every adjacent-pair occurrence gave <code>132/399</code>, z <code>3.729</code>. Counting each pair value once on the same token sequence gave <code>114/358</code>, z <code>2.990</code>. The second rule removed 41 observations, including 18 green hits, and moved the row below the cutoff.</p>
 <p>Fernandez and colleagues showed that standard asymptotic tests underestimate false positives on short or repetitive text.<sup class="ref"><a href="#fn-three-bricks" aria-label="Source 12">12</a></sup> The z formula stays useful because every term is visible, but it must travel with the empirical background and the repetition policy that produced it.</p>
 
-<p>Toggle between the first 100 rows and the full 1,000 below. The sorted view makes the background shape visible without hiding the four crossings:</p>
+<p>The sorted calibration view compares the first 100 rows with the full 1,000. The larger set reveals the background distribution and all four crossings.</p>
 
-<figure class="opening-viz calibration-viz" id="calibration"><div class="cal-summary"><div><span>Median</span><b>0.0289</b></div><div><span>99th percentile</span><b>2.4568</b></div><div><span>Strict crossings</span><b>4 / 1,000</b></div><div><span>Maximum</span><b>3.7286</b></div></div><div class="controls"><button id="show100">First 100 rows</button><button id="show1000" class="active" aria-pressed="true">All 1,000 rows</button></div><div class="calibration-chart"><svg class="plot tall" id="calibrationPlot" role="img" aria-labelledby="calTitle calDesc"><title id="calTitle">Sorted natural-web z scores</title><desc id="calDesc">Every frozen all-pair score sorted from low to high with the strict z greater than three line.</desc></svg><aside><b>How to read it</b><p>Each mark is one frozen passage. Sorting makes the background shape visible without hiding the four crossings.</p><p>The cutoff came from the experiment profile. The four red marks are observed false alarms for this declared negative cohort.</p></aside></div><section class="max-row"><header><span class="figure-kicker">Keep the text fixed</span><b>The counting rule moves the maximum row across the cutoff.</b></header><div class="controls"><button id="allPairs" class="active" aria-pressed="true">Count every pair</button><button id="distinctPairs" aria-pressed="false">Count each pair value once</button></div><div class="max-transform"><div><span>Observed green hits</span><strong id="calG">132</strong></div><div><span>Eligible pair observations</span><strong id="calT">399</strong></div><div><span>z score</span><strong id="calZ">3.7286</strong></div><div class="cal-decision"><span>Strict z &gt; 3</span><strong id="calDecision">Crosses</strong></div></div><p id="calRuleNote">Every adjacent-pair occurrence counts, including repeated values.</p></section><p class="feedback" id="calibrationFeedback"></p></figure>
+<figure class="opening-viz calibration-viz" id="calibration"><div class="cal-summary"><div><span>Median</span><b>0.0289</b></div><div><span>99th percentile</span><b>2.4568</b></div><div><span>Strict crossings</span><b>4 / 1,000</b></div><div><span>Maximum</span><b>3.7286</b></div></div><div class="controls"><button id="show100">First 100 rows</button><button id="show1000" class="active" aria-pressed="true">All 1,000 rows</button></div><div class="calibration-chart"><svg class="plot tall" id="calibrationPlot" role="img" aria-labelledby="calTitle calDesc"><title id="calTitle">Sorted natural-web z scores</title><desc id="calDesc">Every frozen all-pair score sorted from low to high with the strict z greater than three line.</desc></svg><aside><b>How to read it</b><p>Each mark is one frozen passage. Sorting makes the background shape visible without hiding the four crossings.</p><p>The cutoff came from the experiment profile. The four red marks are observed crossings in the declared negative cohort.</p></aside></div><section class="max-row"><header><span class="figure-kicker">Keep the text fixed</span><b>The counting rule moves the maximum row across the cutoff.</b></header><div class="controls"><button id="allPairs" class="active" aria-pressed="true">Count every pair</button><button id="distinctPairs" aria-pressed="false">Count each pair value once</button></div><div class="max-transform"><div><span>Observed green hits</span><strong id="calG">132</strong></div><div><span>Eligible pair observations</span><strong id="calT">399</strong></div><div><span>z score</span><strong id="calZ">3.7286</strong></div><div class="cal-decision"><span>Strict z &gt; 3</span><strong id="calDecision">Crosses</strong></div></div><p id="calRuleNote">Every adjacent-pair occurrence counts, including repeated values.</p></section><p class="feedback" id="calibrationFeedback"></p></figure>
 
 
 <p>Distinguishing the watermark from model artifacts or domain noise requires three paired controls alongside the marked score.</p>
@@ -392,7 +391,7 @@ model.generate(
 </tbody>
 </table></div>
 <p>Only the marked-correct-key condition crosses, while the three controls stay below the line. Rank <code>1001</code> complicates the picture: its marked and control paths shared every token ID through the first 80 copied tokens, both scoring <code>26/79</code>, z <code>1.624</code>. The watermark changed probabilities, but these seeded draws followed the same early path.</p>
-<p>Select each branch below to see how the four checks separate for rank 1000:</p>
+<p>The four branches hold the text, key, or source condition apart so each alternative explanation can be checked separately.</p>
 
 <figure class="opening-viz controls-viz" id="four-controls"><div class="control-source"><span>Frozen prompt rank 1000</span><b>One source prefix, paired generation seed, and model profile</b></div><div class="control-branches" id="familyCards"></div><div class="controls" id="familyButtons"></div><p class="feedback" id="familyFeedback"></p><section class="equal-row"><span class="figure-kicker">The inconvenient row</span><b>Rank 1001 followed the same early path.</b><div><div><span>Marked, generation key</span><strong>26/79</strong><b class="equal-z">z 1.6239</b></div><i>=</i><div><span>Model control, generation key</span><strong>26/79</strong><b class="equal-z">z 1.6239</b></div></div><p>The marked and control token IDs were identical through 80 copied tokens. The watermark changed probabilities, but these seeded draws did not split yet.</p></section></figure>
 
@@ -432,7 +431,7 @@ model.generate(
 <p>The averages separate cleanly, but individual rows do not. Some differences are small, rank <code>1001</code> is exactly zero against its model control, and at least one row points against the mean. Three marked rows crossed <code>z &gt; 3</code>; none of the three control families did at this prefix. The intervals summarize 24 frozen documents, not a population.</p>
 <p>The matched cohort shrank with prefix length. Counts at 40, 80, 160, 200, and 400 copied tokens were <code>24</code>, <code>24</code>, <code>21</code>, <code>17</code>, and <code>0</code>. A 400-token generation cap meant both the marked and control outputs terminated before reaching 400 copied tokens, so no pair completed at that length. At 200 tokens, four of 17 marked rows crossed, along with one natural-web row. Because the documents changed as the prefix grew, that sequence can't support a clean causal claim about length.</p>
 
-<p>Select the comparison below. Row order stays fixed so you can track individual documents across contrasts:</p>
+<p>The contrast controls preserve row order, allowing each document to be tracked across comparisons.</p>
 
 <figure class="opening-viz cohort-viz" id="cohort"><div class="controls" id="contrastButtons"></div><div class="cohort-chart"><svg id="cohortPlot" role="img" aria-labelledby="cohortTitle cohortDesc"><title id="cohortTitle">Twenty-four labeled paired z differences</title><desc id="cohortDesc">Each frozen selection rank on its own row, with zero, mean, and paired interval.</desc></svg><aside id="cohortSummary"></aside></div><div class="prefix-completeness"><span>Matched rows by copied-token prefix</span><div id="prefixCounts"></div></div><p class="feedback" id="cohortFeedback"></p></figure>
 
@@ -501,9 +500,9 @@ model.generate(
 <p>Homoglyph substitution swapped ASCII letters for visually identical Unicode code points. For example, replacing Latin 'a' (<code>U+0061</code>) with Cyrillic 'а' (<code>U+0430</code>) looks the same to a reader, but the tokenizer splits the word into unknown byte sequences, scrambling the context hashes for every later position.</p>
 <p>Deletion and mixing can damage grammar or claims. Lower detector scores alone say nothing about meaning preservation.</p>
 <p>All 12 paraphrases passed the declared length, decimal-number, and embedding-cosine screens. A non-independent assistant review marked ten pass, two uncertain. Every passed rewrite reduced z, and no paraphrase crossed the cutoff.</p>
-<p>Theo Hicks's Declaude explainer reports known-key rewrite tests against open KGW and EXP implementations.<sup class="ref"><a href="#fn-declaude" aria-label="Source 13">13</a></sup> Those results point the same direction: recomposition erases token-history evidence. They don't test Claude's private SynthID configuration or replace this project's measurements.</p>
+<p>James Padolsey's Declaude explainer reports known-key rewrite tests against open KGW and EXP implementations.<sup class="ref"><a href="#fn-declaude" aria-label="Source 13">13</a></sup> Padolsey reports that full rewrites left about 0.5% of the original windows intact and reduced detection on those implementations to roughly chance. Those measurements do not cover Claude's private SynthID configuration or replace this project's results.</p>
 
-<p>Follow rank 1000 through deletion and paraphrase below. The key and checker profile stay fixed, but the visible string, token history, and keyed decisions all change:</p>
+<p>The edit view follows rank 1000 through deletion and paraphrase. It holds the key and checker profile fixed while the visible string, token history, and keyed decisions change.</p>
 
 <figure class="opening-viz edits-viz" id="edits"><div class="edit-tabs"><button id="editSource" class="active" aria-pressed="true">Unedited</button><button id="editDelete" aria-pressed="false">Delete 10%</button><button id="editParaphrase" aria-pressed="false">Paraphrase</button></div><div class="edit-spine"><div><span class="figure-kicker" id="editLabel">Unedited rank 1000</span><p class="spine-text" id="spineText"></p></div><aside><div><span>Green hits</span><strong id="editG">28</strong></div><div><span>Eligible checks</span><strong id="editT">79</strong></div><div><span>z score</span><strong id="editZ">2.1436</strong></div><p id="editReading">The original first 80 copied tokens.</p></aside></div><section class="attack-cohort"><header><span class="figure-kicker">All 12 frozen rows</span><b id="attackHeading">Select an edit to see every paired change.</b></header><div class="controls" id="attackButtons"></div><div class="attack-chart"><svg id="attackPlot" role="img" aria-labelledby="attackTitle attackDesc"><title id="attackTitle">Twelve labeled paired z changes after editing</title><desc id="attackDesc">Each frozen selection rank on its own row for the selected edit.</desc></svg><aside id="attackSummary"></aside></div></section><p class="feedback" id="attackFeedback"></p><p class="proxy-note">A lower z score does not prove that an edit preserved meaning. Paraphrase length, number checks, embedding cosine, and assistant review were recorded separately; two reviews remained uncertain.</p></figure>
 
@@ -511,7 +510,7 @@ model.generate(
 ### A stronger mark costs something
 
 
-<p>The default experiment added <code>delta=2</code> to green scores. I reused eight frozen prompts and changed delta alone.</p>
+<p>The default experiment added <code>delta=2</code> to green scores. I held the eight prompts, model, key, sampler, and 400-token safety cap fixed, then changed delta. The generated continuations reached different lengths, so achieved copied length remains a separate measurement rather than a controlled constant.</p>
 <div class="table-wrap" role="region" aria-label="Data table" tabindex="0"><table>
 <thead>
 <tr>
@@ -520,6 +519,7 @@ model.generate(
 <th style="text-align:right">Strict crossings</th>
 <th style="text-align:right">Mean conditional NLL</th>
 <th style="text-align:right">Mean repeated-pair fraction</th>
+<th style="text-align:right">Mean copied tokens</th>
 </tr>
 </thead>
 <tbody>
@@ -529,6 +529,7 @@ model.generate(
 <td data-label="Strict crossings" style="text-align:right"><code>0/8</code></td>
 <td data-label="Mean conditional NLL" style="text-align:right"><code>0.5004</code></td>
 <td data-label="Mean repeated-pair fraction" style="text-align:right"><code>0.0373</code></td>
+<td data-label="Mean copied tokens" style="text-align:right"><code>232.50</code></td>
 </tr>
 <tr>
 <td data-label="Delta" style="text-align:right">2</td>
@@ -536,6 +537,7 @@ model.generate(
 <td data-label="Strict crossings" style="text-align:right"><code>1/8</code></td>
 <td data-label="Mean conditional NLL" style="text-align:right"><code>0.5415</code></td>
 <td data-label="Mean repeated-pair fraction" style="text-align:right"><code>0.0471</code></td>
+<td data-label="Mean copied tokens" style="text-align:right"><code>265.75</code></td>
 </tr>
 <tr>
 <td data-label="Delta" style="text-align:right">3</td>
@@ -543,30 +545,29 @@ model.generate(
 <td data-label="Strict crossings" style="text-align:right"><code>3/8</code></td>
 <td data-label="Mean conditional NLL" style="text-align:right"><code>0.5783</code></td>
 <td data-label="Mean repeated-pair fraction" style="text-align:right"><code>0.0483</code></td>
+<td data-label="Mean copied tokens" style="text-align:right"><code>271.75</code></td>
 </tr>
 </tbody>
 </table></div>
-<p>Mean z rose with delta. Mean conditional NLL also rose. NLL measures how surprised the model is by its own output, a proxy for how far the text has drifted from the model's natural distribution. Higher NLL correlates with degraded fluency. Repeated adjacent pairs rose too. Ranks <code>1004</code> and <code>1006</code> had lower z at delta 3 than at delta 2, so individual paths don't climb monotonically.</p>
-<p>NLL and repetition are model-based proxies. They can't tell which answer a person would prefer, whether a fact remained correct, or whether a story improved. Eight prompts can't establish a universal setting.</p>
+<p>Mean z, conditional NLL, repeated adjacent-pair fraction, and achieved copied length all rose with delta. Higher conditional NLL means the pinned Gemma checkpoint assigned less probability to the recorded continuation. It does not show that a reader would find the text less fluent or useful. Ranks <code>1004</code> and <code>1006</code> had lower z at delta 3 than at delta 2, so individual paths don't climb monotonically.</p>
+<p>NLL and repetition are model-based proxies. They cannot establish factual accuracy, reader preference, or a universal setting from eight prompts.</p>
 
-<p>Select a delta below. Each path is one frozen prompt; the two coral lines are ranks 1004 and 1006, which fell from delta 2 to delta 3:</p>
+<p>Each line in the delta sweep represents one frozen prompt. The coral paths mark ranks 1004 and 1006, whose scores fell from delta 2 to delta 3.</p>
 
 <figure class="opening-viz delta-viz" id="delta"><div class="controls" id="deltaButtons"></div><div class="delta-layout"><svg id="deltaPlot" role="img" aria-labelledby="deltaTitle deltaDesc"><title id="deltaTitle">Eight labeled z-score paths across delta one, two, and three</title><desc id="deltaDesc">Every frozen prompt path with two non-monotonic rows labeled.</desc></svg><aside id="deltaReading"></aside></div><div class="proxy-plots" id="proxyPlots"></div><p class="feedback" id="deltaFeedback"></p><p class="proxy-note">Conditional NLL and repeated pairs are model-based proxies. They do not replace a human quality or factuality study.</p></figure>
 
 
 <p>The delta sweep tested KGW-style green lists only, and Claude's production watermark belongs to a different family.</p>
 
-## Industry landscape and policy realities
+## Claude, other detectors, and Article 50
 
 ### Claude uses a SynthID-Text variant
 
 <p>
-This experiment implements a KGW-style green-list watermark.
-Claude uses another mechanism.
+The experiments above implement a KGW-style green-list watermark, while Anthropic says Claude's production mark uses a version of SynthID-Text. These experiments explain the statistical idea without reproducing Claude's system.
 </p>
 <p>
 KGW uses the key and recent context to select a vocabulary subset, raises the scores of tokens in that subset, and later counts the excess selected tokens.<sup class="ref"><a href="#fn-kgw" aria-label="Source 10">10</a></sup>
-The experiments above implement that family.
 </p>
 <p>
 SynthID-Text uses keyed tournament sampling.<sup class="ref"><a href="#fn-synthid" aria-label="Source 11">11</a></sup>
@@ -576,14 +577,10 @@ Its live quality evaluation compared about 20 million watermarked and unwatermar
 </p>
 <p>
 Anthropic calls Claude's watermark "a version of the SynthID-Text approach."<sup class="ref"><a href="#fn-anthropic-news" aria-label="Source 2">2</a></sup>
-The company says its implementation changes the randomness used to choose among suitable words, adds no hidden characters or extra tokens, and caused no practical quality loss in its internal tests.
-Anthropic also says factual passages, light editing, and code often provide too few choices to carry much evidence.
-The company plans to provide a detection API.
+The company says its implementation changes the randomness used to choose among suitable words and adds no hidden characters or extra tokens. It also says factual passages, light editing, and code often provide too few choices to carry much evidence. A detection API is planned.
 </p>
 <p>
-Those quality statements come from Anthropic.
-The company has not published Claude's tournament settings, key construction, context masking, scorer, threshold, model coverage, or production evaluation data.
-The KGW experiments in this article explain a related idea, but they do not validate Claude's production system.
+Anthropic reported no practical quality loss in its internal tests. It has not published Claude's tournament settings, key construction, context masking, scorer, threshold, model coverage, or evaluation data needed to verify that result independently. The KGW experiments here explain a related idea, but they do not validate Claude's production system.
 </p>
 
 <p>
@@ -628,7 +625,7 @@ Authorship asks who supplied the ideas and accepted responsibility.
 A policy decides which assistance was allowed, and a disciplinary process must weigh evidence beyond one score.
 </p>
 <p>
-Absence supplies weaker evidence.
+A negative result is weaker still.
 Short answers and exact code may offer few choices to mark.
 Light editing may leave too few Claude-selected tokens, while a wrong key, an older model, or later revisions can also suppress the score.
 The edit experiments above show how a rewritten token history can weaken the signal even when the meaning survives.
@@ -647,17 +644,17 @@ The evidence in this article supports one narrow statement:
 
 ## What survived the experiment
 
-<p>Across our 24-pair Gemma benchmark, watermarked outputs scored significantly higher than paired model controls, natural web text, and comparison keys across all tested sequence lengths. At 80 copied tokens, all 24 pairs completed generation, and every 95% bootstrap confidence interval excluded zero.</p>
+<p>At 80 copied tokens, all 24 Gemma pairs completed generation. The marked outputs scored higher on average than the paired model controls, natural-web continuations, and comparison-key replays. The 95% paired bootstrap interval for each of those three contrasts excluded zero. Individual rows were less tidy: rank <code>1001</code> matched its control exactly, and at least one difference pointed against the cohort mean.</p>
 
-<p>Four of 1,000 un-watermarked C4 web passages crossed the strict \(z > 3\) cutoff under all-pair counting, while one crossed under distinct-pair counting. This finding demonstrates that fixed thresholds produce empirical false alarms on natural language.</p>
+<p>The fixed <var>z</var> &gt; 3 cutoff also produced crossings in the declared negative set. Four of 1,000 C4 passages crossed when the checker counted every adjacent-pair occurrence. One crossed when it counted each pair value once. A score cannot be interpreted apart from its background corpus and repetition policy.</p>
 
-<p>All tested editing operations reduced watermark signal strength. Every passed Gemma paraphrase degraded the z-score substantially (\(\Delta z = -1.7105\)), and zero paraphrased outputs crossed the detection threshold.</p>
+<p>Editing weakened the mark to different degrees. Normalization left the mean score unchanged, while deletion, mixing, homoglyph substitution, and paraphrasing reduced it. All 12 paraphrases passed the automatic screens and scored lower than their source passages. The non-independent assistant review rated ten pass and two uncertain, so only those ten support the meaning-preserving comparison. Across all 12 paraphrases, the mean score change was <var>&Delta;z</var> = -1.7105, and none crossed the cutoff.</p>
 
-<p>Increasing the logit bias \(\delta\) raised average detection scores, but increased language model perplexity and phrase repetition. Two prompt paths exhibited non-monotonic score drops between \(\delta = 2\) and \(\delta = 3\).</p>
+<p>Raising <var>&delta;</var> increased the cohort's mean detection score, conditional NLL, and repeated-pair fraction. Two of eight prompt paths still scored lower at <var>&delta;</var> = 3 than at <var>&delta;</var> = 2. The sweep measured model-based proxies, not human judgments of fluency, factuality, or preference.</p>
 
-<p>This investigation leaves several questions open. Our experiments do not measure production-scale false alarm rates below 0.1%, evaluate human quality preferences, test adaptive adversaries, or inspect proprietary model weights. Statistical watermarking embeds a detectable trail in token selection distributions. Given sufficient length and matching keys, that trail provides strong machine-readable evidence; short text, paraphrasing, and uncalibrated thresholds quickly erode that signal.</p>
+<p>I would not use these measurements to estimate production false-alarm rates, evaluate Claude's private watermark, or judge authorship. They support a narrower conclusion: with enough matching text and the correct profile, a detector can recover evidence of the token-selection bias used in this experiment. Short outputs and rewritten token histories make that evidence weaker.</p>
 
-<p>All experimental code, raw traces, generation scripts, and verification artifacts are available in the <a href="https://github.com/jayshah5696/text-watermarking-lab">text-watermarking-lab repository</a>.<sup class="ref"><a href="#fn-github-repo" aria-label="Source 14">14</a></sup></p>
+<p>The code, frozen traces, generation scripts, and verification artifacts are available in the <a href="https://github.com/jayshah5696/text-watermarking-lab">text-watermarking-lab repository</a>.<sup class="ref"><a href="#fn-github-repo" aria-label="Source 14">14</a></sup></p>
 
 ## Sources and evidence
 
