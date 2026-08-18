@@ -22,10 +22,8 @@ interactive: true
 <p>The mark appears when the model chooses the next token. A language model writes one token at a time. At many positions, several continuations are reasonable. A secret rule can favor some of them by a small amount.</p>
 <p>The copied text carries no label. The signal is in the pattern of choices the model made, accumulated across many positions.</p>
 <p>Someone who knows the rule can walk through the text, rebuild the favored groups, and count how often those choices appeared. One position says almost nothing. A few hundred start to add up.</p>
-<pre><code class="language-text">generate: favor some acceptable next tokens
-check:    rebuild those groups and count the chosen tokens
-judge:    compare the count with ordinary chance
-</code></pre>
+<p>The entire mechanism reduces to three core steps:</p>
+<div class="step-cards"><div class="step-card"><span class="step-num">1</span><b>Generate</b><p>Bias pseudorandom sampling toward keyed subsets of valid tokens.</p></div><div class="step-card"><span class="step-num">2</span><b>Check</b><p>Reconstruct those subsets from context and count observed choices.</p></div><div class="step-card"><span class="step-num">3</span><b>Judge</b><p>Test whether the green count exceeds ordinary baseline chance.</p></div></div>
 <p>Before introducing tokenizers, logits, vocabulary matrices, and hash algorithms, we can isolate the pure statistical engine using a simpler physical system: two weighted coins.</p>
 
 
@@ -43,13 +41,14 @@ judge:    compare the count with ordinary chance
 ## From head count to z score
 
 
-<p>32 heads in 80 flips. Is that suspicious?</p>
-<p>The 25% coin averages 20 heads in 80 flips, so this batch has 12 extra. But 12 extra needs a scale. Twelve extra heads in 20 flips would be striking. Twelve extra in 20,000 would be noise.</p>
-<p>Under the baseline model, 80-flip batches scatter about 3.87 heads around their average. Dividing the excess by that scatter gives a z score:</p>
-<pre><code class="language-text">12 extra heads / 3.87 heads of scatter = 3.10
-</code></pre>
-<p>A z of 3.10 means this batch landed 3.10 standard deviations above the baseline average. The z score is a distance, not a probability.</p>
-<p>The lab set a cutoff of 3 before running the experiment. This batch's 3.10 crosses it. Under the exact baseline coin model, 32 or more heads in 80 flips occur about 0.224% of the time. An unbiased coin can still produce that count. Rare and impossible are different words.</p>
+<p>Now isolate a single observed batch: 32 heads in 80 flips.</p>
+<p>The baseline coin produces an expected average of 20 heads in 80 flips (80 &times; 0.25 = 20). Our batch observed 12 extra heads. A raw difference of 12 lacks meaning without a scale: 12 extra heads in 20 flips is extraordinary, while 12 extra in 20,000 is negligible.</p>
+<p>Under the baseline model, 80-flip batches fluctuate by a standard deviation (&sigma;) of about 3.87 heads around their average:</p>
+<div class="formula-block"><span class="formula">&sigma; = &radic;<span class="sqrt-content">T &times; p &times; (1 &minus; p)</span> = &radic;<span class="sqrt-content">80 &times; 0.25 &times; 0.75</span> &approx; 3.87 heads</span></div>
+<p>We scale the observed excess by this expected baseline movement to calculate the z-score:</p>
+<div class="formula-block highlight"><span class="formula">z = <span class="frac"><span class="frac-num">12 extra heads</span><span class="frac-den">3.87 heads of ordinary standard deviation</span></span> = <b>3.10</b></span></div>
+<p>The z-score measures standard deviation distance from baseline chance. It is an evidence distance, not a probability that a watermark exists.</p>
+<p>Turning a score into an alarm requires a locked decision threshold. Our experiment locked a cutoff threshold of z &gt; 3 before collecting data. Our observed score of 3.10 crosses this line. Under the exact baseline coin model, 32 or more heads in 80 flips occur about 0.224% of the time. Rare and impossible are different words.</p>
 
 <figure class="opening-viz" id="coin-worked"><figcaption><span class="figure-kicker">One batch</span><b>From 32 heads to a z score.</b></figcaption><div class="worked-grid"><div class="observed"><span>Observed</span><strong>32</strong><b>heads in 80 flips</b><small>Baseline chance: 25%</small></div><div><div class="calc-steps"><div class="calc-step" data-calc="1"><i>1</i><span><b>Baseline average</b><small>80 x 25%</small></span><output>20 heads</output></div><div class="calc-step" data-calc="2"><i>2</i><span><b>Observed excess</b><small>32 - 20</small></span><output>12 extra</output></div><div class="calc-step" data-calc="3"><i>3</i><span><b>Ordinary movement</b><small>sqrt(80 x .25 x .75)</small></span><output>3.87 heads</output></div><div class="calc-step" data-calc="4"><i>4</i><span><b>Evidence score</b><small>12 / 3.87</small></span><output>z = 3.10</output></div></div><div class="controls"><button class="primary" id="calcNext">Reveal the average</button><button id="calcAll">Show all four</button><button id="calcReset">Reset</button></div></div></div><div class="variation-box"><header><b>Twenty ordinary 80-flip batches</b><span>Same baseline coin, different draws</span></header><div class="batch-grid" id="batchGrid"></div><div class="controls"><button id="batchAgain">Draw 20 new batches</button></div></div><div class="score-ruler" aria-label="Head counts translated into z scores"><div class="ruler-line"></div><div class="ruler-point" style="left:8%"><i></i><b>20 heads</b><span>z = 0</span></div><div class="ruler-point" style="left:34%"><i></i><b>24 heads</b><span>z about 1</span></div><div class="ruler-point" style="left:60%"><i></i><b>28 heads</b><span>z about 2</span></div><div class="ruler-point focus" style="left:86%"><i></i><b>32 heads</b><span>z = 3.10</span></div></div><div class="decision-grid"><div><span class="figure-kicker">Decision rule</span><b><code>3.10</code> is above the cutoff <code>3</code></b><p>The checker raises a possible-signal result.</p></div><div class="paper"><span class="figure-kicker">Exact baseline model</span><b>32 or more heads occurs about 0.224% of the time.</b><p>Rare does not mean impossible.</p></div></div></figure>
 
@@ -57,9 +56,9 @@ judge:    compare the count with ordinary chance
 ## More flips, clearer signal
 
 
-<p>One batch can cross or miss. Hold both probabilities fixed and change only the number of flips (call it T).</p>
-<p>The nudged coin accumulates an expected excess of <code>0.15 &times; T</code> heads. Baseline scatter grows as <code>&radic;(T &times; 0.25 &times; 0.75)</code>. Excess grows proportionally to T. Scatter grows with its square root. Given enough flips, excess always outruns scatter.</p>
-<p>At T = 40, the expected excess is 6 heads and the scatter is 2.74, giving z = 2.19. At T = 400, the excess is 60 and the scatter is 8.66, giving z = 6.93. Short sequences are ambiguous. Long sequences separate.</p>
+<p>Holding the two probabilities fixed while increasing sample length reveals the central scaling law of text watermarking.</p>
+<p>The nudged source accumulates an expected excess of 0.15 &times; <var>T</var> heads. Baseline random fluctuations grow as &radic;<span class="sqrt-content"><var>T</var> &times; 0.25 &times; 0.75</span>. The watermark signal grows linearly with length (<i>O</i>(<var>T</var>)), while random noise grows only with the square root of length (<i>O</i>(&radic;<var>T</var>)).</p>
+<p>At 40 flips, the expected excess is 6 heads and baseline noise is 2.74 (<var>z</var> = 2.19). At 400 flips, the expected excess expands to 60 heads while baseline noise reaches only 8.66 (<var>z</var> = 6.93). The signal outruns the noise as text length grows.</p>
 
 <figure class="opening-viz" id="coin-length"><figcaption><span class="figure-kicker">Length effect</span><b>Same bias, more flips.</b></figcaption><div class="length-layout"><div class="length-controls"><b>Number of flips</b><div class="controls" id="lengthButtons"></div><div class="watch-box"><b>Watch excess outrun scatter as T grows.</b></div></div><div><div class="metric-grid"><div><span>Baseline average</span><strong id="lenBase">10</strong><small>heads</small></div><div><span>Nudged average</span><strong id="lenNudge">16</strong><small>heads</small></div><div><span>Persistent excess</span><strong id="lenExcess">6</strong><small>heads</small></div><div><span>Expected z</span><strong id="lenExpectedZ">2.19</strong><small>movement units</small></div></div><div class="growth-row"><b>Baseline movement</b><div><i id="noiseBar"></i></div><output id="noiseValue">2.74</output></div><div class="growth-row"><b>Persistent excess</b><div><i class="signal" id="signalBar"></i></div><output id="signalValue">6.00</output></div><p class="figure-lesson" id="lengthLesson"></p></div></div></figure>
 <p>A single z score says nothing about error rates. Run 2,000 batches from each coin and two distributions appear. At short lengths they overlap. Every cutoff trades false alarms against missed detections.</p>
@@ -166,7 +165,7 @@ for length in config.lengths:
 </table></div>
 <p>The null rates wobble rather than falling smoothly. They are finite Monte Carlo estimates. The 100 percent value at 400 means all 10,000 simulated nudged batches crossed under this locked coin setup. It is not a promise about all future batches, much less real model output.</p>
 
-<figure class="opening-viz" id="coin-results"><figcaption><span class="figure-kicker">Committed experiment</span><b>Longer nudged sequences were easier to catch.</b><span>Every point below comes from 10,000 saved batches under the locked Stage 1 configuration.</span></figcaption><div class="result-layout"><svg id="stage1ResultPlot" class="opening-plot" viewBox="0 0 820 430" role="img" aria-labelledby="resultTitle resultDesc"><title id="resultTitle">Recorded Stage 1 detection rates by length</title><desc id="resultDesc">Nudged and baseline rates at five lengths.</desc></svg><aside><b>Read the lines</b><p><i class="legend nudge"></i> Orange: nudged batches above the cutoff.</p><p><i class="legend base"></i> Blue: baseline batches above the cutoff.</p><p>At 40 flips, most nudged batches stayed below the line. At 400, all 10,000 crossed under this coin model.</p></aside></div></figure>
+<figure class="inline-viz" id="coin-results"><figcaption><b>Detection rate vs. sequence length</b></figcaption><div class="result-stacked"><svg id="stage1ResultPlot" class="opening-plot" viewBox="0 0 820 380" role="img" aria-labelledby="resultTitle resultDesc"><title id="resultTitle">Recorded Stage 1 detection rates by length</title><desc id="resultDesc">Nudged and baseline rates at five lengths.</desc></svg><div class="legend-bar"><span><i class="legend nudge"></i> Nudged batches above cutoff</span><span><i class="legend base"></i> Baseline batches above cutoff</span><span class="legend-note">10,000 batches per point, cutoff z &gt; 3</span></div></div></figure>
 <p>The coin has now done its job. It showed why a weak preference can become measurable and why a cutoff creates both misses and false alarms. It still has no key, no vocabulary, and no way to decide which text choices should count as heads.</p>
 
 
