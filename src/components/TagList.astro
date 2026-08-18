@@ -1,27 +1,51 @@
 ---
-import { getTagColorClass, getTagIndicator } from '../utils/tags';
+import { getTagMicroPillClasses, getTagPillClasses, getTagColorClass, getTagIndicator, normalizeTagSlug } from '../utils/tags';
 
 interface Props {
   tags: string[];
+  variant?: 'pills' | 'micro' | 'inline';
+  max?: number;
+  postSlug?: string;
 }
 
-const { tags } = Astro.props;
+const { tags = [], variant = 'micro', max, postSlug } = Astro.props;
+const displayTags = max ? tags.slice(0, max) : tags;
+const remainingCount = max && tags.length > max ? tags.length - max : 0;
 ---
 
 {tags.length > 0 && (
-  <div class="flex flex-wrap items-center gap-x-3 gap-y-1">
-    {tags.map((tag, i) => (
-      <>
-        <a href={`/tags/${encodeURIComponent(tag)}/`} class={getTagColorClass(tag)}>
-          {getTagIndicator(tag) && (
-            <span class="mr-0.5 text-[8px] opacity-60" aria-hidden="true">{getTagIndicator(tag)}</span>
+  <div class="flex flex-wrap items-center gap-1.5">
+    {displayTags.map((tag) => {
+      const slug = normalizeTagSlug(tag);
+      const indicator = getTagIndicator(tag);
+      const pillClass = variant === 'pills' 
+        ? getTagPillClasses(tag)
+        : variant === 'inline'
+        ? `${getTagColorClass(tag)} text-xs font-mono inline-flex items-center gap-1`
+        : getTagMicroPillClasses(tag);
+
+      return (
+        <a 
+          href={`/tags/${encodeURIComponent(slug)}/`} 
+          class={pillClass}
+          title={`View all posts tagged ${tag}`}
+        >
+          {indicator && (
+            <span class="text-[9px] opacity-70 select-none" aria-hidden="true">{indicator}</span>
           )}
-          {tag}
+          <span>{tag}</span>
         </a>
-        {i < tags.length - 1 && (
-          <span class="text-cream-400 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
-        )}
-      </>
-    ))}
+      );
+    })}
+
+    {remainingCount > 0 && (
+      <a 
+        href={postSlug ? `/posts/${postSlug}/` : '#'} 
+        class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono text-ink-muted dark:text-silk-muted bg-cream-200/50 dark:bg-night-800/60 border border-cream-300/40 dark:border-night-700/60 hover:text-terra dark:hover:text-terra-light transition-colors"
+        title={`${remainingCount} more tags`}
+      >
+        +{remainingCount}
+      </a>
+    )}
   </div>
 )}

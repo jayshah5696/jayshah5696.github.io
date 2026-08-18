@@ -20,3 +20,6 @@ Thumbs.db
 .vscode/
 *.swp
 *.swo
+
+# test & verification previews
+public/assets/images/previews/

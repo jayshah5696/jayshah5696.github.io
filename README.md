@@ -1,78 +1,104 @@
 # jayshah5696.github.io
 
-Personal blog and portfolio built with [Astro](https://astro.build), Tailwind CSS, and a custom design system inspired by Indian Kolam and Rangoli geometry.
+Personal blog, research lab, and portfolio built with [Astro 5](https://astro.build), [Tailwind CSS 4](https://tailwindcss.com), and a custom Indian-inspired design system (**"Vav"**) rooted in Kolam and Rangoli geometry.
 
 **Live Site:** [https://jayshah.dev](https://jayshah.dev)
 
+---
+
+## 📸 Visual Design & Previews
+
+### Light Mode (Kolam) & Dark Mode (Rangoli)
+| Light Mode (Kolam Cream Paper & Brown Ink) | Dark Mode (Rangoli Indigo Night & Vivid Accents) |
+| :---: | :---: |
+| ![Light Mode Preview](public/assets/images/readme/preview-light-header.webp) | ![Dark Mode Preview](public/assets/images/readme/preview-dark-header.webp) |
+
+### First-Class Interactive Laboratories ("Vav Interactive")
+| Clickable Coin Flip Simulation | 2,000-Batch Distribution Histogram |
+| :---: | :---: |
+| ![Coin Flip Simulation](public/assets/images/readme/preview-dark-coins.webp) | ![Distribution Histogram](public/assets/images/readme/preview-dark-histogram.webp) |
+
+---
+
 ## Features
 
-- **Custom "Vav" Design System**: Light mode (Kolam) with warm cream/brown ink and dark mode (Rangoli) with deep indigo/vibrant accents
-- **SVG Geometry**: Procedurally generated inline SVG patterns for borders, corners, and hero elements
-- **Color-coded Tags**: Semantic categorization with shape indicators for accessibility (terra ● for AI, teal ◆ for dev tools, gold ▲ for ML, red ✦ for personal)
-- **Full-text Search**: Pagefind-powered static search with `/` keyboard shortcut
-- **Ultra-wide Support**: App centers as a cohesive unit on monitors wider than 1536px (like GitHub/Twitter)
-- **View Transitions**: Smooth, app-like navigation between pages while preserving theme state
-- **Reading Enhancements**: Scroll progress bar, calculated reading time, floating table of contents
-- **Post Series**: Group related posts with series navigation banner
-- **Developer Tools**: One-click copy buttons on code blocks with Shiki syntax highlighting
-- **Giscus Comments**: GitHub Discussions-powered comment system on all posts
-- **JSON-LD Structured Data**: BlogPosting and Person schemas for rich search snippets
-- **SEO & Analytics**: Google Analytics, Open Graph/Twitter Card tags (with image fallback), canonical URLs, auto-generated sitemap, RSS feed, robots.txt
-- **Accessibility**: Skip-to-main link, dynamic theme toggle aria-labels, shape-based tag indicators
-- **Optimized Images**: All blog images in WebP format (91% size reduction from originals)
+- **Custom "Vav" Design System**: 
+  - **Light mode (Kolam)**: Warm cream paper (`#fdf9f1`), dark brown ink text (`#2c2416`), delicate geometric knot line art.
+  - **Dark mode (Rangoli)**: Deep indigo night (`#15111e`), cream silk text (`#e8e0d4`), vibrant colorful accents.
+- **Vav Interactive Architecture**: Native support for rich data-heavy, simulation-heavy, and dashboard-based posts with interactive widgets, SVG animations, and dynamic controls.
+- **Stepped Table of Contents & Scrollspy**: Right sidebar with active Kolam diamond rail tracking, smooth anchor scrolling, and top reading progress bar.
+- **SVG Geometry**: Procedurally generated inline SVG patterns for borders, corners, and hero elements.
+- **Color-coded Tags**: Semantic categorization with shape indicators (`terra ●` for AI, `mor ◆` for dev tools, `gold ▲` for ML, `kumkum ✦` for personal).
+- **Full-text Search**: Static full-text search powered by Pagefind with `/` keyboard shortcut.
+- **Ultra-wide Support**: Centered cohesive layout on monitors wider than 1536px.
+- **View Transitions**: Smooth app-like client navigation while preserving dark/light theme state.
+- **Reading Enhancements**: Scroll progress bar, accurate calculated reading time (`reading-time`), floating table of contents.
+- **Developer Tools**: One-click copy buttons on code blocks with Shiki syntax highlighting.
+- **Giscus Comments**: GitHub Discussions-powered comments on all posts.
+- **SEO & Structured Data**: JSON-LD (`BlogPosting`, `Person`), Open Graph, Twitter Cards, auto-generated sitemap, and RSS feed.
+- **Automated Task Runner (`just`)**: One-command building, local previewing, interactive blog publishing, and headless browser verification.
 
-## Quick Start
+---
+
+## Quick Start & `just` Automation
+
+We use [`just`](https://github.com/casey/just) for consistent, cross-platform workflow automation:
 
 ```bash
-# Install dependencies
-npm install
+# List all available commands
+just
 
-# Start development server
-npm run dev
-# → http://localhost:4321
+# Start development server (localhost:4321)
+just dev
 
-# Build for production (includes Pagefind indexing)
-npm run build
+# Build production bundle + index search with Pagefind
+just build
 
-# Preview production build
-npm run preview
+# Preview production build locally
+just preview
+
+# Clean build artifacts
+just clean
 ```
 
-## Project Structure
+*(You can also use standard `npm run dev`, `npm run build`, and `npm run preview`.)*
 
-```
-src/
-├── components/              # Reusable Astro components
-│   ├── Sidebar.astro        # Desktop sidebar with nav, search, socials
-│   ├── MobileNav.astro      # Mobile header with hamburger menu
-│   ├── PostCard.astro       # Blog post card (featured + regular)
-│   ├── RightSidebar.astro   # Recent posts + trending tags
-│   ├── TagList.astro        # Color-coded tag links
-│   ├── Search.astro         # Pagefind search modal
-│   ├── JsonLd.astro         # Structured data component
-│   ├── Giscus.astro         # Comments integration
-│   ├── FormattedDate.astro  # Date formatter
-│   └── NavIcon.astro        # SVG icon map
-├── layouts/
-│   ├── BaseLayout.astro     # Root layout (sidebar, meta, scripts)
-│   └── PostLayout.astro     # Post layout (TOC, progress bar, series)
-├── pages/                   # File-based routing
-├── content/blog/            # Markdown blog posts
-├── data/projects.ts         # Project data
-├── utils/tags.ts            # Shared tag categorization logic
-├── styles/global.css        # Design system CSS + app centering
-└── content.config.ts        # Content collection schema
+---
+
+## Publishing Interactive Blog Posts
+
+Interactive, simulation-heavy, or dashboard-based blog posts are first-class citizens in this codebase:
+
+```bash
+# Publish an interactive HTML post directly into the content collection:
+just publish-interactive <source_html_path> <slug> [tags] [date]
+
+# Example:
+just publish-interactive /path/to/watermark-report.html how-text-watermarks-hide-in-plain-sight "ai-safety,llm,watermarking,gen-ai,research" "2026-08-16"
+
+# Run automated browser verification & capture Light/Dark screenshots:
+just verify-post how-text-watermarks-hide-in-plain-sight
 ```
 
-## Writing a New Post
+### How Interactive Posts Work Under the Hood:
+1. **Schema flag:** Set `interactive: true` in frontmatter in `src/content/blog/<slug>.md`.
+2. **Layout Routing:** `src/pages/posts/[...slug].astro` automatically routes `interactive: true` posts to `InteractivePostLayout.astro` (wide canvas, responsive layout, Right Sidebar Table of Contents).
+3. **Token Adapter:** `src/styles/interactive-theme.css` maps generic visualization CSS variables (`--bg`, `--surface`, `--border`, `--orange`, `--blue`, `--green`, `--yellow`, `--red`) to Vav tokens in both Kolam and Rangoli modes.
+4. **Script Execution:** Full simulation JavaScript is injected via `<script is:inline>` and initialized idempotently across Astro page loads.
 
-Create a markdown file in `src/content/blog/`:
+For more details, see [docs/publishing-interactive-blogs.md](docs/publishing-interactive-blogs.md).
+
+---
+
+## Standard Blog Posts
+
+Create a markdown file in `src/content/blog/<slug>.md`:
 
 ```markdown
 ---
 title: "Your Post Title"
 date: 2026-05-15
-description: A short description for cards and meta tags.
+description: "A short description for cards and search snippets."
 image: /assets/images/your-hero.webp  # optional (use WebP)
 tags:
   - llm
@@ -80,35 +106,64 @@ tags:
 series: "RAG Deep Dive"     # optional — groups related posts
 seriesOrder: 1               # optional — ordering within series
 draft: false                 # set true to hide from production
+interactive: false           # default false; set true for interactive posts
 ---
 
 Your content here...
 ```
 
-### Frontmatter Fields
+### Adding Reads
 
-| Field         | Type       | Required | Description                          |
-|---------------|------------|----------|--------------------------------------|
-| `title`       | `string`   | yes      | Post title                           |
-| `date`        | `date`     | yes      | Publication date (YYYY-MM-DD)        |
-| `description` | `string`   | yes      | Short description for cards/SEO      |
-| `image`       | `string`   | no       | Hero image path (WebP, from `/public`) |
-| `tags`        | `string[]` | no       | Array of tag slugs                   |
-| `series`      | `string`   | no       | Series name for grouping posts       |
-| `seriesOrder` | `number`   | no       | Order within the series              |
-| `draft`       | `boolean`  | no       | If `true`, excluded from production  |
+To log a reading note to `/reads/`:
+```bash
+just add-read "Article Title" "https://example.com" "Author Name" "tags,comma,separated"
+```
 
-### Adding Images
+---
 
-All blog images should be in WebP format for performance:
-1. Place original in `public/assets/images/`
-2. Convert to WebP: `cwebp -q 80 input.jpg -o output.webp` (or `-q 85` for PNGs with text)
-3. Reference as `/assets/images/output.webp` in markdown
-4. Delete the original after verifying
+## Project Structure
+
+```
+.
+├── justfile                         # Automation task runner recipes
+├── docs/
+│   └── publishing-interactive-blogs.md # Guide to interactive blog pipeline
+├── scripts/
+│   ├── publish-interactive.js       # HTML to Vav interactive blog publisher
+│   ├── verify-post.js               # Automated headless browser verification
+│   └── add-read.js                  # CLI helper to add reading notes
+├── src/
+│   ├── components/                  # Reusable Astro UI components
+│   │   ├── Sidebar.astro            # Desktop sidebar with nav & search
+│   │   ├── MobileNav.astro          # Mobile header & drawer
+│   │   ├── PostCard.astro           # Blog post card in lists
+│   │   ├── RightSidebar.astro       # Recent posts & tag cloud
+│   │   ├── TagList.astro            # Color-coded tags
+│   │   ├── Search.astro             # Pagefind modal dialog
+│   │   ├── JsonLd.astro             # JSON-LD structured data
+│   │   └── Giscus.astro             # GitHub Discussions comments
+│   ├── layouts/
+│   │   ├── BaseLayout.astro         # Root HTML layout & theme engine
+│   │   ├── PostLayout.astro         # Standard post layout with TOC
+│   │   └── InteractivePostLayout.astro # Wide-canvas interactive post layout
+│   ├── pages/                       # Astro file-based routes
+│   ├── content/
+│   │   ├── blog/                    # Blog collection (.md files)
+│   │   └── reads/                   # Reading list entries
+│   ├── styles/
+│   │   ├── global.css               # Vav core design tokens & patterns
+│   │   └── interactive-theme.css    # Simulation & interactive adapters
+│   ├── utils/tags.ts                # Centralized tag colors & metadata
+│   └── content.config.ts            # Content collection schema
+└── public/
+    └── assets/images/               # Optimized WebP assets
+```
+
+---
 
 ## Design System: "Vav" (Kolam & Rangoli)
 
-The visual identity fuses two elements of Indian art:
+The visual identity fuses two traditional Indian art forms:
 
 - **Light Mode (Kolam):** Warm cream paper (`#fdf9f1`), dark brown ink text (`#2c2416`), delicate woven knot patterns.
 - **Dark Mode (Rangoli):** Deep indigo night (`#15111e`), cream silk text (`#e8e0d4`), vibrant colorful accents.
@@ -117,57 +172,31 @@ The visual identity fuses two elements of Indian art:
 
 | Token    | Usage                                  |
 |----------|----------------------------------------|
-| `cream`  | Light mode surfaces, borders           |
-| `night`  | Dark mode surfaces, code blocks        |
-| `terra`  | Primary accent (terracotta). Links, AI tags |
-| `mor`    | Peacock teal. Dev tool tags            |
-| `gold`   | Turmeric yellow. ML tags, decorative dots |
-| `kumkum` | Vermilion red. Personal tags           |
-| `ink`    | Light mode text hierarchy              |
-| `silk`   | Dark mode text hierarchy               |
+| `cream`  | Light mode surfaces, borders (`#fdf9f1` base) |
+| `night`  | Dark mode surfaces, cards (`#15111e` base)    |
+| `terra`  | Primary accent (terracotta). Links, AI tags  |
+| `mor`    | Peacock teal. Dev tool tags                   |
+| `gold`   | Turmeric yellow. ML tags, decorative nodes   |
+| `kumkum` | Vermilion red. Personal tags                  |
+| `ink`    | Light mode text hierarchy (`#2c2416` dark ink)|
+| `silk`   | Dark mode text hierarchy (`#e8e0d4` silk)    |
 
-### Fonts
-
-- **Yeseva One** — display headings (serif)
-- **Outfit** — body text (geometric sans)
-- **Fira Code** — monospace (tags, dates, code)
-
-### Custom CSS Classes
-
-| Class             | Purpose                                    |
-|-------------------|--------------------------------------------|
-| `.kolam-border`   | Horizontal figure-8 woven interlocking pattern |
-| `.kolam-dots`     | Background pattern of dots + grid lines for sidebar |
-| `.kolam-hero`     | Large multi-layered geometric art header |
-| `.rangoli-corners`| Pseudo-elements adding 52px SVG lotus corner ornaments |
-| `.featured-card`  | Card with subtle tiled diamond background pattern |
-| `.carved-heading` | Heading with gradient underline ornament    |
-| `.tag-*`          | Color-coded tag pills (`tag-ai`, `tag-dev`, etc.) |
-| `.app-sidebar`    | Ultra-wide centering for sidebar           |
-| `.app-content`    | Ultra-wide centering for main content      |
-| `.app-progress`   | Ultra-wide centering for reading progress bar |
+---
 
 ## Tech Stack
 
-- **Astro 5** — zero-JS static site generator
-- **Tailwind CSS 3** — utility-first styling with custom tokens
-- **@tailwindcss/typography** — prose styling with custom `prose-kolam` theme
-- **Pagefind** — static full-text search (indexed at build time)
-- **MDX** — markdown with components
-- **Shiki** — syntax highlighting (github-light/github-dark)
-- **rehype-slug + rehype-autolink-headings** — auto-linked headings
-- **reading-time** — per-post reading time estimates
+- **Astro 5** — static site generator with zero-JS baseline
+- **Tailwind CSS 4** — modern CSS engine with custom Vav design tokens
+- **Pagefind** — fast static full-text search indexed at build time
+- **Shiki** — syntax highlighting with code block copy buttons
+- **reading-time** — accurate per-post reading time calculations
+- **Giscus** — GitHub Discussions-backed commenting system
+- **Just** — concise task runner for dev, build, publishing, and verification
+
+---
 
 ## Deployment
 
-This site is configured for GitHub Pages with a custom domain (`jayshah.dev`).
+This site is deployed to **GitHub Pages** with custom domain [`jayshah.dev`](https://jayshah.dev).
 
-Deployment is fully automated via GitHub Actions (`.github/workflows/deploy.yml`). Any push to the `master` branch triggers a build and deploy.
-
-### Domain Configuration Notes
-- Cloudflare DNS: 4 A records pointing to GitHub IPs (`185.199.108.153` etc.), proxy status set to **DNS only** (grey cloud).
-- GitHub Pages: Source set to "GitHub Actions", Custom domain set to `jayshah.dev` with Enforce HTTPS checked.
-- Root `public/CNAME` file ensures GitHub Pages recognizes the domain during build.
-
-### Comments Configuration
-Giscus is configured to use the "Announcements" category in GitHub Discussions for this repository. To manage comments, go to the Discussions tab in the GitHub repo.
+Deployment is fully automated via GitHub Actions (`.github/workflows/deploy.yml`). Any push to `master` triggers a build and deployment.
