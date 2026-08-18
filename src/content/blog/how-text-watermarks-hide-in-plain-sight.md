@@ -26,15 +26,14 @@ interactive: true
 check:    rebuild those groups and count the chosen tokens
 judge:    compare the count with ordinary chance
 </code></pre>
-<p>Before keys, tokenizers, models, and sampling order, there is a smaller problem worth solving cleanly: how do you detect a slight bias from a sequence of choices?</p>
+<p>Before introducing tokenizers, logits, vocabulary matrices, and hash algorithms, we can isolate the pure statistical engine using a simpler physical system: two weighted coins.</p>
 
 
 ## Start with two weighted coins
 
 
-<p>Tokens, logits, and sampling can wait. The statistical trick underneath watermark detection works without any of that. Two weighted coins are enough to see it.</p>
-<p>Neither coin is fair. The baseline coin lands heads 25 percent of the time. The nudged coin lands heads 40 percent of the time. Later, each flip will stand in for one token choice: heads means the model chose from the favored group, tails means it picked another valid option. The 25 percent baseline matches the green fraction used in the text experiment. The 40 percent nudge is a teaching value, not something measured from a language model.</p>
-<p>Forty flips can make the difference visible, but not reliably. The baseline can get lucky. The nudged coin can have a bad run. Their counts can tie or arrive in the wrong order.</p>
+<p>One coin lands heads 25% of the time. Another lands heads 40% of the time. Flip each one 40 times and count the heads. Can you tell which coin produced which sequence?</p>
+<p>The 25% coin averages 10 heads in 40 flips. The 40% coin averages 16. But 40 flips aren't many, and the counts can overlap. The 25% coin can get lucky. The 40% coin can have a cold run.</p>
 
 <figure class="opening-viz" id="coin-lab"><figcaption><span class="figure-kicker">Try it</span><b>Flip both weighted coins 40 times.</b><span>The probabilities stay fixed. The two fresh sequences are browser illustrations, not saved experiment rows.</span></figcaption><div class="coin-compare"><section class="coin-panel baseline"><header><div><b>Baseline coin</b><span>No added preference</span></div><strong>p = 25%</strong></header><div class="coin-intro"><div class="coin-face">H</div><div class="ratio ratio-4"><i></i><i></i><i></i><i></i><small>About 1 head in 4</small></div></div><div class="flip-grid" id="baselineFlips" aria-label="Forty baseline coin flips"></div><output class="coin-count" id="baselineCount"></output></section><section class="coin-panel nudged"><header><div><b>Nudged coin</b><span>A persistent preference for heads</span></div><strong>p = 40%</strong></header><div class="coin-intro"><div class="coin-face">H</div><div class="ratio ratio-5"><i></i><i></i><i></i><i></i><i></i><small>About 2 heads in 5</small></div></div><div class="flip-grid" id="nudgedFlips" aria-label="Forty nudged coin flips"></div><output class="coin-count" id="nudgedCount"></output></section></div><div class="figure-actions"><button class="primary" id="flipAgain">Flip both again</button><p id="flipLesson">Watch the counts, not one particular flip.</p></div></figure>
 <p>Rerun it a few times. The individual sequences change. The averages don't. The baseline settles near one head in four; the nudged coin settles near two in five.</p>
