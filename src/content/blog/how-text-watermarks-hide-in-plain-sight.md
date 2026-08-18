@@ -33,7 +33,7 @@ interactive: true
 <p>Someone who knows the rule can walk through the text, rebuild the favored groups, and count how often those choices appeared. One position says almost nothing. A few hundred start to add up.</p>
 <p>The entire mechanism reduces to three core steps:</p>
 <div class="step-cards"><div class="step-card"><span class="step-num">1</span><b>Generate</b><p>Bias pseudorandom sampling toward keyed subsets of valid tokens.</p></div><div class="step-card"><span class="step-num">2</span><b>Check</b><p>Reconstruct those subsets from context and count observed choices.</p></div><div class="step-card"><span class="step-num">3</span><b>Judge</b><p>Test whether the green count exceeds ordinary baseline chance.</p></div></div>
-<p>The statistical engine underneath a watermark is the same one underneath two weighted coins.</p>
+<p>I wanted to understand the mechanism. Start with two coins to get the statistics. Add a key and a 20-word vocabulary to see how the partition works. Run it on a real model to check nothing breaks. Scale to Gemma on a cloud GPU with paired controls. Score natural web text to calibrate the background. Then edit the output and measure how much evidence the checker loses.</p>
 
 
 ## The statistical engine
