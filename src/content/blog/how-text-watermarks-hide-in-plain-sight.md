@@ -43,8 +43,8 @@ interactive: true
 
 <p>Now isolate a single observed batch: 32 heads in 80 flips.</p>
 <p>The baseline coin produces an expected average of 20 heads in 80 flips (80 &times; 0.25 = 20). Our batch observed 12 extra heads. A raw difference of 12 lacks meaning without a scale: 12 extra heads in 20 flips is extraordinary, while 12 extra in 20,000 is negligible.</p>
-<p>Under the baseline model, 80-flip batches fluctuate by a standard deviation (&sigma;) of about 3.87 heads around their average:</p>
-<div class="formula-block"><span class="formula">&sigma; = &radic;<span class="sqrt-content">T &times; p &times; (1 &minus; p)</span> = &radic;<span class="sqrt-content">80 &times; 0.25 &times; 0.75</span> &approx; 3.87 heads</span></div>
+<p>Under the baseline model, 80-flip batches fluctuate by a standard deviation (&sigma;) of about 3.87 heads around their average. Here <var>T</var> is the number of flips and <var>p</var> is the baseline probability of heads:</p>
+<div class="formula-block"><span class="formula">&sigma; = &radic;<span class="sqrt-content"><var>T</var> &times; <var>p</var> &times; (1 &minus; <var>p</var>)</span> = &radic;<span class="sqrt-content">80 &times; 0.25 &times; 0.75</span> &approx; 3.87 heads</span></div>
 <p>We scale the observed excess by this expected baseline movement to calculate the z-score:</p>
 <div class="formula-block highlight"><span class="formula">z = <span class="frac"><span class="frac-num">12 extra heads</span><span class="frac-den">3.87 heads of ordinary standard deviation</span></span> = <b>3.10</b></span></div>
 <p>The z-score measures standard deviation distance from baseline chance. It is an evidence distance, not a probability that a watermark exists.</p>
