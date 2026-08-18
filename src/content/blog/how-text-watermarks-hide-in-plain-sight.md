@@ -11,6 +11,14 @@ tags:
 interactive: true
 ---
 
+<aside class="tldr">
+<h2>TL;DR</h2>
+<p><strong>How watermarks hide:</strong> Plain text contains no invisible pixel slack or file metadata. Autoregressive models embed watermarks by using a secret key to partition candidate vocabularies into green and red subsets, adding a logit bias to green tokens at every generation step.</p>
+<p><strong>Why frontier labs deploy watermarks:</strong> Providers watermark text to comply with the European Union AI Act Article 50(2) transparency mandate by August 2026. Watermarks provide a verifiable audit trail for direct model completions, not an infallible plagiarism detector.</p>
+<p><strong>What watermarks cannot encode:</strong> Generation-time watermarks function as zero-bit statistical tests. A detector verifies whether text matches a key schedule; it cannot extract user IDs, account metadata, or timestamps.</p>
+<p><strong>What breaks the watermark:</strong> Watermarks depend strictly on exact context token histories. While detection survives minor typos, any meaning-preserving paraphrase or second-pass rewrite generates a fresh token sequence, resetting context hashes and dissolving the signal.</p>
+</aside>
+
 <p>On August 11, Anthropic announced that future Claude models will watermark their text output.<sup class="ref"><a href="#fn-anthropic-support" aria-label="Source 1">1</a></sup> Three days later, a longer post clarified that Claude's watermark is "a version of the SynthID-Text approach," that it changes randomness among acceptable next-word choices, and that a detection API is planned.<sup class="ref"><a href="#fn-anthropic-news" aria-label="Source 2">2</a></sup> Neither post published the algorithm, keying scheme, threshold, or production evaluation data.</p>
 <p>The timing wasn't accidental. The EU AI Act's Article 50 requires providers of systems generating synthetic text to make outputs machine-readable and detectable as AI-generated, as far as technically feasible, starting August 2, 2026.<sup class="ref"><a href="#fn-article50" aria-label="Source 3">3</a></sup> Anthropic had signed the corresponding Code of Practice on transparency.</p>
 <p>That raised a question I couldn't answer from the announcement alone: where does a watermark go in plain text?</p>
