@@ -540,7 +540,7 @@ for length in config.lengths:
 <figure class="opening-viz delta-viz" id="delta"><div class="controls" id="deltaButtons"></div><div class="delta-layout"><svg id="deltaPlot" role="img" aria-labelledby="deltaTitle deltaDesc"><title id="deltaTitle">Eight labeled z-score paths across delta one, two, and three</title><desc id="deltaDesc">Every frozen prompt path with two non-monotonic rows labeled.</desc></svg><aside id="deltaReading"></aside></div><div class="proxy-plots" id="proxyPlots"></div><p class="feedback" id="deltaFeedback"></p><p class="proxy-note">Conditional NLL and repeated pairs are model-based proxies. They do not replace a human quality or factuality study.</p></figure>
 
 
-<p>This project implemented one watermark family. Claude uses another.</p>
+<p>The delta sweep tested KGW-style green lists only, and Claude's production watermark belongs to a different family.</p>
 
 ## The broader landscape
 
