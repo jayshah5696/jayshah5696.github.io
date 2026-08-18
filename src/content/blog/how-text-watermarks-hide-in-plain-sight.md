@@ -13,15 +13,13 @@ interactive: true
 
 <aside class="tldr">
 <h2>TL;DR</h2>
-<p><strong>How watermarks hide:</strong> Plain text contains no invisible pixel slack or file metadata. Autoregressive models embed watermarks by using a secret key to partition candidate vocabularies into green and red subsets, adding a logit bias to green tokens at every generation step.</p>
-<p><strong>Why frontier labs deploy watermarks:</strong> Providers watermark text to comply with the European Union AI Act Article 50(2) transparency mandate by August 2026. Watermarks provide a verifiable audit trail for direct model completions, not an infallible plagiarism detector.</p>
-<p><strong>What watermarks cannot encode:</strong> Generation-time watermarks function as zero-bit statistical tests. A detector verifies whether text matches a key schedule; it cannot extract user IDs, account metadata, or timestamps.</p>
-<p><strong>What breaks the watermark:</strong> Watermarks depend strictly on exact context token histories. While detection survives minor typos, any meaning-preserving paraphrase or second-pass rewrite generates a fresh token sequence, resetting context hashes and dissolving the signal.</p>
+<p>Plain text contains no invisible pixel slack or file metadata. Autoregressive models embed watermarks by using a secret key to partition candidate vocabularies into favored and unfavored subsets, adding a logit bias to favored tokens at every generation step. Providers deploy them to comply with the EU AI Act Article 50(2) transparency mandate by August 2026, providing a verifiable audit trail for direct model completions.</p>
+<p>Generation-time watermarks function as zero-bit statistical tests. A detector verifies whether text matches a key schedule; it can't extract user IDs, account metadata, or timestamps. The marks depend on exact context token histories. Detection survives minor typos, but any meaning-preserving paraphrase generates a fresh token sequence, resetting context hashes and dissolving the signal.</p>
 </aside>
 
 <p>On August 11, Anthropic announced that future Claude models will watermark their text output.<sup class="ref"><a href="#fn-anthropic-support" aria-label="Source 1">1</a></sup> Three days later, a longer post clarified that Claude's watermark is "a version of the SynthID-Text approach," that it changes randomness among acceptable next-word choices, and that a detection API is planned.<sup class="ref"><a href="#fn-anthropic-news" aria-label="Source 2">2</a></sup> Neither post published the algorithm, keying scheme, threshold, or production evaluation data.</p>
 <p>The timing wasn't accidental. The EU AI Act's Article 50 requires providers of systems generating synthetic text to make outputs machine-readable and detectable as AI-generated, as far as technically feasible, starting August 2, 2026.<sup class="ref"><a href="#fn-article50" aria-label="Source 3">3</a></sup> Anthropic had signed the corresponding Code of Practice on transparency.</p>
-<p>That raised a question I couldn't answer from the announcement alone: where does a watermark go in plain text?</p>
+<p>The announcements didn't explain the mechanism. Where does a watermark go in plain text?</p>
 <p>I knew how image watermarking worked. A 4K frame has 8,294,400 pixel values. Shift a few low-order color channels and the picture looks the same. Video repeats that grid across thousands of frames. The hiding space is enormous.</p>
 <p>Text doesn't have pixel channels. Every character is visible. Swap one word and the reader can tell. Copy-paste strips file metadata and container formats, so a durable mark can't live in a wrapper either.</p>
 <p>Theo Browne made the same observation in his video about Claude's announcement: images and video carry massive numerical redundancy, while text operates under strict discrete constraints.<sup class="ref"><a href="#fn-theo" aria-label="Source 4">4</a></sup> Dr. Mike Pound's Computerphile video on the Kirchenbauer et al. paper showed me the answer: partition the vocabulary into favored and unfavored groups at each generation step, using a secret key.<sup class="ref"><a href="#fn-computerphile" aria-label="Source 5">5</a></sup></p>
@@ -33,7 +31,7 @@ interactive: true
 <p>Someone who knows the rule can walk through the text, rebuild the favored groups, and count how often those choices appeared. One position says almost nothing. A few hundred start to add up.</p>
 <p>The entire mechanism reduces to three core steps:</p>
 <div class="step-cards"><div class="step-card"><span class="step-num">1</span><b>Generate</b><p>Bias pseudorandom sampling toward keyed subsets of valid tokens.</p></div><div class="step-card"><span class="step-num">2</span><b>Check</b><p>Reconstruct those subsets from context and count observed choices.</p></div><div class="step-card"><span class="step-num">3</span><b>Judge</b><p>Test whether the green count exceeds ordinary baseline chance.</p></div></div>
-<p>Before introducing tokenizers, logits, vocabulary matrices, and hash algorithms, I can isolate the pure statistical engine using a simpler physical system: two weighted coins.</p>
+<p>The statistical engine underneath a watermark is the same one underneath two weighted coins.</p>
 
 
 ## The statistical engine
@@ -45,20 +43,20 @@ interactive: true
 <p>The 25% coin averages 10 heads in 40 flips. The 40% coin averages 16. But 40 flips aren't many, and the counts can overlap. The 25% coin can get lucky. The 40% coin can have a cold run. Try it:</p>
 
 <figure class="opening-viz" id="coin-lab"><div class="coin-compare"><section class="coin-panel baseline"><header><div><b>Baseline coin</b><span>No added preference</span></div><strong>p = 25%</strong></header><div class="coin-intro"><div class="coin-face">H</div><div class="ratio ratio-4"><i></i><i></i><i></i><i></i><small>About 1 head in 4</small></div></div><div class="flip-grid" id="baselineFlips" aria-label="Forty baseline coin flips"></div><output class="coin-count" id="baselineCount"></output></section><section class="coin-panel nudged"><header><div><b>Nudged coin</b><span>A persistent preference for heads</span></div><strong>p = 40%</strong></header><div class="coin-intro"><div class="coin-face">H</div><div class="ratio ratio-5"><i></i><i></i><i></i><i></i><i></i><small>About 2 heads in 5</small></div></div><div class="flip-grid" id="nudgedFlips" aria-label="Forty nudged coin flips"></div><output class="coin-count" id="nudgedCount"></output></section></div><div class="figure-actions"><button class="primary" id="flipAgain">Flip both again</button><p id="flipLesson">Watch the counts, not one particular flip.</p></div></figure>
-<p>Rerun it. The individual sequences change but the averages hold: baseline near one head in four, nudged near two in five. That difference is visible when you know which coin produced which sequence. The harder question: given one unlabeled batch, can you tell whether the nudged coin produced it?</p>
+<p>Rerun it. The individual sequences change but the averages hold: baseline near one head in four, nudged near two in five. That difference is visible when you know which coin produced which sequence. Given one unlabeled batch, can you tell whether the nudged coin produced it?</p>
 
 
 ### From head count to z score
 
 
-<p>Now isolate a single observed batch: 32 heads in 80 flips.</p>
+<p>Take a single observed batch: 32 heads in 80 flips.</p>
 <p>The baseline coin produces an expected average of 20 heads in 80 flips (80 &times; 0.25 = 20). Our batch observed 12 extra heads. A raw difference of 12 lacks meaning without a scale: 12 extra heads in 20 flips is extraordinary, while 12 extra in 20,000 is negligible.</p>
 <p>Under the baseline model, 80-flip batches fluctuate by a standard deviation (&sigma;) of about 3.87 heads around their average. Here <var>T</var> is the number of flips and <var>p</var> is the baseline probability of heads:</p>
 <div class="formula-block"><span class="formula">&sigma; = &radic;<span class="sqrt-content"><var>T</var> &times; <var>p</var> &times; (1 &minus; <var>p</var>)</span> = &radic;<span class="sqrt-content">80 &times; 0.25 &times; 0.75</span> &approx; 3.87 heads</span></div>
 <p>We scale the observed excess by this expected baseline movement to calculate the z-score:</p>
 <div class="formula-block highlight"><span class="formula">z = <span class="frac"><span class="frac-num">12 extra heads</span><span class="frac-den">3.87 heads of ordinary standard deviation</span></span> = <b>3.10</b></span></div>
-<p>The z-score measures standard deviation distance from baseline chance. It is an evidence distance, not a probability that a watermark exists.</p>
-<p>Turning a score into an alarm requires a locked decision threshold. Our experiment locked a cutoff of z &gt; 3 before collecting data. Our 3.10 crosses it. In concrete terms: under the baseline coin, 32 or more heads in 80 flips occur about 0.2% of the time, so a score above 3 means the observed pattern has less than a 0.13% chance of arising from baseline randomness alone. Rare and impossible are different words.</p>
+<p>The z-score measures how many standard deviations the observed count sits from baseline chance. It quantifies evidence strength, and the formula contains no claim about whether a watermark exists.</p>
+<p>Turning a score into an alarm requires a locked decision threshold. Our experiment locked a cutoff of z &gt; 3 before collecting data. Our 3.10 crosses it. In concrete terms: under the baseline coin, 32 or more heads in 80 flips occur about 0.2% of the time, so a score above 3 means the observed pattern has less than a 0.13% chance of arising from baseline randomness alone. That's rare, but a 0.2% event happens five times in every 2,500 trials.</p>
 
 
 ### More flips, clearer signal
@@ -80,7 +78,7 @@ interactive: true
 
 
 <p>A language model choosing its next token faces the same structure. Each eligible position is one flip. A token landing in the favored set counts as heads. The z formula, the 25% null rate, and the cutoff tradeoff all carry over unchanged.</p>
-<p>What doesn't carry over: independence. Coin flips don't depend on each other. Token choices depend on context, repeat within a sentence, and pass through a tokenizer that splits words unpredictably. Those dependencies can inflate or suppress the green count in ways a coin never would.</p>
+<p>Independence doesn't carry over. Coin flips don't depend on each other, but token choices depend on context, repeat within a sentence, and pass through a tokenizer that splits words unpredictably. Those dependencies can inflate or suppress the green count in ways a coin never would.</p>
 
 <figure class="opening-viz" id="coin-to-token"><div class="object-map"><div class="object-card"><span>Coin version</span><b>One weighted flip</b><div class="coin-face">H</div><p>Heads is a hit. Tails is not.</p></div><div class="map-mark">becomes</div><div class="object-card"><span>Text version</span><b>One next-token choice</b><p class="prompt">The small boat was...</p><div class="token-row"><i class="favored">quiet</i><i>old</i><i class="favored">blue</i><i>ready</i></div><p>The key marks <code>quiet</code> and <code>blue</code> favored for this context.</p></div></div><div class="mapping-grid"><b>Coin</b><b>Text</b><span>One flip</span><span>One eligible token position</span><span>Heads</span><span>Chosen token is in the favored set</span><span>Count and score heads</span><span>Count and score favored tokens</span></div></figure>
 
@@ -176,7 +174,7 @@ for length in config.lengths:
 <p>The null rates wobble rather than falling smoothly. They are finite Monte Carlo estimates. The 100% at 400 means all 10,000 nudged batches crossed under this coin setup, not a promise about real model output. The chart shows both lines diverging:</p>
 
 <figure class="inline-viz" id="coin-results"><div class="result-stacked"><svg id="stage1ResultPlot" class="opening-plot" viewBox="0 0 820 380" role="img" aria-labelledby="resultTitle resultDesc"><title id="resultTitle">Recorded Stage 1 detection rates by length</title><desc id="resultDesc">Nudged and baseline rates at five lengths.</desc></svg><div class="legend-bar"><span><i class="legend nudge"></i> Nudged batches above cutoff</span><span><i class="legend base"></i> Baseline batches above cutoff</span><span class="legend-note">10,000 batches per point, cutoff z &gt; 3</span></div></div></figure>
-<p>The coin demonstrated that a weak preference becomes measurable given enough flips, and that any fixed cutoff trades misses against false alarms. But it has no way to decide which specific text choices should count as heads. That requires a key.</p>
+<p>The coin demonstrated that a weak preference becomes measurable given enough flips, and that any fixed cutoff trades misses against false alarms. But it has no way to decide which specific text choices should count as heads, because that decision requires a key tied to context.</p>
 
 
 ### The key mechanism
@@ -258,7 +256,7 @@ for length in config.lengths:
 </table></div>
 <p><code>Jack</code> rose from 11.642% to 18.582%. The saved draw chose <code>Jack</code> in both paths, a non-event that matters: two distributions can return the same token. A later draw split the continuations, after which each path conditioned on its own history.</p>
 <p>The marked path produced: "Jack climbed slowly, his boots sinking slightly into the soft snow-covered earth." I copied the continuation, tokenized it, and scored. 39 eligible positions. Generation key: <code>21/39</code>, z <code>4.160</code>. Comparison key on the same text: <code>7/39</code>, z <code>-1.017</code>. Paired control with generation key: <code>8/39</code>, z <code>-0.647</code>.</p>
-<p>Three fixed marked passages all scored higher than their controls. Three examples prove the path runs. They can't estimate accuracy or quality.</p>
+<p>All three fixed marked passages scored higher than their controls, confirming that the generation-to-detection path runs end-to-end. Three examples can't estimate accuracy or quality.</p>
 
 
 ### Operation order
@@ -273,7 +271,7 @@ for length in config.lengths:
 <figure class="opening-viz order-viz" id="operation-order"><div class="order-controls"><div class="controls"><button id="orderReference" class="active" aria-pressed="true">Transformers route</button><button id="orderEarlier" aria-pressed="false">Earlier teaching route</button></div><div class="controls"><button id="orderBack">Previous operation</button><button class="primary" id="orderNext">Run next operation</button><button id="orderAll">Show final state</button></div></div><div class="order-rails" id="orderRails"></div><div class="order-result" id="orderReadout"></div><section class="pair-fixture"><header><span class="figure-kicker">A separate compatibility check</span><b>Does a repeated pair count once or every time it appears?</b></header><div class="pair-sequence" id="pairSequence"></div><div class="controls"><button id="pairEvery" class="active" aria-pressed="true">Count every occurrence</button><button id="pairDistinct" aria-pressed="false">Count each pair value once</button></div><div class="pair-counting" id="pairCounting"></div><p class="feedback" id="pairFeedback"></p></section></figure>
 
 <p>The Transformers route kept 40 after top-k and 19 after top-p. My earlier route kept 11 after top-p. For token <code> was</code>, final probabilities: 8.643% vs 8.826%. Only 0.18 percentage points apart, but the structural difference matters. Temperature changes the effective increase. Filtering can remove a candidate before the watermark reaches it. The operation sequence is part of the watermark profile.</p>
-<p>A six-token compatibility fixture exposed another mismatch. It alternated token IDs 373 and 21272, producing five pair occurrences but only two distinct pair values. Both <code>ignore_repeated_ngrams</code> settings in Transformers returned <code>3/5</code>, z <code>1.807</code>. My explicit distinct-value count returned <code>1/2</code>, z <code>0.816</code>. The lesson: inspect maintained behavior instead of inferring it from an option name.</p>
+<p>A six-token compatibility fixture exposed another mismatch. It alternated token IDs 373 and 21272, producing five pair occurrences but only two distinct pair values. Both <code>ignore_repeated_ngrams</code> settings in Transformers returned <code>3/5</code>, z <code>1.807</code>. My explicit distinct-value count returned <code>1/2</code>, z <code>0.816</code>. Maintained behavior must be inspected directly rather than inferred from an option name.</p>
 
 
 ### Gemma end-to-end
@@ -323,7 +321,7 @@ for length in config.lengths:
 
 <p>A crossing means nothing until the same checker runs on text that was never watermarked.</p>
 <p>I froze 1,000 C4 <code>realnewslike</code> continuations as a calibration set, then reserved the next 24 passing rows for paired generation.<sup class="ref"><a href="#fn-lab06" aria-label="Source 18">18</a></sup> Selection followed a pinned validation shard in file order, requiring at least 500 Gemma tokens and passing fixed duplicate, list, code, and letter-fraction filters before scoring.</p>
-<p>C4 is natural-web text, not verified human writing.</p>
+<p>C4 is natural-web text scraped from Common Crawl. The corpus contains no verification that any passage was written by a human.</p>
 <p>With the public Gemma key and all-pair counting, the 1,000 scores had a median of <code>0.029</code>, a 99th percentile of <code>2.457</code>, and a maximum of <code>3.729</code>. Four rows crossed strict <code>z &gt; 3</code>. A thousand rows can't validate one-in-100,000 behavior, but four crossings in a declared negative set are enough to distrust the cutoff in isolation.</p>
 <p>The maximum row exposed the counting rule. Counting every adjacent-pair occurrence gave <code>132/399</code>, z <code>3.729</code>. Counting each pair value once on the same token sequence gave <code>114/358</code>, z <code>2.990</code>. The second rule removed 41 observations, including 18 green hits, and moved the row below the cutoff.</p>
 <p>Fernandez and colleagues showed that standard asymptotic tests underestimate false positives on short or repetitive text.<sup class="ref"><a href="#fn-three-bricks" aria-label="Source 12">12</a></sup> The z formula stays useful because every term is visible, but it must travel with the empirical background and the repetition policy that produced it.</p>
@@ -376,14 +374,13 @@ for length in config.lengths:
 </tr>
 </tbody>
 </table></div>
-<p>Only the first condition crosses.</p>
-<p>Rank <code>1001</code> is just as important. Its marked and control paths shared every token ID through the first 80 copied tokens. Both scored <code>26/79</code>, z <code>1.624</code>. The watermark changed probabilities, but the seeded draws followed the same early path.</p>
+<p>Only the marked-correct-key condition crosses, while the three controls stay below the line. Rank <code>1001</code> complicates the picture: its marked and control paths shared every token ID through the first 80 copied tokens, both scoring <code>26/79</code>, z <code>1.624</code>. The watermark changed probabilities, but these seeded draws followed the same early path.</p>
 <p>Select each branch below to see how the four checks separate for rank 1000:</p>
 
 <figure class="opening-viz controls-viz" id="four-controls"><div class="control-source"><span>Frozen prompt rank 1000</span><b>One source prefix, paired generation seed, and model profile</b></div><div class="control-branches" id="familyCards"></div><div class="controls" id="familyButtons"></div><p class="feedback" id="familyFeedback"></p><section class="equal-row"><span class="figure-kicker">The inconvenient row</span><b>Rank 1001 followed the same early path.</b><div><div><span>Marked, generation key</span><strong>26/79</strong><b class="equal-z">z 1.6239</b></div><i>=</i><div><span>Model control, generation key</span><strong>26/79</strong><b class="equal-z">z 1.6239</b></div></div><p>The marked and control token IDs were identical through 80 copied tokens. The watermark changed probabilities, but these seeded draws did not split yet.</p></section></figure>
 
 
-<p>One row proves the path runs. It can't estimate accuracy. The 24-row cohort shows whether the separation holds across documents.</p>
+<p>A single row confirms the path runs without estimating accuracy. The full 24-row cohort shows whether the separation holds across documents.</p>
 
 ### Read every paired row before the average
 
@@ -415,7 +412,7 @@ for length in config.lengths:
 </tr>
 </tbody>
 </table></div>
-<p>The averages separate cleanly. The rows do not. Some differences are small, rank <code>1001</code> is exactly zero against its model control, and at least one row points against the mean. Three marked rows crossed <code>z &gt; 3</code>; none of the three control families did at this prefix. The intervals summarize 24 frozen documents, not a population.</p>
+<p>The averages separate cleanly, but individual rows do not. Some differences are small, rank <code>1001</code> is exactly zero against its model control, and at least one row points against the mean. Three marked rows crossed <code>z &gt; 3</code>; none of the three control families did at this prefix. The intervals summarize 24 frozen documents, not a population.</p>
 <p>The matched cohort shrank with prefix length. Counts at 40, 80, 160, 200, and 400 copied tokens were <code>24</code>, <code>24</code>, <code>21</code>, <code>17</code>, and <code>0</code>. A 400-token generation cap meant both the marked and control outputs terminated before reaching 400 copied tokens, so no pair completed at that length. At 200 tokens, four of 17 marked rows crossed, along with one natural-web row. Because the documents changed as the prefix grew, that sequence can't support a clean causal claim about length.</p>
 
 <p>Select the comparison below. Row order stays fixed so you can track individual documents across contrasts:</p>
