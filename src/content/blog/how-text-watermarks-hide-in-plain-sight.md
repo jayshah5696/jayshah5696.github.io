@@ -32,13 +32,13 @@ judge:    compare the count with ordinary chance
 ## Start with two weighted coins
 
 
-<p>I first tried to explain the idea with tokens. That dragged in tokenizers, logits, sampling, and keys before the basic statistical trick was clear. So I stripped the problem down to coins.</p>
-<p>A weighted coin does not produce heads and tails with equal probability. The baseline coin lands heads 25 percent of the time, matching the favored fraction used later in the text experiment. The nudged coin lands heads 40 percent of the time, a teaching bias, not something measured from a language model. Each flip represents one token choice: heads means the source chose from the favored group, tails means it chose another valid option.</p>
-<p>Forty flips are enough to make the difference visible sometimes, but not reliably. The baseline can get lucky. The nudged coin can have a bad run. Their counts can tie or arrive in the wrong order.</p>
+<p>Tokens, logits, and sampling can wait. The statistical trick underneath watermark detection works without any of that. Two weighted coins are enough to see it.</p>
+<p>Neither coin is fair. The baseline coin lands heads 25 percent of the time. The nudged coin lands heads 40 percent of the time. Later, each flip will stand in for one token choice: heads means the model chose from the favored group, tails means it picked another valid option. The 25 percent baseline matches the green fraction used in the text experiment. The 40 percent nudge is a teaching value, not something measured from a language model.</p>
+<p>Forty flips can make the difference visible, but not reliably. The baseline can get lucky. The nudged coin can have a bad run. Their counts can tie or arrive in the wrong order.</p>
 
 <figure class="opening-viz" id="coin-lab"><figcaption><span class="figure-kicker">Try it</span><b>Flip both weighted coins 40 times.</b><span>The probabilities stay fixed. The two fresh sequences are browser illustrations, not saved experiment rows.</span></figcaption><div class="coin-compare"><section class="coin-panel baseline"><header><div><b>Baseline coin</b><span>No added preference</span></div><strong>p = 25%</strong></header><div class="coin-intro"><div class="coin-face">H</div><div class="ratio ratio-4"><i></i><i></i><i></i><i></i><small>About 1 head in 4</small></div></div><div class="flip-grid" id="baselineFlips" aria-label="Forty baseline coin flips"></div><output class="coin-count" id="baselineCount"></output></section><section class="coin-panel nudged"><header><div><b>Nudged coin</b><span>A persistent preference for heads</span></div><strong>p = 40%</strong></header><div class="coin-intro"><div class="coin-face">H</div><div class="ratio ratio-5"><i></i><i></i><i></i><i></i><i></i><small>About 2 heads in 5</small></div></div><div class="flip-grid" id="nudgedFlips" aria-label="Forty nudged coin flips"></div><output class="coin-count" id="nudgedCount"></output></section></div><div class="figure-actions"><button class="primary" id="flipAgain">Flip both again</button><p id="flipLesson">Watch the counts, not one particular flip.</p></div></figure>
-<p>Rerun it a few times. The individual sequences change. The averages don't. The baseline settles near one head in four; the nudged source settles near two in five. Repeat the same process in each iteration: generate a new weighted-coin flip, use its result to select the next bit, and continue until all required bits have been generated.</p>
-<p>The coin shows the bias. The next question is whether a single batch of flips can reveal that bias to someone who doesn't know which coin was used.</p>
+<p>Rerun it a few times. The individual sequences change. The averages don't. The baseline settles near one head in four; the nudged coin settles near two in five.</p>
+<p>That difference is visible when you know which coin produced which sequence. The harder question: given one batch of flips and no label, can you tell whether the nudged coin produced it?</p>
 
 
 ## Follow one batch all the way through
@@ -49,7 +49,7 @@ judge:    compare the count with ordinary chance
 <p>Under the baseline model, 80-flip batches move by about 3.87 heads around their average. So the observed excess is:</p>
 <pre><code class="language-text">12 extra heads / 3.87 heads of ordinary movement = 3.10
 </code></pre>
-<p>That number is the z score. It measures how far the observed count sits above the baseline average, in units of ordinary movement. 3.10 means the batch landed 3.10 standard deviations above where an unbiased baseline would typically fall. It is a distance, not the probability that a watermark is present.</p>
+<p>That number is the z score: the observed excess divided by ordinary movement. A z of 3.10 means this batch landed 3.10 standard deviations above the baseline average. It is a distance, not the probability that a watermark is present.</p>
 <p>A score alone doesn't make a decision. The lab chose a cutoff of 3 before running the experiment. This batch's 3.10 lands above it. Under the exact baseline coin model, 32 or more heads appear in 80 flips about 0.2239 percent of the time. A baseline batch can still produce that count. Rare and impossible are different words.</p>
 <p>The interactive below keeps the same <code>32</code>, <code>80</code>, <code>20</code>, <code>12</code>, <code>3.87</code>, and <code>3.10</code> objects on screen from observation to decision.</p>
 
