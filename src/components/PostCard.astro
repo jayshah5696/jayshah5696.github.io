@@ -25,8 +25,8 @@ const stats = readingTime(body);
     : 'border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light hover:shadow-md',
 ]}>
   {featured ? (
-    <!-- Featured Card Layout (Vertical Full Banner) -->
     <div class="flex flex-col">
+      {/* Featured Card Layout (Vertical Full Banner) */}
       {image && (
         <div class="w-full h-[200px] sm:h-[220px] overflow-hidden bg-cream-100 dark:bg-night-900 border-b border-cream-200/60 dark:border-night-700/60">
           <img
@@ -77,9 +77,9 @@ const stats = readingTime(body);
       </div>
     </div>
   ) : (
-    <!-- Non-Featured Card Layout (Banner on Mobile, Horizontal Row on Desktop) -->
     <div class="flex flex-col sm:flex-row items-stretch justify-between p-4 sm:p-5 gap-4 sm:gap-5">
-      <!-- Text column (order-2 on mobile, order-1 on desktop) -->
+      {/* Non-Featured Card Layout (Banner on Mobile, Horizontal Row on Desktop) */}
+      {/* Text column (order-2 on mobile, order-1 on desktop) */}
       <div class="flex-1 min-w-0 flex flex-col justify-between order-2 sm:order-1">
         <div>
           <h2 class="font-display text-lg text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-200 text-balance leading-snug">
@@ -115,7 +115,7 @@ const stats = readingTime(body);
         </div>
       </div>
 
-      <!-- Image thumbnail (order-1 on mobile = top banner, order-2 on desktop = right sidebar) -->
+      {/* Image thumbnail (order-1 on mobile = top banner, order-2 on desktop = right sidebar) */}
       {image && (
         <div class="w-full sm:w-[190px] md:w-[210px] h-[140px] sm:h-auto sm:min-h-[125px] shrink-0 order-1 sm:order-2 flex items-center justify-center">
           <div class="w-full h-full max-h-[140px] sm:max-h-[135px] rounded-lg overflow-hidden border border-cream-200/80 dark:border-night-700/80 bg-cream-100/50 dark:bg-night-900/60 shadow-xs">
