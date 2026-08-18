@@ -64,15 +64,14 @@ judge:    compare the count with ordinary chance
 <figure class="opening-viz" id="coin-length"><figcaption><span class="figure-kicker">Length effect</span><b>Same bias, more flips.</b></figcaption><div class="length-layout"><div class="length-controls"><b>Number of flips</b><div class="controls" id="lengthButtons"></div><div class="watch-box"><b>Watch excess outrun scatter as T grows.</b></div></div><div><div class="metric-grid"><div><span>Baseline average</span><strong id="lenBase">10</strong><small>heads</small></div><div><span>Nudged average</span><strong id="lenNudge">16</strong><small>heads</small></div><div><span>Persistent excess</span><strong id="lenExcess">6</strong><small>heads</small></div><div><span>Expected z</span><strong id="lenExpectedZ">2.19</strong><small>movement units</small></div></div><div class="growth-row"><b>Baseline movement</b><div><i id="noiseBar"></i></div><output id="noiseValue">2.74</output></div><div class="growth-row"><b>Persistent excess</b><div><i class="signal" id="signalBar"></i></div><output id="signalValue">6.00</output></div><p class="figure-lesson" id="lengthLesson"></p></div></div></figure>
 <p>A single z score says nothing about error rates. Run 2,000 batches from each coin and two distributions appear. At short lengths they overlap. Every cutoff trades false alarms against missed detections.</p>
 
-<figure class="opening-viz" id="coin-distribution"><figcaption><span class="figure-kicker">Two distributions</span><b>2,000 batches from each coin.</b></figcaption><div class="distribution-layout"><div><svg id="distributionPlot" class="opening-plot" viewBox="0 0 820 430" role="img" aria-labelledby="distTitle distDesc"><title id="distTitle">Baseline and nudged score distributions</title><desc id="distDesc">Two score histograms and a movable cutoff.</desc></svg><div class="overlap-note"><b>The hills overlap.</b> Move the cutoff and watch both rates change.</div></div><aside><label>1. Choose length</label><div class="controls" id="distLengths"></div><label>2. Choose cutoff</label><div class="controls" id="cutoffButtons"></div><div class="rate-box baseline"><span>Baseline batches over line</span><strong id="distFalse">0%</strong></div><div class="rate-box nudged"><span>Nudged batches over line</span><strong id="distCaught">0%</strong></div><p id="distLesson"></p></aside></div></figure>
+<figure class="opening-viz" id="coin-distribution"><figcaption><span class="figure-kicker">Two distributions</span><b>2,000 batches from each coin.</b></figcaption><div class="dist-stacked"><svg id="distributionPlot" class="opening-plot" viewBox="0 0 820 430" role="img" aria-labelledby="distTitle distDesc"><title id="distTitle">Baseline and nudged score distributions</title><desc id="distDesc">Two score histograms and a movable cutoff.</desc></svg><div class="dist-controls-bar"><div class="dist-group"><label>Length</label><div class="controls" id="distLengths"></div></div><div class="dist-group"><label>Cutoff</label><div class="controls" id="cutoffButtons"></div></div><div class="dist-rates"><div class="rate-box baseline"><span>Baseline over line</span><strong id="distFalse">0%</strong></div><div class="rate-box nudged"><span>Nudged over line</span><strong id="distCaught">0%</strong></div></div></div><p class="overlap-note" id="distLesson"><b>The hills overlap.</b> Move the cutoff and watch both rates change.</p></div></figure>
 
 
 ## Coins are tokens
 
 
-<p>The coins established three results. A weak bias produces a measurable excess given enough flips. A z score normalizes that excess against baseline scatter. A fixed cutoff creates both missed detections and false alarms.</p>
-<p>Replace the coin with a language model. Each eligible token position is one flip. A token landing in the favored set counts as heads. The z score compares the favored-token count against the 25% baseline, exactly as it compared head counts.</p>
-<p>The analogy breaks in one place. Coin flips are independent. Token choices depend on their history, repeat, and pass through a tokenizer. The experiments that follow test where that dependence matters rather than assuming it away.</p>
+<p>Everything above was a coin. Below this line, the coin becomes a language model. The mapping is direct: each eligible token position is one flip, and a token landing in the favored set counts as heads. The z formula stays the same, the 25% null rate stays the same, and the cutoff trades the same false-alarm and miss rates.</p>
+<p>One thing changes. Coin flips are independent. Token choices depend on context, repeat across a sentence, and pass through a tokenizer that splits words unpredictably. The coin gave us the statistical scaffold. The experiments below test where real language breaks it.</p>
 
 <figure class="opening-viz" id="coin-to-token"><figcaption><span class="figure-kicker">Coin to token</span><b>Same count, different object.</b></figcaption><div class="object-map"><div class="object-card"><span>Coin version</span><b>One weighted flip</b><div class="coin-face">H</div><p>Heads is a hit. Tails is not.</p></div><div class="map-mark">becomes</div><div class="object-card"><span>Text version</span><b>One next-token choice</b><p class="prompt">The small boat was...</p><div class="token-row"><i class="favored">quiet</i><i>old</i><i class="favored">blue</i><i>ready</i></div><p>The key marks <code>quiet</code> and <code>blue</code> favored for this context.</p></div></div><div class="mapping-grid"><b>Coin</b><b>Text</b><span>One flip</span><span>One eligible token position</span><span>Heads</span><span>Chosen token is in the favored set</span><span>Count and score heads</span><span>Count and score favored tokens</span></div></figure>
 
@@ -80,25 +79,34 @@ judge:    compare the count with ordinary chance
 ## The first experiment, in code
 
 
-<p>The repository implementation is intentionally small. <code>src/watermark_lab/stats.py</code> owns the statistical operations. <code>labs/01_biased_coin.py</code> reads the frozen configuration, simulates both sources, scores every batch, writes the raw rows, summarizes them, and renders the selected figure.</p>
-<p>The scorer is six lines of work:</p>
-<pre><code class="language-python">def green_hit_z_score(*, hits: int, trials: int, null_probability: float) -&gt; float:
+The repository is small. `src/watermark_lab/stats.py` owns the statistics. `labs/01_biased_coin.py` reads the frozen configuration, simulates both sources, scores every batch, and writes raw rows.
+
+The scorer is six lines:
+
+```python
+def green_hit_z_score(*, hits: int, trials: int, null_probability: float) -> float:
     expected = trials * null_probability
     variance = trials * null_probability * (1.0 - null_probability)
     return (hits - expected) / math.sqrt(variance)
-</code></pre>
-<p>The simulator uses a local seeded random generator. It never touches module-global random state:</p>
-<pre><code class="language-python">def simulate_hit_counts(
+```
+
+The simulator uses a local seeded generator. It never touches module-global random state:
+
+```python
+def simulate_hit_counts(
     *, trials: int, hit_probability: float, replicates: int, seed: int
-) -&gt; tuple[int, ...]:
+) -> tuple[int, ...]:
     generator = random.Random(seed)
     return tuple(
-        sum(generator.random() &lt; hit_probability for _ in range(trials)) for _ in range(replicates)
+        sum(generator.random() < hit_probability for _ in range(trials)) for _ in range(replicates)
     )
-</code></pre>
-<p>The readable lab then runs every configured length under both conditions:</p>
-<pre><code class="language-python">for length in config.lengths:
-    for condition in (&quot;null&quot;, &quot;biased&quot;):
+```
+
+The lab runs every configured length under both conditions:
+
+```python
+for length in config.lengths:
+    for condition in ("null", "biased"):
         probability = _probability(config, condition)
         seed = derive_group_seed(
             base_seed=config.base_seed,
@@ -117,7 +125,8 @@ judge:    compare the count with ordinary chance
                 trials=length,
                 null_probability=config.null_hit_probability,
             )
-</code></pre>
+```
+
 <p>That loop produced 10,000 baseline batches and 10,000 nudged batches at each of five lengths.<sup class="ref"><a href="#fn-lab01" aria-label="Source 14">14</a></sup></p>
 <div class="table-wrap" role="region" aria-label="Data table" tabindex="0"><table>
 <thead>
