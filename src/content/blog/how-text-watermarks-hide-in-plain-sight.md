@@ -1,6 +1,6 @@
 ---
 title: "How does a text watermark work?"
-date: 2026-08-16
+date: 2026-08-18
 description: "A first-principles investigation of how generation-time text watermarking works, from a weighted coin to Gemma."
 tags:
   - ai-safety
