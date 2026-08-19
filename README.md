@@ -1,6 +1,6 @@
 # jayshah5696.github.io
 
-Personal blog, research lab, and portfolio built with [Astro 5](https://astro.build), [Tailwind CSS 4](https://tailwindcss.com), and a custom Indian-inspired design system (**"Vav"**) rooted in Kolam and Rangoli geometry.
+Personal blog, research lab, and portfolio built with [Astro 7](https://astro.build), [Tailwind CSS 4](https://tailwindcss.com), and a custom Indian-inspired design system (**"Vav"**) rooted in Kolam and Rangoli geometry.
 
 **Live Site:** [https://jayshah.dev](https://jayshah.dev)
 
@@ -51,14 +51,14 @@ just
 # Start development server (localhost:4321)
 just dev
 
-# Build production bundle + index search with Pagefind
+# Build with the current local dependencies
 just build
+
+# Reproduce the GitHub Pages build from a clean lockfile install
+just ci-build
 
 # Preview production build locally
 just preview
-
-# Clean build artifacts
-just clean
 ```
 
 *(You can also use standard `npm run dev`, `npm run build`, and `npm run preview`.)*
@@ -185,7 +185,7 @@ The visual identity fuses two traditional Indian art forms:
 
 ## Tech Stack
 
-- **Astro 5** — static site generator with zero-JS baseline
+- **Astro 7** — static site generator with zero-JS baseline
 - **Tailwind CSS 4** — modern CSS engine with custom Vav design tokens
 - **Pagefind** — fast static full-text search indexed at build time
 - **Shiki** — syntax highlighting with code block copy buttons
@@ -199,4 +199,12 @@ The visual identity fuses two traditional Indian art forms:
 
 This site is deployed to **GitHub Pages** with custom domain [`jayshah.dev`](https://jayshah.dev).
 
-Deployment is fully automated via GitHub Actions (`.github/workflows/deploy.yml`). Any push to `master` triggers a build and deployment.
+Deployment is automated by `.github/workflows/deploy.yml`. Any push to `master` triggers a build and deployment.
+
+Before merging dependency, Astro configuration, integration, or build-pipeline changes, run:
+
+```bash
+just ci-build
+```
+
+This command matches the workflow's build steps: `npm ci --legacy-peer-deps` followed by `npm run build`. Unlike `just build`, it replaces local dependencies with the versions in `package-lock.json`, so it catches missing direct dependencies and lockfile drift that a warm `node_modules` directory can hide.

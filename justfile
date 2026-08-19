@@ -12,6 +12,11 @@ dev:
 build:
   npm run build
 
+# Reproduce the GitHub Pages build with a clean lockfile install
+ci-build:
+  npm ci --legacy-peer-deps
+  npm run build
+
 # Preview production build locally
 preview:
   npm run preview
