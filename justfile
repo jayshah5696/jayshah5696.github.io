@@ -28,6 +28,11 @@ publish-interactive source_html slug tags="ai-safety,llm,watermarking,gen-ai,res
 verify-post slug:
   node scripts/verify-post.js "{{slug}}"
 
+# Measure the watermark post's runtime DOM and background work
+# Usage: just measure-watermark-performance [url] [label]
+measure-watermark-performance url="http://127.0.0.1:4321/posts/how-text-watermarks-hide-in-plain-sight/" label="measurement":
+  node scripts/measure-post-performance.js --url "{{url}}" --label "{{label}}" --browsers chromium,webkit
+
 # Add a reading list entry
 add-read:
   npm run add-read
