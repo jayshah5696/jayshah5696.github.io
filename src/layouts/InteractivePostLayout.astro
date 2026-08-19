@@ -244,12 +244,13 @@ const showToc = filteredHeadings.length > 2;
   <script is:inline>
     (function() {
       var cleanup = null;
+      var initializedPage = null;
 
       function initInteractivePostLayout() {
-        if (cleanup) {
-          cleanup();
-          cleanup = null;
-        }
+        var page = document.querySelector('.vav-interactive-root');
+        if (!page || page === initializedPage) return;
+        if (cleanup) cleanup();
+        initializedPage = page;
 
         // Reading progress bar
         var bar = document.getElementById('reading-progress-bar');
@@ -393,15 +394,16 @@ const showToc = filteredHeadings.length > 2;
             window.removeEventListener('scroll', scrollHandler);
             window.removeEventListener('resize', scrollHandler);
           }
+          initializedPage = null;
+          cleanup = null;
         };
       }
 
       document.addEventListener('astro:page-load', initInteractivePostLayout);
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', initInteractivePostLayout);
-      } else {
-        initInteractivePostLayout();
-      }
+      document.addEventListener('astro:before-swap', function() {
+        if (cleanup) cleanup();
+      });
+      initInteractivePostLayout();
     })();
   </script>
 </BaseLayout>

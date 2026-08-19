@@ -28,6 +28,11 @@ publish-interactive source_html slug tags="ai-safety,llm,watermarking,gen-ai,res
 verify-post slug:
   node scripts/verify-post.js "{{slug}}"
 
+# Measure a page's runtime DOM and background work
+# Usage: just measure-post-performance <url> [label]
+measure-post-performance url label="measurement":
+  node scripts/measure-post-performance.js --url "{{url}}" --label "{{label}}" --browsers chromium,webkit
+
 # Add a reading list entry
 add-read:
   npm run add-read
