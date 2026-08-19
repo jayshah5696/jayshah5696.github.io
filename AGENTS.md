@@ -6,7 +6,7 @@ You are an expert frontend engineer and Astro developer. You have exceptional de
 ## Preferences
 
 - **Skill Requirement:** ALWAYS load the `frontend-design` skill using the skill tool before making any UI/UX or styling changes. This ensures high-quality, distinctive aesthetic outputs.
-- Use Astro 5 with Content Collections (`src/content.config.ts`)
+- Use Astro 7 with Content Collections (`src/content.config.ts`)
 - Use Tailwind CSS 4 for styling
 - Use `npm` and `just` for package and task management
 - Always use `import type` for TypeScript interfaces
@@ -37,7 +37,8 @@ Interactive, simulation-heavy, or dashboard-based blog posts are first-class cit
 ## Commands
 - `just` / `just --list` — List all automation commands
 - `just dev` — Dev server
-- `just build` — Production build + Pagefind indexing
+- `just build` — Production build + Pagefind indexing with current local dependencies
+- `just ci-build` — Clean lockfile install + production build, matching GitHub Pages CI
 - `just publish-interactive <html-path> <slug>` — Transform & publish interactive HTML blog
 - `just verify-post <slug>` — Run visual verification and capture light/dark screenshots
 
@@ -70,6 +71,8 @@ Interactive, simulation-heavy, or dashboard-based blog posts are first-class cit
 - Before modifying CSS, verify the impact using local preview (`npm run dev`).
 - Ensure dark mode toggle works correctly when adding new UI components.
 - Run `npm run build` to verify both Astro build and Pagefind indexing succeed.
+- Run `just ci-build` before merging dependency, Astro configuration, integration, or build-pipeline changes. It runs the same clean install and build commands as GitHub Pages CI. Pull requests also run this build job without deploying.
+- Declare packages used by Astro configuration directly in `package.json`. Do not rely on transitive packages or a warm local `node_modules` directory.
 
 ## Key Learnings
 
@@ -84,3 +87,4 @@ Interactive, simulation-heavy, or dashboard-based blog posts are first-class cit
 | 2026-02-28 | Agent | Tag color logic duplicated in TagList and RightSidebar | Centralize in `src/utils/tags.ts`, import in both components |
 | 2026-02-28 | Agent | SVG decorative frame clipped at edges on about page | Use CSS borders (`border-dashed`, `rounded-full`) instead of SVGs with tight viewBox |
 | 2026-08-17 | Agent | Interactive post showed "0 min read" | Put full article text in `post.body` within content collection so `reading-time` calculates actual duration (~48 min) |
+| 2026-08-18 | Agent | Local build passed but GitHub Pages failed because Astro's Markdown processor existed only transitively | Add `@astrojs/markdown-remark` as a direct dependency and run `just ci-build` for build-system changes |
