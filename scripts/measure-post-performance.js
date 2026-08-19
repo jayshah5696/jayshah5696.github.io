@@ -8,13 +8,18 @@ const valueFor = (flag, fallback) => {
   return index === -1 ? fallback : args[index + 1];
 };
 
-const url = valueFor('--url', 'http://127.0.0.1:4321/posts/how-text-watermarks-hide-in-plain-sight/');
+const url = valueFor('--url', '');
 const label = valueFor('--label', 'measurement');
 const output = valueFor('--output', '');
 const waitMs = Number(valueFor('--wait', '5000'));
 const requestedBrowsers = valueFor('--browsers', 'chromium').split(',');
 const browserTypes = { chromium, webkit };
 const results = [];
+
+if (!url) {
+  console.error('Usage: node scripts/measure-post-performance.js --url <page-url> [--label <name>]');
+  process.exit(1);
+}
 
 for (const browserName of requestedBrowsers) {
   const browserType = browserTypes[browserName];
