@@ -1,7 +1,7 @@
 ---
-title: "How does a text watermark work?"
+title: "How text watermarks hide in plain sight"
 date: 2026-08-18
-description: "A first-principles investigation of how generation-time text watermarking works, from a weighted coin to Gemma."
+description: "A first-principles investigation of how generation-time text watermarks work, from a weighted coin to Gemma, and where the evidence stops."
 tags:
   - ai-safety
   - llm
@@ -19,8 +19,8 @@ interactive: true
 <p><strong>What weakens the signal:</strong> In the KGW-style system tested here, edits change the token history used to reconstruct each keyed group. All 12 paraphrases that passed the declared automatic screens scored lower, and none crossed the configured cutoff. An assistant review rated ten pass and two uncertain. These results do not establish the removal rate for Claude's private SynthID-Text configuration.</p>
 </aside>
 
-<p>Plain text leaves nowhere obvious to hide a watermark.</p>
-<p>An image has millions of pixel values that can shift without changing what a person sees. Video repeats that grid across thousands of frames. Text has no comparable slack. Every character is visible, and copy-paste discards file metadata.</p>
+<p>Plain text leaves nowhere obvious to hide a watermark. That is what makes the problem interesting.</p>
+<p>An image has millions of pixel values that can shift without changing what a person sees. Video repeats that grid across thousands of frames. Text has no comparable slack. Every character is visible, and copy-paste discards file metadata. If a mark is going to survive, it has to live in the model's choices rather than in an invisible layer around the text.</p>
 <p>I started pulling on that question after Anthropic announced that future Claude models would watermark their text output.<sup class="ref"><a href="#fn-anthropic-support" aria-label="Source 1">1</a></sup> Three days later, the company said Claude uses "a version of the SynthID-Text approach" that changes randomness among acceptable next-word choices.<sup class="ref"><a href="#fn-anthropic-news" aria-label="Source 2">2</a></sup> Anthropic plans to provide a detection API, but it has not published the algorithm, keying scheme, threshold, or production evaluation data.</p>
 <p>The timing matters. Article 50 of the EU AI Act requires providers of systems that generate synthetic text to make their output machine-readable and detectable where technically feasible, starting August 2, 2026.<sup class="ref"><a href="#fn-article50" aria-label="Source 3">3</a></sup> Anthropic signed the corresponding Code of Practice on transparency.</p>
 <p>Theo Browne framed the same constraint in his video about Claude's announcement: images and video carry massive numerical redundancy, while text operates under discrete constraints.<sup class="ref"><a href="#fn-theo" aria-label="Source 4">4</a></sup> Dr. Mike Pound's Computerphile explanation led me to the green-list method introduced by Kirchenbauer and colleagues. A secret key partitions the vocabulary into favored and unfavored groups at each generation step.<sup class="ref"><a href="#fn-computerphile" aria-label="Source 5">5</a></sup><sup class="ref"><a href="#fn-kgw" aria-label="Source 10">10</a></sup></p>
@@ -35,7 +35,7 @@ interactive: true
 <p>I worked outward from the smallest test I could inspect. The weighted coins supplied the statistics, and a 20-word vocabulary exposed the keyed partition. I then moved the same idea into a local language model, reproduced it with Gemma under paired controls, calibrated the checker on natural-web text, and measured what editing removed.</p>
 
 
-## The statistical engine
+## Start with the statistical engine
 
 ### Start with two weighted coins
 
@@ -63,7 +63,7 @@ interactive: true
 ### More flips, clearer signal
 
 
-<p>Coin flips are independent. Real text tokens are conditional on their predecessors, so the coin's variance calculation no longer has a guaranteed fit. Context, repeated tokens, and tokenizer behavior can inflate or suppress the green count.</p>
+<p>The coin experiment gives us the intuition, but it also marks the boundary of the analogy. Coin flips are independent. Real text tokens are conditional on their predecessors, so the same variance calculation no longer has a guaranteed fit. Context, repeated tokens, and tokenizer behavior can inflate or suppress the green count.</p>
 <p>The nudged source accumulates an expected excess of 0.15 &times; <var>T</var> heads. Baseline random fluctuations grow as &radic;<span class="sqrt-content"><var>T</var> &times; 0.25 &times; 0.75</span>. The watermark signal grows linearly with length (<i>O</i>(<var>T</var>)), while random noise grows only with the square root of length (<i>O</i>(&radic;<var>T</var>)).</p>
 <p>At 40 flips, the expected excess is 6 heads and baseline noise is 2.74 (<var>z</var> = 2.19). At 400 flips, the expected excess reaches 60 heads while baseline noise reaches only 8.66 (<var>z</var> = 6.93). The length control holds both probabilities fixed while increasing <var>T</var>, making the signal separate from baseline variation.</p>
 
@@ -73,7 +73,7 @@ interactive: true
 <figure class="opening-viz" id="coin-distribution"><div class="dist-stacked"><svg id="distributionPlot" class="opening-plot" viewBox="0 0 820 430" role="img" aria-labelledby="distTitle distDesc"><title id="distTitle">Baseline and nudged score distributions</title><desc id="distDesc">Two score histograms and a movable cutoff.</desc></svg><div class="dist-controls-bar"><div class="dist-group"><label>Length</label><div class="controls" id="distLengths"></div></div><div class="dist-group"><label>Cutoff</label><div class="controls" id="cutoffButtons"></div></div><div class="dist-rates"><div class="rate-box baseline"><span>Baseline over line</span><strong id="distFalse">0%</strong></div><div class="rate-box nudged"><span>Nudged over line</span><strong id="distCaught">0%</strong></div></div></div><p class="overlap-note" id="distLesson"><b>The hills overlap.</b> Move the cutoff and watch both rates change.</p></div></figure>
 
 
-## From coins to code
+## The same idea in code
 
 ### Coins are tokens
 
@@ -196,7 +196,7 @@ for length in config.lengths:
 <p>The key printed here is for teaching. Anyone can read it and study how to remove the pattern. A production service would keep the generation key out of prompts, browser code, and public logs.</p>
 
 
-## Real model evidence
+## What happens in a real model
 
 ### One real model step
 
@@ -330,12 +330,12 @@ model.generate(
 <p>Prompt content and length changed together, so the ladder doesn't isolate length as the cause. The committed evidence uses a public key so anyone can verify it. A private service would keep key material inside the host process and expose a version identifier, not the key itself.</p>
 
 
-## Evaluation
+## Test the detector before trusting it
 
 ### Score outside text before trusting the cutoff
 
 
-<p>A crossing means nothing until the same checker runs on text that did not receive this experiment's watermark.</p>
+<p>A detector score is only useful if we know how often ordinary text produces the same score. Before treating a crossing as evidence, I ran the same checker on text that did not receive this experiment's watermark.</p>
 <p>I scanned the pinned C4 <code>realnewslike</code> validation shard in file order. A passage needed at least 500 Gemma tokens, at least 65% Unicode letters among non-whitespace characters, and no duplicate text, code dump, or obvious list structure. The selector scanned 2,479 rows, rejected 1,451 as too short and four as obvious lists, froze the first 1,000 passing rows for calibration, and reserved the next 24 for paired generation. Detector scores played no role in that split.</p>
 <p>C4 is natural-web text scraped from Common Crawl. The corpus contains no verification that any passage was written by a human.</p>
 <p>With the public Gemma key and all-pair counting, the 1,000 scores had a median of <code>0.029</code>, a 99th percentile of <code>2.457</code>, and a maximum of <code>3.729</code>. Four rows crossed strict <code>z &gt; 3</code>. A thousand rows can't validate one-in-100,000 behavior, but four crossings in a declared negative set are enough to distrust the cutoff in isolation.</p>
@@ -438,13 +438,14 @@ model.generate(
 
 <p>These scores come from unedited text. Editing rewrites the checker's history.</p>
 
-## Fragility: how edits dissolve the signal
+## What editing does to the signal
 
 ### Edits rebuild the checker history
 
 
 <p>Rank <code>1000</code> scored <code>28/79</code>, z <code>2.144</code>, at its first 80 copied token IDs. A deterministic 10% word deletion scored <code>25/79</code>, z <code>1.364</code>. A Gemma paraphrase scored <code>26/79</code>, z <code>1.624</code>.</p>
-<p>An edit doesn't peel a label off the text. It changes the string. Tokenization creates a different ordered history, so the checker rebuilds different keyed groups at every later position.</p>
+<p>An edit does not peel a label off the text. It changes the string itself, which changes the history the checker uses to reconstruct the mark.</p>
+<p>That distinction is easy to miss. The watermark is not a hidden label attached to a sentence. It is a pattern in the sequence of token choices, and editing changes that sequence. Tokenization creates a different ordered history, so the checker rebuilds different keyed groups at every later position.</p>
 <p>I carried the first 12 marked outputs through eight conditions:</p>
 <div class="table-wrap" role="region" aria-label="Data table" tabindex="0"><table>
 <thead>
@@ -559,7 +560,7 @@ model.generate(
 
 <p>The delta sweep tested KGW-style green lists only, and Claude's production watermark belongs to a different family.</p>
 
-## Claude, other detectors, and Article 50
+## Claude, other detectors, and the law
 
 ### Claude uses a SynthID-Text variant
 
@@ -642,19 +643,15 @@ The evidence in this article supports one narrow statement:
 <p>Consistent with this configured watermark and key.</p>
 </blockquote>
 
-## What survived the experiment
+## What the experiment actually shows
 
-<p>At 80 copied tokens, all 24 Gemma pairs completed generation. The marked outputs scored higher on average than the paired model controls, natural-web continuations, and comparison-key replays. The 95% paired bootstrap interval for each of those three contrasts excluded zero. Individual rows were less tidy: rank <code>1001</code> matched its control exactly, and at least one difference pointed against the cohort mean.</p>
-
-<p>The fixed <var>z</var> &gt; 3 cutoff also produced crossings in the declared negative set. Four of 1,000 C4 passages crossed when the checker counted every adjacent-pair occurrence. One crossed when it counted each pair value once. A score cannot be interpreted apart from its background corpus and repetition policy.</p>
-
-<p>Editing weakened the mark to different degrees. Normalization left the mean score unchanged, while deletion, mixing, homoglyph substitution, and paraphrasing reduced it. All 12 paraphrases passed the automatic screens and scored lower than their source passages. The non-independent assistant review rated ten pass and two uncertain, so only those ten support the meaning-preserving comparison. Across all 12 paraphrases, the mean score change was <var>&Delta;z</var> = -1.7105, and none crossed the cutoff.</p>
-
-<p>Raising <var>&delta;</var> increased the cohort's mean detection score, conditional NLL, and repeated-pair fraction. Two of eight prompt paths still scored lower at <var>&delta;</var> = 3 than at <var>&delta;</var> = 2. The sweep measured model-based proxies, not human judgments of fluency, factuality, or preference.</p>
-
-<p>I would not use these measurements to estimate production false-alarm rates, evaluate Claude's private watermark, or judge authorship. They support a narrower conclusion: with enough matching text and the correct profile, a detector can recover evidence of the token-selection bias used in this experiment. Short outputs and rewritten token histories make that evidence weaker.</p>
-
-<p>The code, frozen traces, generation scripts, and verification artifacts are available in the <a href="https://github.com/jayshah5696/text-watermarking-lab">text-watermarking-lab repository</a>.<sup class="ref"><a href="#fn-github-repo" aria-label="Source 14">14</a></sup></p>
+<p>The experiment supports a narrower claim than the word "watermark" often suggests. With enough matching text and the correct profile, a detector can recover evidence of the token-selection bias used in this KGW-style experiment. That evidence gets weaker when the passage is short or when an edit changes the token history.</p>
+<p>At 80 copied tokens, all 24 Gemma pairs completed generation. The marked outputs scored higher on average than the paired model controls, natural-web continuations, and comparison-key replays. The 95% paired bootstrap interval for each contrast excluded zero. The rows were not perfectly tidy: rank<code>1001</code> matched its control exactly, and at least one difference pointed against the cohort mean.</p>
+<p>The cutoff was less trustworthy than a single score might imply. Four of 1,000 C4 passages crossed <code>z &gt; 3</code> when the checker counted every adjacent-pair occurrence. One crossed when it counted each pair value once. The background corpus and the repetition policy are part of the detector. They cannot be treated as implementation details.</p>
+<p>Editing weakened the mark by different amounts. Normalization left the mean score unchanged, while deletion, mixing, homoglyph substitution, and paraphrasing reduced it. All 12 paraphrases passed the declared automatic screens and scored lower than their source passages. The assistant review rated ten pass and two uncertain, so the meaning-preservation result is limited to that review and its stated uncertainty.</p>
+<p>Raising <code>δ</code> increased the cohort's mean detection score, conditional NLL, and repeated-pair fraction. Two of eight prompt paths still scored lower at <code>δ = 3</code> than at <code>δ = 2</code>. These are model-based proxies, not human judgments of fluency, factuality, or preference.</p>
+<p>I would not use these measurements to estimate production false-alarm rates, evaluate Claude's private watermark, or judge authorship. The honest conclusion is smaller: this kind of detector can recover a statistical trace under controlled conditions. It cannot, by itself, tell us who wrote a passage, why they wrote it, or whether a policy was broken.</p>
+<p>The code, frozen traces, generation scripts, and verification artifacts are available in the text-watermarking-lab repository.<sup class="ref"><a href="#fn-lab" aria-label="Source 14">14</a></sup></p>
 
 ## Sources and evidence
 
