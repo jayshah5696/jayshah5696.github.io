@@ -199,7 +199,7 @@ The visual identity fuses two traditional Indian art forms:
 
 This site is deployed to **GitHub Pages** with custom domain [`jayshah.dev`](https://jayshah.dev).
 
-Deployment is automated by `.github/workflows/deploy.yml`. Any push to `master` triggers a build and deployment.
+Deployment is automated by `.github/workflows/deploy.yml`. Pull requests to `master` run the clean build job without deploying. Pushes to `master` run the same build and then deploy it.
 
 Before merging dependency, Astro configuration, integration, or build-pipeline changes, run:
 
