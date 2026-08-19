@@ -1,5 +1,5 @@
 ---
-title: "How text watermarks hide in plain sight"
+title: "How does a text watermark work?"
 date: 2026-08-18
 description: "A first-principles investigation of how generation-time text watermarks work, from a weighted coin to Gemma, and where the evidence stops."
 tags:
