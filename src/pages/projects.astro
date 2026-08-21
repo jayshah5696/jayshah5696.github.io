@@ -14,7 +14,7 @@ import { projects } from '../data/projects';
         rel="noopener noreferrer"
         class="group block p-5 rounded-xl border border-cream-200 dark:border-night-700
           bg-white dark:bg-night-800 hover:border-terra dark:hover:border-terra-light
-          hover:shadow-md transition-all duration-200"
+          transition-colors duration-200"
       >
         <h3 class="font-display text-base text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors text-balance">
           {project.title}
@@ -24,9 +24,9 @@ import { projects } from '../data/projects';
         </p>
         <div class="flex flex-wrap gap-1.5 mt-3">
           {project.tags.map((tag) => (
-            <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full
+            <span class="text-[10px] px-2 py-0.5 rounded-full
               bg-cream-100 dark:bg-night-900 text-ink-muted dark:text-silk-faint"
-              style="letter-spacing: 0.06em;"
+             
             >
               {tag}
             </span>

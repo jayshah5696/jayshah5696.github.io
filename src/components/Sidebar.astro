@@ -11,17 +11,13 @@ const currentPath = Astro.url.pathname;
 <aside class="hidden lg:flex flex-col fixed top-0 bottom-0 w-[260px] z-30 overflow-y-auto
   bg-cream-50 dark:bg-night-900 border-r border-cream-200 dark:border-night-700 app-sidebar">
 
-  <!-- Kolam dot grid background -->
-  <div class="absolute inset-0 kolam-dots pointer-events-none" aria-hidden="true"></div>
+  <!-- Faint kolam dot field behind the profile -->
+  <div class="absolute inset-x-0 top-0 h-44 kolam-dot-grid pointer-events-none" aria-hidden="true"></div>
 
-  <!-- Kolam hero pattern -->
-  <div class="kolam-hero shrink-0" aria-hidden="true"></div>
-
-  <div class="relative flex flex-col flex-1 px-5 py-5">
-    <!-- Profile overlapping hero -->
-    <a href="/" class="group flex flex-col items-center text-center -mt-14 mb-3">
+  <div class="relative flex flex-col flex-1 px-5 py-6">
+    <!-- Profile -->
+    <a href="/" class="group flex flex-col items-center text-center mb-4">
       <div class="relative mb-3">
-        <div class="absolute -inset-2 rounded-full border-2 border-dashed border-gold/40 dark:border-gold-light/30"></div>
         <Image
           src={profileImage}
           alt={SITE_TITLE}
@@ -29,15 +25,12 @@ const currentPath = Astro.url.pathname;
           height={80}
           densities={[1.5, 2, 3]}
           quality={95}
-          class="relative rounded-full size-20 object-cover group-hover:scale-105 transition-transform duration-300 ring-2 ring-white dark:ring-night-800 shadow-lg"
+          class="relative rounded-full size-20 object-cover group-hover:scale-105 transition-transform duration-300 ring-1 ring-black/10 dark:ring-white/15"
         />
       </div>
       <h1 class="font-display text-xl text-ink dark:text-silk">{SITE_TITLE}</h1>
-      <p class="text-xs text-ink-muted dark:text-silk-muted italic mt-0.5">{SITE_TAGLINE}</p>
+      <p class="text-xs text-ink-muted dark:text-silk-muted mt-0.5">{SITE_TAGLINE}</p>
     </a>
-
-    <!-- Kolam divider -->
-    <div class="kolam-border my-3"></div>
 
     <!-- Search -->
     <div class="mb-2">

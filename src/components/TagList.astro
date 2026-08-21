@@ -21,7 +21,7 @@ const remainingCount = max && tags.length > max ? tags.length - max : 0;
       const pillClass = variant === 'pills' 
         ? getTagPillClasses(tag)
         : variant === 'inline'
-        ? `${getTagColorClass(tag)} text-xs font-mono inline-flex items-center gap-1`
+        ? `${getTagColorClass(tag)} text-xs inline-flex items-center gap-1`
         : getTagMicroPillClasses(tag);
 
       return (

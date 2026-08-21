@@ -133,7 +133,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
         <div id="filters-drawer" class="hidden pt-3 pb-1 px-1 border-t border-dashed border-cream-200 dark:border-night-700 mt-2 space-y-2">
           <!-- Year Selector -->
           <div class="flex items-center gap-2 flex-wrap text-xs">
-            <span class="font-mono text-[10px] text-ink-muted dark:text-silk-muted uppercase tracking-wider min-w-[44px]">Year:</span>
+            <span class="font-mono text-[10px] text-ink-muted dark:text-silk-muted tracking-wider min-w-[44px]">Year:</span>
             <button type="button" class="year-pill px-2.5 py-0.5 rounded-full border border-terra bg-terra text-white font-mono text-[11px] cursor-pointer" data-year-val="all">All</button>
             {years.map((yr) => (
               <button type="button" class="year-pill px-2.5 py-0.5 rounded-full border border-cream-200 dark:border-night-700 bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra font-mono text-[11px] cursor-pointer transition-colors" data-year-val={yr}>
@@ -144,7 +144,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
 
           <!-- Month Selector -->
           <div class="flex items-center gap-2 flex-wrap text-xs">
-            <span class="font-mono text-[10px] text-ink-muted dark:text-silk-muted uppercase tracking-wider min-w-[44px]">Month:</span>
+            <span class="font-mono text-[10px] text-ink-muted dark:text-silk-muted tracking-wider min-w-[44px]">Month:</span>
             <button type="button" class="month-pill px-2.5 py-0.5 rounded-full border border-terra bg-terra text-white font-mono text-[11px] cursor-pointer" data-month-val="all">All</button>
             {monthFilters.map((m) => (
               <button type="button" class="month-pill px-2.5 py-0.5 rounded-full border border-cream-200 dark:border-night-700 bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra font-mono text-[11px] cursor-pointer transition-colors" data-month-val={m.num}>
