@@ -11,14 +11,14 @@ const posts = (await getCollection('blog'))
 <BaseLayout title="Not Found">
   <div class="text-center py-16">
     <p class="font-display text-7xl text-cream-300 dark:text-night-800 mb-2">404</p>
-    <p class="font-mono text-xs uppercase text-ink-muted dark:text-silk-faint mb-8" style="letter-spacing: 0.2em;">
+    <p class="font-mono text-xs text-ink-muted dark:text-silk-faint mb-8">
       Page not found
     </p>
     <div class="kolam-border mb-8"></div>
 
     {posts.length > 0 && (
       <div class="text-left max-w-md mx-auto mb-10">
-        <h2 class="font-mono text-[10px] uppercase text-ink-faint dark:text-silk-faint mb-4" style="letter-spacing: 0.15em;">Recent posts</h2>
+        <h2 class="font-sans text-xs text-ink-faint dark:text-silk-faint mb-4">Recent posts</h2>
         <ul class="space-y-3">
           {posts.map((post) => (
             <li>

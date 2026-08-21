@@ -10,16 +10,9 @@ import profileImage from '../../public/assets/images/profile.webp';
   <article class="prose prose-kolam dark:prose-invert prose-lg max-w-none">
     <header class="not-prose mb-12">
       <div class="flex items-start gap-6 mb-6">
-        <!-- Profile photo with kolam frame -->
+        <!-- Profile photo -->
         <div class="relative shrink-0">
-          <div class="absolute -inset-3 rounded-full border-2 border-dashed border-gold/40 dark:border-gold-light/30"></div>
-          <div class="absolute -inset-5 rounded-full border border-terra/15 dark:border-terra-light/15"></div>
-          <!-- Cardinal accent dots -->
-          <div class="absolute -top-5 left-1/2 -translate-x-1/2 size-1.5 rounded-full bg-terra/30 dark:bg-terra-light/30"></div>
-          <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 size-1.5 rounded-full bg-terra/30 dark:bg-terra-light/30"></div>
-          <div class="absolute top-1/2 -left-5 -translate-y-1/2 size-1.5 rounded-full bg-terra/30 dark:bg-terra-light/30"></div>
-          <div class="absolute top-1/2 -right-5 -translate-y-1/2 size-1.5 rounded-full bg-terra/30 dark:bg-terra-light/30"></div>
-          <div class="rounded-full size-[88px] overflow-hidden ring-2 ring-white dark:ring-night-800 shadow-lg">
+          <div class="rounded-full size-[88px] overflow-hidden ring-1 ring-black/10 dark:ring-white/15">
             <Image
               src={profileImage}
               alt="Jay Shah"
@@ -33,7 +26,7 @@ import profileImage from '../../public/assets/images/profile.webp';
         </div>
         <div class="pt-2">
           <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">Jay Shah</h1>
-          <p class="font-mono text-[10px] uppercase text-ink-muted dark:text-silk-muted mt-4" style="letter-spacing: 0.12em;">
+          <p class="font-sans text-xs text-ink-muted dark:text-silk-muted mt-4">
             Senior Data Scientist &bull; 6sense &bull; AI Applications &amp; Foundational Models
           </p>
         </div>

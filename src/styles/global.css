@@ -1,4 +1,3 @@
-@import '@fontsource/yeseva-one' layer(base);
 @import '@fontsource-variable/outfit' layer(base);
 @import '@fontsource/fira-code' layer(base);
 
@@ -24,334 +23,105 @@
   }
 }
 
-@utility kolam-border {
-  /* ═══════════════════════════════════════
-     KOLAM BORDER — figure-8 petal chain
-     Continuous infinity loops: terra upper petals,
-     gold lower petals, diamond knots at crossings
-     ═══════════════════════════════════════ */
-  height: 24px;
-  background-image: url("data:image/svg+xml,%3Csvg width='64' height='24' viewBox='0 0 64 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 12 Q8 0, 16 0 Q24 0, 32 12' fill='none' stroke='%23c4623a' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M0 12 Q8 24, 16 24 Q24 24, 32 12' fill='none' stroke='%23d4a843' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M32 12 Q40 0, 48 0 Q56 0, 64 12' fill='none' stroke='%23c4623a' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M32 12 Q40 24, 48 24 Q56 24, 64 12' fill='none' stroke='%23d4a843' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M-1 12 L2 9 L5 12 L2 15 Z' fill='%23c4623a' fill-opacity='0.15' stroke='%23c4623a' stroke-width='0.6' opacity='0.35'/%3E%3Cpath d='M29 12 L32 9 L35 12 L32 15 Z' fill='%23c4623a' fill-opacity='0.12' stroke='%23c4623a' stroke-width='0.6' opacity='0.4'/%3E%3Ccircle cx='16' cy='0' r='1.5' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='16' cy='24' r='1.5' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='48' cy='0' r='1.5' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='48' cy='24' r='1.5' fill='%23d4a843' opacity='0.5'/%3E%3Ccircle cx='32' cy='12' r='1.5' fill='%23c4623a' opacity='0.3'/%3E%3C/svg%3E");
-  background-repeat: repeat-x;
-  background-position: center;
-  animation: kolamFlow 4s linear infinite;
-  .dark & {
-    background-image: url("data:image/svg+xml,%3Csvg width='64' height='24' viewBox='0 0 64 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 12 Q8 0, 16 0 Q24 0, 32 12' fill='none' stroke='%23e07a4f' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M0 12 Q8 24, 16 24 Q24 24, 32 12' fill='none' stroke='%23e8c462' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M32 12 Q40 0, 48 0 Q56 0, 64 12' fill='none' stroke='%23e07a4f' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M32 12 Q40 24, 48 24 Q56 24, 64 12' fill='none' stroke='%23e8c462' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M-1 12 L2 9 L5 12 L2 15 Z' fill='%23e07a4f' fill-opacity='0.15' stroke='%23e07a4f' stroke-width='0.6' opacity='0.35'/%3E%3Cpath d='M29 12 L32 9 L35 12 L32 15 Z' fill='%23e07a4f' fill-opacity='0.12' stroke='%23e07a4f' stroke-width='0.6' opacity='0.4'/%3E%3Ccircle cx='16' cy='0' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='16' cy='24' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='48' cy='0' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='48' cy='24' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='32' cy='12' r='1.5' fill='%23e07a4f' opacity='0.3'/%3E%3C/svg%3E");
-  }
-}
+/* ═══════════════════════════════════════════════
+   SCANDINAVIAN EXPERIMENT
+   Neutral black-and-white foundation, alpha ink rungs,
+   one brand accent (terra), no decorative patterns.
+   Legacy utility names kept so markup stays untouched.
+   ═══════════════════════════════════════════════ */
 
-@utility dark {
-  & .kolam-border {
-    background-image: url("data:image/svg+xml,%3Csvg width='64' height='24' viewBox='0 0 64 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 12 Q8 0, 16 0 Q24 0, 32 12' fill='none' stroke='%23e07a4f' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M0 12 Q8 24, 16 24 Q24 24, 32 12' fill='none' stroke='%23e8c462' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M32 12 Q40 0, 48 0 Q56 0, 64 12' fill='none' stroke='%23e07a4f' stroke-width='1' opacity='0.45'/%3E%3Cpath d='M32 12 Q40 24, 48 24 Q56 24, 64 12' fill='none' stroke='%23e8c462' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M-1 12 L2 9 L5 12 L2 15 Z' fill='%23e07a4f' fill-opacity='0.15' stroke='%23e07a4f' stroke-width='0.6' opacity='0.35'/%3E%3Cpath d='M29 12 L32 9 L35 12 L32 15 Z' fill='%23e07a4f' fill-opacity='0.12' stroke='%23e07a4f' stroke-width='0.6' opacity='0.4'/%3E%3Ccircle cx='16' cy='0' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='16' cy='24' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='48' cy='0' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='48' cy='24' r='1.5' fill='%23e8c462' opacity='0.5'/%3E%3Ccircle cx='32' cy='12' r='1.5' fill='%23e07a4f' opacity='0.3'/%3E%3C/svg%3E");
-  }
-  & .kolam-dots {
-    background-image:
-      radial-gradient(circle, #e07a4f 1.2px, transparent 1.2px),
-      linear-gradient(to right, rgba(224, 122, 79, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(224, 122, 79, 0.04) 1px, transparent 1px);
-    background-size: 24px 24px;
-    opacity: 0.2;
-  }
-  & .rangoli-corners::before {
-    background-image: url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2 Q2 28, 28 28' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.25'/%3E%3Cpath d='M2 2 Q2 20, 20 20' fill='none' stroke='%23e8c462' stroke-width='0.8' opacity='0.3'/%3E%3Cpath d='M2 2 Q2 12, 12 12' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.35'/%3E%3Cpath d='M3 3 L22 22' fill='none' stroke='%23e07a4f' stroke-width='0.6' opacity='0.15'/%3E%3Cpath d='M6 2 Q10 6, 6 10' fill='none' stroke='%23e8c462' stroke-width='0.7' opacity='0.3'/%3E%3Cpath d='M2 6 Q6 10, 10 6' fill='none' stroke='%23e07a4f' stroke-width='0.7' opacity='0.25'/%3E%3Ccircle cx='3' cy='3' r='2.5' fill='%23e07a4f' opacity='0.35'/%3E%3Ccircle cx='10' cy='10' r='1.5' fill='%23e8c462' opacity='0.35'/%3E%3Ccircle cx='18' cy='18' r='1' fill='%23e07a4f' opacity='0.25'/%3E%3Ccircle cx='6' cy='2' r='1' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='2' cy='6' r='1' fill='%23e8c462' opacity='0.25'/%3E%3C/svg%3E");
-  }
-  & .rangoli-corners::after {
-    background-image: url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2 Q2 28, 28 28' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.25'/%3E%3Cpath d='M2 2 Q2 20, 20 20' fill='none' stroke='%23e8c462' stroke-width='0.8' opacity='0.3'/%3E%3Cpath d='M2 2 Q2 12, 12 12' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.35'/%3E%3Cpath d='M3 3 L22 22' fill='none' stroke='%23e07a4f' stroke-width='0.6' opacity='0.15'/%3E%3Cpath d='M6 2 Q10 6, 6 10' fill='none' stroke='%23e8c462' stroke-width='0.7' opacity='0.3'/%3E%3Cpath d='M2 6 Q6 10, 10 6' fill='none' stroke='%23e07a4f' stroke-width='0.7' opacity='0.25'/%3E%3Ccircle cx='3' cy='3' r='2.5' fill='%23e07a4f' opacity='0.35'/%3E%3Ccircle cx='10' cy='10' r='1.5' fill='%23e8c462' opacity='0.35'/%3E%3Ccircle cx='18' cy='18' r='1' fill='%23e07a4f' opacity='0.25'/%3E%3Ccircle cx='6' cy='2' r='1' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='2' cy='6' r='1' fill='%23e8c462' opacity='0.25'/%3E%3C/svg%3E");
-  }
-  & .kolam-hero {
-    background-color: rgba(224, 122, 79, 0.04);
-    background-image: url("data:image/svg+xml,%3Csvg width='180' height='120' viewBox='0 0 180 120' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='48' y='18' width='84' height='84' rx='2' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.12' transform='rotate(45 90 60)'/%3E%3Crect x='58' y='28' width='64' height='64' rx='2' fill='none' stroke='%23e8c462' stroke-width='1' opacity='0.15' transform='rotate(45 90 60)'/%3E%3Crect x='70' y='40' width='40' height='40' rx='2' fill='none' stroke='%23e07a4f' stroke-width='1.5' opacity='0.2' transform='rotate(45 90 60)'/%3E%3Ccircle cx='90' cy='6' r='3' fill='%23e07a4f' opacity='0.3'/%3E%3Ccircle cx='90' cy='114' r='3' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='30' cy='60' r='3' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='150' cy='60' r='3' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='90' cy='60' r='4' fill='%23e8c462' opacity='0.3'/%3E%3Ccircle cx='90' cy='60' r='8' fill='none' stroke='%23e8c462' stroke-width='0.6' opacity='0.15'/%3E%3Cpath d='M90 6 Q115 25, 150 60' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M150 60 Q115 95, 90 114' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M90 114 Q65 95, 30 60' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M30 60 Q65 25, 90 6' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M90 28 Q105 44, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 28 Q75 44, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 92 Q105 76, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 92 Q75 76, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M58 60 Q74 45, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M58 60 Q74 75, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M122 60 Q106 45, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M122 60 Q106 75, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Ccircle cx='58' cy='28' r='1.5' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='122' cy='28' r='1.5' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='58' cy='92' r='1.5' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='122' cy='92' r='1.5' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='90' cy='28' r='2' fill='%23e07a4f' opacity='0.25'/%3E%3Ccircle cx='90' cy='92' r='2' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='58' cy='60' r='2' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='122' cy='60' r='2' fill='%23e07a4f' opacity='0.2'/%3E%3C/svg%3E");
-    border-bottom-color: rgba(224, 122, 79, 0.1);
-  }
-  & .featured-card {
-    border-color: #2a2438;
-    background-color: #1e1928;
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='20' y='20' width='20' height='20' rx='1' fill='none' stroke='%23e07a4f' stroke-width='0.5' opacity='0.06' transform='rotate(45 30 30)'/%3E%3Ccircle cx='30' cy='30' r='1' fill='%23e8c462' opacity='0.08'/%3E%3C/svg%3E");
-  }
-  & .featured-card:hover {
-    border-color: #e07a4f;
-    box-shadow: 0 8px 32px rgba(224, 122, 79, 0.15);
-  }
-  & .post-card {
-    border-bottom-color: #1e1928;
-  }
-  & .carved-heading::after {
-    background: linear-gradient(to right, #e07a4f, #e8c462);
-  }
-  & .tag {
-    color: #a89e8e;
-  }
-  & .tag:hover {
-    color: #e07a4f;
-  }
-  & .tag-ai {
-    color: #e07a4f;
-  }
-  & .tag-ai:hover {
-    color: #f0a070;
-  }
-  & .tag-dev {
-    color: #2ec4b6;
-  }
-  & .tag-dev:hover {
-    color: #5dd8cc;
-  }
-  & .tag-ml {
-    color: #e8c462;
-  }
-  & .tag-ml:hover {
-    color: #f0d480;
-  }
-  & .tag-personal {
-    color: #e74c3c;
-  }
-  & .tag-personal:hover {
-    color: #f07060;
-  }
-  & .page-pattern {
-    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='1' fill='%23e07a4f' opacity='0.03'/%3E%3Ccircle cx='0' cy='0' r='1' fill='%23e8c462' opacity='0.02'/%3E%3Ccircle cx='100' cy='0' r='1' fill='%23e8c462' opacity='0.02'/%3E%3Ccircle cx='0' cy='100' r='1' fill='%23e8c462' opacity='0.02'/%3E%3Ccircle cx='100' cy='100' r='1' fill='%23e8c462' opacity='0.02'/%3E%3C/svg%3E");
-  }
-  & .mermaid .node rect {
-    fill: #1e1928 !important;
-    stroke: #e07a4f !important;
-  }
-  & .mermaid .node circle {
-    fill: #1e1928 !important;
-    stroke: #e07a4f !important;
-  }
-  & .mermaid .node ellipse {
-    fill: #1e1928 !important;
-    stroke: #e07a4f !important;
-  }
-  & .mermaid .node polygon {
-    fill: #1e1928 !important;
-    stroke: #e07a4f !important;
-  }
-  & .mermaid .node path {
-    fill: #1e1928 !important;
-    stroke: #e07a4f !important;
-  }
-  & .mermaid .node .label {
-    fill: #e8e0d4 !important;
-    color: #e8e0d4 !important;
-  }
-  & .mermaid .label text {
-    fill: #e8e0d4 !important;
-    color: #e8e0d4 !important;
-  }
-  & .mermaid span {
-    fill: #e8e0d4 !important;
-    color: #e8e0d4 !important;
-  }
-  & .mermaid .edgePath .path {
-    stroke: #e8c462 !important;
-  }
-  & .mermaid .arrowheadPath {
-    fill: #e8c462 !important;
-  }
-  & .mermaid .cluster rect {
-    fill: #15111e !important;
-    stroke: #2a2438 !important;
-  }
-  & .mermaid .cluster-label text {
-    fill: #a89e8e !important;
-    color: #a89e8e !important;
-  }
-  & .mermaid .cluster-label span {
-    fill: #a89e8e !important;
-    color: #a89e8e !important;
-  }
-  & .mermaid .edgeLabel {
-    color: #e07a4f !important;
-    fill: #e07a4f !important;
-  }
-  & .mermaid .edgeLabel * {
-    color: #e07a4f !important;
-    fill: #e07a4f !important;
-  }
-  & .mermaid .edgeLabel text {
-    color: #e07a4f !important;
-    fill: #e07a4f !important;
-  }
-  & .mermaid .edgeLabel span {
-    color: #e07a4f !important;
-    fill: #e07a4f !important;
-  }
-  & .mermaid .edgeLabel div {
-    color: #e07a4f !important;
-    fill: #e07a4f !important;
+@utility kolam-border {
+  /* Former kolam figure-8 chain — now a quiet hairline divider */
+  height: 1px;
+  background-color: rgb(0 0 0 / 10%);
+  .dark & {
+    background-color: rgb(255 255 255 / 12%);
   }
 }
 
 @utility kolam-dots {
-  /* ═══════════════════════════════════════
-     KOLAM DOT GRID — sidebar background
-     Larger, more visible dots + connecting lines
-     ═══════════════════════════════════════ */
-  background-image:
-    radial-gradient(circle, #c4623a 1.2px, transparent 1.2px),
-    linear-gradient(to right, rgba(196, 98, 58, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(196, 98, 58, 0.06) 1px, transparent 1px);
-  background-size: 24px 24px;
-  opacity: 0.25;
-  .dark & {
-    background-image:
-      radial-gradient(circle, #e07a4f 1.2px, transparent 1.2px),
-      linear-gradient(to right, rgba(224, 122, 79, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(224, 122, 79, 0.04) 1px, transparent 1px);
-    background-size: 24px 24px;
-    opacity: 0.2;
-  }
+  /* Former dot-grid background — removed */
+  display: none;
 }
 
 @utility rangoli-corners {
-  /* ═══════════════════════════════════════
-     RANGOLI CORNER — lotus petal motif
-     Multiple layered curves radiating from corner
-     with dot accents — like a quarter-rangoli bloom
-     ═══════════════════════════════════════ */
+  /* Former corner motifs — removed, container keeps its position context */
   position: relative;
-  &::before {
-    content: '';
-    position: absolute;
-    width: 52px;
-    height: 52px;
-    background-image: url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3C!-- Outer petal arc --%3E%3Cpath d='M2 2 Q2 28, 28 28' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.25'/%3E%3C!-- Middle petal arc --%3E%3Cpath d='M2 2 Q2 20, 20 20' fill='none' stroke='%23d4a843' stroke-width='0.8' opacity='0.3'/%3E%3C!-- Inner petal arc --%3E%3Cpath d='M2 2 Q2 12, 12 12' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.35'/%3E%3C!-- Diagonal spine --%3E%3Cpath d='M3 3 L22 22' fill='none' stroke='%23c4623a' stroke-width='0.6' opacity='0.15'/%3E%3C!-- Curved petals along diagonal --%3E%3Cpath d='M6 2 Q10 6, 6 10' fill='none' stroke='%23d4a843' stroke-width='0.7' opacity='0.3'/%3E%3Cpath d='M2 6 Q6 10, 10 6' fill='none' stroke='%23c4623a' stroke-width='0.7' opacity='0.25'/%3E%3C!-- Dots at intersections --%3E%3Ccircle cx='3' cy='3' r='2.5' fill='%23c4623a' opacity='0.35'/%3E%3Ccircle cx='10' cy='10' r='1.5' fill='%23d4a843' opacity='0.35'/%3E%3Ccircle cx='18' cy='18' r='1' fill='%23c4623a' opacity='0.25'/%3E%3Ccircle cx='6' cy='2' r='1' fill='%23d4a843' opacity='0.25'/%3E%3Ccircle cx='2' cy='6' r='1' fill='%23d4a843' opacity='0.25'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    pointer-events: none;
-  }
+  &::before,
   &::after {
-    content: '';
-    position: absolute;
-    width: 52px;
-    height: 52px;
-    background-image: url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3C!-- Outer petal arc --%3E%3Cpath d='M2 2 Q2 28, 28 28' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.25'/%3E%3C!-- Middle petal arc --%3E%3Cpath d='M2 2 Q2 20, 20 20' fill='none' stroke='%23d4a843' stroke-width='0.8' opacity='0.3'/%3E%3C!-- Inner petal arc --%3E%3Cpath d='M2 2 Q2 12, 12 12' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.35'/%3E%3C!-- Diagonal spine --%3E%3Cpath d='M3 3 L22 22' fill='none' stroke='%23c4623a' stroke-width='0.6' opacity='0.15'/%3E%3C!-- Curved petals along diagonal --%3E%3Cpath d='M6 2 Q10 6, 6 10' fill='none' stroke='%23d4a843' stroke-width='0.7' opacity='0.3'/%3E%3Cpath d='M2 6 Q6 10, 10 6' fill='none' stroke='%23c4623a' stroke-width='0.7' opacity='0.25'/%3E%3C!-- Dots at intersections --%3E%3Ccircle cx='3' cy='3' r='2.5' fill='%23c4623a' opacity='0.35'/%3E%3Ccircle cx='10' cy='10' r='1.5' fill='%23d4a843' opacity='0.35'/%3E%3Ccircle cx='18' cy='18' r='1' fill='%23c4623a' opacity='0.25'/%3E%3Ccircle cx='6' cy='2' r='1' fill='%23d4a843' opacity='0.25'/%3E%3Ccircle cx='2' cy='6' r='1' fill='%23d4a843' opacity='0.25'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    pointer-events: none;
-  }
-  &::before {
-    top: -1px;
-    left: -1px;
-  }
-  &::after {
-    bottom: -1px;
-    right: -1px;
-    transform: rotate(180deg);
-  }
-  .dark &::before {
-    background-image: url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2 Q2 28, 28 28' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.25'/%3E%3Cpath d='M2 2 Q2 20, 20 20' fill='none' stroke='%23e8c462' stroke-width='0.8' opacity='0.3'/%3E%3Cpath d='M2 2 Q2 12, 12 12' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.35'/%3E%3Cpath d='M3 3 L22 22' fill='none' stroke='%23e07a4f' stroke-width='0.6' opacity='0.15'/%3E%3Cpath d='M6 2 Q10 6, 6 10' fill='none' stroke='%23e8c462' stroke-width='0.7' opacity='0.3'/%3E%3Cpath d='M2 6 Q6 10, 10 6' fill='none' stroke='%23e07a4f' stroke-width='0.7' opacity='0.25'/%3E%3Ccircle cx='3' cy='3' r='2.5' fill='%23e07a4f' opacity='0.35'/%3E%3Ccircle cx='10' cy='10' r='1.5' fill='%23e8c462' opacity='0.35'/%3E%3Ccircle cx='18' cy='18' r='1' fill='%23e07a4f' opacity='0.25'/%3E%3Ccircle cx='6' cy='2' r='1' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='2' cy='6' r='1' fill='%23e8c462' opacity='0.25'/%3E%3C/svg%3E");
-  }
-
-  .dark &::after {
-    background-image: url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2 Q2 28, 28 28' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.25'/%3E%3Cpath d='M2 2 Q2 20, 20 20' fill='none' stroke='%23e8c462' stroke-width='0.8' opacity='0.3'/%3E%3Cpath d='M2 2 Q2 12, 12 12' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.35'/%3E%3Cpath d='M3 3 L22 22' fill='none' stroke='%23e07a4f' stroke-width='0.6' opacity='0.15'/%3E%3Cpath d='M6 2 Q10 6, 6 10' fill='none' stroke='%23e8c462' stroke-width='0.7' opacity='0.3'/%3E%3Cpath d='M2 6 Q6 10, 10 6' fill='none' stroke='%23e07a4f' stroke-width='0.7' opacity='0.25'/%3E%3Ccircle cx='3' cy='3' r='2.5' fill='%23e07a4f' opacity='0.35'/%3E%3Ccircle cx='10' cy='10' r='1.5' fill='%23e8c462' opacity='0.35'/%3E%3Ccircle cx='18' cy='18' r='1' fill='%23e07a4f' opacity='0.25'/%3E%3Ccircle cx='6' cy='2' r='1' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='2' cy='6' r='1' fill='%23e8c462' opacity='0.25'/%3E%3C/svg%3E");
+    display: none;
   }
 }
 
 @utility kolam-hero {
-  /* ═══════════════════════════════════════
-     SIDEBAR HERO PATTERN — large kolam motif
-     Multi-layered geometric art: nested diamonds,
-     petal arcs, lotus curves, and dot grid
-     ═══════════════════════════════════════ */
-  height: 120px;
-  background-color: rgba(196, 98, 58, 0.06);
-  background-image: url("data:image/svg+xml,%3Csvg width='180' height='120' viewBox='0 0 180 120' xmlns='http://www.w3.org/2000/svg'%3E%3C!-- Outer diamond --%3E%3Crect x='48' y='18' width='84' height='84' rx='2' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.12' transform='rotate(45 90 60)'/%3E%3C!-- Middle diamond --%3E%3Crect x='58' y='28' width='64' height='64' rx='2' fill='none' stroke='%23d4a843' stroke-width='1' opacity='0.15' transform='rotate(45 90 60)'/%3E%3C!-- Inner diamond --%3E%3Crect x='70' y='40' width='40' height='40' rx='2' fill='none' stroke='%23c4623a' stroke-width='1.5' opacity='0.2' transform='rotate(45 90 60)'/%3E%3C!-- Cardinal dots --%3E%3Ccircle cx='90' cy='6' r='3' fill='%23c4623a' opacity='0.3'/%3E%3Ccircle cx='90' cy='114' r='3' fill='%23c4623a' opacity='0.2'/%3E%3Ccircle cx='30' cy='60' r='3' fill='%23c4623a' opacity='0.2'/%3E%3Ccircle cx='150' cy='60' r='3' fill='%23c4623a' opacity='0.2'/%3E%3C!-- Center dot cluster --%3E%3Ccircle cx='90' cy='60' r='4' fill='%23d4a843' opacity='0.3'/%3E%3Ccircle cx='90' cy='60' r='8' fill='none' stroke='%23d4a843' stroke-width='0.6' opacity='0.15'/%3E%3C!-- Connecting curves: cardinal to center --%3E%3Cpath d='M90 6 Q115 25, 150 60' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M150 60 Q115 95, 90 114' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M90 114 Q65 95, 30 60' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M30 60 Q65 25, 90 6' fill='none' stroke='%23c4623a' stroke-width='0.8' opacity='0.15'/%3E%3C!-- Petal arcs: lotus petals around center --%3E%3Cpath d='M90 28 Q105 44, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 28 Q75 44, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 92 Q105 76, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 92 Q75 76, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M58 60 Q74 45, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M58 60 Q74 75, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M122 60 Q106 45, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M122 60 Q106 75, 90 60' fill='none' stroke='%23d4a843' stroke-width='0.9' opacity='0.22'/%3E%3C!-- Diagonal accent dots --%3E%3Ccircle cx='58' cy='28' r='1.5' fill='%23d4a843' opacity='0.25'/%3E%3Ccircle cx='122' cy='28' r='1.5' fill='%23d4a843' opacity='0.25'/%3E%3Ccircle cx='58' cy='92' r='1.5' fill='%23d4a843' opacity='0.25'/%3E%3Ccircle cx='122' cy='92' r='1.5' fill='%23d4a843' opacity='0.25'/%3E%3C!-- Petal tips --%3E%3Ccircle cx='90' cy='28' r='2' fill='%23c4623a' opacity='0.25'/%3E%3Ccircle cx='90' cy='92' r='2' fill='%23c4623a' opacity='0.2'/%3E%3Ccircle cx='58' cy='60' r='2' fill='%23c4623a' opacity='0.2'/%3E%3Ccircle cx='122' cy='60' r='2' fill='%23c4623a' opacity='0.2'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 180px 120px;
-  border-bottom: 1px solid rgba(196, 98, 58, 0.15);
-  .dark & {
-    background-color: rgba(224, 122, 79, 0.04);
-    background-image: url("data:image/svg+xml,%3Csvg width='180' height='120' viewBox='0 0 180 120' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='48' y='18' width='84' height='84' rx='2' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.12' transform='rotate(45 90 60)'/%3E%3Crect x='58' y='28' width='64' height='64' rx='2' fill='none' stroke='%23e8c462' stroke-width='1' opacity='0.15' transform='rotate(45 90 60)'/%3E%3Crect x='70' y='40' width='40' height='40' rx='2' fill='none' stroke='%23e07a4f' stroke-width='1.5' opacity='0.2' transform='rotate(45 90 60)'/%3E%3Ccircle cx='90' cy='6' r='3' fill='%23e07a4f' opacity='0.3'/%3E%3Ccircle cx='90' cy='114' r='3' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='30' cy='60' r='3' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='150' cy='60' r='3' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='90' cy='60' r='4' fill='%23e8c462' opacity='0.3'/%3E%3Ccircle cx='90' cy='60' r='8' fill='none' stroke='%23e8c462' stroke-width='0.6' opacity='0.15'/%3E%3Cpath d='M90 6 Q115 25, 150 60' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M150 60 Q115 95, 90 114' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M90 114 Q65 95, 30 60' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M30 60 Q65 25, 90 6' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.15'/%3E%3Cpath d='M90 28 Q105 44, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 28 Q75 44, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 92 Q105 76, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M90 92 Q75 76, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M58 60 Q74 45, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M58 60 Q74 75, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M122 60 Q106 45, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Cpath d='M122 60 Q106 75, 90 60' fill='none' stroke='%23e8c462' stroke-width='0.9' opacity='0.22'/%3E%3Ccircle cx='58' cy='28' r='1.5' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='122' cy='28' r='1.5' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='58' cy='92' r='1.5' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='122' cy='92' r='1.5' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='90' cy='28' r='2' fill='%23e07a4f' opacity='0.25'/%3E%3Ccircle cx='90' cy='92' r='2' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='58' cy='60' r='2' fill='%23e07a4f' opacity='0.2'/%3E%3Ccircle cx='122' cy='60' r='2' fill='%23e07a4f' opacity='0.2'/%3E%3C/svg%3E");
-    border-bottom-color: rgba(224, 122, 79, 0.1);
-  }
+  /* Former sidebar hero pattern band — removed */
+  display: none;
 }
 
 @utility featured-card {
-  /* ═══════════════════════════════════════
-     FEATURED CARD — with pattern background
-     ═══════════════════════════════════════ */
   position: relative;
-  border: 1px solid #e8dbc0;
-  border-radius: 12px;
+  border: 1px solid rgb(0 0 0 / 10%);
+  border-radius: 8px;
   padding: 2rem;
   overflow: hidden;
   transition:
     border-color 0.2s,
     box-shadow 0.2s;
-  /* Subtle kolam tile background */
-  background-color: #fdf9f1;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='20' y='20' width='20' height='20' rx='1' fill='none' stroke='%23c4623a' stroke-width='0.5' opacity='0.08' transform='rotate(45 30 30)'/%3E%3Ccircle cx='30' cy='30' r='1' fill='%23d4a843' opacity='0.12'/%3E%3C/svg%3E");
+  background-color: #ffffff;
   &:hover {
-    border-color: #c4623a;
-    box-shadow: 0 8px 32px rgba(196, 98, 58, 0.12);
+    border-color: rgb(0 0 0 / 24%);
   }
   .dark & {
-    border-color: #2a2438;
-    background-color: #1e1928;
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='20' y='20' width='20' height='20' rx='1' fill='none' stroke='%23e07a4f' stroke-width='0.5' opacity='0.06' transform='rotate(45 30 30)'/%3E%3Ccircle cx='30' cy='30' r='1' fill='%23e8c462' opacity='0.08'/%3E%3C/svg%3E");
+    border-color: rgb(255 255 255 / 12%);
+    background-color: #141414;
   }
   .dark &:hover {
-    border-color: #e07a4f;
-    box-shadow: 0 8px 32px rgba(224, 122, 79, 0.15);
+    border-color: rgb(255 255 255 / 28%);
   }
 }
 
 @utility post-card {
-  /* ═══════════════════════════════════════
-     POST CARD
-     ═══════════════════════════════════════ */
   @apply relative py-6;
-  border-bottom: 1px solid #f5edd8;
+  border-bottom: 1px solid rgb(0 0 0 / 10%);
   &:last-child {
     border-bottom: none;
   }
   .dark & {
-    border-bottom-color: #1e1928;
+    border-bottom-color: rgb(255 255 255 / 10%);
   }
 }
 
 @utility carved-heading {
-  /* ═══════════════════════════════════════
-     CARVED HEADING
-     ═══════════════════════════════════════ */
   &::after {
     content: '';
     display: block;
     margin-top: 12px;
-    height: 3px;
-    width: 48px;
-    background: linear-gradient(to right, #c4623a, #d4a843);
-    border-radius: 2px;
+    height: 2px;
+    width: 32px;
+    background: #000000;
+    border-radius: 1px;
   }
   .dark &::after {
-    background: linear-gradient(to right, #e07a4f, #e8c462);
+    background: #ffffff;
   }
 }
 
 @utility tag {
-  /* ═══════════════════════════════════════
-     TAG — base + color-coded variants
-     Using full Vav palette: terra, mor, gold, kumkum
-     ═══════════════════════════════════════ */
-  @apply text-xs font-mono uppercase transition-colors duration-200;
-  letter-spacing: 0.08em;
-  color: #8a7d68;
+  @apply text-xs transition-colors duration-200;
+  color: rgb(0 0 0 / 56%);
   &:hover {
-    color: #c4623a;
+    color: #000000;
   }
   .dark & {
-    color: #a89e8e;
+    color: rgb(255 255 255 / 56%);
   }
   .dark &:hover {
-    color: #e07a4f;
+    color: #ffffff;
   }
 }
 
 @utility tag-ai {
-  /* AI/LLM tags — terra (terracotta) */
-  @apply text-xs font-mono uppercase transition-colors duration-200;
-  letter-spacing: 0.08em;
+  @apply text-xs transition-colors duration-200;
   color: #c4623a;
   &:hover {
     color: #a34e2d;
@@ -365,70 +135,60 @@
 }
 
 @utility tag-dev {
-  /* Dev tools tags — mor (peacock teal) */
-  @apply text-xs font-mono uppercase transition-colors duration-200;
-  letter-spacing: 0.08em;
-  color: #1a8a7a;
+  @apply text-xs transition-colors duration-200;
+  color: rgb(0 0 0 / 56%);
   &:hover {
-    color: #147062;
+    color: #000000;
   }
   .dark & {
-    color: #2ec4b6;
+    color: rgb(255 255 255 / 56%);
   }
   .dark &:hover {
-    color: #5dd8cc;
+    color: #ffffff;
   }
 }
 
 @utility tag-ml {
-  /* ML/Research tags — gold (haldi) */
-  @apply text-xs font-mono uppercase transition-colors duration-200;
-  letter-spacing: 0.08em;
-  color: #b08a2e;
+  @apply text-xs transition-colors duration-200;
+  color: rgb(0 0 0 / 56%);
   &:hover {
-    color: #8a6c20;
+    color: #000000;
   }
   .dark & {
-    color: #e8c462;
+    color: rgb(255 255 255 / 56%);
   }
   .dark &:hover {
-    color: #f0d480;
+    color: #ffffff;
   }
 }
 
 @utility tag-personal {
-  /* Personal/Spiritual tags — kumkum (vermilion red) */
-  @apply text-xs font-mono uppercase transition-colors duration-200;
-  letter-spacing: 0.08em;
-  color: #c0392b;
+  @apply text-xs transition-colors duration-200;
+  color: rgb(0 0 0 / 56%);
   &:hover {
-    color: #962d22;
+    color: #000000;
   }
   .dark & {
-    color: #e74c3c;
+    color: rgb(255 255 255 / 56%);
   }
   .dark &:hover {
-    color: #f07060;
+    color: #ffffff;
   }
 }
 
 @utility page-pattern {
-  /* ═══════════════════════════════════════
-     PAGE BACKGROUND PATTERN
-     Subtle tiling rangoli on the main content area
-     ═══════════════════════════════════════ */
-  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='1' fill='%23c4623a' opacity='0.04'/%3E%3Ccircle cx='0' cy='0' r='1' fill='%23d4a843' opacity='0.03'/%3E%3Ccircle cx='100' cy='0' r='1' fill='%23d4a843' opacity='0.03'/%3E%3Ccircle cx='0' cy='100' r='1' fill='%23d4a843' opacity='0.03'/%3E%3Ccircle cx='100' cy='100' r='1' fill='%23d4a843' opacity='0.03'/%3E%3C/svg%3E");
-  .dark & {
-    background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='1' fill='%23e07a4f' opacity='0.03'/%3E%3Ccircle cx='0' cy='0' r='1' fill='%23e8c462' opacity='0.02'/%3E%3Ccircle cx='100' cy='0' r='1' fill='%23e8c462' opacity='0.02'/%3E%3Ccircle cx='0' cy='100' r='1' fill='%23e8c462' opacity='0.02'/%3E%3Ccircle cx='100' cy='100' r='1' fill='%23e8c462' opacity='0.02'/%3E%3C/svg%3E");
-  }
+  /* Former tiling rangoli background — removed */
+  background-image: none;
 }
 
 @utility mermaid {
-  /* ═══════════════════════════════════════
-     MERMAID DIAGRAMS
-     Styling for build-time rendered SVGs
-     ═══════════════════════════════════════ */
-  @apply flex! justify-center! my-12! bg-cream-50/30! dark:bg-night-950/30! rounded-xl! p-8! border! border-cream-200! dark:border-night-700!;
+  @apply flex! justify-center! my-12! rounded-lg! p-8! border!;
+  background-color: #ffffff !important;
+  border-color: rgb(0 0 0 / 10%) !important;
+  .dark & {
+    background-color: #141414 !important;
+    border-color: rgb(255 255 255 / 12%) !important;
+  }
   & svg {
     max-width: 100% !important;
     height: auto !important;
@@ -438,185 +198,95 @@
     display: none !important;
   }
 
-  /* Node Rects */
-  & .node rect {
-    fill: #fdf9f1 !important;
-    stroke: #c4623a !important;
-    stroke-width: 1.5px !important;
-  }
-  & .node circle {
-    fill: #fdf9f1 !important;
-    stroke: #c4623a !important;
-    stroke-width: 1.5px !important;
-  }
-  & .node ellipse {
-    fill: #fdf9f1 !important;
-    stroke: #c4623a !important;
-    stroke-width: 1.5px !important;
-  }
-  & .node polygon {
-    fill: #fdf9f1 !important;
-    stroke: #c4623a !important;
-    stroke-width: 1.5px !important;
-  }
+  & .node rect,
+  & .node circle,
+  & .node ellipse,
+  & .node polygon,
   & .node path {
-    fill: #fdf9f1 !important;
-    stroke: #c4623a !important;
+    fill: #ffffff !important;
+    stroke: rgb(0 0 0 / 64%) !important;
     stroke-width: 1.5px !important;
   }
-  .dark & .node rect {
-    fill: #1e1928 !important;
-    stroke: #e07a4f !important;
-  }
-  .dark & .node circle {
-    fill: #1e1928 !important;
-    stroke: #e07a4f !important;
-  }
-  .dark & .node ellipse {
-    fill: #1e1928 !important;
-    stroke: #e07a4f !important;
-  }
-  .dark & .node polygon {
-    fill: #1e1928 !important;
-    stroke: #e07a4f !important;
-  }
+  .dark & .node rect,
+  .dark & .node circle,
+  .dark & .node ellipse,
+  .dark & .node polygon,
   .dark & .node path {
-    fill: #1e1928 !important;
-    stroke: #e07a4f !important;
+    fill: #141414 !important;
+    stroke: rgb(255 255 255 / 64%) !important;
   }
-  /* Labels (Color ONLY, no font changes to prevent clipping) */
-  & .node .label {
-    fill: #2c2416 !important;
-    color: #2c2416 !important;
-  }
-  & .label text {
-    fill: #2c2416 !important;
-    color: #2c2416 !important;
-  }
+  & .node .label,
+  & .label text,
   & span {
-    fill: #2c2416 !important;
-    color: #2c2416 !important;
+    fill: #000000 !important;
+    color: #000000 !important;
   }
-  .dark & .node .label {
-    fill: #e8e0d4 !important;
-    color: #e8e0d4 !important;
-  }
-  .dark & .label text {
-    fill: #e8e0d4 !important;
-    color: #e8e0d4 !important;
-  }
+  .dark & .node .label,
+  .dark & .label text,
   .dark & span {
-    fill: #e8e0d4 !important;
-    color: #e8e0d4 !important;
+    fill: #ffffff !important;
+    color: #ffffff !important;
   }
-  /* Edges/Paths */
   & .edgePath .path {
-    stroke: #d4a843 !important;
+    stroke: rgb(0 0 0 / 40%) !important;
     stroke-width: 1.5px !important;
   }
   .dark & .edgePath .path {
-    stroke: #e8c462 !important;
+    stroke: rgb(255 255 255 / 40%) !important;
   }
-  /* Arrows */
   & .arrowheadPath {
-    fill: #d4a843 !important;
+    fill: rgb(0 0 0 / 40%) !important;
   }
   .dark & .arrowheadPath {
-    fill: #e8c462 !important;
+    fill: rgb(255 255 255 / 40%) !important;
   }
-  /* Cluster/Subgraph */
   & .cluster rect {
-    fill: #f5edd8 !important;
-    stroke: #d4c4a0 !important;
+    fill: rgb(0 0 0 / 3%) !important;
+    stroke: rgb(0 0 0 / 18%) !important;
     stroke-dasharray: 4 !important;
   }
   .dark & .cluster rect {
-    fill: #15111e !important;
-    stroke: #2a2438 !important;
+    fill: rgb(255 255 255 / 4%) !important;
+    stroke: rgb(255 255 255 / 18%) !important;
   }
-  & .cluster-label text {
-    fill: #8a7d68 !important;
-    color: #8a7d68 !important;
-  }
+  & .cluster-label text,
   & .cluster-label span {
-    fill: #8a7d68 !important;
-    color: #8a7d68 !important;
+    fill: rgb(0 0 0 / 56%) !important;
+    color: rgb(0 0 0 / 56%) !important;
   }
-  .dark & .cluster-label text {
-    fill: #a89e8e !important;
-    color: #a89e8e !important;
-  }
+  .dark & .cluster-label text,
   .dark & .cluster-label span {
-    fill: #a89e8e !important;
-    color: #a89e8e !important;
+    fill: rgb(255 255 255 / 56%) !important;
+    color: rgb(255 255 255 / 56%) !important;
   }
 
-  /* Edge Labels (Dimensionality Slicing) -
-     Mermaid injects inline background-color on deeply nested elements.
+  /* Mermaid injects inline background-color on deeply nested elements.
      We use wildcard descendant + !important to nuke all of them. */
-  & .edgeLabel {
-    background-color: transparent !important;
-    background: transparent !important;
-  }
-  & .edgeLabel * {
-    background-color: transparent !important;
-    background: transparent !important;
-  }
+  & .edgeLabel,
+  & .edgeLabel *,
   & .labelBkg {
     background-color: transparent !important;
     background: transparent !important;
   }
-  & .edgeLabel rect {
-    fill: transparent !important;
-  }
+  & .edgeLabel rect,
   & .labelBkg {
     fill: transparent !important;
   }
-
-  /* Edge label text color */
-  & .edgeLabel {
-    color: #c4623a !important;
-    fill: #c4623a !important;
-  }
-  & .edgeLabel * {
-    color: #c4623a !important;
-    fill: #c4623a !important;
-  }
-  & .edgeLabel text {
-    color: #c4623a !important;
-    fill: #c4623a !important;
-  }
-  & .edgeLabel span {
-    color: #c4623a !important;
-    fill: #c4623a !important;
-  }
+  & .edgeLabel,
+  & .edgeLabel *,
+  & .edgeLabel text,
+  & .edgeLabel span,
   & .edgeLabel div {
-    color: #c4623a !important;
-    fill: #c4623a !important;
+    color: rgb(0 0 0 / 64%) !important;
+    fill: rgb(0 0 0 / 64%) !important;
   }
-  .dark & .edgeLabel {
-    color: #e07a4f !important;
-    fill: #e07a4f !important;
-  }
-
-  .dark & .edgeLabel * {
-    color: #e07a4f !important;
-    fill: #e07a4f !important;
-  }
-
-  .dark & .edgeLabel text {
-    color: #e07a4f !important;
-    fill: #e07a4f !important;
-  }
-
-  .dark & .edgeLabel span {
-    color: #e07a4f !important;
-    fill: #e07a4f !important;
-  }
-
+  .dark & .edgeLabel,
+  .dark & .edgeLabel *,
+  .dark & .edgeLabel text,
+  .dark & .edgeLabel span,
   .dark & .edgeLabel div {
-    color: #e07a4f !important;
-    fill: #e07a4f !important;
+    color: rgb(255 255 255 / 64%) !important;
+    fill: rgb(255 255 255 / 64%) !important;
   }
 }
 
@@ -628,156 +298,103 @@
 }
 
 @utility node {
-  /* Node Rects */
-  .mermaid & rect {
-    fill: #fdf9f1 !important;
-    stroke: #c4623a !important;
-    stroke-width: 1.5px !important;
-  }
-  .mermaid & circle {
-    fill: #fdf9f1 !important;
-    stroke: #c4623a !important;
-    stroke-width: 1.5px !important;
-  }
-  .mermaid & ellipse {
-    fill: #fdf9f1 !important;
-    stroke: #c4623a !important;
-    stroke-width: 1.5px !important;
-  }
-  .mermaid & polygon {
-    fill: #fdf9f1 !important;
-    stroke: #c4623a !important;
-    stroke-width: 1.5px !important;
-  }
+  /* Kept for legacy mermaid markup compatibility */
+  .mermaid & rect,
+  .mermaid & circle,
+  .mermaid & ellipse,
+  .mermaid & polygon,
   .mermaid & path {
-    fill: #fdf9f1 !important;
-    stroke: #c4623a !important;
+    fill: #ffffff !important;
+    stroke: rgb(0 0 0 / 64%) !important;
     stroke-width: 1.5px !important;
   }
-  .dark .mermaid & rect {
-    fill: #1e1928 !important;
-    stroke: #e07a4f !important;
-  }
-  .dark .mermaid & circle {
-    fill: #1e1928 !important;
-    stroke: #e07a4f !important;
-  }
-  .dark .mermaid & ellipse {
-    fill: #1e1928 !important;
-    stroke: #e07a4f !important;
-  }
-  .dark .mermaid & polygon {
-    fill: #1e1928 !important;
-    stroke: #e07a4f !important;
-  }
+  .dark .mermaid & rect,
+  .dark .mermaid & circle,
+  .dark .mermaid & ellipse,
+  .dark .mermaid & polygon,
   .dark .mermaid & path {
-    fill: #1e1928 !important;
-    stroke: #e07a4f !important;
+    fill: #141414 !important;
+    stroke: rgb(255 255 255 / 64%) !important;
   }
-  /* Labels (Color ONLY, no font changes to prevent clipping) */
   .mermaid & .label {
-    fill: #2c2416 !important;
-    color: #2c2416 !important;
+    fill: #000000 !important;
+    color: #000000 !important;
   }
   .dark .mermaid & .label {
-    fill: #e8e0d4 !important;
-    color: #e8e0d4 !important;
+    fill: #ffffff !important;
+    color: #ffffff !important;
   }
 }
 
 @utility label {
-  /* Labels (Color ONLY, no font changes to prevent clipping) */
-  .mermaid .node & {
-    fill: #2c2416 !important;
-    color: #2c2416 !important;
-  }
+  .mermaid .node &,
   .mermaid & text {
-    fill: #2c2416 !important;
-    color: #2c2416 !important;
+    fill: #000000 !important;
+    color: #000000 !important;
   }
-  .dark .mermaid .node & {
-    fill: #e8e0d4 !important;
-    color: #e8e0d4 !important;
-  }
+  .dark .mermaid .node &,
   .dark .mermaid & text {
-    fill: #e8e0d4 !important;
-    color: #e8e0d4 !important;
+    fill: #ffffff !important;
+    color: #ffffff !important;
   }
 }
 
 @utility edgePath {
-  /* Edges/Paths */
   .mermaid & .path {
-    stroke: #d4a843 !important;
+    stroke: rgb(0 0 0 / 40%) !important;
     stroke-width: 1.5px !important;
   }
   .dark .mermaid & .path {
-    stroke: #e8c462 !important;
+    stroke: rgb(255 255 255 / 40%) !important;
   }
 }
 
 @utility path {
-  /* Edges/Paths */
   .mermaid .edgePath & {
-    stroke: #d4a843 !important;
+    stroke: rgb(0 0 0 / 40%) !important;
     stroke-width: 1.5px !important;
   }
   .dark .mermaid .edgePath & {
-    stroke: #e8c462 !important;
+    stroke: rgb(255 255 255 / 40%) !important;
   }
 }
 
 @utility arrowheadPath {
-  /* Arrows */
   .mermaid & {
-    fill: #d4a843 !important;
+    fill: rgb(0 0 0 / 40%) !important;
   }
   .dark .mermaid & {
-    fill: #e8c462 !important;
+    fill: rgb(255 255 255 / 40%) !important;
   }
 }
 
 @utility cluster {
-  /* Cluster/Subgraph */
   .mermaid & rect {
-    fill: #f5edd8 !important;
-    stroke: #d4c4a0 !important;
+    fill: rgb(0 0 0 / 3%) !important;
+    stroke: rgb(0 0 0 / 18%) !important;
     stroke-dasharray: 4 !important;
   }
   .dark .mermaid & rect {
-    fill: #15111e !important;
-    stroke: #2a2438 !important;
+    fill: rgb(255 255 255 / 4%) !important;
+    stroke: rgb(255 255 255 / 18%) !important;
   }
 }
 
 @utility cluster-label {
-  .mermaid & text {
-    fill: #8a7d68 !important;
-    color: #8a7d68 !important;
-  }
+  .mermaid & text,
   .mermaid & span {
-    fill: #8a7d68 !important;
-    color: #8a7d68 !important;
+    fill: rgb(0 0 0 / 56%) !important;
+    color: rgb(0 0 0 / 56%) !important;
   }
-  .dark .mermaid & text {
-    fill: #a89e8e !important;
-    color: #a89e8e !important;
-  }
+  .dark .mermaid & text,
   .dark .mermaid & span {
-    fill: #a89e8e !important;
-    color: #a89e8e !important;
+    fill: rgb(255 255 255 / 56%) !important;
+    color: rgb(255 255 255 / 56%) !important;
   }
 }
 
 @utility edgeLabel {
-  /* Edge Labels (Dimensionality Slicing) -
-     Mermaid injects inline background-color on deeply nested elements.
-     We use wildcard descendant + !important to nuke all of them. */
-  .mermaid & {
-    background-color: transparent !important;
-    background: transparent !important;
-  }
-
+  .mermaid &,
   .mermaid & * {
     background-color: transparent !important;
     background: transparent !important;
@@ -785,55 +402,21 @@
   .mermaid & rect {
     fill: transparent !important;
   }
-
-  /* Edge label text color */
-  .mermaid & {
-    color: #c4623a !important;
-    fill: #c4623a !important;
-  }
-
-  .mermaid & * {
-    color: #c4623a !important;
-    fill: #c4623a !important;
-  }
-
-  .mermaid & text {
-    color: #c4623a !important;
-    fill: #c4623a !important;
-  }
-
-  .mermaid & span {
-    color: #c4623a !important;
-    fill: #c4623a !important;
-  }
-
+  .mermaid &,
+  .mermaid & *,
+  .mermaid & text,
+  .mermaid & span,
   .mermaid & div {
-    color: #c4623a !important;
-    fill: #c4623a !important;
+    color: rgb(0 0 0 / 64%) !important;
+    fill: rgb(0 0 0 / 64%) !important;
   }
-  .dark .mermaid & {
-    color: #e07a4f !important;
-    fill: #e07a4f !important;
-  }
-
-  .dark .mermaid & * {
-    color: #e07a4f !important;
-    fill: #e07a4f !important;
-  }
-
-  .dark .mermaid & text {
-    color: #e07a4f !important;
-    fill: #e07a4f !important;
-  }
-
-  .dark .mermaid & span {
-    color: #e07a4f !important;
-    fill: #e07a4f !important;
-  }
-
+  .dark .mermaid &,
+  .dark .mermaid & *,
+  .dark .mermaid & text,
+  .dark .mermaid & span,
   .dark .mermaid & div {
-    color: #e07a4f !important;
-    fill: #e07a4f !important;
+    color: rgb(255 255 255 / 64%) !important;
+    fill: rgb(255 255 255 / 64%) !important;
   }
 }
 
@@ -841,20 +424,11 @@
   .mermaid & {
     background-color: transparent !important;
     background: transparent !important;
-  }
-
-  .mermaid & {
     fill: transparent !important;
   }
 }
 
 @utility app-sidebar {
-  /* ═══════════════════════════════════════
-     APP CENTERING — ultra-wide layout
-     Centers sidebar + content as a cohesive unit
-     on screens wider than 1536px, like GitHub/Twitter.
-     Background tiles edge-to-edge; the app sits centered.
-     ═══════════════════════════════════════ */
   left: 0;
 
   @media (min-width: 1536px) {
@@ -884,12 +458,6 @@
   }
 }
 
-/* ═══════════════════════════════════════════════
-   KOLAM & RANGOLI DESIGN SYSTEM
-   Light = Kolam: geometric, line art, cream paper
-   Dark  = Rangoli: vibrant, colorful, deep night
-   ═══════════════════════════════════════════════ */
-
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -898,24 +466,24 @@
 
   body {
     @apply font-body text-ink;
-    background-color: #fdf9f1;
+    background-color: #ffffff;
   }
   .dark body {
     @apply text-silk;
-    background-color: #15111e;
+    background-color: #0a0a0a;
   }
 
   /* ── INLINE CODE ── */
   :not(pre) > code {
     @apply px-1.5 py-0.5 rounded-sm text-sm font-mono;
-    background: #f5edd8;
-    color: #a34e2d;
-    border: 1px solid #e8dbc0;
+    background: rgb(0 0 0 / 5%);
+    color: #000000;
+    border: 1px solid rgb(0 0 0 / 10%);
   }
   .dark :not(pre) > code {
-    background: #2a2438;
-    color: #e07a4f;
-    border-color: #3a3348;
+    background: rgb(255 255 255 / 9%);
+    color: #ffffff;
+    border-color: rgb(255 255 255 / 12%);
   }
   :not(pre) > code::before,
   :not(pre) > code::after { content: '' !important; }
@@ -923,13 +491,11 @@
   /* ── CODE BLOCKS ── */
   pre {
     @apply rounded-lg!;
-    border: 1px solid #e8dbc0 !important;
-    border-top: 3px solid #c4623a !important;
+    border: 1px solid rgb(0 0 0 / 10%) !important;
     position: relative;
   }
   .dark pre {
-    border-color: #2a2438 !important;
-    border-top-color: #e07a4f !important;
+    border-color: rgb(255 255 255 / 12%) !important;
   }
 
   /* Fix for Astro Shiki dual themes to respect the .dark class */
@@ -941,9 +507,8 @@
     font-weight: var(--shiki-dark-font-weight) !important;
     text-decoration: var(--shiki-dark-text-decoration) !important;
   }
-  /* Force dark mode pre background to match Vav design system night-800 */
   html.dark pre.astro-code {
-    background-color: #1e1928 !important;
+    background-color: #161616 !important;
   }
 
   html:not(.dark) pre.astro-code,
@@ -954,9 +519,8 @@
     font-weight: var(--shiki-light-font-weight) !important;
     text-decoration: var(--shiki-light-text-decoration) !important;
   }
-  /* Force light mode pre background to match Vav design system cream-50 */
   html:not(.dark) pre.astro-code {
-    background-color: #fdf9f1 !important;
+    background-color: #ffffff !important;
   }
 
   /* Copy button on code blocks */
@@ -971,54 +535,57 @@
     cursor: pointer;
     opacity: 0;
     transition: opacity 0.2s, background-color 0.2s;
-    background: rgba(196,98,58,0.1);
-    color: #c4623a;
-    border: 1px solid rgba(196,98,58,0.2);
+    background: rgb(0 0 0 / 5%);
+    color: rgb(0 0 0 / 64%);
+    border: 1px solid rgb(0 0 0 / 10%);
   }
   .dark pre .copy-code-btn {
-    background: rgba(224,122,79,0.1);
-    color: #e07a4f;
-    border-color: rgba(224,122,79,0.2);
+    background: rgb(255 255 255 / 9%);
+    color: rgb(255 255 255 / 64%);
+    border-color: rgb(255 255 255 / 12%);
   }
   pre:hover .copy-code-btn { opacity: 1; }
   pre .copy-code-btn:hover {
-    background: rgba(196,98,58,0.2);
+    background: rgb(0 0 0 / 9%);
   }
   .dark pre .copy-code-btn:hover {
-    background: rgba(224,122,79,0.2);
+    background: rgb(255 255 255 / 14%);
   }
 
   /* ── PROSE ── */
   .prose a {
-    @apply text-terra underline-offset-2 transition-colors duration-200;
-    text-decoration-color: rgba(196,98,58,0.3);
+    @apply underline underline-offset-2 decoration-black/30 transition-colors duration-200;
   }
-  .prose a:hover { @apply text-terra-dark; text-decoration-color: rgba(196,98,58,0.8); }
-  .dark .prose a { @apply text-terra-light; text-decoration-color: rgba(224,122,79,0.3); }
-  .dark .prose a:hover { text-decoration-color: rgba(224,122,79,0.8); }
+  .prose a:hover { @apply decoration-black/70; }
+  .dark .prose a { @apply decoration-white/30; }
+  .dark .prose a:hover { @apply decoration-white/70; }
 
   .prose :where(img) {
     @apply rounded-lg mx-auto;
-    box-shadow: 0 4px 24px rgba(44,36,22,0.1);
+    box-shadow: 0 1px 4px rgb(0 0 0 / 8%);
+    border: 1px solid rgb(0 0 0 / 10%);
   }
-  .dark .prose :where(img) { box-shadow: 0 4px 24px rgba(0,0,0,0.4); }
+  .dark .prose :where(img) {
+    box-shadow: none;
+    border-color: rgb(255 255 255 / 12%);
+  }
 
   .prose blockquote {
     @apply not-italic font-normal;
-    border-left: 4px solid #c4623a;
-    background: rgba(245,237,216,0.5);
-    color: #5a4e3a;
+    border-left: 2px solid rgb(0 0 0 / 20%);
+    background: rgb(0 0 0 / 3%);
+    color: rgb(0 0 0 / 72%);
     padding: 1rem 1.25rem;
     border-radius: 0 8px 8px 0;
   }
   .dark .prose blockquote {
-    background: rgba(42,36,56,0.5);
-    border-left-color: #e07a4f;
-    color: #a89e8e;
+    background: rgb(255 255 255 / 4%);
+    border-left-color: rgb(255 255 255 / 24%);
+    color: rgb(255 255 255 / 72%);
   }
 
   .prose h2, .prose h3, .prose h4 {
-    @apply font-display;
+    @apply font-display font-semibold tracking-tight;
     scroll-margin-top: 5rem;
   }
 
@@ -1030,29 +597,21 @@
 
   /* Scrollbar */
   ::-webkit-scrollbar { @apply w-1.5; }
-  ::-webkit-scrollbar-track { background: #f5edd8; }
-  .dark ::-webkit-scrollbar-track { background: #1e1928; }
-  ::-webkit-scrollbar-thumb { background: #d4c4a0; border-radius: 999px; }
-  .dark ::-webkit-scrollbar-thumb { background: #3a3348; }
-  ::-webkit-scrollbar-thumb:hover { background: #c4623a; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  .dark ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: rgb(0 0 0 / 18%); border-radius: 999px; }
+  .dark ::-webkit-scrollbar-thumb { background: rgb(255 255 255 / 18%); }
+  ::-webkit-scrollbar-thumb:hover { background: rgb(0 0 0 / 32%); }
+  .dark ::-webkit-scrollbar-thumb:hover { background: rgb(255 255 255 / 32%); }
 
   /* Selection */
-  ::selection { background: #d4a843; color: #1a1408; }
-  .dark ::selection { background: #b08a2e; color: #fefdfb; }
-}
-
-@keyframes kolamFlow {
-  from {
-    background-position-x: 0;
-  }
-  to {
-    background-position-x: 64px;
-  }
+  ::selection { background: #000000; color: #ffffff; }
+  .dark ::selection { background: #ffffff; color: #000000; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .kolam-border {
-    animation: none !important;
+  html {
+    scroll-behavior: auto;
   }
 }
 

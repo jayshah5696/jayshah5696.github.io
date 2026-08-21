@@ -20,7 +20,7 @@ const inlineNavItems = NAV_ITEMS.filter(n => ['Home', 'About', 'Projects'].inclu
         height={28}
         densities={[1.5, 2, 3]}
         quality={95}
-        class="rounded-full size-7 object-cover ring-1 ring-terra/20"
+        class="rounded-full size-7 object-cover ring-1 ring-black/10 dark:ring-white/15"
       />
       <span class="font-display text-sm text-ink dark:text-silk">{SITE_TITLE}</span>
     </a>
@@ -33,12 +33,12 @@ const inlineNavItems = NAV_ITEMS.filter(n => ['Home', 'About', 'Projects'].inclu
             <a
               href={href}
               class:list={[
-                'text-[10px] font-mono uppercase transition-colors duration-200',
+                'text-[10px] transition-colors duration-200',
                 isActive
                   ? 'text-terra dark:text-terra-light font-medium'
                   : 'text-ink-muted dark:text-silk-muted hover:text-ink dark:hover:text-silk',
               ]}
-              style="letter-spacing: 0.1em;"
+             
             >
               {label}
             </a>
