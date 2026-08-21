@@ -31,17 +31,33 @@
    ═══════════════════════════════════════════════ */
 
 @utility kolam-border {
-  /* Former kolam figure-8 chain — now a quiet hairline divider */
-  height: 1px;
-  background-color: rgb(0 0 0 / 10%);
+  /* Kolam divider — static figure-8 petal chain, muted terra.
+     The one decorative signature kept from Vav: used sparingly,
+     once per section, never animated. */
+  height: 20px;
+  background-image: url("data:image/svg+xml,%3Csvg width='64' height='20' viewBox='0 0 64 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 Q8 1, 16 1 Q24 1, 32 10' fill='none' stroke='%23c4623a' stroke-width='1' opacity='0.35'/%3E%3Cpath d='M0 10 Q8 19, 16 19 Q24 19, 32 10' fill='none' stroke='%23c4623a' stroke-width='1' opacity='0.25'/%3E%3Cpath d='M32 10 Q40 1, 48 1 Q56 1, 64 10' fill='none' stroke='%23c4623a' stroke-width='1' opacity='0.35'/%3E%3Cpath d='M32 10 Q40 19, 48 19 Q56 19, 64 10' fill='none' stroke='%23c4623a' stroke-width='1' opacity='0.25'/%3E%3Ccircle cx='16' cy='1' r='1.2' fill='%23c4623a' opacity='0.4'/%3E%3Ccircle cx='48' cy='1' r='1.2' fill='%23c4623a' opacity='0.4'/%3E%3Ccircle cx='32' cy='10' r='1.2' fill='%23c4623a' opacity='0.3'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-position: center;
   .dark & {
-    background-color: rgb(255 255 255 / 12%);
+    background-image: url("data:image/svg+xml,%3Csvg width='64' height='20' viewBox='0 0 64 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 Q8 1, 16 1 Q24 1, 32 10' fill='none' stroke='%23e07a4f' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M0 10 Q8 19, 16 19 Q24 19, 32 10' fill='none' stroke='%23e07a4f' stroke-width='1' opacity='0.3'/%3E%3Cpath d='M32 10 Q40 1, 48 1 Q56 1, 64 10' fill='none' stroke='%23e07a4f' stroke-width='1' opacity='0.4'/%3E%3Cpath d='M32 10 Q40 19, 48 19 Q56 19, 64 10' fill='none' stroke='%23e07a4f' stroke-width='1' opacity='0.3'/%3E%3Ccircle cx='16' cy='1' r='1.2' fill='%23e07a4f' opacity='0.45'/%3E%3Ccircle cx='48' cy='1' r='1.2' fill='%23e07a4f' opacity='0.45'/%3E%3Ccircle cx='32' cy='10' r='1.2' fill='%23e07a4f' opacity='0.35'/%3E%3C/svg%3E");
+  }
+}
+
+@utility kolam-dot-grid {
+  /* Faint kolam dot field — sits behind the sidebar profile only.
+     Terra dots at whisper opacity; no grid lines, no animation. */
+  background-image: radial-gradient(circle, rgb(196 98 58 / 55%) 1px, transparent 1px);
+  background-size: 22px 22px;
+  opacity: 0.12;
+  .dark & {
+    background-image: radial-gradient(circle, rgb(224 122 79 / 60%) 1px, transparent 1px);
+    opacity: 0.14;
   }
 }
 
 @utility kolam-dots {
-  /* Former dot-grid background — removed */
-  display: none;
+  /* Legacy name kept pointing at the faint dot field */
+  @apply kolam-dot-grid;
 }
 
 @utility rangoli-corners {
@@ -98,11 +114,11 @@
     margin-top: 12px;
     height: 2px;
     width: 32px;
-    background: #000000;
+    background: #c4623a;
     border-radius: 1px;
   }
   .dark &::after {
-    background: #ffffff;
+    background: #e07a4f;
   }
 }
 
@@ -572,7 +588,7 @@
 
   .prose blockquote {
     @apply not-italic font-normal;
-    border-left: 2px solid rgb(0 0 0 / 20%);
+    border-left: 2px solid rgb(196 98 58 / 55%);
     background: rgb(0 0 0 / 3%);
     color: rgb(0 0 0 / 72%);
     padding: 1rem 1.25rem;
@@ -580,7 +596,7 @@
   }
   .dark .prose blockquote {
     background: rgb(255 255 255 / 4%);
-    border-left-color: rgb(255 255 255 / 24%);
+    border-left-color: rgb(224 122 79 / 60%);
     color: rgb(255 255 255 / 72%);
   }
 

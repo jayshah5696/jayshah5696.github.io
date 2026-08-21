@@ -91,12 +91,12 @@ export function getTagColorClass(tag: string): string {
 
 export function getTagPillClasses(tag: string): string {
   const base = 'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs transition-colors';
-  return `${base} bg-cream-100 dark:bg-night-800 text-ink-light dark:text-silk-muted hover:bg-black/8 dark:hover:bg-white/12 hover:text-black dark:hover:text-white`;
+  return `${base} bg-cream-100 dark:bg-night-800 text-ink-light dark:text-silk-muted hover:text-terra dark:hover:text-terra-light`;
 }
 
 export function getTagMicroPillClasses(tag: string): string {
   const base = 'inline-flex items-center gap-1 px-2 py-0.5 rounded-md text-[11px] transition-colors';
-  return `${base} bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted border border-transparent hover:text-black dark:hover:text-white`;
+  return `${base} bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted border border-transparent hover:text-terra dark:hover:text-terra-light`;
 }
 
 export function getTagIndicator(tag: string): string {
