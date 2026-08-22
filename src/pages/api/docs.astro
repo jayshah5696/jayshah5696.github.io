@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { SITE_URL } from '../../consts';
+
+export const prerender = true;
+
+const endpoints = [
+  {
+    path: '/api/posts.json',
+    title: 'Articles & Research Notes Feed',
+    description: 'Returns all published technical blog posts with title, slug, canonical URLs, publication date, description, tags, and reading time estimates.',
+    example: `${SITE_URL}/api/posts.json`,
+  },
+  {
+    path: '/api/projects.json',
+    title: 'Engineering Projects Feed',
+    description: 'Returns open-source machine learning projects, developer extensions, and research code repositories.',
+    example: `${SITE_URL}/api/projects.json`,
+  },
+  {
+    path: '/api/reads.json',
+    title: 'Curated Reading List Feed',
+    description: 'Returns curated bibliography of machine learning papers, systems posts, and research notes.',
+    example: `${SITE_URL}/api/reads.json`,
+  },
+  {
+    path: '/api/info.json',
+    title: 'Site Information & Author Metadata',
+    description: 'Returns author background, research focus areas, social endpoints, feeds, and discovery URLs.',
+    example: `${SITE_URL}/api/info.json`,
+  },
+  {
+    path: '/api/openapi.json',
+    title: 'OpenAPI 3.1.0 Specification',
+    description: 'Full machine-readable OpenAPI specification defining all endpoints, schemas, parameters, and error models.',
+    example: `${SITE_URL}/api/openapi.json`,
+  },
+];
+---
+
+<BaseLayout
+  title="Developer API & Data Resources"
+  description="Machine-readable developer APIs, OpenAPI 3.1 specifications, and AI agent endpoints for Jay Shah's personal website and research publications."
+>
+  <article class="prose prose-kolam dark:prose-invert prose-lg max-w-none">
+    <header class="not-prose mb-8">
+      <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading mb-3">
+        Jay Shah &mdash; Developer API &amp; Data Resources
+      </h1>
+      <p class="text-ink-light dark:text-silk-muted text-base leading-relaxed max-w-2xl">
+        Programmatic, machine-readable data feeds and OpenAPI specifications for AI agents, crawlers, and developers querying content from <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-cream-100 dark:bg-night-800">jayshah.dev</code>.
+      </p>
+      <div class="kolam-border mt-5"></div>
+    </header>
+
+    <h2>Discovery Standards</h2>
+    <p>
+      This site follows modern agentic and web discovery protocols:
+    </p>
+    <ul>
+      <li><strong>LLMs Index:</strong> <a href="/llms.txt" class="font-mono text-sm">/llms.txt</a> &bull; Plain text summary index for AI agents (llmstxt.org).</li>
+      <li><strong>LLMs Full Context:</strong> <a href="/llms-full.txt" class="font-mono text-sm">/llms-full.txt</a> &bull; Consolidated context bundle with article digests and project architectures.</li>
+      <li><strong>OpenAPI Specification:</strong> <a href="/api/openapi.json" class="font-mono text-sm">/api/openapi.json</a> &bull; OpenAPI 3.1 specification.</li>
+      <li><strong>MCP Server Manifest:</strong> <a href="/.well-known/mcp.json" class="font-mono text-sm">/.well-known/mcp.json</a> &bull; Model Context Protocol tools definition.</li>
+      <li><strong>Markdown Content Negotiation:</strong> Supports <code class="font-mono text-xs">Accept: text/markdown</code> across all content pages with <code class="font-mono text-xs">Vary: Accept</code>.</li>
+      <li><strong>XML Sitemap:</strong> <a href="/sitemap-index.xml" class="font-mono text-sm">/sitemap-index.xml</a> &bull; Full index of canonical URLs.</li>
+      <li><strong>RSS 2.0:</strong> <a href="/rss.xml" class="font-mono text-sm">/rss.xml</a> &bull; Publication feed.</li>
+    </ul>
+
+    <h2>Available API Endpoints</h2>
+    <div class="not-prose space-y-6 my-8">
+      {endpoints.map((ep) => (
+        <div class="p-5 rounded-xl border border-cream-200 dark:border-night-700 bg-white/60 dark:bg-night-800/60 shadow-xs">
+          <div class="flex flex-wrap items-center justify-between gap-2 mb-2">
+            <span class="font-mono text-sm font-semibold text-terra dark:text-terra-light px-2 py-0.5 rounded bg-terra/10 dark:bg-terra-light/10">
+              GET {ep.path}
+            </span>
+            <a
+              href={ep.path}
+              target="_blank"
+              class="font-mono text-xs text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light underline"
+            >
+              View JSON &rarr;
+            </a>
+          </div>
+          <h3 class="font-display text-lg text-ink dark:text-silk mb-1">{ep.title}</h3>
+          <p class="text-sm text-ink-light dark:text-silk-muted leading-relaxed mb-3">{ep.description}</p>
+          <pre class="font-mono text-xs p-3 rounded-lg bg-cream-100/80 dark:bg-night-900/80 text-ink dark:text-silk overflow-x-auto"><code>curl -s {ep.example}</code></pre>
+        </div>
+      ))}
+    </div>
+
+    <h2>Error Handling (RFC 7807)</h2>
+    <p>
+      API errors return structured JSON conforming to <a href="https://datatracker.ietf.org/doc/html/rfc7807">RFC 7807 Problem Details</a>, including error codes, human-readable descriptions, and resolution guidance for autonomous agents:
+    </p>
+    <pre class="font-mono text-xs p-4 rounded-lg bg-cream-100/80 dark:bg-night-900/80 text-ink dark:text-silk overflow-x-auto"><code>{`{
+  "type": "https://jayshah.dev/api/errors/not-found",
+  "title": "Not Found",
+  "status": 404,
+  "error": "NOT_FOUND",
+  "message": "The requested API endpoint was not found.",
+  "resolution": "Check the available endpoints in our OpenAPI specification at https://jayshah.dev/api/openapi.json.",
+  "documentation_url": "https://jayshah.dev/api/openapi.json"
+}`}</code></pre>
+  </article>
+</BaseLayout>

@@ -1,0 +1,72 @@
+{
+  "$schema": "https://modelcontextprotocol.io/schema/server-manifest.json",
+  "name": "jayshah-dev",
+  "description": "Developer tools, machine learning research articles, and project metadata from https://jayshah.dev",
+  "version": "1.0.0",
+  "author": {
+    "name": "Jay Shah",
+    "url": "https://jayshah.dev",
+    "email": "contact@jayshah.dev"
+  },
+  "endpoints": {
+    "openapi": "https://jayshah.dev/api/openapi.json",
+    "info": "https://jayshah.dev/api/info.json",
+    "posts": "https://jayshah.dev/api/posts.json",
+    "projects": "https://jayshah.dev/api/projects.json",
+    "reads": "https://jayshah.dev/api/reads.json"
+  },
+  "tools": [
+    {
+      "name": "search_articles",
+      "description": "Search Jay Shah's published engineering and machine learning articles by query or tag",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "description": "Search keyword or topic (e.g. 'watermark', 'rag', 'memory', 'entity resolution')"
+          },
+          "tag": {
+            "type": "string",
+            "description": "Filter by tag (e.g. 'ai-safety', 'llm', 'rag', 'evals')"
+          }
+        }
+      }
+    },
+    {
+      "name": "get_post_content",
+      "description": "Retrieve full markdown content of a specific blog post by slug",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "slug": {
+            "type": "string",
+            "description": "Post slug identifier (e.g. 'how-text-watermarks-hide-in-plain-sight')"
+          }
+        },
+        "required": ["slug"]
+      }
+    },
+    {
+      "name": "list_projects",
+      "description": "List open-source software, agent tooling, and machine learning projects created by Jay Shah",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "type": "string",
+            "description": "Filter by project tag (e.g. 'AI AGENTS', 'SQL', 'PYTHON')"
+          }
+        }
+      }
+    },
+    {
+      "name": "get_resume",
+      "description": "Retrieve structured resume and professional background information for Jay Shah",
+      "inputSchema": {
+        "type": "object",
+        "properties": {}
+      }
+    }
+  ]
+}

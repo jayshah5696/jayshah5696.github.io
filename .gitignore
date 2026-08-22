@@ -23,3 +23,5 @@ Thumbs.db
 
 # test & verification previews
 public/assets/images/previews/
+test-results/
+playwright-report/

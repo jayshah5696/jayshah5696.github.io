@@ -18,8 +18,8 @@ posts.forEach((post) => {
 const years = Object.keys(byYear).sort((a, b) => Number(b) - Number(a));
 ---
 
-<BaseLayout title="Archives" description="All posts in chronological order — a complete timeline of writing on AI, ML, RAG, and engineering.">
-  <h1 class="font-display text-3xl text-ink dark:text-silk carved-heading mb-10">Archives</h1>
+<BaseLayout title="Writing Archives" description="Complete chronological archive of Jay Shah's articles and research essays on AI, machine learning, RAG, and systems.">
+  <h1 class="font-display text-3xl text-ink dark:text-silk carved-heading mb-10">Writing Archives</h1>
 
   {years.map((year) => (
     <section class="mb-10">

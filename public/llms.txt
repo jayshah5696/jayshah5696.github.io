@@ -1,0 +1,43 @@
+# Jay Shah — Developer Resources & AI Systems Research
+
+> Jay Shah is a Senior Data Scientist at 6sense specializing in LLM systems, RAG architecture, agent evaluation frameworks, text watermarking, and foundational models.
+
+This file provides a structured directory of machine-readable endpoints, developer resources, open source tools, and technical publications hosted on https://jayshah.dev.
+
+## Core Documentation & Pages
+- [Jay Shah Home & Latest Writings](https://jayshah.dev/): Primary landing page with latest research notes, articles, and active projects.
+- [About Jay Shah](https://jayshah.dev/about/): Background, experience at 6sense and Avathon, patents, awards, and research focus.
+- [Engineering Projects](https://jayshah.dev/projects/): Curated open-source software, agent tooling, and machine learning repositories.
+- [Article Archives](https://jayshah.dev/archives/): Chronological index of all published technical essays and research.
+- [Reading Notes](https://jayshah.dev/reads/): Curated reading log of papers, articles, and systems research.
+- [Resume / CV](https://cv.jayshah.dev/): Interactive resume and professional career history.
+
+## Developer Resources & APIs
+- [OpenAPI 3.1.0 Specification](https://jayshah.dev/api/openapi.json): Full machine-readable API definition describing available data feeds, query parameters, schemas, and error responses.
+- [API Documentation](https://jayshah.dev/api/docs/): Human and agent developer documentation for querying Jay Shah website data.
+- [Articles JSON Feed](https://jayshah.dev/api/posts.json): Structured JSON array of all published articles with metadata, reading time, and tags.
+- [Projects JSON Feed](https://jayshah.dev/api/projects.json): Structured JSON array of open-source engineering projects with repositories and descriptions.
+- [Reading List JSON Feed](https://jayshah.dev/api/reads.json): Structured JSON array of curated reading notes and paper recommendations.
+- [Site Info JSON API](https://jayshah.dev/api/info.json): Summary metadata including author profile, social profiles, and endpoints.
+- [MCP Server Manifest](https://jayshah.dev/.well-known/mcp.json): Model Context Protocol server configuration for AI agent tool execution.
+- [XML Sitemap](https://jayshah.dev/sitemap-index.xml): XML sitemap indexing all canonical HTML routes.
+- [RSS Feed](https://jayshah.dev/rss.xml): Standard RSS 2.0 feed for automated feed ingestion.
+
+## Technical Articles & Research Notes
+- [How does a text watermark work?](https://jayshah.dev/posts/how-text-watermarks-hide-in-plain-sight/): An interactive, simulation-backed deep dive into green-red list text watermarking, Aaronson pseudorandom watermarking, z-score statistical detection, and perturbation attacks.
+- [File-Based Memory Is a Terrible Idea That Somehow Works](https://jayshah.dev/posts/memory-architecture/): Architecture and design of file-based memory subsystems for autonomous coding agents, contrasting flat post-it notes with structured hierarchical memory filing.
+- [Can Dense Retrieval Beat BM25 for Entity Resolution? (And At What Cost?)](https://jayshah.dev/posts/entity-resolution-dense-retrieval/): Quantitative benchmarking comparing dense embeddings, BM25, and Matryoshka Representation Learning (MRL) for scalable entity resolution in production.
+- [Stop Renting Your Workflow: Building a Custom AI Coding Agent with Pi](https://jayshah.dev/posts/stop-renting-your-workflow/): Building an extensible AI coding agent harness with Pi, covering sessions, memory, task planning, and custom tooling.
+- [Concept to Code - Deploying ColBERT with RAGatouille on Modal Labs in Minutes](https://jayshah.dev/posts/ragatouille/): Serverless deployment of late-interaction ColBERT models using RAGatouille on Modal Labs for high-precision retrieval.
+- [Beyond the Hype - Practical Strategies for Implementing Superior RAG](https://jayshah.dev/posts/applied-rag/): Practical architecture patterns for retrieval-augmented generation: chunking, hybrid retrieval, reranking, and evaluation beyond toy demos.
+- [Prompt Injection](https://jayshah.dev/posts/prompt-injection/): Analysis of prompt injection vulnerabilities in LLM applications and defenses against direct and indirect adversarial prompts.
+- [Hackathons - A Condensed Time for Learning, Building, and Networking](https://jayshah.dev/posts/mistral-hackathon/): Retrospective on building with Mistral AI models and building healthcare AI prototypes under hackathon constraints.
+- [Euphoria of Gen AI](https://jayshah.dev/posts/gen-ai/): Perspective on the generative AI landscape, sustainable engineering value versus transient hype.
+- [What is Spirituality to me?](https://jayshah.dev/posts/what-is-spirituality-to-me/): Personal reflection on mindfulness, perspective, and balance.
+
+## Optional & Related Links
+- [Full LLM Context Digest](https://jayshah.dev/llms-full.txt): Comprehensive text bundle combining project architectures and article digests.
+- [GitHub Profile](https://github.com/jayshah5696): Source code repositories for Jay Shah's research and tools.
+- [Hugging Face](https://huggingface.co/jayshah5696): Models, datasets, and demos including Gujarati-Llama-7b.
+- [LinkedIn](https://linkedin.com/in/jayshah5696): Professional background and updates.
+- [X / Twitter](https://twitter.com/jayjshah): Thoughts on machine learning and systems.

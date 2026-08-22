@@ -1,0 +1,170 @@
+# Jay Shah — Full Machine-Readable Knowledge Digest & Developer Resources
+
+> Comprehensive developer documentation, system architectures, research abstracts, and machine-readable data feeds for https://jayshah.dev.
+
+Author: Jay Shah
+Title: Senior Data Scientist at 6sense
+Focus Areas: LLM Systems, RAG Architectures, Agent Evaluation, Text Watermarking, Foundational Models
+Website: https://jayshah.dev
+CV / Resume: https://cv.jayshah.dev
+GitHub: https://github.com/jayshah5696
+Twitter / X: https://twitter.com/jayjshah
+LinkedIn: https://linkedin.com/in/jayshah5696
+Hugging Face: https://huggingface.co/jayshah5696
+Email: contact@jayshah.dev
+
+---
+
+## 1. Machine-Readable API Reference
+
+The site exposes lightweight, zero-dependency JSON API endpoints for automated agent retrieval:
+
+### OpenAPI 3.1.0 Specification
+- URL: `https://jayshah.dev/api/openapi.json`
+- Description: Complete schema definitions for all available feeds, parameters, and error responses.
+
+### Articles Feed (`/api/posts.json`)
+- URL: `https://jayshah.dev/api/posts.json`
+- Method: `GET`
+- Response Type: `application/json`
+- Content: Array of published technical articles including `title`, `slug`, `url`, `date`, `description`, `tags`, and `readingTime`.
+
+### Projects Feed (`/api/projects.json`)
+- URL: `https://jayshah.dev/api/projects.json`
+- Method: `GET`
+- Response Type: `application/json`
+- Content: Curated list of open-source projects, tools, and research repositories with repository URLs and architectural summaries.
+
+### Reading Notes Feed (`/api/reads.json`)
+- URL: `https://jayshah.dev/api/reads.json`
+- Method: `GET`
+- Response Type: `application/json`
+- Content: Curated bibliography of machine learning papers, distributed systems posts, and systems reading notes.
+
+### Site Information API (`/api/info.json`)
+- URL: `https://jayshah.dev/api/info.json`
+- Method: `GET`
+- Response Type: `application/json`
+- Content: Author bio, current role, patents, social endpoints, feeds, and contact points.
+
+### Structured Error Responses (RFC 7807)
+All API errors return JSON problem details:
+```json
+{
+  "type": "https://jayshah.dev/api/errors/not-found",
+  "title": "Not Found",
+  "status": 404,
+  "error": "NOT_FOUND",
+  "message": "The requested API endpoint was not found.",
+  "resolution": "Check the available endpoints in our OpenAPI specification at https://jayshah.dev/api/openapi.json or consult https://jayshah.dev/llms.txt.",
+  "documentation_url": "https://jayshah.dev/api/openapi.json"
+}
+```
+
+---
+
+## 2. Model Context Protocol (MCP) Manifest
+
+- Manifest URL: `https://jayshah.dev/.well-known/mcp.json` and `https://jayshah.dev/mcp.json`
+- Tools Declared:
+  - `search_articles`: Search Jay Shah's blog posts by keyword, tag, or topic.
+  - `get_post_content`: Fetch the clean markdown text of a specific article by slug.
+  - `list_projects`: Query open source software projects and repositories.
+  - `get_resume`: Retrieve structured CV and career history data.
+
+---
+
+## 3. Engineering Projects Directory
+
+### Pi Agent Extensions
+- URL: https://github.com/jayshah5696/pi-agent-extensions
+- Tags: AI AGENTS, TYPESCRIPT, DEVELOPER TOOLS
+- Summary: A collection of extensions and themes for the Pi coding agent, including session resumption, structured questions, agent handoffs, multi-agent workflows, and code review tools.
+
+### Session Aggregator
+- URL: https://github.com/jayshah5696/session-aggregator
+- Tags: AI, TUI, PYTHON, SEMANTIC SEARCH
+- Summary: A local tool for syncing, searching, and exporting AI coding sessions across development tools, featuring a terminal UI and local embedding search.
+
+### Medha (मेधा) IDE
+- URL: https://github.com/jayshah5696/medha
+- Tags: SQL, LOCAL-FIRST, LANGGRAPH, DUCKDB
+- Summary: A local-first SQL IDE for flat files combining DuckDB, FastAPI, Vite, and LangGraph for semantic query generation.
+
+### Arka (अर्क)
+- URL: https://github.com/jayshah5696/arka
+- Tags: LLM, DATA GENERATION, PYTHON, YAML
+- Summary: A config-driven pipeline for generating and filtering fine-tuning data with multi-source ingestion, Evol-Instruct, MinHash/LSH deduplication, and SQLite checkpoints.
+
+### Humanizer-RL
+- URL: https://github.com/jayshah5696/humanize-rl
+- Tags: RL, FINE-TUNING, GEMMA, PYTHON
+- Summary: A text humanness scoring and reinforcement-learning pipeline converting model evaluations into reward functions for Gemma fine-tuning.
+
+### Text Watermarking Lab
+- URL: https://github.com/jayshah5696/text-watermarking-lab
+- Tags: LLM, WATERMARKING, EVALUATION, PYTHON
+- Summary: Keyed text watermarking experiments, statistical detection, model entropy behavior, calibration, and perturbation attack resilience.
+
+### ER Metric & Model POC
+- URL: https://github.com/jayshah5696/entity-resolution-poc
+- Tags: ML, ELASTICSEARCH, MRL, ENTITY RESOLUTION
+- Summary: Entity resolution benchmark comparing dense embeddings, BM25, and Matryoshka Representation Learning (MRL) for scalable retrieval.
+
+### Pravāha: AI Search Engine
+- URL: https://github.com/jayshah5696/pravah
+- Tags: LLM, SEARCH, RAG
+- Summary: A local search engine combining web search, document retrieval, agent tools, and language models with specialized ranking and chunking.
+
+### Gujarati Llama
+- URL: https://huggingface.co/jayshah5696/Gujarati-Llama-7b-Base
+- Tags: LLM, FINE-TUNING, NLP
+- Summary: Llama 2 7B model fine-tuned on 60,000 bilingual English-Gujarati pairs for low-resource Indic language tasks.
+
+---
+
+## 4. Technical Articles & Summaries
+
+### How does a text watermark work?
+- URL: https://jayshah.dev/posts/how-text-watermarks-hide-in-plain-sight/
+- Topics: AI Safety, Watermarking, LLMs, Research
+- Abstract: Explains how statistical text watermarks (Kirchenbauer et al. green-red list partitioning, Aaronson pseudorandom watermarking) modify token sampling distributions without degrading output quality, and analyzes z-score detection thresholds under character, word, and semantic perturbations.
+
+### File-Based Memory Is a Terrible Idea That Somehow Works
+- URL: https://jayshah.dev/posts/memory-architecture/
+- Topics: AI Agents, Memory Architecture, OpenClaw, Production
+- Abstract: Examines why file-based memory hierarchies outperform flat associative key-value stores in autonomous agent workflows, detailing structured indexing, decay functions, and contextual retrieval.
+
+### Can Dense Retrieval Beat BM25 for Entity Resolution? (And At What Cost?)
+- URL: https://jayshah.dev/posts/entity-resolution-dense-retrieval/
+- Topics: Machine Learning, Dense Retrieval, BM25, Matryoshka Representation Learning
+- Abstract: Empirical evaluation of dense embedding models versus sparse BM25 indexing for enterprise entity resolution, measuring recall@k, latency tradeoffs, memory footprint, and MRL dimension truncation.
+
+### Stop Renting Your Workflow: Building a Custom AI Coding Agent with Pi
+- URL: https://jayshah.dev/posts/stop-renting-your-workflow/
+- Topics: AI Agents, Developer Tools, Coding Tools, Pi
+- Abstract: Guide to building an extensible, transparent developer agent harness using Pi, moving beyond monolithic proprietary tools into composable, scriptable developer infrastructure.
+
+### Concept to Code - Deploying ColBERT with RAGatouille on Modal Labs in Minutes
+- URL: https://jayshah.dev/posts/ragatouille/
+- Topics: RAG, ColBERT, Modal Labs, Embeddings
+- Abstract: Step-by-step architecture for deploying late-interaction multi-vector ColBERT indexing on serverless Modal GPU infrastructure.
+
+### Beyond the Hype - Practical Strategies for Implementing Superior RAG
+- URL: https://jayshah.dev/posts/applied-rag/
+- Topics: RAG, Search, Embeddings, Systems
+- Abstract: Production best practices for retrieval augmented generation: chunking strategies, embedding dimensionality, rerankers, and continuous evaluation.
+
+---
+
+## 5. Patents & Intellectual Property
+
+1. **Calculating energy loss during an outage**
+   - Patent: US20230213560A1, Filed Dec 30, 2021
+   - Google Patents: https://patents.google.com/patent/US20230213560A1/en
+2. **Predicting energy production for energy generating assets**
+   - Patent: US20230214703A1, Filed Dec 30, 2021
+   - Google Patents: https://patents.google.com/patent/US20230214703A1/en
+3. **Dimension Measurement Using Image Processing**
+   - Patent: IN201721044402A, Filed Dec 11, 2017
+   - Google Patents: https://patents.google.com/patent/IN201721044402A/en

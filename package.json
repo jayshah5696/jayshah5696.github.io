@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build && npx pagefind --site dist",
+    "build": "astro build && node scripts/generate-markdown-variants.js && npx pagefind --site dist",
     "preview": "astro preview",
     "astro": "astro",
     "add-read": "node scripts/add-read.js"

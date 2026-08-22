@@ -14,32 +14,43 @@ const totalPosts = posts.length;
 <BaseLayout rightSidebar={true}>
   <!-- Hero welcome section -->
   <section class="mb-8">
+    <h1 class="font-display text-2xl sm:text-3xl text-ink dark:text-silk carved-heading mb-3">
+      Jay Shah &mdash; AI Systems, Research &amp; Engineering
+    </h1>
     <p class="text-ink-light dark:text-silk-muted text-base leading-relaxed">
-      I build machine learning systems, from model training and evaluation to applications people use.
-      I write about what I build, break, and learn along the way.
+      I am a Senior Data Scientist at 6sense building production AI applications, foundational model systems, custom embeddings, and agent evaluation frameworks. On this site, I write in-depth technical essays documenting what I build, break, and learn across large language models, retrieval-augmented generation (RAG), statistical text watermarking, and autonomous developer agents.
     </p>
-    <div class="flex items-center gap-3 mt-3">
+    <div class="flex items-center gap-3 mt-4">
       <span class="font-mono text-xs text-ink-faint dark:text-silk-faint uppercase" style="letter-spacing: 0.1em;">{totalPosts} writings</span>
       <span class="text-cream-300 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
       <a href="/rss.xml" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">RSS</a>
+      <span class="text-cream-300 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
+      <a href="/llms.txt" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">llms.txt</a>
+      <span class="text-cream-300 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
+      <a href="/api/docs/" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">API</a>
     </div>
     <div class="kolam-border mt-5"></div>
   </section>
 
-  <div class="space-y-5">
-    {posts.map((post, i) => (
-      <PostCard
-        title={post.data.title}
-        date={post.data.date}
-        description={post.data.description}
-        slug={post.id}
-        tags={post.data.tags}
-        body={post.body ?? ''}
-        image={post.data.image}
-        featured={i === 0}
-      />
-    ))}
-  </div>
+  <section aria-label="Recent Writings">
+    <h2 class="font-mono text-xs uppercase text-ink-muted dark:text-silk-muted mb-4" style="letter-spacing: 0.12em;">
+      Recent Research &amp; Technical Articles
+    </h2>
+    <div class="space-y-5">
+      {posts.map((post, i) => (
+        <PostCard
+          title={post.data.title}
+          date={post.data.date}
+          description={post.data.description}
+          slug={post.id}
+          tags={post.data.tags}
+          body={post.body ?? ''}
+          image={post.data.image}
+          featured={i === 0}
+        />
+      ))}
+    </div>
+  </section>
 
   <!-- Subscribe CTA -->
   <div class="mt-12 pt-6">

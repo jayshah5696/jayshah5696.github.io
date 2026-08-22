@@ -15,6 +15,9 @@ interface Props {
 const { title, description = SITE_DESCRIPTION, image, rightSidebar = false } = Astro.props;
 const pageTitle = title ? `${title} -- ${SITE_TITLE}` : SITE_TITLE;
 const canonicalURL = new URL(Astro.url.pathname, SITE_URL);
+const markdownURL = Astro.url.pathname === '/' || Astro.url.pathname === ''
+  ? new URL('/index.md', SITE_URL)
+  : new URL(`${Astro.url.pathname.replace(/\/$/, '')}/index.md`, SITE_URL);
 ---
 
 <!doctype html>
@@ -46,6 +49,7 @@ const canonicalURL = new URL(Astro.url.pathname, SITE_URL);
     <meta name="twitter:image" content={new URL(image || '/assets/images/profile.webp', SITE_URL)} />
 
     <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
+    <link rel="alternate" type="text/markdown" title={`${pageTitle} (Markdown)`} href={markdownURL} />
     <link rel="canonical" href={canonicalURL} />
 
     <!-- Google Analytics -->
