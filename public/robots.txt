@@ -8,3 +8,8 @@ Allow: /
 # Agent Instructions: https://jayshah.dev/.well-known/agent-instructions.md
 
 Sitemap: https://jayshah.dev/sitemap-index.xml
+
+# Machine-readable documentation and AI agent resources
+# https://jayshah.dev/llms.txt
+# https://jayshah.dev/llms-full.txt
+# https://jayshah.dev/api/openapi.json

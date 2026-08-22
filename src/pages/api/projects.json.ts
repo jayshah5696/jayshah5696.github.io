@@ -1,6 +1,8 @@
 import type { APIRoute } from 'astro';
 import { projects } from '../../data/projects';
 
+export const prerender = true;
+
 export const GET: APIRoute = async () => {
   return new Response(
     JSON.stringify(

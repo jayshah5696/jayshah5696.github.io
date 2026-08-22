@@ -3,6 +3,8 @@ import { getCollection } from 'astro:content';
 import readingTime from 'reading-time';
 import { SITE_URL } from '../../consts';
 
+export const prerender = true;
+
 export const GET: APIRoute = async () => {
   const posts = (await getCollection('blog'))
     .filter((post) => !post.data.draft)
@@ -17,10 +19,16 @@ export const GET: APIRoute = async () => {
       date: post.data.date.toISOString(),
       tags: post.data.tags,
       reading_time: stats.text,
+      readingTime: stats.text,
+      wordsCount: stats.words,
       url: `${SITE_URL}/posts/${post.id}/`,
       markdown_url: `${SITE_URL}/posts/${post.id}.md`,
+      markdownUrl: `${SITE_URL}/posts/${post.id}/index.md`,
       json_url: `${SITE_URL}/api/posts/${post.id}.json`,
       image: post.data.image ? `${SITE_URL}${post.data.image}` : undefined,
+      series: post.data.series ?? null,
+      seriesOrder: post.data.seriesOrder ?? null,
+      interactive: post.data.interactive ?? false,
     };
   });
 

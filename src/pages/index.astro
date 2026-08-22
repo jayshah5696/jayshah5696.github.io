@@ -12,33 +12,32 @@ const totalPosts = posts.length;
 ---
 
 <BaseLayout rightSidebar={true} jsonLdType="WebSite">
-  <!-- Main Heading & Hero Welcome Section -->
+  <!-- Hero welcome section -->
   <header class="mb-8">
     <h1 class="font-display text-2xl sm:text-3xl text-ink dark:text-silk carved-heading mb-3">
-      Jay Shah &mdash; AI Systems, Foundational Models &amp; Research
+      Jay Shah &mdash; AI Systems, Research &amp; Engineering
     </h1>
     <p class="text-ink-light dark:text-silk-muted text-base leading-relaxed">
-      I build machine learning systems, from model training and evaluation to applications people use.
-      I write about what I build, break, and learn along the way — focusing on intent intelligence,
-      retrieval-augmented generation (RAG), keyed text watermarking, and LLM agent evaluations.
+      I am a Senior Data Scientist at 6sense building production AI applications, foundational model systems, custom embeddings, and agent evaluation frameworks. On this site, I write in-depth technical essays documenting what I build, break, and learn across large language models, retrieval-augmented generation (RAG), statistical text watermarking, and autonomous developer agents.
     </p>
     <div class="flex items-center gap-3 mt-4">
       <span class="font-mono text-xs text-ink-faint dark:text-silk-faint uppercase" style="letter-spacing: 0.1em;">{totalPosts} writings</span>
       <span class="text-cream-300 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
-      <a href="/rss.xml" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">RSS Feed</a>
+      <a href="/rss.xml" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">RSS</a>
+      <span class="text-cream-300 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
+      <a href="/llms.txt" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">llms.txt</a>
       <span class="text-cream-300 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
       <a href="/openapi.json" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">OpenAPI</a>
       <span class="text-cream-300 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
-      <a href="/llms.txt" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">llms.txt</a>
+      <a href="/api/docs/" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">API Docs</a>
     </div>
     <div class="kolam-border mt-5"></div>
   </header>
 
-  <!-- Recent Writings Section -->
   <section aria-labelledby="writings-heading" class="space-y-6">
     <div class="flex items-center justify-between">
       <h2 id="writings-heading" class="font-mono text-xs uppercase text-ink-muted dark:text-silk-faint tracking-wider font-semibold">
-        Recent Writings &amp; Case Studies
+        Recent Research &amp; Technical Articles
       </h2>
       <a href="/archives/" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors">
         View archives &rarr;
