@@ -12,7 +12,7 @@ export const GET: APIRoute = async () => {
     code: 404,
     message: 'The requested API endpoint does not exist on this server.',
     resolution: `Check the available endpoints in the OpenAPI specification at ${SITE_URL}/api/openapi.json or consult ${SITE_URL}/llms.txt for machine-readable routes.`,
-    documentation_url: `${SITE_URL}/api/openapi.json`,
+    documentation_url: `${SITE_URL}/api/docs/`,
     available_endpoints: [
       `${SITE_URL}/api/posts.json`,
       `${SITE_URL}/api/projects.json`,
@@ -24,6 +24,7 @@ export const GET: APIRoute = async () => {
 
   return new Response(JSON.stringify(errorObj, null, 2), {
     status: 404,
+    statusText: 'Not Found',
     headers: {
       'Content-Type': 'application/problem+json; charset=utf-8',
       'Vary': 'Accept, Accept-Encoding',

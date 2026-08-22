@@ -1,6 +1,12 @@
 User-agent: *
 Allow: /
 
+# Machine & AI Agent Discovery
+# LLM Index: https://jayshah.dev/llms.txt
+# Full LLM Context: https://jayshah.dev/llms-full.txt
+# OpenAPI 3.1 Specification: https://jayshah.dev/openapi.json
+# Agent Instructions: https://jayshah.dev/.well-known/agent-instructions.md
+
 Sitemap: https://jayshah.dev/sitemap-index.xml
 
 # Machine-readable documentation and AI agent resources

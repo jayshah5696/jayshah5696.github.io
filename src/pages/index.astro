@@ -11,9 +11,9 @@ const posts = (await getCollection('blog'))
 const totalPosts = posts.length;
 ---
 
-<BaseLayout rightSidebar={true}>
+<BaseLayout rightSidebar={true} jsonLdType="WebSite">
   <!-- Hero welcome section -->
-  <section class="mb-8">
+  <header class="mb-8">
     <h1 class="font-display text-2xl sm:text-3xl text-ink dark:text-silk carved-heading mb-3">
       Jay Shah &mdash; AI Systems, Research &amp; Engineering
     </h1>
@@ -27,15 +27,23 @@ const totalPosts = posts.length;
       <span class="text-cream-300 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
       <a href="/llms.txt" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">llms.txt</a>
       <span class="text-cream-300 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
-      <a href="/api/docs/" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">API</a>
+      <a href="/openapi.json" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">OpenAPI</a>
+      <span class="text-cream-300 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
+      <a href="/api/docs/" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">API Docs</a>
     </div>
     <div class="kolam-border mt-5"></div>
-  </section>
+  </header>
 
-  <section aria-label="Recent Writings">
-    <h2 class="font-mono text-xs uppercase text-ink-muted dark:text-silk-muted mb-4" style="letter-spacing: 0.12em;">
-      Recent Research &amp; Technical Articles
-    </h2>
+  <section aria-labelledby="writings-heading" class="space-y-6">
+    <div class="flex items-center justify-between">
+      <h2 id="writings-heading" class="font-mono text-xs uppercase text-ink-muted dark:text-silk-faint tracking-wider font-semibold">
+        Recent Research &amp; Technical Articles
+      </h2>
+      <a href="/archives/" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors">
+        View archives &rarr;
+      </a>
+    </div>
+
     <div class="space-y-5">
       {posts.map((post, i) => (
         <PostCard

@@ -13,10 +13,27 @@ const recoveryLinks = [
   { href: '/llms-full.txt', label: 'llms-full.txt', desc: 'Complete knowledge digest with article summaries' },
   { href: '/sitemap-index.xml', label: 'XML Sitemap', desc: 'Canonical list of all indexed web pages' },
   { href: '/api/docs/', label: 'Developer API Docs', desc: 'Endpoints, OpenAPI 3.1 schema, and JSON feeds' },
+  { href: '/openapi.json', label: 'OpenAPI 3.1 Spec', desc: 'Machine-readable OpenAPI schema definition' },
   { href: '/about/', label: 'About Jay Shah', desc: 'Research focus, patents, and professional background' },
   { href: '/projects/', label: 'Engineering Projects', desc: 'Open-source repositories, agent tools, and ML code' },
-  { href: '/archives/', label: 'Article Archives', desc: 'Complete chronological archive of all publications' },
 ];
+
+const markdownRecoveryText = `# 404 — Resource Not Found
+
+The requested URL does not exist on https://jayshah.dev.
+
+## Agent & Crawler Recovery Index
+- Sitemap Index: https://jayshah.dev/sitemap-index.xml
+- LLM Overview: https://jayshah.dev/llms.txt
+- Full LLM Context: https://jayshah.dev/llms-full.txt
+- OpenAPI Spec: https://jayshah.dev/openapi.json
+- Developer Docs: https://jayshah.dev/api/docs/
+- Posts API: https://jayshah.dev/api/posts.json
+- Projects API: https://jayshah.dev/api/projects.json
+- Home Page: https://jayshah.dev/
+- About Page: https://jayshah.dev/about/
+- Projects: https://jayshah.dev/projects/
+- Reading List: https://jayshah.dev/reads/`;
 ---
 
 <BaseLayout title="Page Not Found (404)" description="The requested URL was not found on jayshah.dev. Use our site directory, sitemap, or llms.txt index to find what you are looking for.">
@@ -55,6 +72,17 @@ const recoveryLinks = [
       </div>
     </section>
 
+    <!-- Machine-Readable Recovery Guide -->
+    <section aria-labelledby="agent-recovery-guide" class="mb-8 p-4 rounded-xl border border-cream-200 dark:border-night-700 bg-cream-50/50 dark:bg-night-900/50">
+      <div class="flex items-center justify-between mb-3 border-b border-cream-200 dark:border-night-700 pb-2">
+        <h2 id="agent-recovery-guide" class="font-mono text-xs uppercase text-terra dark:text-terra-light font-semibold" style="letter-spacing: 0.1em;">
+          Machine Agent Recovery Guide
+        </h2>
+        <span class="font-mono text-[10px] text-ink-faint dark:text-silk-faint">text/markdown</span>
+      </div>
+      <pre class="font-mono text-xs text-ink-light dark:text-silk-muted overflow-x-auto whitespace-pre-wrap bg-white/60 dark:bg-night-950/80 p-3.5 rounded-lg border border-cream-200/60 dark:border-night-700/60 leading-relaxed">{markdownRecoveryText}</pre>
+    </section>
+
     <!-- Recent Writings -->
     {posts.length > 0 && (
       <section class="mb-10">
@@ -78,23 +106,6 @@ const recoveryLinks = [
         </div>
       </section>
     )}
-
-    <!-- Machine-Readable Recovery Guide -->
-    <section class="mb-8 p-4 rounded-xl border border-cream-200 dark:border-night-700 bg-cream-50/50 dark:bg-night-900/50">
-      <h2 class="font-mono text-xs uppercase text-ink-muted dark:text-silk-muted mb-2" style="letter-spacing: 0.12em;">
-        Machine Agent Recovery Info
-      </h2>
-      <p class="text-xs text-ink-light dark:text-silk-muted leading-relaxed mb-2">
-        AI crawlers and agents querying <code class="font-mono text-[11px]">jayshah.dev</code> can retrieve structured directories and clean Markdown representations via:
-      </p>
-      <ul class="text-xs text-ink-muted dark:text-silk-muted font-mono space-y-1">
-        <li>&bull; <a href="/llms.txt" class="text-terra dark:text-terra-light hover:underline">/llms.txt</a> &mdash; Summary manifest</li>
-        <li>&bull; <a href="/llms-full.txt" class="text-terra dark:text-terra-light hover:underline">/llms-full.txt</a> &mdash; Full knowledge digest</li>
-        <li>&bull; <a href="/api/openapi.json" class="text-terra dark:text-terra-light hover:underline">/api/openapi.json</a> &mdash; OpenAPI 3.1 spec</li>
-        <li>&bull; <a href="/sitemap-index.xml" class="text-terra dark:text-terra-light hover:underline">/sitemap-index.xml</a> &mdash; Complete sitemap</li>
-        <li>&bull; HTTP Header <code class="text-ink dark:text-silk">Accept: text/markdown</code> supported on all content pages</li>
-      </ul>
-    </section>
 
     <div class="text-center pt-2">
       <a

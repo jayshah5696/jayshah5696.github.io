@@ -1,8 +1,39 @@
 export const SITE_TITLE = 'Jay Shah';
 export const SITE_TAGLINE = 'Senior Data Scientist | AI Applications & Foundational Models';
 export const SITE_DESCRIPTION =
-  'Personal blog about AI, Machine Learning, LLMs, and data science.';
+  'Personal blog and research portfolio of Jay Shah — Senior Data Scientist focusing on AI applications, foundational models, LLM evaluations, and RAG systems.';
 export const SITE_URL = 'https://jayshah.dev';
+export const SITE_AUTHOR = 'Jay Shah';
+export const SITE_LEGAL_NAME = 'Jay Shah AI Engineering & Research';
+export const SITE_EMAIL = 'contact@jayshah.dev';
+
+export const BRAND_ALTERNATE_NAMES = [
+  'Jay Shah',
+  'Jay J. Shah',
+  'jayshah5696',
+  'Jay Shah - AI Systems & Machine Learning',
+  'jayshah.dev',
+] as const;
+
+export const ORGANIZATION_INFO = {
+  name: 'Jay Shah',
+  legalName: 'Jay Shah AI Engineering & Research',
+  url: 'https://jayshah.dev',
+  logo: 'https://jayshah.dev/assets/images/favicon/android-chrome-512x512.png',
+  image: 'https://jayshah.dev/assets/images/profile.webp',
+  email: 'contact@jayshah.dev',
+  contactPoint: {
+    contactType: 'technical support',
+    email: 'contact@jayshah.dev',
+    url: 'https://jayshah.dev/about/',
+    availableLanguage: ['English', 'Gujarati', 'Hindi'],
+  },
+  address: {
+    addressLocality: 'San Francisco',
+    addressRegion: 'CA',
+    addressCountry: 'US',
+  },
+} as const;
 
 export const SOCIAL_LINKS = {
   github: 'https://github.com/jayshah5696',
@@ -10,6 +41,27 @@ export const SOCIAL_LINKS = {
   linkedin: 'https://linkedin.com/in/jayshah5696',
   huggingface: 'https://huggingface.co/jayshah5696',
   email: 'mailto:contact@jayshah.dev',
+  cv: 'https://cv.jayshah.dev',
+} as const;
+
+export const SAME_AS_LINKS = [
+  SOCIAL_LINKS.github,
+  SOCIAL_LINKS.linkedin,
+  SOCIAL_LINKS.twitter,
+  'https://x.com/jayjshah',
+  SOCIAL_LINKS.huggingface,
+  SOCIAL_LINKS.cv,
+  SITE_URL,
+] as const;
+
+export const AGENT_RESOURCES = {
+  llmsTxt: '/llms.txt',
+  llmsFullTxt: '/llms-full.txt',
+  agentInstructions: '/.well-known/agent-instructions.md',
+  openApiJson: '/openapi.json',
+  openApiYaml: '/openapi.yaml',
+  sitemap: '/sitemap-index.xml',
+  toolsJson: '/api/tools.json',
 } as const;
 
 export const NAV_ITEMS = [
@@ -21,4 +73,5 @@ export const NAV_ITEMS = [
   { label: 'Archives', href: '/archives/', icon: 'archive' },
   { label: 'Resume', href: 'https://cv.jayshah.dev', icon: 'resume' },
 ] as const;
+
 

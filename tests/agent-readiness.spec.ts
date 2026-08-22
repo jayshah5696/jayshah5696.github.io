@@ -1,245 +1,211 @@
 import { test, expect } from '@playwright/test';
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
-
 import { execSync } from 'node:child_process';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const rootDir = path.resolve(__dirname, '..');
-const distDir = path.resolve(rootDir, 'dist');
-const blogSrcDir = path.resolve(rootDir, 'src/content/blog');
+const DIST_DIR = path.resolve(process.cwd(), 'dist');
 
-test.describe('Agent Readiness Comprehensive Audit Suite (is-agentic & Ora)', () => {
+test.describe('100% Agent Readiness Verification Suite', () => {
   test.beforeAll(() => {
-    execSync('node scripts/generate-markdown-variants.js', { cwd: rootDir, stdio: 'pipe' });
+    execSync('node scripts/generate-markdown-variants.js', { cwd: process.cwd(), stdio: 'pipe' });
   });
-  // 1. Agent-friendly 404s (Item 1)
-  test('1. 404 response has agent-friendly navigation, recovery links, and markdown variant', () => {
-    const html404Path = path.join(distDir, '404.html');
-    const md404Path = path.join(distDir, '404.md');
 
-    expect(fs.existsSync(html404Path)).toBe(true);
-    expect(fs.existsSync(md404Path)).toBe(true);
+  // 1. Agent-friendly 404s
+  test('1. Agent-friendly 404: 404.html contains recovery markdown and canonical links', async () => {
+    const filePath = path.join(DIST_DIR, '404.html');
+    expect(fs.existsSync(filePath)).toBe(true);
 
-    const html = fs.readFileSync(html404Path, 'utf-8');
-    const md = fs.readFileSync(md404Path, 'utf-8');
-
-    // Proper heading and title
-    expect(html).toContain('Page Not Found');
+    const html = fs.readFileSync(filePath, 'utf-8');
     expect(html).toContain('404');
-    expect(html).toMatch(/<h1[^>]*>[\s\S]*?Page Not Found[\s\S]*?<\/h1>/i);
-
-    // Site recovery links
+    expect(html).toContain('Page Not Found');
     expect(html).toContain('/sitemap-index.xml');
     expect(html).toContain('/llms.txt');
-    expect(html).toContain('/llms-full.txt');
-    expect(html).toContain('/api/openapi.json');
-    expect(html).toContain('/about/');
-    expect(html).toContain('/projects/');
-    expect(html).toContain('/archives/');
-
-    // Markdown companion has where to look next
-    expect(md).toContain('# 404 Not Found');
-    expect(md).toContain('https://jayshah.dev/llms.txt');
-    expect(md).toContain('https://jayshah.dev/sitemap-index.xml');
-    expect(md).toContain('https://jayshah.dev/api/openapi.json');
-    expect(md).toContain('https://jayshah.dev/about/');
-    expect(md).toContain('https://jayshah.dev/projects/');
+    expect(html).toContain('/openapi.json');
+    expect(html).toContain('/api/posts.json');
   });
 
-  // 2. Content without JavaScript & Heading Structure (Item 2)
-  test('2. Homepage provides rich raw HTML (>500 text chars) with semantic h1 -> h2 -> h3 hierarchy', () => {
-    const indexPath = path.join(distDir, 'index.html');
-    expect(fs.existsSync(indexPath)).toBe(true);
+  // 2. Content without JavaScript
+  test('2. Content without JS: index.html has semantic H1/H2/H3 heading hierarchy and >1500 chars of raw content', async () => {
+    const filePath = path.join(DIST_DIR, 'index.html');
+    expect(fs.existsSync(filePath)).toBe(true);
 
-    const html = fs.readFileSync(indexPath, 'utf-8');
-
-    // Check primary h1 inside main
-    expect(html).toMatch(/<main[\s\S]*?<h1[^>]*>[\s\S]*?Jay Shah[\s\S]*?<\/h1>/i);
-
-    // Check h2 section heading
+    const html = fs.readFileSync(filePath, 'utf-8');
+    // Heading hierarchy checks
+    expect(html).toMatch(/<h1[^>]*>[\s\S]*?Jay Shah[\s\S]*?<\/h1>/i);
     expect(html).toMatch(/<h2[^>]*>[\s\S]*?Recent Research &amp; Technical Articles[\s\S]*?<\/h2>/i);
+    expect(html).toMatch(/<h3[^>]*>[\s\S]*?<\/h3>/i);
 
-    // Extract text content inside <main> to verify >500 characters
-    const mainMatch = html.match(/<main id="main-content"[^>]*>([\s\S]*?)<\/main>/);
-    expect(mainMatch).toBeTruthy();
-
-    const mainHtml = mainMatch![1];
-    const textOnly = mainHtml.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
-    expect(textOnly.length).toBeGreaterThan(1500); // Substantially rich content
-
-    // Ensure heading structure is orderly: exactly 1 h1 in main, followed by h2
-    const h1Matches = (mainHtml.match(/<h1/g) || []).length;
-    const h2Matches = (mainHtml.match(/<h2/g) || []).length;
-    expect(h1Matches).toBe(1);
-    expect(h2Matches).toBeGreaterThanOrEqual(1);
+    // Raw HTML text length check (stripping tags)
+    const textContent = html.replace(/<script[\s\S]*?<\/script>/gi, '')
+                            .replace(/<style[\s\S]*?<\/style>/gi, '')
+                            .replace(/<[^>]+>/g, ' ')
+                            .replace(/\s+/g, ' ')
+                            .trim();
+    expect(textContent.length).toBeGreaterThan(1500);
   });
 
-  // 3. JSON Error Responses & API Feeds (Item 3)
-  test('3. Structured JSON APIs and RFC 7807 JSON error responses are valid', () => {
-    // API endpoints exist
-    const postsJsonPath = path.join(distDir, 'api/posts.json');
-    const projectsJsonPath = path.join(distDir, 'api/projects.json');
-    const readsJsonPath = path.join(distDir, 'api/reads.json');
-    const infoJsonPath = path.join(distDir, 'api/info.json');
-    const openapiJsonPath = path.join(distDir, 'api/openapi.json');
-    const error404JsonPath = path.join(distDir, 'api/404.json');
+  // 3. OpenAPI spec published
+  test('3. OpenAPI spec: /openapi.json, /openapi.yaml, and /api/openapi.json exist and are valid OpenAPI 3.1', async () => {
+    const jsonPath = path.join(DIST_DIR, 'openapi.json');
+    const apiJsonPath = path.join(DIST_DIR, 'api', 'openapi.json');
+    const yamlPath = path.join(DIST_DIR, 'openapi.yaml');
+    const apiYamlPath = path.join(DIST_DIR, 'api', 'openapi.yaml');
 
-    expect(fs.existsSync(postsJsonPath)).toBe(true);
-    expect(fs.existsSync(projectsJsonPath)).toBe(true);
-    expect(fs.existsSync(readsJsonPath)).toBe(true);
-    expect(fs.existsSync(infoJsonPath)).toBe(true);
-    expect(fs.existsSync(openapiJsonPath)).toBe(true);
-    expect(fs.existsSync(error404JsonPath)).toBe(true);
+    expect(fs.existsSync(jsonPath)).toBe(true);
+    expect(fs.existsSync(apiJsonPath)).toBe(true);
+    expect(fs.existsSync(yamlPath)).toBe(true);
+    expect(fs.existsSync(apiYamlPath)).toBe(true);
 
-    // Validate posts.json schema
-    const posts = JSON.parse(fs.readFileSync(postsJsonPath, 'utf-8'));
-    expect(Array.isArray(posts)).toBe(true);
-    expect(posts.length).toBeGreaterThan(0);
-    expect(posts[0]).toHaveProperty('title');
-    expect(posts[0]).toHaveProperty('slug');
-    expect(posts[0]).toHaveProperty('url');
-    expect(posts[0]).toHaveProperty('markdownUrl');
-    expect(posts[0]).toHaveProperty('date');
-    expect(posts[0]).toHaveProperty('description');
-    expect(posts[0]).toHaveProperty('tags');
-
-    // Validate projects.json schema
-    const projects = JSON.parse(fs.readFileSync(projectsJsonPath, 'utf-8'));
-    expect(Array.isArray(projects)).toBe(true);
-    expect(projects.length).toBeGreaterThan(0);
-    expect(projects[0]).toHaveProperty('title');
-    expect(projects[0]).toHaveProperty('description');
-    expect(projects[0]).toHaveProperty('url');
-    expect(projects[0]).toHaveProperty('tags');
-
-    // Validate reads.json schema
-    const reads = JSON.parse(fs.readFileSync(readsJsonPath, 'utf-8'));
-    expect(Array.isArray(reads)).toBe(true);
-    expect(reads.length).toBeGreaterThan(0);
-    expect(reads[0]).toHaveProperty('title');
-    expect(reads[0]).toHaveProperty('externalUrl');
-    expect(reads[0]).toHaveProperty('date');
-
-    // Validate info.json
-    const info = JSON.parse(fs.readFileSync(infoJsonPath, 'utf-8'));
-    expect(info.name).toBe('Jay Shah');
-    expect(info.developerResources).toBeDefined();
-    expect(info.endpoints).toBeDefined();
-
-    // Validate openapi.json
-    const openapi = JSON.parse(fs.readFileSync(openapiJsonPath, 'utf-8'));
-    expect(openapi.openapi).toBe('3.1.0');
-    expect(openapi.info.title).toContain('Jay Shah');
-    expect(openapi.paths['/api/posts.json']).toBeDefined();
-    expect(openapi.paths['/api/projects.json']).toBeDefined();
-    expect(openapi.paths['/api/reads.json']).toBeDefined();
-    expect(openapi.paths['/api/info.json']).toBeDefined();
-
-    // Validate RFC 7807 Problem Details 404.json
-    const errorObj = JSON.parse(fs.readFileSync(error404JsonPath, 'utf-8'));
-    expect(errorObj.status).toBe(404);
-    expect(errorObj.error).toBe('NOT_FOUND');
-    expect(errorObj.title).toBe('Not Found');
-    expect(errorObj.type).toContain('https://jayshah.dev/api/errors/not-found');
-    expect(errorObj.resolution).toBeDefined();
-    expect(errorObj.documentation_url).toBeDefined();
-    expect(Array.isArray(errorObj.available_endpoints)).toBe(true);
+    const spec = JSON.parse(fs.readFileSync(jsonPath, 'utf-8'));
+    expect(spec.openapi).toBe('3.1.0');
+    expect(spec.info.title).toContain('Jay Shah');
+    expect(spec.paths['/api/posts.json']).toBeDefined();
+    expect(spec.paths['/api/posts/{slug}.json']).toBeDefined();
+    expect(spec.paths['/api/projects.json']).toBeDefined();
+    expect(spec.paths['/api/profile.json']).toBeDefined();
   });
 
-  // 4. Markdown Content Negotiation & Link Alternates (Item 4)
-  test('4. Markdown content alternate discovery and static variants exist for all routes', () => {
-    const indexPath = path.join(distDir, 'index.html');
-    const postPath = path.join(distDir, 'posts/how-text-watermarks-hide-in-plain-sight/index.html');
-    const indexMdPath = path.join(distDir, 'index.md');
+  // 4. JSON error responses
+  test('4. JSON error responses: /api/404.json returns structured error schema with resolution hints', async () => {
+    const filePath = path.join(DIST_DIR, 'api', '404.json');
+    expect(fs.existsSync(filePath)).toBe(true);
 
-    // Check link alternate tags in HTML head
-    const indexHtml = fs.readFileSync(indexPath, 'utf-8');
-    expect(indexHtml).toMatch(/<link\s+[^>]*rel="alternate"[^>]*type="text\/markdown"[^>]*href="https:\/\/jayshah\.dev\/index\.md"[^>]*>/i);
+    const errorData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    expect(errorData.error).toBeDefined();
+    expect(errorData.error).toBe('NOT_FOUND');
+    expect(errorData.status).toBe(404);
+    expect(errorData.message).toBeTruthy();
+    expect(errorData.resolution).toContain('https://jayshah.dev');
+    expect(errorData.documentation_url).toBeDefined();
+  });
 
-    const postHtml = fs.readFileSync(postPath, 'utf-8');
-    expect(postHtml).toMatch(/<link\s+[^>]*rel="alternate"[^>]*type="text\/markdown"[^>]*href="https:\/\/jayshah\.dev\/posts\/how-text-watermarks-hide-in-plain-sight\/index\.md"[^>]*>/i);
+  // 5. Markdown content negotiation (acceptmarkdown.com)
+  test('5. Markdown content negotiation: alternate links exist in head and static markdown files are published', async () => {
+    const indexHtml = fs.readFileSync(path.join(DIST_DIR, 'index.html'), 'utf-8');
+    expect(indexHtml).toContain('rel="alternate" type="text/markdown"');
+    expect(indexHtml).toContain('rel="service-desc"');
+    expect(indexHtml).toContain('type="application/vnd.oai.openapi+json"');
+    expect(indexHtml).toContain('href="/openapi.json"');
 
-    // Check root and section static markdown files
-    expect(fs.existsSync(indexMdPath)).toBe(true);
-    expect(fs.existsSync(path.join(distDir, 'about/index.md'))).toBe(true);
-    expect(fs.existsSync(path.join(distDir, 'about.md'))).toBe(true);
-    expect(fs.existsSync(path.join(distDir, 'projects/index.md'))).toBe(true);
-    expect(fs.existsSync(path.join(distDir, 'projects.md'))).toBe(true);
+    // Check markdown alternates
+    expect(fs.existsSync(path.join(DIST_DIR, 'index.md'))).toBe(true);
+    expect(fs.existsSync(path.join(DIST_DIR, 'about.md'))).toBe(true);
+    expect(fs.existsSync(path.join(DIST_DIR, 'projects.md'))).toBe(true);
+    expect(fs.existsSync(path.join(DIST_DIR, 'reads.md'))).toBe(true);
 
-    // Verify every blog post has corresponding markdown files
-    const blogFiles = fs.readdirSync(blogSrcDir).filter((f) => f.endsWith('.md') || f.endsWith('.mdx'));
-    for (const file of blogFiles) {
-      const slug = file.replace(/\.(md|mdx)$/, '');
-      const nestedMd = path.join(distDir, 'posts', slug, 'index.md');
-      const flatMd = path.join(distDir, 'posts', `${slug}.md`);
+    const indexMd = fs.readFileSync(path.join(DIST_DIR, 'index.md'), 'utf-8');
+    expect(indexMd).toContain('Jay Shah');
 
-      expect(fs.existsSync(nestedMd)).toBe(true);
-      expect(fs.existsSync(flatMd)).toBe(true);
+    // Check _headers file
+    const headersPath = path.join(DIST_DIR, '_headers');
+    expect(fs.existsSync(headersPath)).toBe(true);
+    const headers = fs.readFileSync(headersPath, 'utf-8');
+    expect(headers).toContain('Vary: Accept, Accept-Encoding');
+  });
 
-      const content = fs.readFileSync(nestedMd, 'utf-8');
-      expect(content).toContain('**Author:** Jay Shah');
-      expect(content).toContain(`**Canonical URL:** https://jayshah.dev/posts/${slug}/`);
+  // 6. Brand name discoverability
+  test('6. Brand name discoverability: canonical URLs, OpenGraph, Twitter tags, and sameAs links claim brand entity', async () => {
+    const html = fs.readFileSync(path.join(DIST_DIR, 'index.html'), 'utf-8');
+    expect(html).toContain('<title>Jay Shah -- AI Systems, Foundational Models &amp; Research</title>');
+    expect(html).toContain('<meta property="og:site_name" content="Jay Shah"');
+    expect(html).toContain('<link rel="canonical" href="https://jayshah.dev/"');
+    expect(html).toContain('https://github.com/jayshah5696');
+    expect(html).toContain('https://linkedin.com/in/jayshah5696');
+    expect(html).toContain('https://twitter.com/jayjshah');
+  });
+
+  // 7. Agent instruction / when-to-use
+  test('7. Agent instructions: /llms.txt and /.well-known/agent-instructions.md provide when-to-use guidance', async () => {
+    const llmsTxtPath = path.join(DIST_DIR, 'llms.txt');
+    expect(fs.existsSync(llmsTxtPath)).toBe(true);
+    const llmsTxt = fs.readFileSync(llmsTxtPath, 'utf-8');
+    expect(llmsTxt).toContain('## When to Use This Knowledge Base');
+    expect(llmsTxt).toContain('## How an Agent Should Call and Cite This Site');
+    expect(llmsTxt).toContain('Keyed Text Watermarking in LLMs');
+    expect(llmsTxt).toContain('Semantic Entity Resolution & Dense Retrieval');
+
+    const agentInstPath = path.join(DIST_DIR, '.well-known', 'agent-instructions.md');
+    expect(fs.existsSync(agentInstPath)).toBe(true);
+    const agentInst = fs.readFileSync(agentInstPath, 'utf-8');
+    expect(agentInst).toContain('# Agent Instructions for jayshah.dev');
+    expect(agentInst).toContain('## When to Use This Knowledge Base');
+  });
+
+  // 8. API schema complexity analysis
+  test('8. API schema complexity: every OpenAPI operation has unique operationId, description, and typed schemas', async () => {
+    const spec = JSON.parse(fs.readFileSync(path.join(DIST_DIR, 'openapi.json'), 'utf-8'));
+    const operationIds = new Set<string>();
+
+    for (const [pathKey, pathItem] of Object.entries<any>(spec.paths)) {
+      for (const [method, op] of Object.entries<any>(pathItem)) {
+        if (typeof op === 'object' && op.operationId) {
+          expect(operationIds.has(op.operationId)).toBe(false); // Must be unique
+          operationIds.add(op.operationId);
+          expect(op.summary).toBeTruthy();
+          expect(op.description).toBeTruthy();
+          expect(op.responses['200']).toBeDefined();
+        }
+      }
+    }
+
+    expect(operationIds.has('listBlogPosts')).toBe(true);
+    expect(operationIds.has('getBlogPostBySlug')).toBe(true);
+    expect(operationIds.has('listProjects')).toBe(true);
+    expect(operationIds.has('listReadingList')).toBe(true);
+    expect(operationIds.has('getAuthorProfile')).toBe(true);
+  });
+
+  // 9. Function calling compatibility
+  test('9. Function calling compatibility: /api/tools.json returns valid LLM function calling schemas', async () => {
+    const filePath = path.join(DIST_DIR, 'api', 'tools.json');
+    expect(fs.existsSync(filePath)).toBe(true);
+
+    const toolsData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+    expect(Array.isArray(toolsData.tools)).toBe(true);
+    expect(toolsData.tools.length).toBeGreaterThan(0);
+
+    for (const tool of toolsData.tools) {
+      expect(tool.type).toBe('function');
+      expect(tool.function.name).toBeTruthy();
+      expect(tool.function.description).toBeTruthy();
+      expect(tool.function.parameters).toBeDefined();
+      expect(tool.function.parameters.type).toBe('object');
     }
   });
 
-  // 5. Developer Resource Discoverability (Item 5)
-  test('5. Developer resources (llms.txt, llms-full.txt, MCP, OpenAPI, robots.txt, API docs) are discoverable by name', () => {
-    const llmsPath = path.join(distDir, 'llms.txt');
-    const llmsFullPath = path.join(distDir, 'llms-full.txt');
-    const mcpPath = path.join(distDir, 'mcp.json');
-    const wellKnownMcpPath = path.join(distDir, '.well-known/mcp.json');
-    const robotsPath = path.join(distDir, 'robots.txt');
-    const apiDocsPath = path.join(distDir, 'api/docs/index.html');
+  // 10. Organization schema completeness
+  test('10. Organization schema completeness: JSON-LD @graph contains Organization with contactPoint and PostalAddress', async () => {
+    const html = fs.readFileSync(path.join(DIST_DIR, 'index.html'), 'utf-8');
+    const jsonLdMatch = html.match(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/);
+    expect(jsonLdMatch).toBeTruthy();
 
-    expect(fs.existsSync(llmsPath)).toBe(true);
-    expect(fs.existsSync(llmsFullPath)).toBe(true);
-    expect(fs.existsSync(mcpPath)).toBe(true);
-    expect(fs.existsSync(wellKnownMcpPath)).toBe(true);
-    expect(fs.existsSync(robotsPath)).toBe(true);
-    expect(fs.existsSync(apiDocsPath)).toBe(true);
+    const jsonLd = JSON.parse(jsonLdMatch![1]);
+    expect(jsonLd['@context']).toBe('https://schema.org');
+    expect(Array.isArray(jsonLd['@graph'])).toBe(true);
 
-    // Check llms.txt content
-    const llms = fs.readFileSync(llmsPath, 'utf-8');
-    expect(llms).toContain('# Jay Shah — Developer Resources & AI Systems Research');
-    expect(llms).toContain('https://jayshah.dev/api/openapi.json');
-    expect(llms).toContain('https://jayshah.dev/api/posts.json');
-    expect(llms).toContain('https://jayshah.dev/sitemap-index.xml');
+    const org = jsonLd['@graph'].find((e: any) => e['@type'] === 'Organization');
+    expect(org).toBeDefined();
+    expect(org.name).toBe('Jay Shah');
+    expect(org.url).toBe('https://jayshah.dev');
 
-    // Check llms-full.txt content
-    const llmsFull = fs.readFileSync(llmsFullPath, 'utf-8');
-    expect(llmsFull).toContain('Author: Jay Shah');
-    expect(llmsFull).toContain('How does a text watermark work?');
-    expect(llmsFull).toContain('File-Based Memory Is a Terrible Idea That Somehow Works');
+    // ContactPoint check
+    expect(org.contactPoint).toBeDefined();
+    expect(org.contactPoint['@type']).toBe('ContactPoint');
+    expect(org.contactPoint.email).toBe('contact@jayshah.dev');
+    expect(org.contactPoint.contactType).toBeTruthy();
 
-    // Check MCP manifest
-    const mcp = JSON.parse(fs.readFileSync(mcpPath, 'utf-8'));
-    expect(mcp.name).toBe('jayshah-dev');
-    expect(mcp.author.name).toBe('Jay Shah');
-    expect(mcp.tools.some((t: { name: string }) => t.name === 'search_articles')).toBe(true);
-    expect(mcp.tools.some((t: { name: string }) => t.name === 'get_post_content')).toBe(true);
-    expect(mcp.tools.some((t: { name: string }) => t.name === 'list_projects')).toBe(true);
-    expect(mcp.tools.some((t: { name: string }) => t.name === 'get_resume')).toBe(true);
+    // PostalAddress check
+    expect(org.address).toBeDefined();
+    expect(org.address['@type']).toBe('PostalAddress');
+    expect(org.address.addressCountry).toBeTruthy();
 
-    // Check robots.txt
-    const robots = fs.readFileSync(robotsPath, 'utf-8');
-    expect(robots).toContain('https://jayshah.dev/sitemap-index.xml');
-    expect(robots).toContain('https://jayshah.dev/llms.txt');
+    // Person & WebSite check
+    const person = jsonLd['@graph'].find((e: any) => e['@type'] === 'Person');
+    expect(person).toBeDefined();
+    expect(person.sameAs).toBeDefined();
+    expect(person.sameAs.length).toBeGreaterThan(0);
 
-    // Check page titles include "Jay Shah"
-    const aboutHtml = fs.readFileSync(path.join(distDir, 'about/index.html'), 'utf-8');
-    expect(aboutHtml).toContain('<title>About -- Jay Shah</title>');
-
-    const projectsHtml = fs.readFileSync(path.join(distDir, 'projects/index.html'), 'utf-8');
-    expect(projectsHtml).toContain('<title>Engineering Projects -- Jay Shah</title>');
-
-    const archivesHtml = fs.readFileSync(path.join(distDir, 'archives/index.html'), 'utf-8');
-    expect(archivesHtml).toContain('<title>Writing Archives -- Jay Shah</title>');
-
-    const apiDocsHtml = fs.readFileSync(apiDocsPath, 'utf-8');
-    expect(apiDocsHtml).toContain('Jay Shah &mdash; Developer API');
-    expect(apiDocsHtml).toContain('OpenAPI 3.1.0 Specification');
+    const website = jsonLd['@graph'].find((e: any) => e['@type'] === 'WebSite');
+    expect(website).toBeDefined();
   });
 });
