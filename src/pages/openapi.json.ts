@@ -1,5 +1,5 @@
 import type { APIRoute } from 'astro';
-import { SITE_URL, SITE_TITLE, SITE_EMAIL } from '../consts';
+import { SITE_URL, SITE_TITLE, SITE_EMAIL } from '../consts.ts';
 
 export const openApiSpec = {
   openapi: '3.1.0',
@@ -7,7 +7,7 @@ export const openApiSpec = {
     title: `${SITE_TITLE} AI Systems & Research API`,
     version: '1.0.0',
     description:
-      'Self-describing programmatic API and LLM function calling surface for jayshah.dev. Access technical writings on LLM evaluations, entity resolution, keyed text watermarking, open-source projects, and research profiles.',
+      'Self-describing programmatic API and LLM function calling surface for jayshah.dev. Access technical writings on LLM evaluations, entity resolution, keyed text watermarking, open-source projects, and research profiles. API Versioning: Endpoints are versioned under /api/v1/ (with legacy /api/ aliases maintained for backward compatibility). Deprecation policy: Breaking changes are published 6 months in advance with Sunset response headers and OpenAPI specification updates.',
     contact: {
       name: SITE_TITLE,
       email: SITE_EMAIL,
@@ -20,12 +20,16 @@ export const openApiSpec = {
   },
   servers: [
     {
+      url: `${SITE_URL}/api/v1`,
+      description: 'Production API v1 Server',
+    },
+    {
       url: SITE_URL,
-      description: 'Production Server',
+      description: 'Production Base Server',
     },
   ],
   paths: {
-    '/api/posts.json': {
+    '/api/v1/posts.json': {
       get: {
         operationId: 'listBlogPosts',
         summary: 'List published blog posts',
@@ -86,7 +90,7 @@ export const openApiSpec = {
         },
       },
     },
-    '/api/posts/{slug}.json': {
+    '/api/v1/posts/{slug}.json': {
       get: {
         operationId: 'getBlogPostBySlug',
         summary: 'Get single blog post with markdown body',
@@ -138,12 +142,33 @@ export const openApiSpec = {
         },
       },
     },
-    '/api/projects.json': {
+    '/api/v1/projects.json': {
       get: {
         operationId: 'listProjects',
         summary: 'List open-source projects',
         description:
           'Retrieve open-source AI repositories, tools, and research codebases built by Jay Shah with descriptions, URLs, and tags.',
+        parameters: [
+          {
+            name: 'tag',
+            in: 'query',
+            required: false,
+            description: 'Filter projects by topic tag (e.g., "AI AGENTS", "TYPESCRIPT", "PYTHON").',
+            schema: {
+              type: 'string',
+            },
+          },
+          {
+            name: 'limit',
+            in: 'query',
+            required: false,
+            description: 'Maximum number of projects to return.',
+            schema: {
+              type: 'integer',
+              default: 20,
+            },
+          },
+        ],
         responses: {
           '200': {
             description: 'List of open-source projects',
@@ -168,12 +193,33 @@ export const openApiSpec = {
         },
       },
     },
-    '/api/reads.json': {
+    '/api/v1/reads.json': {
       get: {
         operationId: 'listReadingList',
         summary: 'List curated readings and research notes',
         description:
           'Retrieve curated research papers, books, and articles read by Jay Shah with notes, links, and tags.',
+        parameters: [
+          {
+            name: 'tag',
+            in: 'query',
+            required: false,
+            description: 'Filter reading list items by topic tag (e.g., "scaling-laws", "llm", "ai-agents").',
+            schema: {
+              type: 'string',
+            },
+          },
+          {
+            name: 'limit',
+            in: 'query',
+            required: false,
+            description: 'Maximum number of items to return.',
+            schema: {
+              type: 'integer',
+              default: 30,
+            },
+          },
+        ],
         responses: {
           '200': {
             description: 'List of curated reading items',
@@ -198,12 +244,23 @@ export const openApiSpec = {
         },
       },
     },
-    '/api/profile.json': {
+    '/api/v1/profile.json': {
       get: {
         operationId: 'getAuthorProfile',
         summary: 'Get author profile, patents, and contact',
         description:
           'Retrieve author career background, patents, honors, social links, contact information, and AI research focus areas.',
+        parameters: [
+          {
+            name: 'fields',
+            in: 'query',
+            required: false,
+            description: 'Optional comma-separated fields filter (e.g. "current_role,patents,contact").',
+            schema: {
+              type: 'string',
+            },
+          },
+        ],
         responses: {
           '200': {
             description: 'Author profile information',
@@ -228,12 +285,25 @@ export const openApiSpec = {
         },
       },
     },
-    '/api/tools.json': {
+    '/api/v1/tools.json': {
       get: {
         operationId: 'listToolDefinitions',
         summary: 'List LLM tool calling declarations',
         description:
           'Retrieve function calling definitions formatted for OpenAI, Anthropic, and Gemini LLM agents.',
+        parameters: [
+          {
+            name: 'format',
+            in: 'query',
+            required: false,
+            description: 'Tool calling format to return (e.g., "openai", "anthropic", "gemini").',
+            schema: {
+              type: 'string',
+              enum: ['openai', 'anthropic', 'gemini'],
+              default: 'openai',
+            },
+          },
+        ],
         responses: {
           '200': {
             description: 'Tool calling declarations',
@@ -247,6 +317,126 @@ export const openApiSpec = {
                     tools: { type: 'array', items: { type: 'object' } },
                   },
                 },
+              },
+            },
+          },
+          '500': {
+            description: 'Internal server error',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/ErrorResponse',
+                },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/api/posts.json': {
+      get: {
+        operationId: 'listBlogPostsLegacy',
+        summary: 'List published blog posts (legacy endpoint)',
+        description: 'Alias for /api/v1/posts.json.',
+        responses: {
+          '200': {
+            description: 'List of blog posts',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/PostListResponse' },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/api/posts/{slug}.json': {
+      get: {
+        operationId: 'getBlogPostBySlugLegacy',
+        summary: 'Get single blog post (legacy endpoint)',
+        description: 'Alias for /api/v1/posts/{slug}.json.',
+        parameters: [
+          {
+            name: 'slug',
+            in: 'path',
+            required: true,
+            schema: { type: 'string' },
+          },
+        ],
+        responses: {
+          '200': {
+            description: 'Post details',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/PostDetail' },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/api/projects.json': {
+      get: {
+        operationId: 'listProjectsLegacy',
+        summary: 'List open-source projects (legacy endpoint)',
+        description: 'Alias for /api/v1/projects.json.',
+        responses: {
+          '200': {
+            description: 'List of projects',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/ProjectListResponse' },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/api/reads.json': {
+      get: {
+        operationId: 'listReadingListLegacy',
+        summary: 'List reading list items (legacy endpoint)',
+        description: 'Alias for /api/v1/reads.json.',
+        responses: {
+          '200': {
+            description: 'List of reading items',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/ReadListResponse' },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/api/profile.json': {
+      get: {
+        operationId: 'getAuthorProfileLegacy',
+        summary: 'Get author profile (legacy endpoint)',
+        description: 'Alias for /api/v1/profile.json.',
+        responses: {
+          '200': {
+            description: 'Author profile',
+            content: {
+              'application/json': {
+                schema: { $ref: '#/components/schemas/AuthorProfile' },
+              },
+            },
+          },
+        },
+      },
+    },
+    '/api/tools.json': {
+      get: {
+        operationId: 'listToolDefinitionsLegacy',
+        summary: 'List tool definitions (legacy endpoint)',
+        description: 'Alias for /api/v1/tools.json.',
+        responses: {
+          '200': {
+            description: 'Tool definitions',
+            content: {
+              'application/json': {
+                schema: { type: 'object' },
               },
             },
           },
@@ -268,7 +458,7 @@ export const openApiSpec = {
           reading_time: { type: 'string', example: '12 min read' },
           url: { type: 'string', format: 'uri', example: 'https://jayshah.dev/posts/how-text-watermarks-hide-in-plain-sight/' },
           markdown_url: { type: 'string', format: 'uri', example: 'https://jayshah.dev/posts/how-text-watermarks-hide-in-plain-sight.md' },
-          json_url: { type: 'string', format: 'uri', example: 'https://jayshah.dev/api/posts/how-text-watermarks-hide-in-plain-sight.json' },
+          json_url: { type: 'string', format: 'uri', example: 'https://jayshah.dev/api/v1/posts/how-text-watermarks-hide-in-plain-sight.json' },
           image: { type: 'string', format: 'uri' },
         },
       },
