@@ -3,18 +3,44 @@ import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import Sidebar from '../components/Sidebar.astro';
 import MobileNav from '../components/MobileNav.astro';
-import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL } from '../consts';
+import JsonLd from '../components/JsonLd.astro';
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL, SITE_AUTHOR } from '../consts';
 
 interface Props {
   title?: string;
   description?: string;
   image?: string;
   rightSidebar?: boolean;
+  jsonLdType?: 'BlogPosting' | 'Person' | 'ProfilePage' | 'CollectionPage' | 'WebSite';
+  date?: Date;
+  dateModified?: Date;
+  tags?: string[];
+  includeDefaultJsonLd?: boolean;
 }
 
-const { title, description = SITE_DESCRIPTION, image, rightSidebar = false } = Astro.props;
-const pageTitle = title ? `${title} -- ${SITE_TITLE}` : SITE_TITLE;
+const {
+  title,
+  description = SITE_DESCRIPTION,
+  image,
+  rightSidebar = false,
+  jsonLdType = 'WebSite',
+  date,
+  dateModified,
+  tags,
+  includeDefaultJsonLd = true,
+} = Astro.props;
+
+const pageTitle = title ? `${title} -- ${SITE_TITLE}` : `${SITE_TITLE} -- AI Systems, Foundational Models & Research`;
 const canonicalURL = new URL(Astro.url.pathname, SITE_URL);
+
+const pathname = Astro.url.pathname;
+let markdownURL = '/llms.txt';
+if (pathname === '/' || pathname === '') {
+  markdownURL = '/index.md';
+} else {
+  const clean = pathname.replace(/^\//, '').replace(/\/$/, '');
+  markdownURL = `/${clean}.md`;
+}
 ---
 
 <!doctype html>
@@ -24,6 +50,8 @@ const canonicalURL = new URL(Astro.url.pathname, SITE_URL);
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
+    <meta name="author" content={SITE_AUTHOR} />
+    <meta name="robots" content="index, follow" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
@@ -32,21 +60,44 @@ const canonicalURL = new URL(Astro.url.pathname, SITE_URL);
     <link rel="icon" type="image/png" sizes="16x16" href="/assets/images/favicon/favicon-16x16.png" />
     <link rel="manifest" href="/assets/images/favicon/site.webmanifest" />
 
-
-
+    <!-- Open Graph / Social -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={SITE_TITLE} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={Astro.url} />
     <meta property="og:image" content={new URL(image || '/assets/images/profile.webp', SITE_URL)} />
 
+    <!-- Twitter -->
     <meta name="twitter:card" content={image ? 'summary_large_image' : 'summary'} />
+    <meta name="twitter:site" content="@jayjshah" />
+    <meta name="twitter:creator" content="@jayjshah" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL(image || '/assets/images/profile.webp', SITE_URL)} />
 
+    <!-- Discovery & Content Negotiation Alternates -->
     <link rel="alternate" type="application/rss+xml" title={SITE_TITLE} href="/rss.xml" />
+    <link rel="alternate" type="text/markdown" title="Markdown representation" href={markdownURL} />
+    <link rel="alternate" type="text/plain" title="LLM Context Index" href="/llms.txt" />
+    <link rel="alternate" type="text/plain" title="Full LLM Context" href="/llms-full.txt" />
+    <link rel="service-desc" type="application/vnd.oai.openapi+json" title="OpenAPI 3.1 JSON" href="/openapi.json" />
+    <link rel="service-desc" type="application/yaml" title="OpenAPI 3.1 YAML" href="/openapi.yaml" />
+    <link rel="help" type="text/markdown" title="Agent Instructions" href="/.well-known/agent-instructions.md" />
     <link rel="canonical" href={canonicalURL} />
+
+    <!-- JSON-LD Structured Data -->
+    {includeDefaultJsonLd && (
+      <JsonLd
+        type={jsonLdType}
+        title={title}
+        description={description}
+        date={date}
+        dateModified={dateModified}
+        image={image}
+        tags={tags}
+      />
+    )}
 
     <!-- Google Analytics -->
     <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-ZQ651N672F"></script>
