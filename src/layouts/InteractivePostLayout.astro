@@ -52,8 +52,7 @@ const filteredHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
 const showToc = filteredHeadings.length > 2;
 ---
 
-<BaseLayout title={title} description={description} image={image} rightSidebar={showToc}>
-  <JsonLd type="BlogPosting" title={title} description={description} date={date} image={image} tags={tags} />
+<BaseLayout title={title} description={description} image={image} rightSidebar={showToc} jsonLdType="BlogPosting" date={date} tags={tags}>
   
   <!-- Reading progress bar -->
   <div id="reading-progress" class="fixed top-0 left-0 right-0 z-50 h-1 app-progress" aria-hidden="true">

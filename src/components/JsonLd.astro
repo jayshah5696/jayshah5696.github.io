@@ -1,72 +1,173 @@
 ---
-import { SITE_TITLE, SITE_URL } from '../consts';
+import {
+  SITE_TITLE,
+  SITE_TAGLINE,
+  SITE_DESCRIPTION,
+  SITE_URL,
+  SITE_EMAIL,
+  ORGANIZATION_INFO,
+  SAME_AS_LINKS,
+  BRAND_ALTERNATE_NAMES,
+} from '../consts';
 
 interface Props {
-  type: 'BlogPosting' | 'Person';
+  type?: 'BlogPosting' | 'Person' | 'ProfilePage' | 'CollectionPage' | 'WebSite';
   title?: string;
   description?: string;
   date?: Date;
+  dateModified?: Date;
   image?: string;
   tags?: string[];
   url?: string;
 }
 
-const { type, title, description, date, image, tags, url } = Astro.props;
+const {
+  type = 'WebSite',
+  title,
+  description = SITE_DESCRIPTION,
+  date,
+  dateModified,
+  image,
+  tags,
+  url,
+} = Astro.props;
 
-function buildSchema() {
-  if (type === 'BlogPosting') {
-    return {
-      '@context': 'https://schema.org',
-      '@type': 'BlogPosting',
-      headline: title,
-      description: description,
-      datePublished: date?.toISOString(),
-      dateModified: date?.toISOString(),
-      image: image ? new URL(image, SITE_URL).toString() : undefined,
-      url: url || new URL(Astro.url.pathname, SITE_URL).toString(),
-      keywords: tags?.join(', '),
-      author: {
-        '@type': 'Person',
-        name: SITE_TITLE,
-        url: SITE_URL,
-      },
-      publisher: {
-        '@type': 'Person',
-        name: SITE_TITLE,
-        url: SITE_URL,
-      },
-    };
-  }
+const currentUrl = url || new URL(Astro.url.pathname, SITE_URL).toString();
+const imageUrl = image ? new URL(image, SITE_URL).toString() : new URL(ORGANIZATION_INFO.image, SITE_URL).toString();
 
-  if (type === 'Person') {
-    return {
-      '@context': 'https://schema.org',
-      '@type': 'Person',
-      name: SITE_TITLE,
-      url: SITE_URL,
-      jobTitle: 'Senior Data Scientist',
-      worksFor: {
-        '@type': 'Organization',
-        name: '6sense',
-        url: 'https://6sense.com',
-      },
-      sameAs: [
-        'https://github.com/jayshah5696',
-        'https://twitter.com/jayjshah',
-        'https://linkedin.com/in/jayshah5696',
-        'https://huggingface.co/jayshah5696',
-      ],
-      alumniOf: {
-        '@type': 'CollegeOrUniversity',
-        name: 'Texas A&M University',
-      },
-    };
-  }
+const personEntity = {
+  '@type': 'Person',
+  '@id': `${SITE_URL}/#person`,
+  name: SITE_TITLE,
+  alternateName: BRAND_ALTERNATE_NAMES,
+  url: SITE_URL,
+  image: imageUrl,
+  jobTitle: 'Senior Data Scientist',
+  description: SITE_TAGLINE,
+  email: `mailto:${SITE_EMAIL}`,
+  worksFor: {
+    '@type': 'Organization',
+    name: '6sense',
+    url: 'https://6sense.com',
+  },
+  alumniOf: {
+    '@type': 'CollegeOrUniversity',
+    name: 'Texas A&M University',
+    url: 'https://www.tamu.edu',
+  },
+  knowsAbout: [
+    'Artificial Intelligence',
+    'Large Language Models',
+    'Machine Learning',
+    'Retrieval-Augmented Generation',
+    'Entity Resolution',
+    'LLM Evaluation',
+    'Model Watermarking',
+    'AI Agents',
+  ],
+  sameAs: SAME_AS_LINKS,
+};
+
+const organizationEntity = {
+  '@type': 'Organization',
+  '@id': `${SITE_URL}/#organization`,
+  name: ORGANIZATION_INFO.name,
+  legalName: ORGANIZATION_INFO.legalName,
+  url: ORGANIZATION_INFO.url,
+  logo: ORGANIZATION_INFO.logo,
+  image: imageUrl,
+  email: ORGANIZATION_INFO.email,
+  founder: {
+    '@id': `${SITE_URL}/#person`,
+  },
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: ORGANIZATION_INFO.contactPoint.contactType,
+    email: ORGANIZATION_INFO.contactPoint.email,
+    url: ORGANIZATION_INFO.contactPoint.url,
+    availableLanguage: ORGANIZATION_INFO.contactPoint.availableLanguage,
+  },
+  address: {
+    '@type': 'PostalAddress',
+    addressLocality: ORGANIZATION_INFO.address.addressLocality,
+    addressRegion: ORGANIZATION_INFO.address.addressRegion,
+    addressCountry: ORGANIZATION_INFO.address.addressCountry,
+  },
+  sameAs: SAME_AS_LINKS,
+};
+
+const websiteEntity = {
+  '@type': 'WebSite',
+  '@id': `${SITE_URL}/#website`,
+  url: SITE_URL,
+  name: SITE_TITLE,
+  alternateName: BRAND_ALTERNATE_NAMES,
+  description: SITE_DESCRIPTION,
+  publisher: {
+    '@id': `${SITE_URL}/#organization`,
+  },
+  author: {
+    '@id': `${SITE_URL}/#person`,
+  },
+  inLanguage: 'en-US',
+};
+
+const graph: any[] = [organizationEntity, personEntity, websiteEntity];
+
+if (type === 'BlogPosting') {
+  graph.push({
+    '@type': 'BlogPosting',
+    '@id': `${currentUrl}#article`,
+    isPartOf: {
+      '@id': `${SITE_URL}/#website`,
+    },
+    headline: title,
+    description: description,
+    datePublished: date?.toISOString(),
+    dateModified: (dateModified || date)?.toISOString(),
+    mainEntityOfPage: currentUrl,
+    url: currentUrl,
+    image: imageUrl,
+    keywords: tags && tags.length > 0 ? tags.join(', ') : undefined,
+    author: {
+      '@id': `${SITE_URL}/#person`,
+    },
+    publisher: {
+      '@id': `${SITE_URL}/#organization`,
+    },
+    inLanguage: 'en-US',
+  });
+} else if (type === 'ProfilePage' || type === 'Person') {
+  graph.push({
+    '@type': 'ProfilePage',
+    '@id': `${currentUrl}#webpage`,
+    url: currentUrl,
+    name: `About ${SITE_TITLE}`,
+    isPartOf: {
+      '@id': `${SITE_URL}/#website`,
+    },
+    mainEntity: {
+      '@id': `${SITE_URL}/#person`,
+    },
+    description: description,
+  });
+} else if (type === 'CollectionPage') {
+  graph.push({
+    '@type': 'CollectionPage',
+    '@id': `${currentUrl}#webpage`,
+    url: currentUrl,
+    name: title || SITE_TITLE,
+    isPartOf: {
+      '@id': `${SITE_URL}/#website`,
+    },
+    description: description,
+  });
 }
 
-const schema = buildSchema();
+const jsonLdData = {
+  '@context': 'https://schema.org',
+  '@graph': graph,
+};
 ---
 
-{schema && (
-  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
-)}
+<script type="application/ld+json" set:html={JSON.stringify(jsonLdData)} />
