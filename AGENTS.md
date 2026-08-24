@@ -70,6 +70,7 @@ Interactive, simulation-heavy, or dashboard-based blog posts are first-class cit
 ### Safety
 - Before modifying CSS, verify the impact using local preview (`npm run dev`).
 - Ensure dark mode toggle works correctly when adding new UI components.
+- Always perform visual verification with actual screenshots (capturing both Light and Dark modes) using `agent-browser` against the local dev/preview server before completing tasks.
 - Run `npm run build` to verify both Astro build and Pagefind indexing succeed.
 - Run `just ci-build` before merging dependency, Astro configuration, integration, or build-pipeline changes. It runs the same clean install and build commands as GitHub Pages CI. Pull requests also run this build job without deploying.
 - Declare packages used by Astro configuration directly in `package.json`. Do not rely on transitive packages or a warm local `node_modules` directory.

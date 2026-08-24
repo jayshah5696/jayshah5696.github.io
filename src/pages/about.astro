@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import JsonLd from '../components/JsonLd.astro';
+import SocialIcon from '../components/SocialIcon.astro';
+import { SOCIAL_LINKS } from '../consts';
 import { Image } from 'astro:assets';
 import profileImage from '../../public/assets/images/profile.webp';
 ---
@@ -89,39 +91,43 @@ import profileImage from '../../public/assets/images/profile.webp';
       <li><a href="https://patents.google.com/patent/IN201721044402A/en">Dimension Measurement Using Image Processing</a> — IN 201721044402, Filed Dec 11, 2017</li>
     </ul>
 
-    <div class="flex flex-wrap gap-3">
-        <a
-          href="https://github.com/jayshah5696"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono"
-        >
-          GitHub
-        </a>
-        <a
-          href="https://linkedin.com/in/jayshah5696"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono"
-        >
-          LinkedIn
-        </a>
-        <a
-          href="https://huggingface.co/jayshah5696"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono"
-        >
-          Hugging Face
-        </a>
-        <a
-          href="https://cv.jayshah.dev"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono"
-        >
-          Resume
-        </a>
-      </div>
+    <div class="flex flex-wrap gap-3 not-prose mt-8">
+      <a
+        href={SOCIAL_LINKS.github}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded-lg text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono group"
+      >
+        <SocialIcon name="github" class="size-4 text-ink-faint dark:text-silk-faint group-hover:text-terra dark:group-hover:text-terra-light transition-colors" />
+        GitHub
+      </a>
+      <a
+        href={SOCIAL_LINKS.linkedin}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded-lg text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono group"
+      >
+        <SocialIcon name="linkedin" class="size-4 text-ink-faint dark:text-silk-faint group-hover:text-terra dark:group-hover:text-terra-light transition-colors" />
+        LinkedIn
+      </a>
+      <a
+        href={SOCIAL_LINKS.huggingface}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded-lg text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono group"
+      >
+        <SocialIcon name="huggingface" class="size-4 text-ink-faint dark:text-silk-faint group-hover:text-terra dark:group-hover:text-terra-light transition-colors" />
+        Hugging Face
+      </a>
+      <a
+        href={SOCIAL_LINKS.cv}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded-lg text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono group"
+      >
+        <SocialIcon name="resume" class="size-4 text-ink-faint dark:text-silk-faint group-hover:text-terra dark:group-hover:text-terra-light transition-colors" />
+        Resume
+      </a>
+    </div>
   </article>
 </BaseLayout>
