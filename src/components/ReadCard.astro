@@ -1,14 +1,17 @@
 ---
 import { render } from 'astro:content';
 import FormattedDate from './FormattedDate.astro';
+import SocialIcon from './SocialIcon.astro';
 import { getTagMicroPillClasses, getTagIndicator } from '../utils/tags';
 
 interface Props {
   entry: any;
+  featured?: boolean;
 }
 
-const { entry } = Astro.props;
+const { entry, featured = false } = Astro.props;
 const { title, url, date, tags } = entry.data;
+const isFeatured = featured || Boolean(entry.data.featured);
 const { Content } = await render(entry);
 
 let domain = '';
@@ -24,7 +27,12 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
 ---
 
 <article
-  class="read-card-item featured-card hover:-translate-y-0.5 border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light hover:shadow-md transition-all duration-200 relative p-4 sm:p-5 rounded-xl flex flex-col gap-2 cursor-pointer group"
+  class:list={[
+    'read-card-item featured-card rangoli-corners overflow-hidden hover:-translate-y-1 transition-all duration-200 relative p-4 sm:p-5 rounded-xl flex flex-col gap-2 cursor-pointer group',
+    isFeatured
+      ? 'border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light hover:shadow-lg shadow-sm'
+      : 'border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light hover:shadow-md',
+  ]}
   data-read-card
   data-tags={tags.join(',')}
   data-year={year}
@@ -33,8 +41,17 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
   data-domain={domain.toLowerCase()}
   data-has-notes={hasNotes ? 'true' : 'false'}
 >
+  {/* Optional Featured Read Pill */}
+  {isFeatured && (
+    <div class="mb-0.5">
+      <span class="inline-block font-mono text-[10px] uppercase text-terra dark:text-terra-light px-2 py-0.5 rounded bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20" style="letter-spacing: 0.12em;">
+        Featured Read
+      </span>
+    </div>
+  )}
+
   <!-- Top Meta Line: Date • Domain • Inline Tags -->
-  <div class="flex flex-wrap items-center gap-x-2 gap-y-1.5 font-mono text-[11px] text-ink-muted dark:text-silk-muted pr-6">
+  <div class="flex flex-wrap items-center gap-x-2 gap-y-1.5 font-mono text-[11px] text-ink-muted dark:text-silk-muted pr-6 relative z-10">
     <span class="inline-flex items-center gap-1 shrink-0">
       <svg class="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
         <rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4m-5 4h18"/>
@@ -53,11 +70,7 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
       onclick="event.stopPropagation();"
     >
       {domain}
-      <svg class="size-3 opacity-70" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-        <polyline points="15 3 21 3 21 9"/>
-        <line x1="10" y1="14" x2="21" y2="3"/>
-      </svg>
+      <SocialIcon name="external" class="size-3 opacity-70" />
     </a>
 
     {tags.length > 0 && (
@@ -83,7 +96,7 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
   </div>
 
   <!-- Title & External Link Icon -->
-  <div class="flex items-start justify-between gap-3">
+  <div class="flex items-start justify-between gap-3 relative z-10">
     <h3 class="font-display text-base sm:text-lg text-ink dark:text-silk leading-snug group-hover:text-terra dark:group-hover:text-terra-light transition-colors">
       <span>{title}</span>
     </h3>
@@ -92,22 +105,18 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      class="size-6 rounded-md hover:bg-cream-200 dark:hover:bg-night-800 text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light inline-flex items-center justify-center transition-colors shrink-0 -mt-0.5"
+      class="size-6 rounded-md hover:bg-cream-200 dark:hover:bg-night-800 text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light inline-flex items-center justify-center transition-all shrink-0 -mt-0.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
       title={`Open ${title} in new tab`}
       onclick="event.stopPropagation();"
     >
-      <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-        <polyline points="15 3 21 3 21 9"/>
-        <line x1="10" y1="14" x2="21" y2="3"/>
-      </svg>
+      <SocialIcon name="external" class="size-3.5" />
     </a>
   </div>
 
   <!-- Commentary (Markdown Body - Click card to expand/collapse) -->
   {hasNotes && (
     <div
-      class="read-card-notes hidden prose prose-kolam dark:prose-invert prose-sm max-w-none bg-cream-50/60 dark:bg-night-950/40 p-3.5 rounded-lg border border-cream-200/60 dark:border-night-700/60 mt-1 cursor-text select-text"
+      class="read-card-notes hidden prose prose-kolam dark:prose-invert prose-sm max-w-none bg-cream-50/60 dark:bg-night-950/40 p-3.5 rounded-lg border border-cream-200/60 dark:border-night-700/60 mt-1 cursor-text select-text relative z-10"
       onclick="event.stopPropagation();"
     >
       <Content />

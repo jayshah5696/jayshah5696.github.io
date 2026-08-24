@@ -1,6 +1,7 @@
 ---
-import { SITE_TITLE, NAV_ITEMS } from '../consts';
+import { SITE_TITLE, NAV_ITEMS, SOCIAL_LINKS } from '../consts';
 import NavIcon from './NavIcon.astro';
+import SocialIcon from './SocialIcon.astro';
 import { Image } from 'astro:assets';
 import profileImage from '../../public/assets/images/profile.webp';
 
@@ -99,6 +100,25 @@ const inlineNavItems = NAV_ITEMS.filter(n => ['Home', 'About', 'Projects'].inclu
           </a>
         );
       })}
+    </div>
+
+    <!-- Mobile Social Links Row -->
+    <div class="pt-3 mt-2 border-t border-cream-200 dark:border-night-700 flex items-center justify-around px-2">
+      <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" class="text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light p-2 transition-colors" aria-label="GitHub">
+        <SocialIcon name="github" class="size-4" />
+      </a>
+      <a href={SOCIAL_LINKS.twitter} target="_blank" rel="noopener noreferrer" class="text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light p-2 transition-colors" aria-label="X / Twitter">
+        <SocialIcon name="x" class="size-4" />
+      </a>
+      <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" class="text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light p-2 transition-colors" aria-label="LinkedIn">
+        <SocialIcon name="linkedin" class="size-4" />
+      </a>
+      <a href={SOCIAL_LINKS.huggingface} target="_blank" rel="noopener noreferrer" class="text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light p-2 transition-colors" aria-label="Hugging Face">
+        <SocialIcon name="huggingface" class="size-4" />
+      </a>
+      <a href={SOCIAL_LINKS.email} class="text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light p-2 transition-colors" aria-label="Email">
+        <SocialIcon name="email" class="size-4" />
+      </a>
     </div>
   </nav>
 </header>

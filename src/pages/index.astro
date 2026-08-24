@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
 import RightSidebar from '../components/RightSidebar.astro';
+import SocialIcon from '../components/SocialIcon.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog'))
@@ -20,16 +21,28 @@ const totalPosts = posts.length;
     <p class="text-ink-light dark:text-silk-muted text-base leading-relaxed">
       I am a Senior Data Scientist at 6sense building production AI applications, foundational model systems, custom embeddings, and agent evaluation frameworks. On this site, I write in-depth technical essays documenting what I build, break, and learn across large language models, retrieval-augmented generation (RAG), statistical text watermarking, and autonomous developer agents.
     </p>
-    <div class="flex items-center gap-3 mt-4">
-      <span class="font-mono text-xs text-ink-faint dark:text-silk-faint uppercase" style="letter-spacing: 0.1em;">{totalPosts} writings</span>
-      <span class="text-cream-300 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
-      <a href="/rss.xml" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">RSS</a>
-      <span class="text-cream-300 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
-      <a href="/llms.txt" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">llms.txt</a>
-      <span class="text-cream-300 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
-      <a href="/openapi.json" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">OpenAPI</a>
-      <span class="text-cream-300 dark:text-night-700 text-xs select-none" aria-hidden="true">&bull;</span>
-      <a href="/api/docs/" class="font-mono text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">API Docs</a>
+    <div class="flex flex-wrap items-center gap-x-3 gap-y-2 mt-4 text-xs font-mono text-ink-faint dark:text-silk-faint">
+      <span class="uppercase" style="letter-spacing: 0.1em;">{totalPosts} writings</span>
+      <span class="text-cream-300 dark:text-night-700 select-none" aria-hidden="true">&bull;</span>
+      <a href="/rss.xml" class="inline-flex items-center gap-1.5 hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">
+        <SocialIcon name="rss" class="size-3.5 text-terra/70 dark:text-terra-light/70" />
+        RSS
+      </a>
+      <span class="text-cream-300 dark:text-night-700 select-none" aria-hidden="true">&bull;</span>
+      <a href="/llms.txt" class="inline-flex items-center gap-1.5 hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">
+        <SocialIcon name="llms" class="size-3.5 text-terra/70 dark:text-terra-light/70" />
+        llms.txt
+      </a>
+      <span class="text-cream-300 dark:text-night-700 select-none" aria-hidden="true">&bull;</span>
+      <a href="/openapi.json" class="inline-flex items-center gap-1.5 hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">
+        <SocialIcon name="openapi" class="size-3.5 text-terra/70 dark:text-terra-light/70" />
+        OpenAPI
+      </a>
+      <span class="text-cream-300 dark:text-night-700 select-none" aria-hidden="true">&bull;</span>
+      <a href="/api/docs/" class="inline-flex items-center gap-1.5 hover:text-terra dark:hover:text-terra-light transition-colors uppercase" style="letter-spacing: 0.1em;">
+        <SocialIcon name="docs" class="size-3.5 text-terra/70 dark:text-terra-light/70" />
+        API Docs
+      </a>
     </div>
     <div class="kolam-border mt-5"></div>
   </header>
