@@ -165,7 +165,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
 
       <!-- Timeline Content (Exact Authentic Structure) -->
       <div id="reads-timeline-root" class="space-y-12 pt-2">
-        {years.map((year) => {
+        {years.map((year, yIdx) => {
           const yearTotal = Object.values(grouped[year]).reduce((acc, g) => acc + g.entries.length, 0);
           return (
             <section class="year-section" data-year={year}>
@@ -189,7 +189,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
               <div class="year-months-wrapper space-y-8">
                 {Object.keys(grouped[year])
                   .sort((a, b) => Number(b) - Number(a))
-                  .map((monthNum) => {
+                  .map((monthNum, mIdx) => {
                     const group = grouped[year][monthNum];
                     return (
                       <div
@@ -221,8 +221,8 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
                         
                         <!-- Month Cards List -->
                         <div class="month-cards-wrapper space-y-4">
-                          {group.entries.map((entry) => (
-                            <ReadCard entry={entry} />
+                          {group.entries.map((entry, eIdx) => (
+                            <ReadCard entry={entry} featured={yIdx === 0 && mIdx === 0 && eIdx === 0} />
                           ))}
                         </div>
                       </div>

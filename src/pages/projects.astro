@@ -1,38 +1,28 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
 import { projects } from '../data/projects';
 ---
 
 <BaseLayout title="Engineering Projects" description="Selected open-source machine learning systems, agent tooling, and software repositories by Jay Shah.">
-  <h1 class="font-display text-3xl text-ink dark:text-silk carved-heading mb-10">Engineering Projects &amp; Tools</h1>
+  <header class="mb-8">
+    <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">Engineering Projects &amp; Tools</h1>
+    <p class="mt-4 text-ink-light dark:text-silk-muted text-base leading-relaxed">
+      Selected open-source machine learning systems, developer agent extensions, retrieval pipelines, and software repositories.
+    </p>
+    <div class="kolam-border mt-5"></div>
+  </header>
 
-  <div class="grid gap-4 sm:grid-cols-2">
-    {projects.map((project) => (
-      <a
-        href={project.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="group block p-5 rounded-xl border border-cream-200 dark:border-night-700
-          bg-white dark:bg-night-800 hover:border-terra dark:hover:border-terra-light
-          hover:shadow-md transition-all duration-200"
-      >
-        <h3 class="font-display text-base text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors text-balance">
-          {project.title}
-        </h3>
-        <p class="mt-2 text-sm text-ink-light dark:text-silk-muted line-clamp-2 text-pretty">
-          {project.description}
-        </p>
-        <div class="flex flex-wrap gap-1.5 mt-3">
-          {project.tags.map((tag) => (
-            <span class="text-[10px] font-mono uppercase px-2 py-0.5 rounded-full
-              bg-cream-100 dark:bg-night-900 text-ink-muted dark:text-silk-faint"
-              style="letter-spacing: 0.06em;"
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-      </a>
+  <div class="grid gap-5 sm:grid-cols-2">
+    {projects.map((project, i) => (
+      <ProjectCard
+        title={project.title}
+        description={project.description}
+        url={project.url}
+        tags={project.tags}
+        featured={i === 0}
+      />
     ))}
   </div>
 </BaseLayout>
+
