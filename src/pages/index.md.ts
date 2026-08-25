@@ -12,9 +12,7 @@ export const GET: APIRoute = async () => {
 > ${SITE_TAGLINE}
 > Canonical URL: ${SITE_URL}/
 
-I build machine learning systems, from model training and evaluation to applications people use.
-I write about what I build, break, and learn along the way — focusing on intent intelligence,
-retrieval-augmented generation (RAG), keyed text watermarking, and LLM agent evaluations.
+I am a Senior Data Scientist at 6sense, where I build production AI applications, foundational model systems, custom embeddings, and agent evaluation frameworks. On this site, I write technical essays documenting what I build, break, and learn when turning raw machine learning research into working products, with a current focus on ai agent-based automation systems.
 
 ## Recent Writings & Case Studies
 

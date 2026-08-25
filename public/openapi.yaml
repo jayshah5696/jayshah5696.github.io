@@ -482,7 +482,7 @@ components:
           example: Jay Shah
         headline:
           type: string
-          example: Senior Data Scientist | AI Applications & Foundational Models
+          example: Senior Data Scientist | Production AI & Agent Systems
         description:
           type: string
         current_role:
