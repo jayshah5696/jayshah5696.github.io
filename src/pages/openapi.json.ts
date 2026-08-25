@@ -517,7 +517,7 @@ export const openApiSpec = {
         required: ['name', 'headline', 'description', 'current_role', 'contact'],
         properties: {
           name: { type: 'string', example: 'Jay Shah' },
-          headline: { type: 'string', example: 'Senior Data Scientist | AI Applications & Foundational Models' },
+          headline: { type: 'string', example: 'Senior Data Scientist | Production AI & Agent Systems' },
           description: { type: 'string' },
           current_role: {
             type: 'object',

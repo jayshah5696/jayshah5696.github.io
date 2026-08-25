@@ -1,5 +1,5 @@
 export const SITE_TITLE = 'Jay Shah';
-export const SITE_TAGLINE = 'Senior Data Scientist | AI Applications & Foundational Models';
+export const SITE_TAGLINE = 'Senior Data Scientist | Production AI & Agent Systems';
 export const SITE_DESCRIPTION =
   'Personal blog and research portfolio of Jay Shah — Senior Data Scientist focusing on AI applications, foundational models, LLM evaluations, and RAG systems.';
 export const SITE_URL = 'https://jayshah.dev';
