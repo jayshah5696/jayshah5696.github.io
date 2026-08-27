@@ -2,10 +2,17 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { projects } from '../data/projects';
+const getColSpan = (index: number) => {
+  if (index === 0) return 'col-span-1 sm:col-span-2 lg:col-span-3';
+  // Asymmetric rhythm for remaining cards in a 3-column grid
+  const pattern = [2, 1, 1, 2, 2, 1, 1, 2, 1, 1, 1, 1, 2];
+  const span = pattern[(index - 1) % pattern.length] || 1;
+  return span === 2 ? 'col-span-1 sm:col-span-2 lg:col-span-2' : 'col-span-1';
+};
 ---
 
 <BaseLayout title="Engineering Projects" description="Selected open-source machine learning systems, agent tooling, and software repositories by Jay Shah.">
-  <header class="mb-8">
+  <header class="reveal mb-8">
     <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">Engineering Projects &amp; Tools</h1>
     <p class="mt-4 text-ink-light dark:text-silk-muted text-base leading-relaxed">
       Selected open-source machine learning systems, developer agent extensions, retrieval pipelines, and software repositories.
@@ -13,7 +20,7 @@ import { projects } from '../data/projects';
     <div class="kolam-border mt-5"></div>
   </header>
 
-  <div class="grid gap-5 sm:grid-cols-2">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
     {projects.map((project, i) => (
       <ProjectCard
         title={project.title}
@@ -21,6 +28,9 @@ import { projects } from '../data/projects';
         url={project.url}
         tags={project.tags}
         featured={i === 0}
+        flagship={i === 0}
+        index={i}
+        class={getColSpan(i)}
       />
     ))}
   </div>

@@ -14,7 +14,7 @@ const totalPosts = posts.length;
 
 <BaseLayout rightSidebar={true} jsonLdType="WebSite">
   <!-- Hero welcome section -->
-  <header class="mb-8">
+  <header class="reveal mb-12">
     <h2 class="font-display text-2xl sm:text-3xl text-ink dark:text-silk carved-heading mb-3">
       AI Systems, Research &amp; Engineering
     </h2>
@@ -47,8 +47,8 @@ const totalPosts = posts.length;
     <div class="kolam-border mt-5"></div>
   </header>
 
-  <section aria-labelledby="writings-heading" class="space-y-6">
-    <div class="flex items-center justify-between">
+  <section aria-labelledby="writings-heading" class="space-y-10">
+    <div class="reveal flex items-center justify-between">
       <h2 id="writings-heading" class="font-mono text-xs uppercase text-ink-muted dark:text-silk-faint tracking-wider font-semibold">
         Recent Research &amp; Technical Articles
       </h2>
@@ -57,7 +57,7 @@ const totalPosts = posts.length;
       </a>
     </div>
 
-    <div class="space-y-5">
+    <div class="space-y-6">
       {posts.map((post, i) => (
         <PostCard
           title={post.data.title}
@@ -68,13 +68,14 @@ const totalPosts = posts.length;
           body={post.body ?? ''}
           image={post.data.image}
           featured={i === 0}
+          index={i}
         />
       ))}
     </div>
   </section>
 
   <!-- Subscribe CTA -->
-  <div class="mt-12 pt-6">
+  <div class="reveal mt-16 pt-8">
     <div class="kolam-border mb-6"></div>
     <div class="flex items-center gap-4">
       <a

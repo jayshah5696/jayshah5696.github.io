@@ -12,18 +12,22 @@ interface Props {
   body: string;
   image?: string;
   featured?: boolean;
+  index?: number;
 }
 
-const { title, date, description, slug, tags = [], body, image, featured = false } = Astro.props;
+const { title, date, description, slug, tags = [], body, image, featured = false, index } = Astro.props;
 const stats = readingTime(body);
 ---
 
-<article class:list={[
-  'group relative rounded-xl border overflow-hidden transition-all duration-200 featured-card rangoli-corners hover:-translate-y-1',
-  featured
-    ? 'border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light hover:shadow-lg shadow-sm'
-    : 'border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light hover:shadow-md',
-]}>
+<article
+  class:list={[
+    'reveal group relative rounded-xl border overflow-hidden transition-all duration-200 featured-card rangoli-corners hover:-translate-y-0.5',
+    featured
+      ? 'border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light'
+      : 'border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light',
+  ]}
+  style={index !== undefined ? `--index: ${index};` : undefined}
+>
   {featured ? (
     <div class="flex flex-col">
       {/* Featured Card Layout (Vertical Full Banner) */}

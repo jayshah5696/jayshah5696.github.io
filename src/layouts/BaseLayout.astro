@@ -180,6 +180,30 @@ const markdownURL = Astro.url.pathname === '/' || Astro.url.pathname === ''
         }
       }
 
+      // Scroll entry reveal observer (IntersectionObserver)
+      function initScrollReveal() {
+        if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+          document.querySelectorAll('.reveal').forEach(function(el) {
+            el.classList.add('is-visible');
+          });
+          return;
+        }
+        var observer = new IntersectionObserver(
+          function(entries, obs) {
+            entries.forEach(function(entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                obs.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -40px 0px', threshold: 0.05 }
+        );
+        document.querySelectorAll('.reveal:not(.is-visible)').forEach(function(el) {
+          observer.observe(el);
+        });
+      }
+
       // Re-apply theme after View Transition swap (before new page renders)
       document.addEventListener('astro:after-swap', function() {
         var t = localStorage.getItem('theme');
@@ -194,11 +218,13 @@ const markdownURL = Astro.url.pathname === '/' || Astro.url.pathname === ''
       document.addEventListener('astro:page-load', function() {
         initThemeToggle();
         initMobileMenu();
+        initScrollReveal();
       });
 
       // Also run on initial page load (before astro:page-load fires)
       initThemeToggle();
       initMobileMenu();
+      initScrollReveal();
     </script>
   </body>
 </html>

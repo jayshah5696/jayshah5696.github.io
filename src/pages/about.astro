@@ -9,7 +9,7 @@ import profileImage from '../../public/assets/images/profile.webp';
 
 <BaseLayout title="About" description="About Jay Shah — Senior Data Scientist at 6sense, building production AI applications, foundational model systems, and agent evaluation frameworks" jsonLdType="ProfilePage">
   <article class="prose prose-kolam dark:prose-invert prose-lg max-w-none">
-    <header class="not-prose mb-12">
+    <header class="reveal not-prose mb-12">
       <div class="flex items-start gap-6 mb-6">
         <!-- Profile photo with kolam frame -->
         <div class="relative shrink-0">
@@ -20,7 +20,7 @@ import profileImage from '../../public/assets/images/profile.webp';
           <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 size-1.5 rounded-full bg-terra/30 dark:bg-terra-light/30"></div>
           <div class="absolute top-1/2 -left-5 -translate-y-1/2 size-1.5 rounded-full bg-terra/30 dark:bg-terra-light/30"></div>
           <div class="absolute top-1/2 -right-5 -translate-y-1/2 size-1.5 rounded-full bg-terra/30 dark:bg-terra-light/30"></div>
-          <div class="rounded-full size-[88px] overflow-hidden ring-2 ring-white dark:ring-night-800 shadow-lg">
+          <div class="rounded-full size-[88px] overflow-hidden ring-2 ring-white dark:ring-night-800">
             <Image
               src={profileImage}
               alt="Jay Shah"
@@ -41,57 +41,65 @@ import profileImage from '../../public/assets/images/profile.webp';
       </div>
     </header>
 
-    <h2>About Me</h2>
+    <section class="reveal">
+      <h2>About Me</h2>
 
-    <p>
-      I build machine-learning and language-model systems that have to work beyond the notebook.
-    </p>
+      <p>
+        I build machine-learning and language-model systems that have to work beyond the notebook.
+      </p>
 
-    <p>
-      At 6sense, I work on intent intelligence: foundational models with custom embeddings, model explainability, contextual knowledge graphs, and evaluation systems for large language model agents. The hard part is rarely choosing a better model. It is dealing with noisy signals, changing behavior, unclear definitions, and knowing whether a system is still trustworthy after it ships.
-    </p>
+      <p>
+        At 6sense, I work on intent intelligence: foundational models with custom embeddings, model explainability, contextual knowledge graphs, and evaluation systems for large language model agents. The hard part is rarely choosing a better model. It is dealing with noisy signals, changing behavior, unclear definitions, and knowing whether a system is still trustworthy after it ships.
+      </p>
 
-    <p>
-      Before 6sense, I built retrieval-augmented generation systems, Model Context Protocol agent platforms, anomaly detection products, and foundation-model operations at <a href="https://avathon.com">Avathon</a>. Some of that work supported more than 20 agent workflows and reduced model release cycles by 45%. Earlier, I worked on energy forecasting and failure prediction systems, including anomaly detection work that contributed to more than $500k in savings.
-    </p>
+      <p>
+        Before 6sense, I built retrieval-augmented generation systems, Model Context Protocol agent platforms, anomaly detection products, and foundation-model operations at <a href="https://avathon.com">Avathon</a>. Some of that work supported more than 20 agent workflows and reduced model release cycles by 45%. Earlier, I worked on energy forecasting and failure prediction systems, including anomaly detection work that contributed to more than $500k in savings.
+      </p>
 
-    <p>
-      My graduate research at Texas A&M focused on predicting wind-energy failures. That experience gave me a lasting rule: a model that works in a notebook has made a promise, not proved anything.
-    </p>
+      <p>
+        My graduate research at Texas A&M focused on predicting wind-energy failures. That experience gave me a lasting rule: a model that works in a notebook has made a promise, not proved anything.
+      </p>
 
-    <p>
-      I write about the systems I build, the assumptions behind them, and the parts that usually break. If something is on this site, it shipped or I learned enough from it to explain what happened.
-    </p>
+      <p>
+        I write about the systems I build, the assumptions behind them, and the parts that usually break. If something is on this site, it shipped or I learned enough from it to explain what happened.
+      </p>
+    </section>
 
-    <h2>Outside the Terminal</h2>
+    <section class="reveal">
+      <h2>Outside the Terminal</h2>
 
-    <p>
-      Cricket comes first. Tea, never coffee. Yoga is the habit that survived a newborn's sleep schedule.
-    </p>
+      <p>
+        Cricket comes first. Tea, never coffee. Yoga is the habit that survived a newborn's sleep schedule.
+      </p>
 
-    <p>
-      I care about Indic languages and culture, especially the gap between the languages people speak and the languages most AI systems understand. Gujarati Llama started as a personal project because useful language technology should not be limited to English-speaking users.
-    </p>
+      <p>
+        I care about Indic languages and culture, especially the gap between the languages people speak and the languages most AI systems understand. Gujarati Llama started as a personal project because useful language technology should not be limited to English-speaking users.
+      </p>
 
-    <p>
-      I also read outside machine learning: systems thinking, philosophy, and energy policy. Some of my best technical ideas began as questions from another field.
-    </p>
+      <p>
+        I also read outside machine learning: systems thinking, philosophy, and energy policy. Some of my best technical ideas began as questions from another field.
+      </p>
+    </section>
 
-    <h2>Honors & Awards</h2>
-    <ul>
-      <li>Winner at Ragathon by LlamaIndex (Feb 2024)</li>
-      <li>Outstanding Master's of Science Student (Apr 2019)</li>
-      <li>2nd Runner-up at Texas Datathon by Citadel (Feb 2018)</li>
-    </ul>
+    <section class="reveal">
+      <h2>Honors &amp; Awards</h2>
+      <ul>
+        <li>Winner at Ragathon by LlamaIndex (Feb 2024)</li>
+        <li>Outstanding Master's of Science Student (Apr 2019)</li>
+        <li>2nd Runner-up at Texas Datathon by Citadel (Feb 2018)</li>
+      </ul>
+    </section>
 
-    <h2>Patents</h2>
-    <ul>
-      <li><a href="https://patents.google.com/patent/US20230213560A1/en">Calculating energy loss during an outage</a> — US20230213560A1, Filed Dec 30, 2021</li>
-      <li><a href="https://patents.google.com/patent/US20230214703A1/en">Predicting energy production for energy generating assets</a> — US20230214703A1, Filed Dec 30, 2021</li>
-      <li><a href="https://patents.google.com/patent/IN201721044402A/en">Dimension Measurement Using Image Processing</a> — IN 201721044402, Filed Dec 11, 2017</li>
-    </ul>
+    <section class="reveal">
+      <h2>Patents</h2>
+      <ul>
+        <li><a href="https://patents.google.com/patent/US20230213560A1/en">Calculating energy loss during an outage</a> — US20230213560A1, Filed Dec 30, 2021</li>
+        <li><a href="https://patents.google.com/patent/US20230214703A1/en">Predicting energy production for energy generating assets</a> — US20230214703A1, Filed Dec 30, 2021</li>
+        <li><a href="https://patents.google.com/patent/IN201721044402A/en">Dimension Measurement Using Image Processing</a> — IN 201721044402, Filed Dec 11, 2017</li>
+      </ul>
+    </section>
 
-    <div class="flex flex-wrap gap-3 not-prose mt-8">
+    <div class="reveal flex flex-wrap gap-3 not-prose mt-8">
       <a
         href={SOCIAL_LINKS.github}
         target="_blank"

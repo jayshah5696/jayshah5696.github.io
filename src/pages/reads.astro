@@ -60,7 +60,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
   rightSidebar={true}
 >
   <!-- Header -->
-  <header class="mb-8">
+  <header class="reveal mb-8">
     <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">Reading Notes &amp; Bibliography</h1>
     <p class="mt-4 text-ink-light dark:text-silk-muted text-base leading-relaxed">
       A collection of interesting articles, papers, tools, and links I come across, with brief summaries and personal commentary.
@@ -79,7 +79,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
     <div class="space-y-6">
       
       <!-- Minimalist Search Bar with Collapsible Icon Drawer -->
-      <div class="bg-cream-50 dark:bg-night-900 border border-cream-200 dark:border-night-700 rounded-xl p-2 shadow-xs transition-all duration-200 focus-within:border-terra dark:focus-within:border-terra-light">
+      <div class="reveal bg-cream-50 dark:bg-night-900 border border-cream-200 dark:border-night-700 rounded-xl p-2 shadow-xs transition-all duration-200 focus-within:border-terra dark:focus-within:border-terra-light">
         <div class="flex items-center gap-2">
           <!-- Search input box -->
           <div class="flex-1 flex items-center gap-2.5 px-2.5 py-1.5">
@@ -168,7 +168,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
         {years.map((year, yIdx) => {
           const yearTotal = Object.values(grouped[year]).reduce((acc, g) => acc + g.entries.length, 0);
           return (
-            <section class="year-section" data-year={year}>
+            <section class="reveal year-section" data-year={year} style={`--index: ${yIdx};`}>
               <!-- Year Heading (Clickable Accordion) -->
               <div class="year-accordion-header flex items-center justify-between cursor-pointer user-select-none mb-6 border-b border-cream-200 dark:border-night-700 pb-2 group/year">
                 <h2 class="font-display text-2xl text-ink dark:text-silk flex items-center gap-3 group-hover/year:text-terra dark:group-hover/year:text-terra-light transition-colors">
@@ -193,10 +193,11 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
                     const group = grouped[year][monthNum];
                     return (
                       <div
-                        class="timeline-month-branch relative pl-6 sm:pl-8 border-l border-dashed border-cream-300 dark:border-night-700 ml-3 transition-colors duration-200"
+                        class="reveal timeline-month-branch relative pl-6 sm:pl-8 border-l border-dashed border-cream-300 dark:border-night-700 ml-3 transition-colors duration-200"
                         data-month={monthNum}
                         data-year={year}
                         id={`month-${year}-${monthNum}`}
+                        style={`--index: ${mIdx};`}
                       >
                         <!-- Timeline Node Dot -->
                         <div
@@ -222,7 +223,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
                         <!-- Month Cards List -->
                         <div class="month-cards-wrapper space-y-4">
                           {group.entries.map((entry, eIdx) => (
-                            <ReadCard entry={entry} featured={yIdx === 0 && mIdx === 0 && eIdx === 0} />
+                            <ReadCard entry={entry} featured={yIdx === 0 && mIdx === 0 && eIdx === 0} index={eIdx} />
                           ))}
                         </div>
                       </div>
@@ -495,6 +496,9 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
 
             if (matchYear && matchMonth && matchTag && matchSearch) {
               card.classList.remove('hidden');
+              if (hasActiveFilters) {
+                card.classList.add('is-visible');
+              }
               monthHasVisible = true;
               yearHasVisible = true;
               totalVisible++;
@@ -504,6 +508,9 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
           });
 
           mBranch.classList.toggle('hidden', !monthHasVisible);
+          if (monthHasVisible && hasActiveFilters) {
+            mBranch.classList.add('is-visible');
+          }
 
           // Auto-expand month accordion if searching or filtering by tag
           if (monthHasVisible && (state.search || state.tag !== 'all')) {
@@ -515,6 +522,9 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
         });
 
         ySection.classList.toggle('hidden', !yearHasVisible);
+        if (yearHasVisible && hasActiveFilters) {
+          ySection.classList.add('is-visible');
+        }
       });
     }
 

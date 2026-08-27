@@ -7,9 +7,10 @@ import { getTagMicroPillClasses, getTagIndicator } from '../utils/tags';
 interface Props {
   entry: any;
   featured?: boolean;
+  index?: number;
 }
 
-const { entry, featured = false } = Astro.props;
+const { entry, featured = false, index } = Astro.props;
 const { title, url, date, tags } = entry.data;
 const isFeatured = featured || Boolean(entry.data.featured);
 const { Content } = await render(entry);
@@ -28,11 +29,12 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
 
 <article
   class:list={[
-    'read-card-item featured-card rangoli-corners overflow-hidden hover:-translate-y-1 transition-all duration-200 relative p-4 sm:p-5 rounded-xl flex flex-col gap-2 cursor-pointer group',
+    'reveal read-card-item featured-card rangoli-corners overflow-hidden hover:-translate-y-0.5 transition-all duration-200 relative p-4 sm:p-5 rounded-xl flex flex-col gap-2 cursor-pointer group',
     isFeatured
-      ? 'border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light hover:shadow-lg shadow-sm'
-      : 'border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light hover:shadow-md',
+      ? 'border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light'
+      : 'border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light',
   ]}
+  style={index !== undefined ? `--index: ${index};` : undefined}
   data-read-card
   data-tags={tags.join(',')}
   data-year={year}

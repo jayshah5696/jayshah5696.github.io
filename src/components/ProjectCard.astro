@@ -8,9 +8,21 @@ interface Props {
   url: string;
   tags: string[];
   featured?: boolean;
+  flagship?: boolean;
+  index?: number;
+  class?: string;
 }
 
-const { title, description, url, tags = [], featured = false } = Astro.props;
+const {
+  title,
+  description,
+  url,
+  tags = [],
+  featured = false,
+  flagship = false,
+  index,
+  class: className = '',
+} = Astro.props;
 
 let platform: 'github' | 'huggingface' | 'devpost' | 'external' = 'external';
 let platformLabel = 'Project';
@@ -27,25 +39,40 @@ if (url.includes('github.com')) {
 }
 ---
 
-<article class:list={[
-  'group relative rounded-xl border overflow-hidden transition-all duration-200 featured-card rangoli-corners hover:-translate-y-1 flex flex-col justify-between p-5',
-  featured
-    ? 'border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light hover:shadow-lg shadow-sm'
-    : 'border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light hover:shadow-md',
-]}>
+<article
+  class:list={[
+    'reveal group relative rounded-xl border overflow-hidden transition-all duration-200 featured-card rangoli-corners hover:-translate-y-0.5 flex flex-col justify-between',
+    flagship
+      ? 'p-6 sm:p-7 border-terra/30 dark:border-terra-light/20 bg-cream-50/90 dark:bg-night-800/90 hover:border-terra dark:hover:border-terra-light'
+      : featured
+        ? 'p-5 border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light'
+        : 'p-5 border-cream-200 dark:border-night-700 bg-white dark:bg-night-800 hover:border-terra dark:hover:border-terra-light',
+    className,
+  ]}
+  style={index !== undefined ? `--index: ${index};` : undefined}
+>
   <div>
-    <!-- Optional Featured Badge -->
-    {featured && (
+    <!-- Optional Flagship or Featured Badge -->
+    {flagship ? (
+      <div class="mb-3">
+        <span class="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase text-terra dark:text-terra-light px-2.5 py-0.5 rounded-full bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20 font-semibold" style="letter-spacing: 0.12em;">
+          ★ Flagship Project
+        </span>
+      </div>
+    ) : featured ? (
       <div class="mb-2">
         <span class="inline-block font-mono text-[10px] uppercase text-terra dark:text-terra-light px-2 py-0.5 rounded bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20" style="letter-spacing: 0.12em;">
           Featured Project
         </span>
       </div>
-    )}
+    ) : null}
 
     <!-- Title & External Link Header -->
     <div class="flex items-start justify-between gap-2">
-      <h3 class="font-display text-lg text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-200 text-balance leading-snug">
+      <h3 class:list={[
+        'font-display text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-200 text-balance leading-snug',
+        flagship ? 'text-xl sm:text-2xl' : 'text-base sm:text-lg',
+      ]}>
         <a
           href={url}
           target="_blank"
@@ -63,7 +90,10 @@ if (url.includes('github.com')) {
     </div>
 
     <!-- Description -->
-    <p class="mt-2 text-sm text-ink-light dark:text-silk-muted text-pretty line-clamp-3 leading-relaxed">
+    <p class:list={[
+      'mt-2 text-ink-light dark:text-silk-muted text-pretty leading-relaxed',
+      flagship ? 'text-sm sm:text-base max-w-3xl' : 'text-sm line-clamp-3',
+    ]}>
       {description}
     </p>
 
