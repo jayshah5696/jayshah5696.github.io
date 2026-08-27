@@ -19,10 +19,10 @@ const years = Object.keys(byYear).sort((a, b) => Number(b) - Number(a));
 ---
 
 <BaseLayout title="Writing Archives" description="Complete chronological archive of Jay Shah's articles and research essays on AI, machine learning, RAG, and systems.">
-  <h1 class="font-display text-3xl text-ink dark:text-silk carved-heading mb-10">Writing Archives</h1>
+  <h1 class="reveal font-display text-3xl text-ink dark:text-silk carved-heading mb-10">Writing Archives</h1>
 
-  {years.map((year) => (
-    <section class="mb-10">
+  {years.map((year, i) => (
+    <section class="reveal mb-10" style={`--index: ${i};`}>
       <h2 class="font-display text-xl text-terra dark:text-terra-light mb-4">{year}</h2>
       <ul class="space-y-3 border-l-2 border-cream-200 dark:border-night-700 pl-5">
         {byYear[year].map((post) => (

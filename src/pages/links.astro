@@ -46,7 +46,7 @@ const PROFILES = [
 
 <BaseLayout title="Profiles & Links" description="Connect with Jay Shah across GitHub, LinkedIn, Twitter, Hugging Face, or Email.">
   <div class="max-w-2xl space-y-6">
-    <header class="mb-8">
+    <header class="reveal mb-8">
       <h1 class="font-display text-3xl text-ink dark:text-silk carved-heading">Profiles &amp; Links</h1>
       <p class="text-ink-muted dark:text-silk-muted text-sm mt-2 font-mono">
         Find me across the internet.
@@ -55,17 +55,18 @@ const PROFILES = [
     </header>
 
     <div class="space-y-4">
-      {PROFILES.map((profile) => (
+      {PROFILES.map((profile, i) => (
         <a
           href={profile.url}
           target={profile.icon === 'email' ? undefined : '_blank'}
           rel={profile.icon === 'email' ? undefined : 'noopener noreferrer'}
           class:list={[
-            'featured-card rangoli-corners overflow-hidden relative flex items-center justify-between p-4 sm:p-5 rounded-xl border transition-all duration-200 group hover:-translate-y-1 hover:shadow-lg',
+            'reveal featured-card rangoli-corners overflow-hidden relative flex items-center justify-between p-4 sm:p-5 rounded-xl border transition-all duration-200 group hover:-translate-y-0.5',
             profile.featured
-              ? 'border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light shadow-sm'
-              : 'border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light hover:shadow-md',
+              ? 'border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light'
+              : 'border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light',
           ]}
+          style={`--index: ${i};`}
         >
           <div class="flex items-start sm:items-center gap-4 relative z-10 min-w-0">
             <div class="flex items-center justify-center size-11 rounded-lg bg-terra/10 dark:bg-terra-light/10 text-terra dark:text-terra-light group-hover:scale-105 group-hover:bg-terra/15 dark:group-hover:bg-terra-light/15 transition-all duration-300 shrink-0">
