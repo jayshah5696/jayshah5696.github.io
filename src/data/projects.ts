@@ -13,6 +13,12 @@ export const projects: Project[] = [
     tags: ['AI AGENTS', 'TYPESCRIPT', 'DEVELOPER TOOLS'],
   },
   {
+    title: 'Sangam (संगम)',
+    description: 'A single-user, self-hosted document workspace where a human and identified AI agents work with ordinary files through the same revision-aware API.',
+    url: 'https://github.com/jayshah5696/sangam',
+    tags: ['AI AGENTS', 'LOCAL-FIRST', 'FASTAPI', 'PYTHON'],
+  },
+  {
     title: 'Session Aggregator',
     description: 'A local tool for syncing, searching, and exporting AI coding sessions across development tools, with a terminal UI and semantic search.',
     url: 'https://github.com/jayshah5696/session-aggregator',
