@@ -106,7 +106,7 @@ test.describe('100% Agent Readiness Verification Suite', () => {
   // 6. Brand name discoverability
   test('6. Brand name discoverability: canonical URLs, OpenGraph, Twitter tags, and sameAs links claim brand entity', async () => {
     const html = fs.readFileSync(path.join(DIST_DIR, 'index.html'), 'utf-8');
-    expect(html).toContain('<title>Jay Shah -- AI Systems, Foundational Models &amp; Research</title>');
+    expect(html).toContain('<title>Jay Shah</title>');
     expect(html).toContain('<meta property="og:site_name" content="Jay Shah"');
     expect(html).toContain('<link rel="canonical" href="https://jayshah.dev/"');
     expect(html).toContain('https://github.com/jayshah5696');
