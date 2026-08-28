@@ -112,11 +112,44 @@ interactive: false           # default false; set true for interactive posts
 Your content here...
 ```
 
-### Adding Reads
+---
 
-To log a reading note to `/reads/`:
+## 📖 Curated Reads & Karakeep Automation
+
+The `/reads/` timeline showcases curated links, papers, and engineering deep dives with structured takeaways and color-coded tags.
+
+### 1. Automated Karakeep Sync & LLM Curation (`just sync-reads`)
+
+To harvest recent bookmarks from Karakeep, synthesize takeaways with LLMs, review in an interactive UI, and open a GitHub PR:
+
 ```bash
-just add-read "Article Title" "https://example.com" "Author Name" "tags,comma,separated"
+# Auto-detect all new bookmarks since latest read in repo (defaults to openai/gpt-5.6-luna)
+just sync-reads
+
+# Sync from a specific date onwards
+just sync-reads 2026-08-15
+
+# Sync a specific date range
+just sync-reads 2026-08-15 2026-08-27
+
+# Use a custom OpenRouter model slug (e.g. Gemini Flash Lite)
+just sync-reads 2026-08-15 2026-08-27 google/gemini-3.5-flash-lite
+```
+
+#### How the Pipeline Works:
+1. **Karakeep API Harvest:** Connects to your self-hosted Karakeep bookmark manager via API credentials in `~/.zshrc`.
+2. **Noise & Duplicate Filtering:** Strips localhost links, duplicates, and links already published in `src/content/reads/`.
+3. **arXiv Resolution:** Fetches verified paper titles and abstracts from the official arXiv API.
+4. **Dynamic Tagging & Pydantic Validation:** Dynamically extracts the site's canonical taxonomy from `src/utils/tags.ts` (zero hardcoding) and validates the structured LLM output using `pydantic`.
+5. **Parallel LLM Synthesis:** Analyzes articles via OpenRouter (`openai/gpt-5.6-luna` with automatic fallback to `google/gemini-3.5-flash-lite`) to generate 1-sentence overviews + 2–3 technical bullet points.
+6. **Interactive Local Web UI (`http://127.0.0.1:4999`):** Review candidate cards, toggle tag chips, refine notes, and check/uncheck items.
+7. **Automated Pull Request:** On submit, the script switches to `master`, branches (`feat/reads-sync-...`), writes markdown files, verifies the Astro build + Pagefind indexing, commits, pushes, and creates a GitHub Pull Request via `gh pr create`.
+
+### 2. Manual Single Read Addition
+
+To manually log an individual read to `/reads/`:
+```bash
+just add-read "https://example.com/article" "ai-safety,llm" "Custom Article Title"
 ```
 
 ---
@@ -129,6 +162,7 @@ just add-read "Article Title" "https://example.com" "Author Name" "tags,comma,se
 ├── docs/
 │   └── publishing-interactive-blogs.md # Guide to interactive blog pipeline
 ├── scripts/
+│   ├── curate_reads.py              # LLM-powered Karakeep reads curator & PR builder (uv run)
 │   ├── publish-interactive.js       # HTML to Vav interactive blog publisher
 │   ├── verify-post.js               # Automated headless browser verification
 │   └── add-read.js                  # CLI helper to add reading notes

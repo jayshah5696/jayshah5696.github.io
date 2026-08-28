@@ -1,14 +1,18 @@
-#!/usr/bin/env python3
+# /// script
+# requires-python = ">=3.11"
+# dependencies = [
+#     "pydantic>=2.0",
+# ]
+# ///
 """
 Karakeep Reads Curator & PR Automation
-Powered by LLM Model Router & Key Takeaway Synthesizer
+Powered by LLM Key Takeaway Synthesizer & Pydantic Schema Validation
 
 Usage:
-    just sync-reads                          # Auto-detects since latest read in repo
-    just sync-reads 2026-08-15               # From date onwards
-    just sync-reads 2026-08-15 2026-08-27    # Date range
-    just sync-reads 2026-08-15 "" flash      # Custom model alias
-    just sync-reads 14 "" openai/gpt-4o-mini # Custom OpenRouter model
+    uv run scripts/curate_reads.py                          # Auto-detects since latest read in repo
+    uv run scripts/curate_reads.py 2026-08-15               # From date onwards
+    uv run scripts/curate_reads.py 2026-08-15 2026-08-27    # Date range
+    uv run scripts/curate_reads.py 2026-08-15 "" google/gemini-3.5-flash-lite # Custom model slug
 """
 
 import os
@@ -26,47 +30,86 @@ import xml.etree.ElementTree as ET
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from http.server import HTTPServer, BaseHTTPRequestHandler
 from datetime import datetime, timezone, timedelta
+from pydantic import BaseModel, Field, field_validator
 
 # ==============================================================================
-# CONFIGURATION & MODEL ROUTER
+# CONFIGURATION & DYNAMIC TAXONOMY
 # ==============================================================================
 
 DEFAULT_MODEL = "openai/gpt-5.6-luna"
-FALLBACK_MODEL = "google/gemini-2.5-flash"
-
-MODEL_ALIASES = {
-    "gpt-5.6-luna": "openai/gpt-5.6-luna",
-    "gpt-5-luna": "openai/gpt-5-luna",
-    "luna": "openai/gpt-5.6-luna",
-    "gpt-5": "openai/gpt-5",
-    "gpt-4o": "openai/gpt-4o",
-    "gpt-4o-mini": "openai/gpt-4o-mini",
-    "flash": "google/gemini-2.5-flash",
-    "gemini-flash": "google/gemini-2.5-flash",
-    "gemini-3.7": "google/gemini-3.7-flash",
-    "claude-sonnet": "anthropic/claude-3.7-sonnet",
-    "claude-haiku": "anthropic/claude-3.5-haiku",
-    "deepseek": "deepseek/deepseek-chat"
-}
-
-CANONICAL_TAGS = [
-    "llm", "ai-agents", "rag", "ai-safety", "gen-ai",
-    "ml", "rl", "distillation", "fine-tuning", "evals",
-    "systems", "developer-tools", "software-engineering",
-    "research", "career"
-]
+FALLBACK_MODEL = "google/gemini-3.5-flash-lite"
 
 REPO_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 READS_DIR = os.path.join(REPO_DIR, "src", "content", "reads")
 PORT = 4999
 
 
-def resolve_model(model_name):
-    """Resolve model alias or direct OpenRouter model ID."""
-    if not model_name:
-        return DEFAULT_MODEL
-    clean = model_name.strip().lower()
-    return MODEL_ALIASES.get(clean, model_name.strip())
+def load_canonical_tags():
+    """Dynamically extract canonical tags from src/utils/tags.ts and existing content (no hardcoding)."""
+    tags = set()
+    tags_ts_path = os.path.join(REPO_DIR, "src", "utils", "tags.ts")
+    if os.path.exists(tags_ts_path):
+        try:
+            with open(tags_ts_path, "r", encoding="utf-8") as f:
+                content = f.read()
+            # Extract tags declared in arrays
+            matches = re.findall(r"'([a-zA-Z0-9_-]+)'", content)
+            for m in matches:
+                if m not in ['ai', 'dev', 'ml', 'personal', 'default', 'tag-ai', 'tag-dev', 'tag-ml', 'tag-personal', 'tag']:
+                    tags.add(m)
+        except Exception:
+            pass
+
+    # Also scan frontmatter in src/content/
+    for md in glob.glob(os.path.join(REPO_DIR, "src", "content", "**", "*.md"), recursive=True):
+        try:
+            with open(md, "r", encoding="utf-8", errors="ignore") as fp:
+                c = fp.read()
+            m = re.search(r'tags:\s*\[(.*?)\]', c)
+            if m:
+                for t in m.group(1).split(","):
+                    clean = t.strip().strip('"\'')
+                    if clean:
+                        tags.add(clean)
+        except Exception:
+            pass
+
+    if not tags:
+        return [
+            "llm", "ai-agents", "rag", "ai-safety", "gen-ai",
+            "ml", "rl", "distillation", "fine-tuning", "evals",
+            "systems", "developer-tools", "software-engineering",
+            "research", "career"
+        ]
+    return sorted(list(tags))
+
+
+# Dynamic Canonical Tags loaded from the repository
+CANONICAL_TAGS = load_canonical_tags()
+
+
+# ==============================================================================
+# PYDANTIC STRUCTURED SCHEMA
+# ==============================================================================
+
+class ArticleAnalysis(BaseModel):
+    clean_title: str = Field(
+        description="Clear, professional title fixing any raw URLs, file extensions, or truncated titles"
+    )
+    tags: list[str] = Field(
+        description="Exactly 2 to 3 tags chosen strictly from allowed canonical tags"
+    )
+    notes: str = Field(
+        description="High-signal Markdown commentary with 1-2 sentence overview and 2-3 bullet points (- ...)"
+    )
+
+    @field_validator("tags")
+    @classmethod
+    def validate_tags(cls, v: list[str]) -> list[str]:
+        valid = [t.strip().lower() for t in v if t.strip().lower() in CANONICAL_TAGS]
+        if not valid:
+            return ["ml", "software-engineering"]
+        return valid[:3]
 
 
 def get_credentials():
@@ -100,10 +143,10 @@ def parse_cli_dates_and_model():
     parser = argparse.ArgumentParser(description="Karakeep Reads Curator")
     parser.add_argument("pos_start", nargs="?", default=None, help="Start date YYYY-MM-DD, day count N, or auto")
     parser.add_argument("pos_end", nargs="?", default=None, help="End date YYYY-MM-DD (optional)")
-    parser.add_argument("pos_model", nargs="?", default=None, help="Model alias or ID (optional)")
+    parser.add_argument("pos_model", nargs="?", default=None, help="Model slug (optional)")
     parser.add_argument("--start", default=None, help="Start date (YYYY-MM-DD, day count N, or auto)")
     parser.add_argument("--end", default=None, help="End date (YYYY-MM-DD)")
-    parser.add_argument("--model", default=None, help="Model name or alias")
+    parser.add_argument("--model", default=None, help="Exact model slug (e.g. openai/gpt-5.6-luna)")
 
     args, _ = parser.parse_known_args()
 
@@ -167,7 +210,7 @@ def parse_cli_dates_and_model():
         label_start = start_dt.strftime("%Y-%m-%d")
         label_end = now.strftime("%Y-%m-%d")
 
-    target_model = resolve_model(raw_model)
+    target_model = raw_model.strip() if raw_model else DEFAULT_MODEL
     return start_iso, end_iso, label_start, label_end, target_model
 
 
@@ -264,13 +307,13 @@ def call_llm(prompt, model, openrouter_key):
         except Exception as e:
             last_err = e
             if m != models_to_try[-1]:
-                print(f"  [Model Router] Model '{m}' unavailable, trying fallback '{models_to_try[-1]}'...", file=sys.stderr)
+                print(f"  [Model Router] Model '{m}' unavailable, falling back to '{models_to_try[-1]}'...", file=sys.stderr)
     
     raise last_err or Exception("All model attempts failed.")
 
 
 def analyze_item_with_llm(item, model, openrouter_key):
-    """Call OpenRouter LLM to extract clean title, canonical tags, and structured takeaways."""
+    """Call OpenRouter LLM and validate output using Pydantic."""
     if not openrouter_key:
         return {
             "clean_title": item["title"],
@@ -282,7 +325,7 @@ def analyze_item_with_llm(item, model, openrouter_key):
     prompt = f"""You are an expert AI and software systems curator for a high-signal technical blog.
 Analyze the following article bookmark and produce a JSON response with:
 1. "clean_title": Clear, professional title (fix any generic filenames, raw URLs, or truncated titles).
-2. "tags": Exactly 2 to 3 tags chosen ONLY from this strict list: {json.dumps(CANONICAL_TAGS)}.
+2. "tags": Exactly 2 to 3 tags chosen strictly from this allowed canonical tag list: {json.dumps(CANONICAL_TAGS)}.
 3. "notes": High-signal Markdown commentary with:
    - 1-2 sentence core overview/hook summarizing the primary thesis.
    - 2-3 concise bullet points (- ...) highlighting concrete technical insights, architectural decisions, mathematical mechanics, or engineering takeaways.
@@ -303,13 +346,15 @@ Return ONLY valid JSON matching this schema:
 """
 
     try:
-        parsed, used_m = call_llm(prompt, model, openrouter_key)
-        valid_tags = [t for t in parsed.get("tags", []) if t in CANONICAL_TAGS]
-        if not valid_tags:
-            valid_tags = ["ml", "software-engineering"]
-        parsed["tags"] = valid_tags[:3]
-        parsed["used_model"] = used_m
-        return parsed
+        raw_json, used_m = call_llm(prompt, model, openrouter_key)
+        # Validate through Pydantic
+        validated = ArticleAnalysis(**raw_json)
+        return {
+            "clean_title": validated.clean_title,
+            "tags": validated.tags,
+            "notes": validated.notes,
+            "used_model": used_m
+        }
     except Exception as e:
         print(f"Warning: LLM analysis failed for '{item.get('title', '')}': {e}", file=sys.stderr)
         return {
@@ -338,7 +383,9 @@ def fetch_and_prepare_bookmarks(start_iso, end_iso, label_start, label_end, mode
     published_urls = get_published_urls()
     print(f"\n📡 Querying Karakeep at: {karakeep_host}")
     print(f"📅 Date Filter: {label_start} ──► {label_end}")
-    print(f"🧠 LLM Synthesizer Model: {model}")
+    print(f"🧠 Primary Model: {model}")
+    print(f"🛡️  Fallback Model: {FALLBACK_MODEL}")
+    print(f"🏷️  Canonical Tags Loaded: {len(CANONICAL_TAGS)} tags from repo")
 
     raw_bookmarks = []
     cursor = None
@@ -383,7 +430,6 @@ def fetch_and_prepare_bookmarks(start_iso, end_iso, label_start, label_end, mode
 
     print(f"✓ Harvested {len(raw_bookmarks)} raw bookmarks.")
     
-    # Process & Deduplicate
     candidates = []
     seen_urls = set()
     arxiv_raw = []
@@ -430,7 +476,7 @@ def fetch_and_prepare_bookmarks(start_iso, end_iso, label_start, label_end, mode
         return []
 
     # 1. Enrich arXiv papers
-    print("✓ Resolving arXiv papers...")
+    print("✓ Resolving arXiv metadata...")
     arxiv_cache = resolve_arxiv_papers(arxiv_raw)
     arxiv_pattern = re.compile(r'(?:arxiv\.org/(?:abs|pdf|html)/|(?:\A|\s))([0-9]{4}\.[0-9]{4,5}(?:v[0-9]+)?)')
 
@@ -445,8 +491,8 @@ def fetch_and_prepare_bookmarks(start_iso, end_iso, label_start, label_end, mode
                 if not item["description"]:
                     item["description"] = meta["summary"]
 
-    # 2. Parallel LLM Takeaway & Tag Synthesis
-    print(f"🤖 Generating LLM Key Takeaways & Canonical Tags for {len(candidates)} bookmarks...")
+    # 2. Parallel LLM Takeaway & Tag Synthesis with Pydantic validation
+    print(f"🤖 Generating LLM Takeaways & Tags for {len(candidates)} bookmarks via OpenRouter...")
     
     with ThreadPoolExecutor(max_workers=5) as executor:
         future_to_item = {
@@ -754,7 +800,6 @@ def get_default_branch():
     except Exception:
         pass
     
-    # Check if master exists
     res = subprocess.run(["git", "show-ref", "--verify", "--quiet", "refs/heads/master"], cwd=REPO_DIR)
     if res.returncode == 0:
         return "master"
@@ -793,7 +838,6 @@ def execute_publish_and_pr(selected_items):
             slug = slugify(item["title"])
             filepath = os.path.join(target_dir, f"{slug}.md")
 
-            # Avoid collision
             counter = 1
             while os.path.exists(filepath):
                 filepath = os.path.join(target_dir, f"{slug}-{counter}.md")
@@ -821,7 +865,6 @@ draft: false
         build_res = subprocess.run(["npm", "run", "build"], cwd=REPO_DIR, capture_output=True, text=True)
         if build_res.returncode != 0:
             print(f"Astro build failed:\n{build_res.stderr}", file=sys.stderr)
-            # Revert to base branch on failure
             subprocess.run(["git", "checkout", default_branch], cwd=REPO_DIR, check=False)
             subprocess.run(["git", "branch", "-D", branch_name], cwd=REPO_DIR, check=False)
             return {"success": False, "error": f"Astro build error: {build_res.stderr[-400:]}"}
