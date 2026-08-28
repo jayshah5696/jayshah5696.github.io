@@ -276,7 +276,31 @@ def resolve_arxiv_papers(items):
     return cache
 
 
-def call_llm(prompt, model, openrouter_key):
+JAY_SHAH_SYSTEM_PROMPT = """You are Jay Shah (jayshah.dev) — a senior AI and systems engineer with high technical taste, zero tolerance for corporate AI slop, and a passion for first-principles engineering, distributed systems, ML training/inference mechanics, and clean minimalist software.
+
+You are curating reading notes for your personal blog's /reads/ timeline.
+
+Your goal is to write sharp, authentic, high-signal notes explaining WHY THIS IS AN INTERESTING READ from your perspective as an experienced practitioner.
+
+### 1. Voice & Mindset (THINK LIKE JAY SHAH):
+- Focus on what makes this technically intriguing, non-obvious, or practically consequential.
+- Look for the mechanical insight: the clever architectural trick, the unexpected empirical result, the mathematical nuance, or the hidden trade-off.
+- Speak with quiet authority, precision, and clarity. Be direct, opinionated, and intellectually honest.
+
+### 2. Strict Anti-Slop & Humanizer Rules (BANNED PATTERNS):
+- ZERO throat-clearing or meta-framing ("In this article", "The author delves into", "This piece explores", "A comprehensive overview").
+- ZERO buzzword puffery ("groundbreaking", "game-changer", "pivotal moment", "testament to", "ever-evolving landscape", "tapestry", "revolutionize").
+- ZERO "Not X, but Y" clichés or cheap dramatic reversals ("This isn't about speed. It's about correctness.").
+- ZERO mechanical bold-first bullets ("**Performance:** It improves performance...").
+- Use concrete technical nouns, algorithm names, and numbers rather than vague hand-waving.
+
+### 3. Note Structure:
+- Hook / The Core Take (1-2 punchy sentences): Why this piece caught your eye or what fundamental problem/trade-off it tackles.
+- Concrete Mechanics (1-3 crisp bullet points, only as many as genuinely needed): Specific architectural decisions, algorithmic proofs, failure modes, or production trade-offs. If 1-2 bullets capture the insight cleanly, don't pad it.
+"""
+
+
+def call_llm(system_prompt, user_prompt, model, openrouter_key):
     """Execute LLM call via OpenRouter with automatic fallback support."""
     models_to_try = [model]
     if model != FALLBACK_MODEL:
@@ -295,12 +319,15 @@ def call_llm(prompt, model, openrouter_key):
                 },
                 data=json.dumps({
                     "model": m,
-                    "messages": [{"role": "user", "content": prompt}],
+                    "messages": [
+                        {"role": "system", "content": system_prompt},
+                        {"role": "user", "content": user_prompt}
+                    ],
                     "response_format": {"type": "json_object"}
                 }).encode("utf-8")
             )
 
-            with urllib.request.urlopen(req, timeout=20) as resp:
+            with urllib.request.urlopen(req, timeout=25) as resp:
                 res_data = json.loads(resp.read().decode("utf-8"))
                 content = res_data["choices"][0]["message"]["content"]
                 return json.loads(content), m
@@ -313,7 +340,7 @@ def call_llm(prompt, model, openrouter_key):
 
 
 def analyze_item_with_llm(item, model, openrouter_key):
-    """Call OpenRouter LLM and validate output using Pydantic."""
+    """Call OpenRouter LLM with Jay Shah persona & unslop rules, validating output with Pydantic."""
     if not openrouter_key:
         return {
             "clean_title": item["title"],
@@ -322,31 +349,27 @@ def analyze_item_with_llm(item, model, openrouter_key):
             "used_model": "none"
         }
 
-    prompt = f"""You are an expert AI and software systems curator for a high-signal technical blog.
-Analyze the following article bookmark and produce a JSON response with:
-1. "clean_title": Clear, professional title (fix any generic filenames, raw URLs, or truncated titles).
-2. "tags": Exactly 2 to 3 tags chosen strictly from this allowed canonical tag list: {json.dumps(CANONICAL_TAGS)}.
-3. "notes": High-signal Markdown commentary with:
-   - 1-2 sentence core overview/hook summarizing the primary thesis.
-   - 2-3 concise bullet points (- ...) highlighting concrete technical insights, architectural decisions, mathematical mechanics, or engineering takeaways.
+    sys_prompt = JAY_SHAH_SYSTEM_PROMPT + f"\nCanonical Allowed Tags: {json.dumps(CANONICAL_TAGS)}"
+
+    user_prompt = f"""Curate this reading list entry for /reads/:
 
 Bookmark Details:
 - Title: {item.get('title', '')}
 - URL: {item.get('url', '')}
 - Source Domain: {item.get('domain', '')}
-- Tags: {', '.join(item.get('tags', []))}
+- Raw Tags: {', '.join(item.get('tags', []))}
 - Description / Abstract / Context: {item.get('description', '')}
 
 Return ONLY valid JSON matching this schema:
 {{
-  "clean_title": "string",
+  "clean_title": "Clear, professional title",
   "tags": ["tag1", "tag2"],
-  "notes": "string"
+  "notes": "Markdown formatted notes with hook paragraph and 1-3 bullet points"
 }}
 """
 
     try:
-        raw_json, used_m = call_llm(prompt, model, openrouter_key)
+        raw_json, used_m = call_llm(sys_prompt, user_prompt, model, openrouter_key)
         # Validate through Pydantic
         validated = ArticleAnalysis(**raw_json)
         return {
