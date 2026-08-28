@@ -191,11 +191,13 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
                   .sort((a, b) => Number(b) - Number(a))
                   .map((monthNum, mIdx) => {
                     const group = grouped[year][monthNum];
+                    const isCurrentMonth = yIdx === 0 && mIdx === 0;
                     return (
                       <div
                         class="reveal timeline-month-branch relative pl-6 sm:pl-8 border-l border-dashed border-cream-300 dark:border-night-700 ml-3 transition-colors duration-200"
                         data-month={monthNum}
                         data-year={year}
+                        data-current-month={isCurrentMonth ? "true" : "false"}
                         id={`month-${year}-${monthNum}`}
                         style={`--index: ${mIdx};`}
                       >
@@ -214,14 +216,23 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
                             <span class="bg-cream-100 dark:bg-night-800 px-2 py-0.5 rounded-full text-[11px] border border-cream-200 dark:border-night-700">
                               {group.entries.length} {group.entries.length === 1 ? 'link' : 'links'}
                             </span>
-                            <svg class="month-chevron size-4 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <svg
+                              class="month-chevron size-4 transition-transform duration-200"
+                              style={!isCurrentMonth ? "transform: rotate(-90deg);" : undefined}
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              stroke-linecap="round"
+                              stroke-linejoin="round"
+                            >
                               <path d="m6 9 6 6 6-6"/>
                             </svg>
                           </div>
                         </div>
                         
                         <!-- Month Cards List -->
-                        <div class="month-cards-wrapper space-y-4">
+                        <div class:list={["month-cards-wrapper space-y-4", { hidden: !isCurrentMonth }]}>
                           {group.entries.map((entry, eIdx) => (
                             <ReadCard entry={entry} featured={yIdx === 0 && mIdx === 0 && eIdx === 0} index={eIdx} />
                           ))}
@@ -512,12 +523,22 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
             mBranch.classList.add('is-visible');
           }
 
-          // Auto-expand month accordion if searching or filtering by tag
-          if (monthHasVisible && (state.search || state.tag !== 'all')) {
+          // Auto-expand month accordion if searching or filtering by tag or month
+          if (monthHasVisible && (state.search || state.tag !== 'all' || state.month !== 'all')) {
             var wrapper = mBranch.querySelector('.month-cards-wrapper');
             var chevron = mBranch.querySelector('.month-chevron');
             if (wrapper) wrapper.classList.remove('hidden');
             if (chevron) chevron.style.transform = 'none';
+          } else if (!hasActiveFilters) {
+            var isCurrent = mBranch.dataset.currentMonth === 'true';
+            var wrapper = mBranch.querySelector('.month-cards-wrapper');
+            var chevron = mBranch.querySelector('.month-chevron');
+            if (wrapper) {
+              wrapper.classList.toggle('hidden', !isCurrent);
+            }
+            if (chevron) {
+              chevron.style.transform = !isCurrent ? 'rotate(-90deg)' : 'none';
+            }
           }
         });
 
