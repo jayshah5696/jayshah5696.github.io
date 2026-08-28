@@ -33,6 +33,12 @@ publish-interactive source_html slug tags="ai-safety,llm,watermarking,gen-ai,res
 verify-post slug:
   node scripts/verify-post.js "{{slug}}"
 
+# Run automated verification and visual regression testing on the reads page
+# Usage: just verify-reads
+verify-reads:
+  node scripts/verify-reads.js
+
+
 # Measure a page's runtime DOM and background work
 # Usage: just measure-post-performance <url> [label]
 measure-post-performance url label="measurement":
