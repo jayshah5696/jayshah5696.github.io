@@ -41,3 +41,15 @@ measure-post-performance url label="measurement":
 # Add a reading list entry
 add-read:
   npm run add-read
+
+# Fetch recent reads from Karakeep, synthesize takeaways with LLM, review in UI, and create PR
+# Usage:
+#   just sync-reads                                     # Auto-detects since latest read in repo
+#   just sync-reads 2026-08-15                          # From date onwards
+#   just sync-reads 2026-08-15 2026-08-27               # Specific date range
+#   just sync-reads 2026-08-15 "" google/gemini-3.5-flash-lite # Custom model slug
+sync-reads start="auto" end="" model="openai/gpt-5.6-luna":
+  uv run scripts/curate_reads.py --start "{{start}}" --end "{{end}}" --model "{{model}}"
+
+
+
