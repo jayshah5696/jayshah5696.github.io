@@ -25,3 +25,8 @@ Thumbs.db
 public/assets/images/previews/
 test-results/
 playwright-report/
+
+# python
+__pycache__/
+*.pyc
+
