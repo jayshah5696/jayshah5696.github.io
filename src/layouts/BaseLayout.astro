@@ -30,7 +30,7 @@ const {
   includeDefaultJsonLd = true,
 } = Astro.props;
 
-const pageTitle = title ? `${title} -- ${SITE_TITLE}` : `${SITE_TITLE} -- AI Systems, Foundational Models & Research`;
+const pageTitle = title ? `${title} | ${SITE_TITLE}` : SITE_TITLE;
 const canonicalURL = new URL(Astro.url.pathname, SITE_URL);
 const markdownURL = Astro.url.pathname === '/' || Astro.url.pathname === ''
   ? new URL('/index.md', SITE_URL)
