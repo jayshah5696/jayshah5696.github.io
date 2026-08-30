@@ -3,8 +3,7 @@ import { SITE_TITLE, SITE_TAGLINE, SOCIAL_LINKS, NAV_ITEMS } from '../consts';
 import NavIcon from './NavIcon.astro';
 import SocialIcon from './SocialIcon.astro';
 import Search from './Search.astro';
-import { Image } from 'astro:assets';
-import profileImage from '../../public/assets/images/profile.webp';
+import BrandEmblem from './BrandEmblem.astro';
 
 const currentPath = Astro.url.pathname;
 ---
@@ -19,19 +18,10 @@ const currentPath = Astro.url.pathname;
   <div class="kolam-hero shrink-0" aria-hidden="true"></div>
 
   <div class="relative flex flex-col flex-1 px-5 py-5">
-    <!-- Profile overlapping hero -->
-    <a href="/" class="group flex flex-col items-center text-center -mt-14 mb-3">
+    <!-- Profile overlapping hero with animated Vav Monogram Emblem -->
+    <a href="/" class="group flex flex-col items-center text-center -mt-14 mb-3" aria-label={`${SITE_TITLE} Home`}>
       <div class="relative mb-3">
-        <div class="absolute -inset-2 rounded-full border-2 border-dashed border-gold/40 dark:border-gold-light/30"></div>
-        <Image
-          src={profileImage}
-          alt={SITE_TITLE}
-          width={80}
-          height={80}
-          densities={[1.5, 2, 3]}
-          quality={95}
-          class="relative rounded-full size-20 object-cover group-hover:scale-105 transition-transform duration-300 ring-2 ring-white dark:ring-night-800"
-        />
+        <BrandEmblem size="lg" />
       </div>
       <h1 class="font-body font-bold text-xl text-ink dark:text-silk tracking-tight block">{SITE_TITLE}</h1>
       <p class="text-xs text-ink-muted dark:text-silk-muted italic mt-0.5">{SITE_TAGLINE}</p>
