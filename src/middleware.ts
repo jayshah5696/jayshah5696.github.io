@@ -154,7 +154,7 @@ export const onRequest = defineMiddleware(async (ctx, next) => {
       const mdHome = [
         `# Jay Shah — AI Systems, Research & Engineering`,
         ``,
-        `> Senior Data Scientist at 6sense specializing in LLM systems, RAG architectures, agent evaluations, and foundational models.`,
+        `> Senior Machine Learning Engineer at 6sense specializing in LLM systems, RAG architectures, agent evaluations, and foundational models.`,
         ``,
         `Personal website and research publications: ${SITE_URL}`,
         ``,
@@ -207,7 +207,7 @@ export const onRequest = defineMiddleware(async (ctx, next) => {
       const mdAbout = [
         `# Jay Shah — About & Background`,
         ``,
-        `Senior Data Scientist at 6sense. Focus areas include intent intelligence, foundational models with custom embeddings, explainability, knowledge graphs, and agent evaluation systems.`,
+        `Senior Machine Learning Engineer at 6sense. Focus areas include intent intelligence, foundational models with custom embeddings, explainability, knowledge graphs, and agent evaluation systems.`,
         ``,
         `## Experience`,
         `- **6sense** (Current): Foundational models, embeddings, contextual knowledge graphs, LLM agent evaluations.`,

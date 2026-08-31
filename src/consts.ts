@@ -1,7 +1,7 @@
 export const SITE_TITLE = 'Jay Shah';
-export const SITE_TAGLINE = 'Senior Data Scientist | Production AI & Agent Systems';
+export const SITE_TAGLINE = 'Senior Machine Learning Engineer | Production AI & Agent Systems';
 export const SITE_DESCRIPTION =
-  'Personal blog and research portfolio of Jay Shah — Senior Data Scientist focusing on AI applications, foundational models, LLM evaluations, and RAG systems.';
+  'Personal blog and research portfolio of Jay Shah — Senior Machine Learning Engineer focusing on AI applications, foundational models, LLM evaluations, and RAG systems.';
 export const SITE_URL = 'https://jayshah.dev';
 export const SITE_AUTHOR = 'Jay Shah';
 export const SITE_LEGAL_NAME = 'Jay Shah AI Engineering & Research';

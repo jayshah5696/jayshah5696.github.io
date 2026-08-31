@@ -3,7 +3,7 @@
 > Comprehensive developer documentation, system architectures, research abstracts, and machine-readable data feeds for https://jayshah.dev.
 
 Author: Jay Shah
-Title: Senior Data Scientist at 6sense
+Title: Senior Machine Learning Engineer at 6sense
 Focus Areas: LLM Systems, RAG Architectures, Agent Evaluation, Text Watermarking, Foundational Models
 Website: https://jayshah.dev
 CV / Resume: https://cv.jayshah.dev

@@ -517,12 +517,12 @@ export const openApiSpec = {
         required: ['name', 'headline', 'description', 'current_role', 'contact'],
         properties: {
           name: { type: 'string', example: 'Jay Shah' },
-          headline: { type: 'string', example: 'Senior Data Scientist | Production AI & Agent Systems' },
+          headline: { type: 'string', example: 'Senior Machine Learning Engineer | Production AI & Agent Systems' },
           description: { type: 'string' },
           current_role: {
             type: 'object',
             properties: {
-              title: { type: 'string', example: 'Senior Data Scientist' },
+              title: { type: 'string', example: 'Senior Machine Learning Engineer' },
               organization: { type: 'string', example: '6sense' },
               url: { type: 'string', format: 'uri', example: 'https://6sense.com' },
               focus_areas: { type: 'array', items: { type: 'string' } },

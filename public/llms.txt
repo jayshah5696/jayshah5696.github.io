@@ -1,6 +1,6 @@
 # Jay Shah — Developer Resources & AI Systems Research
 
-> Senior Data Scientist at 6sense specializing in LLM systems, RAG architecture, agent evaluation frameworks, text watermarking, and foundational models.
+> Senior Machine Learning Engineer at 6sense specializing in LLM systems, RAG architecture, agent evaluation frameworks, text watermarking, and foundational models.
 
 This file provides a structured directory of machine-readable endpoints, developer resources, open source tools, and technical publications hosted on https://jayshah.dev.
 

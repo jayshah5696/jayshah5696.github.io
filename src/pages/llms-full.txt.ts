@@ -19,7 +19,7 @@ This file provides the complete, consolidated text of all technical articles, re
 
 ## Author Profile & Background
 
-Jay Shah is a Senior Data Scientist at 6sense building intent intelligence systems, foundational models with custom embeddings, model explainability, contextual knowledge graphs, and evaluation systems for LLM agents.
+Jay Shah is a Senior Machine Learning Engineer at 6sense building intent intelligence systems, foundational models with custom embeddings, model explainability, contextual knowledge graphs, and evaluation systems for LLM agents.
 Previously at Avathon, he developed retrieval-augmented generation systems, Model Context Protocol (MCP) agent platforms, and foundation-model operations supporting 20+ agent workflows.
 Graduate research at Texas A&M University focused on wind-energy failure prediction.
 

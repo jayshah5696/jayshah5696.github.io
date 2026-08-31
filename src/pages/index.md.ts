@@ -12,7 +12,7 @@ export const GET: APIRoute = async () => {
 > ${SITE_TAGLINE}
 > Canonical URL: ${SITE_URL}/
 
-I am a Senior Data Scientist at 6sense, where I build production AI applications, foundational model systems, custom embeddings, and agent evaluation frameworks. On this site, I write technical essays documenting what I build, break, and learn when turning raw machine learning research into working products, with a current focus on ai agent-based automation systems.
+I am a Senior Machine Learning Engineer at 6sense, where I build production AI applications, foundational model systems, custom embeddings, and agent evaluation frameworks. On this site, I write technical essays documenting what I build, break, and learn when turning raw machine learning research into working products, with a current focus on ai agent-based automation systems.
 
 ## Recent Writings & Case Studies
 
