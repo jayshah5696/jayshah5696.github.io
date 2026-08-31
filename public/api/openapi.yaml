@@ -482,7 +482,7 @@ components:
           example: Jay Shah
         headline:
           type: string
-          example: Senior Data Scientist | Production AI & Agent Systems
+          example: Senior Machine Learning Engineer | Production AI & Agent Systems
         description:
           type: string
         current_role:
@@ -490,7 +490,7 @@ components:
           properties:
             title:
               type: string
-              example: Senior Data Scientist
+              example: Senior Machine Learning Engineer
             organization:
               type: string
               example: 6sense

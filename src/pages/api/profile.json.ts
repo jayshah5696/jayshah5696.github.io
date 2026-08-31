@@ -16,7 +16,7 @@ export const GET: APIRoute = async () => {
     headline: SITE_TAGLINE,
     description: SITE_DESCRIPTION,
     current_role: {
-      title: 'Senior Data Scientist',
+      title: 'Senior Machine Learning Engineer',
       organization: '6sense',
       url: 'https://6sense.com',
       focus_areas: [

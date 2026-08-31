@@ -90,7 +90,7 @@ fs.writeFileSync(path.join(distDir, '404.md'), notFoundMd, 'utf-8');
 const aboutMd = [
   `# Jay Shah — About & Research Background`,
   ``,
-  `Senior Data Scientist at 6sense building production AI applications, foundational model systems, and agent evaluation frameworks.`,
+  `Senior Machine Learning Engineer at 6sense building production AI applications, foundational model systems, and agent evaluation frameworks.`,
   ``,
   `## Experience`,
   `- **6sense** (Current): Intent intelligence, foundational models with custom embeddings, explainability, knowledge graphs, and LLM agent evaluation systems.`,

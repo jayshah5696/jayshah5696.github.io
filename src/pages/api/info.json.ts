@@ -10,7 +10,7 @@ export const GET: APIRoute = async () => {
     tagline: SITE_TAGLINE,
     description: SITE_DESCRIPTION,
     siteUrl: SITE_URL,
-    currentRole: 'Senior Data Scientist at 6sense',
+    currentRole: 'Senior Machine Learning Engineer at 6sense',
     researchFocus: [
       'Large Language Models & Evaluators',
       'Retrieval-Augmented Generation (RAG)',
