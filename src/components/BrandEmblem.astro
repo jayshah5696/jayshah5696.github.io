@@ -3,7 +3,6 @@ interface Props {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number;
   animated?: boolean;
   hoverSpin?: boolean;
-  idPrefix?: string;
   class?: string;
 }
 
@@ -11,7 +10,6 @@ const {
   size = 'md',
   animated = true,
   hoverSpin = true,
-  idPrefix,
   class: className = '',
 } = Astro.props;
 
@@ -26,10 +24,10 @@ const sizeMap = {
 const dimensionClass = typeof size === 'string' ? sizeMap[size] : '';
 const inlineStyle = typeof size === 'number' ? `width: ${size}px; height: ${size}px;` : undefined;
 
-// Guaranteed unique instance identifier to prevent SVG paint server cross-component collision
-const uid = idPrefix || `vav-${Math.random().toString(36).slice(2, 8)}`;
-const isCompact = size === 'xs' || size === 'sm';
-const strokeWidth = isCompact ? '6.5' : '5.5';
+// Unique ID for SVG gradients to prevent duplicate ID collisions between desktop sidebar and mobile nav
+const uid = Math.random().toString(36).substring(2, 7);
+const jFlowId = `emblem-j-${uid}`;
+const sFlowId = `emblem-s-${uid}`;
 ---
 
 <div
@@ -46,36 +44,27 @@ const strokeWidth = isCompact ? '6.5' : '5.5';
     viewBox="0 0 100 100"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    class="size-full transition-all duration-500 ease-out group-hover/emblem:scale-[1.05] group-hover/emblem:drop-shadow-[0_0_16px_rgba(224,122,79,0.35)] dark:group-hover/emblem:drop-shadow-[0_0_20px_rgba(255,125,82,0.45)]"
-    shape-rendering="geometricPrecision"
+    class="size-full transition-transform duration-300 ease-out group-hover/emblem:scale-105"
   >
     <defs>
-      <!-- Base Squircle Tile Gradients with Inline Stop-Colors -->
-      <linearGradient id={`${uid}-tile-grad`} x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="var(--color-cream-100, #fbf5ea)" class="dark:[stop-color:#1e1928]" />
-        <stop offset="100%" stop-color="var(--color-cream-200, #f4ecdf)" class="dark:[stop-color:#15111e]" />
+      <!-- J -> S Color Flow Gradients (Terracotta to Radiant Gold) -->
+      <linearGradient id={jFlowId} x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#e07a4f" />
+        <stop offset="100%" stop-color="#f09068" />
       </linearGradient>
 
-      <!-- J Flow: Terracotta to Radiant Gold -->
-      <linearGradient id={`${uid}-j-flow`} x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#c4623a" class="dark:[stop-color:#ff7d52]" />
-        <stop offset="100%" stop-color="#e07a4f" class="dark:[stop-color:#f08a5d]" />
-      </linearGradient>
-
-      <!-- S Flow: Radiant Gold to Terracotta Flow -->
-      <linearGradient id={`${uid}-s-flow`} x1="100%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#e07a4f" class="dark:[stop-color:#f08a5d]" />
-        <stop offset="50%" stop-color="#d4a843" class="dark:[stop-color:#fed766]" />
-        <stop offset="100%" stop-color="#d4a843" class="dark:[stop-color:#fed766]" />
+      <linearGradient id={sFlowId} x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#f09068" />
+        <stop offset="60%" stop-color="#e8c462" />
+        <stop offset="100%" stop-color="#e8c462" />
       </linearGradient>
     </defs>
 
-    <!-- 1. Squircle Base Tile -->
+    <!-- 1. Squircle Base with Specular Rim -->
     <rect
       width="100"
       height="100"
       rx="22"
-      fill={`url(#${uid}-tile-grad)`}
       class="fill-cream-100 dark:fill-night-800 transition-colors duration-300"
     />
     <rect
@@ -89,32 +78,33 @@ const strokeWidth = isCompact ? '6.5' : '5.5';
       fill="none"
     />
 
-    <!-- 2. Concentric Kolam Orbital Mandala (Outer Halo, R >= 35px, Zero Monogram Overlap) -->
+    <!-- 2. Concentric Kolam Orbital Frame (Spins true on-axis around 50,50) -->
     <g
       class:list={[
-        'kolam-orbital-layer',
+        'origin-center',
         hoverSpin && 'kolam-orbit-spin',
       ]}
+      style="transform-origin: 50px 50px;"
     >
-      <!-- Outer Stepped Diamond -->
+      <!-- Outer Dashed Stepwell Diamond -->
       <rect
-        x="20"
-        y="20"
-        width="60"
-        height="60"
+        x="22"
+        y="22"
+        width="56"
+        height="56"
         rx="8"
         transform="rotate(45 50 50)"
         class="stroke-terra/35 dark:stroke-gold/35"
-        stroke-width="1.4"
+        stroke-width="1.5"
         stroke-dasharray="3.5 3.5"
         fill="none"
       />
-      <!-- Inner Stepped Diamond -->
+      <!-- Inner Stepped Terrace Frame -->
       <rect
-        x="27"
-        y="27"
-        width="46"
-        height="46"
+        x="30"
+        y="30"
+        width="40"
+        height="40"
         rx="6"
         transform="rotate(45 50 50)"
         class="stroke-gold/25 dark:stroke-terra/25"
@@ -122,77 +112,70 @@ const strokeWidth = isCompact ? '6.5' : '5.5';
         stroke-dasharray="2.5 2.5"
         fill="none"
       />
-      <!-- 4 Cardinal Bindus -->
+      <!-- 4 Cardinal Kolam Bindu Dots -->
       <circle cx="50" cy="8" r="2.2" class="fill-terra dark:fill-terra-light" />
       <circle cx="50" cy="92" r="2.2" class="fill-terra dark:fill-terra-light" />
       <circle cx="8" cy="50" r="2.2" class="fill-terra dark:fill-terra-light" />
       <circle cx="92" cy="50" r="2.2" class="fill-terra dark:fill-terra-light" />
-      <!-- 4 Ordinal Stepwell Corner Accents -->
-      <circle cx="21" cy="21" r="1.3" class="fill-gold dark:fill-gold-light opacity-60" />
-      <circle cx="79" cy="21" r="1.3" class="fill-gold dark:fill-gold-light opacity-60" />
-      <circle cx="21" cy="79" r="1.3" class="fill-gold dark:fill-gold-light opacity-60" />
-      <circle cx="79" cy="79" r="1.3" class="fill-gold dark:fill-gold-light opacity-60" />
     </g>
 
-    <!-- 3. 'J' Stem (Animated Path-Tracing with Terracotta-to-Gold Flow) -->
+    <!-- 3. 'J' Stem (Shifted Right to x=43, wrapping closely against center bindu) -->
     <path
-      d="M 26 26 H 38 V 56 C 38 68, 30 74, 20 66"
-      stroke={`url(#${uid}-j-flow)`}
-      stroke-width={strokeWidth}
+      d="M 33 24 H 44 M 43 24 V 58 C 43 70 33 74 24 66"
+      stroke={`url(#${jFlowId})`}
+      stroke-width={size === 'xs' || size === 'sm' ? '7' : '5.5'}
       stroke-linecap="round"
       stroke-linejoin="round"
       class:list={[
-        'stroke-terra dark:stroke-terra-light transition-all duration-300',
+        'transition-all duration-300',
         animated && 'emblem-trace-j',
       ]}
       fill="none"
     />
 
-    <!-- 4. 'S' Flow (Animated Path-Tracing Cascading Ribbon) -->
+    <!-- 4. 'S' Flow (Cascading from Center with Unified Gradient) -->
     <path
-      d="M 72 28 C 72 19, 56 19, 46 26 C 39 31, 45 41, 56 45 C 66 49, 74 57, 70 69 C 66 79, 50 80, 38 72"
-      stroke={`url(#${uid}-s-flow)`}
-      stroke-width={strokeWidth}
+      d="M 74 30 C 74 20 58 20 48 28 C 42 34 46 44 56 48 C 68 52 74 60 70 70 C 66 78 48 78 38 72"
+      stroke={`url(#${sFlowId})`}
+      stroke-width={size === 'xs' || size === 'sm' ? '7' : '5.5'}
       stroke-linecap="round"
       stroke-linejoin="round"
       class:list={[
-        'stroke-gold dark:stroke-gold-light transition-all duration-300',
+        'transition-all duration-300',
         animated && 'emblem-trace-s',
       ]}
       fill="none"
     />
 
-    <!-- 5. Central Sanctum Bindu Core (Origin at 50,50) -->
+    <!-- 5. Central Luminous Bindu Core (Sanctum Origin at 50,50) -->
     <circle
       cx="50"
       cy="50"
-      r="4"
-      class="fill-ink dark:fill-silk transition-transform duration-300 origin-center group-hover/emblem:scale-[1.3] group-hover/emblem:drop-shadow-[0_0_8px_rgba(232,196,98,0.8)]"
+      r={size === 'xs' ? '5.5' : '4.5'}
+      class="fill-ink dark:fill-silk transition-transform duration-300 origin-center group-hover/emblem:scale-125"
     />
     <circle
       cx="50"
       cy="50"
-      r="7.5"
-      class="stroke-gold dark:stroke-gold-light opacity-50 group-hover/emblem:opacity-95 transition-all duration-300"
+      r="9"
+      class="stroke-gold dark:stroke-gold-light opacity-60 transition-opacity duration-300 group-hover/emblem:opacity-95"
       stroke-width="1.2"
-      stroke-dasharray="2.5 2"
       fill="none"
     />
   </svg>
 </div>
 
 <style>
-  /* 60fps GPU Composited Constant Harmonic Celestial Rotation (24s cycle = 6x harmonic of 4s kolam-border) */
-  .kolam-orbital-layer {
-    transform-origin: 50px 50px;
-    will-change: transform;
-  }
-
+  /* Concentric Kolam Orbital Spin */
   .kolam-orbit-spin {
-    animation: vavHarmonicSpin 24s linear infinite;
+    animation: trueConcentricSpin 40s linear infinite;
   }
 
-  @keyframes vavHarmonicSpin {
+  :global(.group\/emblem:hover) .kolam-orbit-spin {
+    animation-duration: 8s;
+  }
+
+  @keyframes trueConcentricSpin {
     from {
       transform: rotate(0deg);
     }
@@ -201,51 +184,30 @@ const strokeWidth = isCompact ? '6.5' : '5.5';
     }
   }
 
-  /* Continuous Emil Kowalski Path-Tracing Animation */
+  /* Emil Kowalski Path Tracing on Initial Render */
   .emblem-trace-j {
-    stroke-dasharray: 100;
+    stroke-dasharray: 120;
     stroke-dashoffset: 0;
-    animation: traceJ 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
+    animation: traceJ 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
   }
 
   .emblem-trace-s {
     stroke-dasharray: 180;
     stroke-dashoffset: 0;
-    animation: traceS 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
+    animation: traceS 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
   }
 
   @keyframes traceJ {
-    0% {
-      stroke-dashoffset: 100;
-      opacity: 0.35;
-    }
-    45% {
-      stroke-dashoffset: 0;
-      opacity: 1;
-    }
-    100% {
-      stroke-dashoffset: 0;
-      opacity: 1;
-    }
+    0% { stroke-dashoffset: 120; opacity: 0.35; }
+    45% { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 1; }
   }
 
   @keyframes traceS {
-    0% {
-      stroke-dashoffset: 180;
-      opacity: 0.35;
-    }
-    20% {
-      stroke-dashoffset: 180;
-      opacity: 0.35;
-    }
-    75% {
-      stroke-dashoffset: 0;
-      opacity: 1;
-    }
-    100% {
-      stroke-dashoffset: 0;
-      opacity: 1;
-    }
+    0% { stroke-dashoffset: 180; opacity: 0.35; }
+    20% { stroke-dashoffset: 180; opacity: 0.35; }
+    75% { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 1; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -253,8 +215,6 @@ const strokeWidth = isCompact ? '6.5' : '5.5';
     .emblem-trace-j,
     .emblem-trace-s {
       animation: none !important;
-      stroke-dashoffset: 0 !important;
-      transform: none !important;
     }
   }
 </style>

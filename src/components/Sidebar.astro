@@ -14,18 +14,14 @@ const currentPath = Astro.url.pathname;
   <!-- Kolam dot grid background -->
   <div class="absolute inset-0 kolam-dots pointer-events-none" aria-hidden="true"></div>
 
-  <!-- Kolam hero pattern with smooth gradient bottom fade -->
-  <div class="kolam-hero shrink-0 relative" aria-hidden="true">
-    <div class="absolute inset-x-0 bottom-0 h-10 bg-gradient-to-b from-transparent to-cream-50 dark:to-night-900 pointer-events-none"></div>
-  </div>
+  <!-- Kolam hero pattern -->
+  <div class="kolam-hero shrink-0" aria-hidden="true"></div>
 
-  <div class="relative flex flex-col flex-1 px-5 py-3">
-    <!-- Profile overlapping hero with stepped pedestal for BrandEmblem -->
-    <a href="/" class="group flex flex-col items-center text-center -mt-12 mb-3" aria-label={`${SITE_TITLE} Home`}>
+  <div class="relative flex flex-col flex-1 px-5 py-5">
+    <!-- Profile overlapping hero with animated Vav Monogram Emblem -->
+    <a href="/" class="group flex flex-col items-center text-center -mt-14 mb-3" aria-label={`${SITE_TITLE} Home`}>
       <div class="relative mb-3">
-        <!-- Soft halo pedestal that bridges the hero backdrop seamlessly -->
-        <div class="absolute -inset-2 rounded-3xl bg-cream-50/80 dark:bg-night-900/80 blur-sm pointer-events-none" aria-hidden="true"></div>
-        <BrandEmblem size="lg" idPrefix="sidebar-emblem" class="relative shadow-md shadow-terra/5 dark:shadow-black/40 ring-1 ring-terra/10 dark:ring-silk/10 rounded-[22px]" />
+        <BrandEmblem size="lg" />
       </div>
       <h1 class="font-body font-bold text-xl text-ink dark:text-silk tracking-tight block">{SITE_TITLE}</h1>
       <p class="text-xs text-ink-muted dark:text-silk-muted italic mt-0.5">{SITE_TAGLINE}</p>
