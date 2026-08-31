@@ -12,10 +12,11 @@
  *   mapping: pathname
  *   category: Blog Comments (or General)
  */
+import KolamDivider from './KolamDivider.astro';
 ---
 
 <section class="mt-16 pt-6">
-  <div class="kolam-border mb-8"></div>
+  <KolamDivider class="mb-8" />
   <h3 class="font-display text-lg text-ink dark:text-silk mb-6">Comments</h3>
   <div id="giscus-container">
     <script
@@ -29,10 +30,9 @@
       data-strict="0"
       data-reactions-enabled="1"
       data-emit-metadata="0"
-      data-input-position="top"
+      data-input-position="bottom"
       data-theme="preferred_color_scheme"
       data-lang="en"
-      data-loading="lazy"
       crossorigin="anonymous"
       async
     ></script>
@@ -40,39 +40,33 @@
 </section>
 
 <script is:inline>
-  // Sync Giscus theme with site dark/light mode
   function updateGiscusTheme() {
-    var isDark = document.documentElement.classList.contains('dark');
-    var theme = isDark ? 'dark_dimmed' : 'light';
-    var iframe = document.querySelector('iframe.giscus-frame');
+    const isDark = document.documentElement.classList.contains('dark');
+    const theme = isDark ? 'noborder_dark' : 'noborder_light';
+    const iframe = document.querySelector('iframe.giscus-frame');
     if (iframe && iframe.contentWindow) {
       iframe.contentWindow.postMessage(
-        { giscus: { setConfig: { theme: theme } } },
+        { giscus: { setConfig: { theme } } },
         'https://giscus.app'
       );
     }
   }
 
-  // Watch for theme changes
-  var observer = new MutationObserver(function(mutations) {
-    mutations.forEach(function(mutation) {
+  // Listen for theme toggle
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
       if (mutation.attributeName === 'class') {
         updateGiscusTheme();
       }
     });
   });
+
   observer.observe(document.documentElement, { attributes: true });
 
-  // Sync theme when Giscus iframe first loads
-  var container = document.getElementById('giscus-container');
-  if (container) {
-    var iframeObserver = new MutationObserver(function() {
-      var iframe = container.querySelector('iframe.giscus-frame');
-      if (iframe) {
-        iframe.addEventListener('load', updateGiscusTheme);
-        iframeObserver.disconnect();
-      }
-    });
-    iframeObserver.observe(container, { childList: true, subtree: true });
-  }
+  // Initial theme set once iframe loads
+  window.addEventListener('message', (event) => {
+    if (event.origin !== 'https://giscus.app') return;
+    if (typeof event.data !== 'object' || !event.data.giscus) return;
+    updateGiscusTheme();
+  });
 </script>

@@ -1,0 +1,132 @@
+---
+interface Props {
+  variant?: 'standard' | 'compact';
+  class?: string;
+}
+
+const {
+  variant = 'standard',
+  class: className = '',
+} = Astro.props;
+
+const uid = Math.random().toString(36).substring(2, 7);
+const maskId = `kolam-fade-${uid}`;
+const gradId = `kolam-grad-${uid}`;
+---
+
+<div class:list={['relative w-full flex items-center justify-center select-none overflow-hidden', className]}>
+  {variant === 'compact' ? (
+    <svg viewBox="0 0 240 20" fill="none" class="w-full max-w-[240px] h-5 block" aria-hidden="true">
+      <defs>
+        <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="white" stop-opacity="0"/>
+          <stop offset="12%" stop-color="white" stop-opacity="1"/>
+          <stop offset="88%" stop-color="white" stop-opacity="1"/>
+          <stop offset="100%" stop-color="white" stop-opacity="0"/>
+        </linearGradient>
+        <mask id={maskId}>
+          <rect width="240" height="20" fill={`url(#${gradId})`}/>
+        </mask>
+      </defs>
+
+      <g mask={`url(#${maskId})`}>
+        <path
+          class="wave-terra-strand text-terra dark:text-terra-light stroke-current"
+          d="M 0 10 Q 15 0, 30 0 Q 45 0, 60 10 Q 75 20, 90 20 Q 105 20, 120 10 Q 135 0, 150 0 Q 165 0, 180 10 Q 195 20, 210 20 Q 225 20, 240 10"
+          stroke-width="1.2"
+          stroke-linecap="round"
+        />
+        <path
+          class="wave-gold-strand text-gold dark:text-gold-light stroke-current"
+          d="M 0 10 Q 15 20, 30 20 Q 45 20, 60 10 Q 75 0, 90 0 Q 105 0, 120 10 Q 135 20, 150 20 Q 165 20, 180 10 Q 195 0, 210 0 Q 225 0, 240 10"
+          stroke-width="1.2"
+          stroke-linecap="round"
+        />
+        <circle cx="60" cy="10" r="1.5" class="fill-terra dark:fill-terra-light" opacity="0.6"/>
+        <circle cx="120" cy="10" r="1.5" class="fill-gold dark:fill-gold-light" opacity="0.6"/>
+        <circle cx="180" cy="10" r="1.5" class="fill-terra dark:fill-terra-light" opacity="0.6"/>
+      </g>
+    </svg>
+  ) : (
+    <svg viewBox="0 0 480 24" fill="none" class="w-full max-w-[560px] h-6 block" preserveAspectRatio="none" aria-hidden="true">
+      <defs>
+        <linearGradient id={gradId} x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="white" stop-opacity="0"/>
+          <stop offset="8%" stop-color="white" stop-opacity="1"/>
+          <stop offset="92%" stop-color="white" stop-opacity="1"/>
+          <stop offset="100%" stop-color="white" stop-opacity="0"/>
+        </linearGradient>
+        <mask id={maskId}>
+          <rect width="480" height="24" fill={`url(#${gradId})`}/>
+        </mask>
+      </defs>
+
+      <g mask={`url(#${maskId})`}>
+        <path
+          class="wave-terra-strand text-terra dark:text-terra-light stroke-current"
+          d="M 0 12 Q 20 0, 40 0 Q 60 0, 80 12 Q 100 24, 120 24 Q 140 24, 160 12 Q 180 0, 200 0 Q 220 0, 240 12 Q 260 24, 280 24 Q 300 24, 320 12 Q 340 0, 360 0 Q 380 0, 400 12 Q 420 24, 440 24 Q 460 24, 480 12"
+          stroke-width="1.2"
+          stroke-linecap="round"
+        />
+        <path
+          class="wave-gold-strand text-gold dark:text-gold-light stroke-current"
+          d="M 0 12 Q 20 24, 40 24 Q 60 24, 80 12 Q 100 0, 120 0 Q 140 0, 160 12 Q 180 24, 200 24 Q 220 24, 240 12 Q 260 0, 280 0 Q 300 0, 320 12 Q 340 24, 360 24 Q 380 24, 400 12 Q 420 0, 440 0 Q 460 0, 480 12"
+          stroke-width="1.2"
+          stroke-linecap="round"
+        />
+        <circle cx="80" cy="12" r="1.8" class="fill-terra dark:fill-terra-light" opacity="0.6"/>
+        <circle cx="160" cy="12" r="1.8" class="fill-gold dark:fill-gold-light" opacity="0.6"/>
+        <circle cx="240" cy="12" r="1.8" class="fill-terra dark:fill-terra-light" opacity="0.6"/>
+        <circle cx="320" cy="12" r="1.8" class="fill-gold dark:fill-gold-light" opacity="0.6"/>
+        <circle cx="400" cy="12" r="1.8" class="fill-terra dark:fill-terra-light" opacity="0.6"/>
+      </g>
+    </svg>
+  )}
+</div>
+
+<style>
+  .wave-terra-strand {
+    animation: waveBreatheTerra 4.5s ease-in-out infinite alternate;
+  }
+
+  .wave-gold-strand {
+    animation: waveBreatheGold 4.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes waveBreatheTerra {
+    0% {
+      opacity: 0.35;
+      stroke-width: 0.9px;
+    }
+    50% {
+      opacity: 0.95;
+      stroke-width: 1.5px;
+    }
+    100% {
+      opacity: 0.35;
+      stroke-width: 0.9px;
+    }
+  }
+
+  @keyframes waveBreatheGold {
+    0% {
+      opacity: 0.95;
+      stroke-width: 1.5px;
+    }
+    50% {
+      opacity: 0.35;
+      stroke-width: 0.9px;
+    }
+    100% {
+      opacity: 0.95;
+      stroke-width: 1.5px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .wave-terra-strand,
+    .wave-gold-strand {
+      animation: none !important;
+    }
+  }
+</style>

@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import KolamDivider from '../../components/KolamDivider.astro';
 import { SITE_URL } from '../../consts';
 
 export const prerender = true;
@@ -50,7 +51,7 @@ const endpoints = [
       <p class="text-ink-light dark:text-silk-muted text-base leading-relaxed max-w-2xl">
         Programmatic, machine-readable data feeds and OpenAPI specifications for AI agents, crawlers, and developers querying content from <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-cream-100 dark:bg-night-800">jayshah.dev</code>.
       </p>
-      <div class="kolam-border mt-5"></div>
+      <KolamDivider class="mt-5" />
     </header>
 
     <h2>Discovery Standards</h2>

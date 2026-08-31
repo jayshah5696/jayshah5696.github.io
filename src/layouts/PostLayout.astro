@@ -4,6 +4,7 @@ import FormattedDate from '../components/FormattedDate.astro';
 import TagList from '../components/TagList.astro';
 import Giscus from '../components/Giscus.astro';
 import JsonLd from '../components/JsonLd.astro';
+import KolamDivider from '../components/KolamDivider.astro';
 import readingTime from 'reading-time';
 
 interface PostLink {
@@ -67,7 +68,7 @@ const showToc = filteredHeadings.length > 3;
         </div>
       )}
 
-      <div class="mt-10 kolam-border"></div>
+      <KolamDivider class="mt-10" />
     </header>
 
     {seriesPosts.length > 0 && seriesName && (
@@ -100,7 +101,7 @@ const showToc = filteredHeadings.length > 3;
     <Giscus />
 
     <footer class="mt-16 pt-6">
-      <div class="kolam-border mb-6"></div>
+      <KolamDivider class="mb-6" />
 
       <!-- Prev / Next navigation -->
       {(prevPost || nextPost) && (
