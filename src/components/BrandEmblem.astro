@@ -46,27 +46,27 @@ const strokeWidth = isCompact ? '6.5' : '5.5';
     viewBox="0 0 100 100"
     fill="none"
     xmlns="http://www.w3.org/2000/svg"
-    class="size-full transition-transform duration-500 ease-out group-hover/emblem:scale-[1.04]"
+    class="size-full transition-all duration-500 ease-out group-hover/emblem:scale-[1.05] group-hover/emblem:drop-shadow-[0_0_16px_rgba(224,122,79,0.35)] dark:group-hover/emblem:drop-shadow-[0_0_20px_rgba(255,125,82,0.45)]"
     shape-rendering="geometricPrecision"
   >
     <defs>
-      <!-- Squircle Tile Gradient -->
+      <!-- Base Squircle Tile Gradients with Inline Stop-Colors (Universal Browser Support) -->
       <linearGradient id={`${uid}-tile-grad`} x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" class="emblem-tile-stop-0" />
-        <stop offset="100%" class="emblem-tile-stop-1" />
+        <stop offset="0%" stop-color="var(--color-cream-100, #fbf5ea)" class="dark:[stop-color:#1e1928]" />
+        <stop offset="100%" stop-color="var(--color-cream-200, #f4ecdf)" class="dark:[stop-color:#15111e]" />
       </linearGradient>
 
       <!-- J Flow: Terracotta to Radiant Gold -->
       <linearGradient id={`${uid}-j-flow`} x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" class="emblem-j-stop-start" />
-        <stop offset="100%" class="emblem-j-stop-end" />
+        <stop offset="0%" stop-color="#c4623a" class="dark:[stop-color:#ff7d52]" />
+        <stop offset="100%" stop-color="#e07a4f" class="dark:[stop-color:#f08a5d]" />
       </linearGradient>
 
       <!-- S Flow: Radiant Gold to Terracotta Flow -->
       <linearGradient id={`${uid}-s-flow`} x1="100%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" class="emblem-s-stop-start" />
-        <stop offset="50%" class="emblem-s-stop-mid" />
-        <stop offset="100%" class="emblem-s-stop-end" />
+        <stop offset="0%" stop-color="#e07a4f" class="dark:[stop-color:#f08a5d]" />
+        <stop offset="50%" stop-color="#d4a843" class="dark:[stop-color:#fed766]" />
+        <stop offset="100%" stop-color="#d4a843" class="dark:[stop-color:#fed766]" />
       </linearGradient>
     </defs>
 
@@ -76,7 +76,7 @@ const strokeWidth = isCompact ? '6.5' : '5.5';
       height="100"
       rx="22"
       fill={`url(#${uid}-tile-grad)`}
-      class="transition-colors duration-300"
+      class="fill-cream-100 dark:fill-night-800 transition-colors duration-300"
     />
     <rect
       x="1.5"
@@ -141,10 +141,7 @@ const strokeWidth = isCompact ? '6.5' : '5.5';
       stroke-width={strokeWidth}
       stroke-linecap="round"
       stroke-linejoin="round"
-      class:list={[
-        'transition-all duration-300',
-        animated && 'emblem-draw-j',
-      ]}
+      class="stroke-terra dark:stroke-terra-light transition-all duration-300"
       fill="none"
     />
 
@@ -155,10 +152,7 @@ const strokeWidth = isCompact ? '6.5' : '5.5';
       stroke-width={strokeWidth}
       stroke-linecap="round"
       stroke-linejoin="round"
-      class:list={[
-        'transition-all duration-300',
-        animated && 'emblem-draw-s',
-      ]}
+      class="stroke-gold dark:stroke-gold-light transition-all duration-300"
       fill="none"
     />
 
@@ -167,13 +161,13 @@ const strokeWidth = isCompact ? '6.5' : '5.5';
       cx="50"
       cy="50"
       r="4"
-      class="fill-ink dark:fill-silk transition-transform duration-300 origin-center group-hover/emblem:scale-125"
+      class="fill-ink dark:fill-silk transition-transform duration-300 origin-center group-hover/emblem:scale-[1.3] group-hover/emblem:drop-shadow-[0_0_8px_rgba(232,196,98,0.8)]"
     />
     <circle
       cx="50"
       cy="50"
       r="7.5"
-      class="stroke-gold dark:stroke-gold-light opacity-50 group-hover/emblem:opacity-90 transition-all duration-300"
+      class="stroke-gold dark:stroke-gold-light opacity-50 group-hover/emblem:opacity-95 transition-all duration-300"
       stroke-width="1.2"
       stroke-dasharray="2.5 2"
       fill="none"
@@ -182,42 +176,17 @@ const strokeWidth = isCompact ? '6.5' : '5.5';
 </div>
 
 <style>
-  /* CSS Theme-Aware Gradient Stop Colors */
-  .emblem-tile-stop-0 { stop-color: #fbf5ea; }
-  .emblem-tile-stop-1 { stop-color: #f4ecdf; }
-  :global(.dark) .emblem-tile-stop-0 { stop-color: #1e1928; }
-  :global(.dark) .emblem-tile-stop-1 { stop-color: #15111e; }
-
-  .emblem-j-stop-start { stop-color: #c4623a; }
-  .emblem-j-stop-end { stop-color: #e07a4f; }
-  :global(.dark) .emblem-j-stop-start { stop-color: #e07a4f; }
-  :global(.dark) .emblem-j-stop-end { stop-color: #f09068; }
-
-  .emblem-s-stop-start { stop-color: #e07a4f; }
-  .emblem-s-stop-mid { stop-color: #d4a843; }
-  .emblem-s-stop-end { stop-color: #d4a843; }
-  :global(.dark) .emblem-s-stop-start { stop-color: #f09068; }
-  :global(.dark) .emblem-s-stop-mid { stop-color: #e8c462; }
-  :global(.dark) .emblem-s-stop-end { stop-color: #e8c462; }
-
-  /* 60fps GPU Composited Orbital Rotation */
+  /* 60fps GPU Composited Constant Harmonic Celestial Rotation (24s cycle = 6x harmonic of 4s kolam-border) */
   .kolam-orbital-layer {
     transform-origin: 50px 50px;
     will-change: transform;
   }
 
   .kolam-orbit-spin {
-    animation: vavOrbitalOrbit 48s linear infinite;
+    animation: vavHarmonicSpin 24s linear infinite;
   }
 
-  @media (hover: hover) {
-    :global(.group\/emblem:hover) .kolam-orbit-spin {
-      animation-duration: 12s;
-      transition: animation-duration 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-  }
-
-  @keyframes vavOrbitalOrbit {
+  @keyframes vavHarmonicSpin {
     from {
       transform: rotate(0deg);
     }
@@ -226,33 +195,9 @@ const strokeWidth = isCompact ? '6.5' : '5.5';
     }
   }
 
-  /* One-Shot Eased Entrance Draw (Emil Kowalski Spring Spec) */
-  .emblem-draw-j {
-    stroke-dasharray: 85;
-    stroke-dashoffset: 85;
-    animation: drawStrokeJ 1.1s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
-  }
-
-  .emblem-draw-s {
-    stroke-dasharray: 160;
-    stroke-dashoffset: 160;
-    animation: drawStrokeS 1.3s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards;
-  }
-
-  @keyframes drawStrokeJ {
-    to { stroke-dashoffset: 0; }
-  }
-
-  @keyframes drawStrokeS {
-    to { stroke-dashoffset: 0; }
-  }
-
   @media (prefers-reduced-motion: reduce) {
-    .kolam-orbit-spin,
-    .emblem-draw-j,
-    .emblem-draw-s {
+    .kolam-orbit-spin {
       animation: none !important;
-      stroke-dashoffset: 0 !important;
       transform: none !important;
     }
   }
