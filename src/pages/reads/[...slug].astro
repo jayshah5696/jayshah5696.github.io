@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import TagList from '../../components/TagList.astro';
+import KolamDivider from '../../components/KolamDivider.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -65,7 +66,7 @@ try {
         </div>
       )}
 
-      <div class="mt-10 kolam-border"></div>
+      <KolamDivider class="mt-10" />
     </header>
 
     <!-- Commentary -->

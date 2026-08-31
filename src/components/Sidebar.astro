@@ -4,6 +4,7 @@ import NavIcon from './NavIcon.astro';
 import SocialIcon from './SocialIcon.astro';
 import Search from './Search.astro';
 import BrandEmblem from './BrandEmblem.astro';
+import KolamDivider from './KolamDivider.astro';
 
 const currentPath = Astro.url.pathname;
 ---
@@ -28,7 +29,7 @@ const currentPath = Astro.url.pathname;
     </a>
 
     <!-- Kolam divider -->
-    <div class="kolam-border my-3"></div>
+    <KolamDivider variant="compact" class="my-3" />
 
     <!-- Search -->
     <div class="mb-2">

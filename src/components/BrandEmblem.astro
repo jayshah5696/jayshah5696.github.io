@@ -23,6 +23,11 @@ const sizeMap = {
 
 const dimensionClass = typeof size === 'string' ? sizeMap[size] : '';
 const inlineStyle = typeof size === 'number' ? `width: ${size}px; height: ${size}px;` : undefined;
+
+// Unique ID for SVG gradients to prevent duplicate ID collisions between desktop sidebar and mobile nav
+const uid = Math.random().toString(36).substring(2, 7);
+const jFlowId = `emblem-j-${uid}`;
+const sFlowId = `emblem-s-${uid}`;
 ---
 
 <div
@@ -42,22 +47,16 @@ const inlineStyle = typeof size === 'number' ? `width: ${size}px; height: ${size
     class="size-full transition-transform duration-300 ease-out group-hover/emblem:scale-105"
   >
     <defs>
-      <!-- Base Squircle Tile Gradients -->
-      <linearGradient id="emblem-tile-grad" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" class="stop-cream-50 dark:stop-night-800" style="stop-color: var(--color-cream-100, #fbf5ea);" />
-        <stop offset="100%" class="stop-cream-100 dark:stop-night-900" style="stop-color: var(--color-cream-200, #f4ecdf);" />
-      </linearGradient>
-
       <!-- J -> S Color Flow Gradients (Terracotta to Radiant Gold) -->
-      <linearGradient id="emblem-j-flow" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="#e07a4f" class="stop-terra dark:stop-terra-light" />
-        <stop offset="100%" stop-color="#f09068" class="stop-terra-light" />
+      <linearGradient id={jFlowId} x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#e07a4f" />
+        <stop offset="100%" stop-color="#f09068" />
       </linearGradient>
 
-      <linearGradient id="emblem-s-flow" x1="0%" y1="0%" x2="100%" y2="100%">
-        <stop offset="0%" stop-color="#f09068" class="stop-terra-light" />
-        <stop offset="60%" stop-color="#e8c462" class="stop-gold dark:stop-gold-light" />
-        <stop offset="100%" stop-color="#e8c462" class="stop-gold dark:stop-gold-light" />
+      <linearGradient id={sFlowId} x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#f09068" />
+        <stop offset="60%" stop-color="#e8c462" />
+        <stop offset="100%" stop-color="#e8c462" />
       </linearGradient>
     </defs>
 
@@ -123,7 +122,7 @@ const inlineStyle = typeof size === 'number' ? `width: ${size}px; height: ${size
     <!-- 3. 'J' Stem (Shifted Right to x=43, wrapping closely against center bindu) -->
     <path
       d="M 33 24 H 44 M 43 24 V 58 C 43 70 33 74 24 66"
-      stroke="url(#emblem-j-flow)"
+      stroke={`url(#${jFlowId})`}
       stroke-width={size === 'xs' || size === 'sm' ? '7' : '5.5'}
       stroke-linecap="round"
       stroke-linejoin="round"
@@ -137,7 +136,7 @@ const inlineStyle = typeof size === 'number' ? `width: ${size}px; height: ${size
     <!-- 4. 'S' Flow (Cascading from Center with Unified Gradient) -->
     <path
       d="M 74 30 C 74 20 58 20 48 28 C 42 34 46 44 56 48 C 68 52 74 60 70 70 C 66 78 48 78 38 72"
-      stroke="url(#emblem-s-flow)"
+      stroke={`url(#${sFlowId})`}
       stroke-width={size === 'xs' || size === 'sm' ? '7' : '5.5'}
       stroke-linecap="round"
       stroke-linejoin="round"

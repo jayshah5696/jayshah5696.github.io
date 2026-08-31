@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import KolamDivider from '../components/KolamDivider.astro';
 import { projects } from '../data/projects';
 const getColSpan = (index: number) => {
   if (index === 0) return 'col-span-1 sm:col-span-2 lg:col-span-3';
@@ -17,7 +18,7 @@ const getColSpan = (index: number) => {
     <p class="mt-4 text-ink-light dark:text-silk-muted text-base leading-relaxed">
       Selected open-source machine learning systems, developer agent extensions, retrieval pipelines, and software repositories.
     </p>
-    <div class="kolam-border mt-5"></div>
+    <KolamDivider class="mt-5" />
   </header>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">

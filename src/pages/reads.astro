@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ReadCard from '../components/ReadCard.astro';
 import RightSidebar from '../components/RightSidebar.astro';
+import KolamDivider from '../components/KolamDivider.astro';
 import { getCollection } from 'astro:content';
 
 const entries = (await getCollection('reads'))
@@ -65,7 +66,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
     <p class="mt-4 text-ink-light dark:text-silk-muted text-base leading-relaxed">
       A collection of interesting articles, papers, tools, and links I come across, with brief summaries and personal commentary.
     </p>
-    <div class="kolam-border mt-5"></div>
+    <KolamDivider class="mt-5" />
   </header>
 
   {totalLinks === 0 ? (

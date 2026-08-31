@@ -4,6 +4,7 @@ import FormattedDate from '../components/FormattedDate.astro';
 import TagList from '../components/TagList.astro';
 import Giscus from '../components/Giscus.astro';
 import JsonLd from '../components/JsonLd.astro';
+import KolamDivider from '../components/KolamDivider.astro';
 import readingTime from 'reading-time';
 import '../styles/interactive-theme.css';
 
@@ -83,7 +84,7 @@ const showToc = filteredHeadings.length > 2;
         </div>
       )}
 
-      <div class="kolam-border mb-8"></div>
+      <KolamDivider class="mb-8" />
     </header>
 
     {seriesPosts.length > 0 && seriesName && (
@@ -118,7 +119,7 @@ const showToc = filteredHeadings.length > 2;
     </div>
 
     <footer class="mt-12 pt-6">
-      <div class="kolam-border mb-6"></div>
+      <KolamDivider class="mb-6" />
 
       <!-- Prev / Next navigation -->
       {(prevPost || nextPost) && (

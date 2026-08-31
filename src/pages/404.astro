@@ -1,5 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import KolamDivider from '../components/KolamDivider.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog'))
@@ -46,7 +47,7 @@ The requested URL does not exist on https://jayshah.dev.
       <p class="text-sm text-ink-muted dark:text-silk-muted max-w-md mx-auto leading-relaxed">
         The requested URL does not exist on <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-cream-100 dark:bg-night-800">jayshah.dev</code>. Use the navigation directory or machine-readable resources below to recover.
       </p>
-      <div class="kolam-border my-6"></div>
+      <KolamDivider class="my-6" />
     </header>
 
     <!-- Where to Look Next -->
