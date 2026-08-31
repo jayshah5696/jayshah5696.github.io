@@ -50,7 +50,7 @@ const strokeWidth = isCompact ? '6.5' : '5.5';
     shape-rendering="geometricPrecision"
   >
     <defs>
-      <!-- Base Squircle Tile Gradients with Inline Stop-Colors (Universal Browser Support) -->
+      <!-- Base Squircle Tile Gradients with Inline Stop-Colors -->
       <linearGradient id={`${uid}-tile-grad`} x1="0%" y1="0%" x2="100%" y2="100%">
         <stop offset="0%" stop-color="var(--color-cream-100, #fbf5ea)" class="dark:[stop-color:#1e1928]" />
         <stop offset="100%" stop-color="var(--color-cream-200, #f4ecdf)" class="dark:[stop-color:#15111e]" />
@@ -134,25 +134,31 @@ const strokeWidth = isCompact ? '6.5' : '5.5';
       <circle cx="79" cy="79" r="1.3" class="fill-gold dark:fill-gold-light opacity-60" />
     </g>
 
-    <!-- 3. 'J' Stem (Left Flank at x=38 with Stepwell Reservoir Curl) -->
+    <!-- 3. 'J' Stem (Animated Path-Tracing with Terracotta-to-Gold Flow) -->
     <path
       d="M 26 26 H 38 V 56 C 38 68, 30 74, 20 66"
       stroke={`url(#${uid}-j-flow)`}
       stroke-width={strokeWidth}
       stroke-linecap="round"
       stroke-linejoin="round"
-      class="stroke-terra dark:stroke-terra-light transition-all duration-300"
+      class:list={[
+        'stroke-terra dark:stroke-terra-light transition-all duration-300',
+        animated && 'emblem-trace-j',
+      ]}
       fill="none"
     />
 
-    <!-- 4. 'S' Flow (Cascading Yin-Yang Kolam Curve) -->
+    <!-- 4. 'S' Flow (Animated Path-Tracing Cascading Ribbon) -->
     <path
       d="M 72 28 C 72 19, 56 19, 46 26 C 39 31, 45 41, 56 45 C 66 49, 74 57, 70 69 C 66 79, 50 80, 38 72"
       stroke={`url(#${uid}-s-flow)`}
       stroke-width={strokeWidth}
       stroke-linecap="round"
       stroke-linejoin="round"
-      class="stroke-gold dark:stroke-gold-light transition-all duration-300"
+      class:list={[
+        'stroke-gold dark:stroke-gold-light transition-all duration-300',
+        animated && 'emblem-trace-s',
+      ]}
       fill="none"
     />
 
@@ -195,9 +201,59 @@ const strokeWidth = isCompact ? '6.5' : '5.5';
     }
   }
 
+  /* Continuous Emil Kowalski Path-Tracing Animation */
+  .emblem-trace-j {
+    stroke-dasharray: 100;
+    stroke-dashoffset: 0;
+    animation: traceJ 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
+  }
+
+  .emblem-trace-s {
+    stroke-dasharray: 180;
+    stroke-dashoffset: 0;
+    animation: traceS 2.4s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
+  }
+
+  @keyframes traceJ {
+    0% {
+      stroke-dashoffset: 100;
+      opacity: 0.35;
+    }
+    45% {
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
+    100% {
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
+  }
+
+  @keyframes traceS {
+    0% {
+      stroke-dashoffset: 180;
+      opacity: 0.35;
+    }
+    20% {
+      stroke-dashoffset: 180;
+      opacity: 0.35;
+    }
+    75% {
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
+    100% {
+      stroke-dashoffset: 0;
+      opacity: 1;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
-    .kolam-orbit-spin {
+    .kolam-orbit-spin,
+    .emblem-trace-j,
+    .emblem-trace-s {
       animation: none !important;
+      stroke-dashoffset: 0 !important;
       transform: none !important;
     }
   }
