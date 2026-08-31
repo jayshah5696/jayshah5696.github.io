@@ -1,0 +1,221 @@
+---
+interface Props {
+  size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl' | number;
+  animated?: boolean;
+  hoverSpin?: boolean;
+  class?: string;
+}
+
+const {
+  size = 'md',
+  animated = true,
+  hoverSpin = true,
+  class: className = '',
+} = Astro.props;
+
+const sizeMap = {
+  xs: 'size-5',   // 20px
+  sm: 'size-7',   // 28px
+  md: 'size-12',  // 48px
+  lg: 'size-20',  // 80px
+  xl: 'size-24',  // 96px
+};
+
+const dimensionClass = typeof size === 'string' ? sizeMap[size] : '';
+const inlineStyle = typeof size === 'number' ? `width: ${size}px; height: ${size}px;` : undefined;
+---
+
+<div
+  class:list={[
+    'relative inline-flex items-center justify-center select-none shrink-0 group/emblem',
+    dimensionClass,
+    className,
+  ]}
+  style={inlineStyle}
+  aria-label="Jay Shah Vav Monogram Emblem"
+  role="img"
+>
+  <svg
+    viewBox="0 0 100 100"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    class="size-full transition-transform duration-300 ease-out group-hover/emblem:scale-105"
+  >
+    <defs>
+      <!-- Base Squircle Tile Gradients -->
+      <linearGradient id="emblem-tile-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" class="stop-cream-50 dark:stop-night-800" style="stop-color: var(--color-cream-100, #fbf5ea);" />
+        <stop offset="100%" class="stop-cream-100 dark:stop-night-900" style="stop-color: var(--color-cream-200, #f4ecdf);" />
+      </linearGradient>
+
+      <!-- J -> S Color Flow Gradients (Terracotta to Radiant Gold) -->
+      <linearGradient id="emblem-j-flow" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="#e07a4f" class="stop-terra dark:stop-terra-light" />
+        <stop offset="100%" stop-color="#f09068" class="stop-terra-light" />
+      </linearGradient>
+
+      <linearGradient id="emblem-s-flow" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#f09068" class="stop-terra-light" />
+        <stop offset="60%" stop-color="#e8c462" class="stop-gold dark:stop-gold-light" />
+        <stop offset="100%" stop-color="#e8c462" class="stop-gold dark:stop-gold-light" />
+      </linearGradient>
+    </defs>
+
+    <!-- 1. Squircle Base with Specular Rim -->
+    <rect
+      width="100"
+      height="100"
+      rx="22"
+      class="fill-cream-100 dark:fill-night-800 transition-colors duration-300"
+    />
+    <rect
+      x="1.5"
+      y="1.5"
+      width="97"
+      height="97"
+      rx="20.5"
+      class="stroke-ink/10 dark:stroke-white/10"
+      stroke-width="1.5"
+      fill="none"
+    />
+
+    <!-- 2. Concentric Kolam Orbital Frame (Spins true on-axis around 50,50) -->
+    <g
+      class:list={[
+        'origin-center',
+        hoverSpin && 'kolam-orbit-spin',
+      ]}
+      style="transform-origin: 50px 50px;"
+    >
+      <!-- Outer Dashed Stepwell Diamond -->
+      <rect
+        x="22"
+        y="22"
+        width="56"
+        height="56"
+        rx="8"
+        transform="rotate(45 50 50)"
+        class="stroke-terra/35 dark:stroke-gold/35"
+        stroke-width="1.5"
+        stroke-dasharray="3.5 3.5"
+        fill="none"
+      />
+      <!-- Inner Stepped Terrace Frame -->
+      <rect
+        x="30"
+        y="30"
+        width="40"
+        height="40"
+        rx="6"
+        transform="rotate(45 50 50)"
+        class="stroke-gold/25 dark:stroke-terra/25"
+        stroke-width="1"
+        stroke-dasharray="2.5 2.5"
+        fill="none"
+      />
+      <!-- 4 Cardinal Kolam Bindu Dots -->
+      <circle cx="50" cy="8" r="2.2" class="fill-terra dark:fill-terra-light" />
+      <circle cx="50" cy="92" r="2.2" class="fill-terra dark:fill-terra-light" />
+      <circle cx="8" cy="50" r="2.2" class="fill-terra dark:fill-terra-light" />
+      <circle cx="92" cy="50" r="2.2" class="fill-terra dark:fill-terra-light" />
+    </g>
+
+    <!-- 3. 'J' Stem (Shifted Right to x=43, wrapping closely against center bindu) -->
+    <path
+      d="M 33 24 H 44 M 43 24 V 58 C 43 70 33 74 24 66"
+      stroke="url(#emblem-j-flow)"
+      stroke-width={size === 'xs' || size === 'sm' ? '7' : '5.5'}
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class:list={[
+        'transition-all duration-300',
+        animated && 'emblem-trace-j',
+      ]}
+      fill="none"
+    />
+
+    <!-- 4. 'S' Flow (Cascading from Center with Unified Gradient) -->
+    <path
+      d="M 74 30 C 74 20 58 20 48 28 C 42 34 46 44 56 48 C 68 52 74 60 70 70 C 66 78 48 78 38 72"
+      stroke="url(#emblem-s-flow)"
+      stroke-width={size === 'xs' || size === 'sm' ? '7' : '5.5'}
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class:list={[
+        'transition-all duration-300',
+        animated && 'emblem-trace-s',
+      ]}
+      fill="none"
+    />
+
+    <!-- 5. Central Luminous Bindu Core (Sanctum Origin at 50,50) -->
+    <circle
+      cx="50"
+      cy="50"
+      r={size === 'xs' ? '5.5' : '4.5'}
+      class="fill-ink dark:fill-silk transition-transform duration-300 origin-center group-hover/emblem:scale-125"
+    />
+    <circle
+      cx="50"
+      cy="50"
+      r="9"
+      class="stroke-gold dark:stroke-gold-light opacity-60 transition-opacity duration-300 group-hover/emblem:opacity-95"
+      stroke-width="1.2"
+      fill="none"
+    />
+  </svg>
+</div>
+
+<style>
+  /* Concentric Kolam Orbital Spin */
+  .kolam-orbit-spin {
+    animation: trueConcentricSpin 40s linear infinite;
+  }
+
+  :global(.group\/emblem:hover) .kolam-orbit-spin {
+    animation-duration: 8s;
+  }
+
+  @keyframes trueConcentricSpin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* Emil Kowalski Path Tracing on Initial Render */
+  .emblem-trace-j {
+    stroke-dasharray: 120;
+    stroke-dashoffset: 0;
+    animation: traceJ 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
+  }
+
+  .emblem-trace-s {
+    stroke-dasharray: 180;
+    stroke-dashoffset: 0;
+    animation: traceS 2.2s cubic-bezier(0.16, 1, 0.3, 1) infinite alternate;
+  }
+
+  @keyframes traceJ {
+    0% { stroke-dashoffset: 120; opacity: 0.35; }
+    45% { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 1; }
+  }
+
+  @keyframes traceS {
+    0% { stroke-dashoffset: 180; opacity: 0.35; }
+    20% { stroke-dashoffset: 180; opacity: 0.35; }
+    75% { stroke-dashoffset: 0; opacity: 1; }
+    100% { stroke-dashoffset: 0; opacity: 1; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .kolam-orbit-spin,
+    .emblem-trace-j,
+    .emblem-trace-s {
+      animation: none !important;
+    }
+  }
+</style>
