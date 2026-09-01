@@ -74,4 +74,32 @@ export const NAV_ITEMS = [
   { label: 'Resume', href: 'https://cv.jayshah.dev', icon: 'resume' },
 ] as const;
 
+/**
+ * Dynamic rotating phrases for the About page headline typewriter animation.
+ * Edit, reorder, or add phrases here to update the rotating titles on /about/.
+ */
+export const ABOUT_HEADLINE_PREFIX = "Hi, I'm Jay Shah,";
+
+export const ABOUT_ROTATING_PHRASES = [
+  'an ML engineer.',
+  'a dad.',
+  'an applied AI scientist.',
+  'a tea aficionado.',
+  'an agent builder.',
+  'a cricket fanboy.',
+  'a model skeptic.',
+  'a yogi.',
+  'an AI researcher.',
+  'a reader.',
+  'a systems thinker.',
+  'a learner.',
+  'a data scientist.',
+  'a language tools maker.',
+  'an AI builder.',
+  'a builder.',
+] as const;
+
+
+
+
 

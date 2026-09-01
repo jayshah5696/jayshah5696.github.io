@@ -2,43 +2,123 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import JsonLd from '../components/JsonLd.astro';
 import SocialIcon from '../components/SocialIcon.astro';
-import { SOCIAL_LINKS } from '../consts';
+import KolamDivider from '../components/KolamDivider.astro';
+import { SOCIAL_LINKS, ABOUT_HEADLINE_PREFIX, ABOUT_ROTATING_PHRASES } from '../consts';
 import { Image } from 'astro:assets';
 import profileImage from '../../public/assets/images/profile.webp';
 ---
 
 <BaseLayout title="About" description="About Jay Shah — Senior Machine Learning Engineer at 6sense, building production AI applications, foundational model systems, and agent evaluation frameworks" jsonLdType="ProfilePage">
   <article class="prose prose-kolam dark:prose-invert prose-lg max-w-none">
-    <header class="reveal not-prose mb-12">
-      <div class="flex items-start gap-6 mb-6">
-        <!-- Profile photo with kolam frame -->
-        <div class="relative shrink-0">
-          <div class="absolute -inset-3 rounded-full border-2 border-dashed border-gold/40 dark:border-gold-light/30"></div>
-          <div class="absolute -inset-5 rounded-full border border-terra/15 dark:border-terra-light/15"></div>
-          <!-- Cardinal accent dots -->
-          <div class="absolute -top-5 left-1/2 -translate-x-1/2 size-1.5 rounded-full bg-terra/30 dark:bg-terra-light/30"></div>
-          <div class="absolute -bottom-5 left-1/2 -translate-x-1/2 size-1.5 rounded-full bg-terra/30 dark:bg-terra-light/30"></div>
-          <div class="absolute top-1/2 -left-5 -translate-y-1/2 size-1.5 rounded-full bg-terra/30 dark:bg-terra-light/30"></div>
-          <div class="absolute top-1/2 -right-5 -translate-y-1/2 size-1.5 rounded-full bg-terra/30 dark:bg-terra-light/30"></div>
-          <div class="rounded-full size-[88px] overflow-hidden ring-2 ring-white dark:ring-night-800">
-            <Image
-              src={profileImage}
-              alt="Jay Shah"
-              width={88}
-              height={88}
-              densities={[1.5, 2, 3]}
-              quality={95}
-              class="size-full object-cover"
-            />
+    <header class="reveal not-prose mb-10 flex flex-col items-center">
+      <!-- 160px Profile photo with clean concentric Kolam yellow/gold boundaries & wave pedestal -->
+      <div class="relative mb-6 flex flex-col items-center justify-center">
+        <!-- Sinuous Kolam Wave Strand Bridge -->
+        <div class="absolute inset-x-[-120px] sm:inset-x-[-160px] top-1/2 -translate-y-1/2 h-14 pointer-events-none flex items-center justify-center z-0" aria-hidden="true">
+          <svg viewBox="0 0 600 40" class="w-full h-full" fill="none">
+            <defs>
+              <linearGradient id="aboutWaveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stop-color="white" stop-opacity="0"/>
+                <stop offset="12%" stop-color="white" stop-opacity="1"/>
+                <stop offset="88%" stop-color="white" stop-opacity="1"/>
+                <stop offset="100%" stop-color="white" stop-opacity="0"/>
+              </linearGradient>
+              <mask id="aboutWaveMask">
+                <rect width="600" height="40" fill="url(#aboutWaveGrad)"/>
+              </mask>
+            </defs>
+
+            <g mask="url(#aboutWaveMask)">
+              <path class="wave-terra-strand stroke-terra/50 dark:stroke-terra-light/50" d="M 0 20 Q 75 2, 150 20 Q 225 38, 300 20 Q 375 2, 450 20 Q 525 38, 600 20" stroke-width="1.2" stroke-linecap="round"/>
+              <path class="wave-gold-strand stroke-gold/50 dark:stroke-gold-light/50" d="M 0 20 Q 75 38, 150 20 Q 225 2, 300 20 Q 375 38, 450 20 Q 525 2, 600 20" stroke-width="1.2" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Concentric Yellow/Gold Round Boundaries -->
+        <div class="relative shrink-0 z-10">
+          <div class="absolute -inset-3.5 rounded-full border border-dashed border-gold/40 dark:border-gold-light/40 transition-colors"></div>
+          <div class="absolute -inset-6 rounded-full border border-terra/20 dark:border-terra-light/25 transition-colors"></div>
+
+          <div class="relative size-[160px] rounded-full overflow-hidden ring-4 ring-gold/60 dark:ring-gold-light/60 bg-cream-100 dark:bg-night-800 shadow-xl p-1 transition-all">
+            <div class="relative size-full rounded-full overflow-hidden ring-1 ring-terra/30">
+              <Image
+                src={profileImage}
+                alt="Jay Shah"
+                width={160}
+                height={160}
+                densities={[1.5, 2, 3]}
+                quality={95}
+                class="size-full object-cover rounded-full"
+              />
+            </div>
           </div>
         </div>
-        <div class="pt-2">
-          <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">Jay Shah</h1>
-          <p class="font-mono text-[10px] uppercase text-ink-muted dark:text-silk-muted mt-4" style="letter-spacing: 0.12em;">
-            Senior Machine Learning Engineer &bull; 6sense &bull; Production AI &amp; Agent Systems
-          </p>
-        </div>
       </div>
+
+      <!-- Typewriter Headline: Anchored 50/50 Midpoint Grid (Non-shifting prefix) -->
+      <div class="w-full mt-2 min-h-[48px] sm:min-h-[54px] flex items-center justify-center">
+        <h1 class="grid grid-cols-2 gap-0 w-full font-display text-2xl sm:text-4xl leading-tight items-baseline m-0 p-0">
+          <span class="text-right whitespace-nowrap text-ink dark:text-silk pr-1.5 select-none">
+            {ABOUT_HEADLINE_PREFIX}
+          </span>
+          <span class="text-left whitespace-nowrap text-terra dark:text-terra-light font-normal pl-1.5 overflow-visible select-none">
+            <span id="about-typewriter-text">{ABOUT_ROTATING_PHRASES[0]}</span><span class="cursor-caret" aria-hidden="true"></span>
+          </span>
+        </h1>
+      </div>
+
+      <!-- Carved Gradient Divider Bar -->
+      <div class="w-12 h-[3px] mx-auto my-3.5 rounded bg-gradient-to-r from-terra via-gold to-terra" aria-hidden="true"></div>
+
+      <!-- Bio Lead Statement -->
+      <p class="font-body text-sm sm:text-base text-ink-muted dark:text-silk-muted mt-2 max-w-xl text-center leading-relaxed">
+        Senior Machine Learning Engineer at <a href="https://6sense.com" target="_blank" rel="noopener noreferrer" class="text-terra dark:text-terra-light font-medium hover:underline decoration-terra/40 underline-offset-2">6sense</a>, building production AI applications, foundational embeddings, and agent evaluation frameworks.
+      </p>
+
+
+      <!-- Action Toolbar (GitHub, LinkedIn, Hugging Face, Resume) -->
+      <div class="flex flex-wrap items-center justify-center gap-2.5 mt-5">
+        <a
+          href={SOCIAL_LINKS.github}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-cream-300 dark:border-night-700 bg-cream-100/80 dark:bg-night-800/80 text-xs font-mono text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-all"
+        >
+          <SocialIcon name="github" class="size-3.5 text-ink-faint dark:text-silk-faint" />
+          GitHub
+        </a>
+        <a
+          href={SOCIAL_LINKS.linkedin}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-cream-300 dark:border-night-700 bg-cream-100/80 dark:bg-night-800/80 text-xs font-mono text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-all"
+        >
+          <SocialIcon name="linkedin" class="size-3.5 text-ink-faint dark:text-silk-faint" />
+          LinkedIn
+        </a>
+        <a
+          href={SOCIAL_LINKS.huggingface}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-cream-300 dark:border-night-700 bg-cream-100/80 dark:bg-night-800/80 text-xs font-mono text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-all"
+        >
+          <SocialIcon name="huggingface" class="size-3.5 text-ink-faint dark:text-silk-faint" />
+          Hugging Face
+        </a>
+        <a
+          href={SOCIAL_LINKS.cv}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-terra/30 bg-terra/10 text-xs font-mono text-terra dark:text-terra-light hover:bg-terra/20 transition-all font-semibold"
+        >
+          <SocialIcon name="resume" class="size-3.5" />
+          Resume &nearr;
+        </a>
+      </div>
+
+      <!-- Animated Breathing Kolam Divider Ribbon -->
+      <KolamDivider class="my-8" />
     </header>
 
     <section class="reveal">
@@ -98,44 +178,105 @@ import profileImage from '../../public/assets/images/profile.webp';
         <li><a href="https://patents.google.com/patent/IN201721044402A/en">Dimension Measurement Using Image Processing</a> — IN 201721044402, Filed Dec 11, 2017</li>
       </ul>
     </section>
-
-    <div class="reveal flex flex-wrap gap-3 not-prose mt-8">
-      <a
-        href={SOCIAL_LINKS.github}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded-lg text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono group"
-      >
-        <SocialIcon name="github" class="size-4 text-ink-faint dark:text-silk-faint group-hover:text-terra dark:group-hover:text-terra-light transition-colors" />
-        GitHub
-      </a>
-      <a
-        href={SOCIAL_LINKS.linkedin}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded-lg text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono group"
-      >
-        <SocialIcon name="linkedin" class="size-4 text-ink-faint dark:text-silk-faint group-hover:text-terra dark:group-hover:text-terra-light transition-colors" />
-        LinkedIn
-      </a>
-      <a
-        href={SOCIAL_LINKS.huggingface}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded-lg text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono group"
-      >
-        <SocialIcon name="huggingface" class="size-4 text-ink-faint dark:text-silk-faint group-hover:text-terra dark:group-hover:text-terra-light transition-colors" />
-        Hugging Face
-      </a>
-      <a
-        href={SOCIAL_LINKS.cv}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="inline-flex items-center gap-2 px-4 py-2 border border-cream-300 dark:border-night-700 rounded-lg text-sm text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors font-mono group"
-      >
-        <SocialIcon name="resume" class="size-4 text-ink-faint dark:text-silk-faint group-hover:text-terra dark:group-hover:text-terra-light transition-colors" />
-        Resume
-      </a>
-    </div>
   </article>
+
+  <!-- Lightweight Typewriter Engine -->
+  <script is:inline define:vars={{ phrases: ABOUT_ROTATING_PHRASES }}>
+    (function () {
+      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const typewriterEl = document.getElementById('about-typewriter-text');
+      if (!typewriterEl || !Array.isArray(phrases) || phrases.length <= 1 || prefersReducedMotion) {
+        return;
+      }
+
+      let phraseIdx = 0;
+      let charIdx = phrases[0].length;
+      let isDeleting = true;
+      let timeoutId = null;
+
+      const TYPING_SPEED = 65;
+      const DELETING_SPEED = 35;
+      const PAUSE_ON_WORD = 2400;
+      const PAUSE_ON_EMPTY = 350;
+
+      function typeLoop() {
+        const currentPhrase = phrases[phraseIdx % phrases.length];
+
+        if (!isDeleting) {
+          charIdx++;
+          typewriterEl.textContent = currentPhrase.substring(0, charIdx);
+
+          if (charIdx === currentPhrase.length) {
+            isDeleting = true;
+            timeoutId = setTimeout(typeLoop, PAUSE_ON_WORD);
+            return;
+          }
+          timeoutId = setTimeout(typeLoop, TYPING_SPEED);
+        } else {
+          charIdx--;
+          typewriterEl.textContent = currentPhrase.substring(0, charIdx);
+
+          if (charIdx === 0) {
+            isDeleting = false;
+            phraseIdx = (phraseIdx + 1) % phrases.length;
+            timeoutId = setTimeout(typeLoop, PAUSE_ON_EMPTY);
+            return;
+          }
+          timeoutId = setTimeout(typeLoop, DELETING_SPEED);
+        }
+      }
+
+      timeoutId = setTimeout(typeLoop, PAUSE_ON_WORD);
+    })();
+  </script>
 </BaseLayout>
+
+<style>
+  @keyframes blinkCaret {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .cursor-caret {
+    display: inline-block;
+    width: 2.5px;
+    height: 0.85em;
+    vertical-align: -0.04em;
+    margin-left: 2px;
+    background-color: #c4623a;
+    animation: blinkCaret 0.85s infinite;
+  }
+
+  :global(.dark) .cursor-caret {
+    background-color: #e07a4f;
+  }
+
+  .wave-terra-strand {
+    animation: waveBreatheTerra 4.5s ease-in-out infinite alternate;
+  }
+
+  .wave-gold-strand {
+    animation: waveBreatheGold 4.5s ease-in-out infinite alternate;
+  }
+
+  @keyframes waveBreatheTerra {
+    0% { opacity: 0.35; stroke-width: 1px; }
+    50% { opacity: 0.95; stroke-width: 1.6px; }
+    100% { opacity: 0.35; stroke-width: 1px; }
+  }
+
+  @keyframes waveBreatheGold {
+    0% { opacity: 0.95; stroke-width: 1.6px; }
+    50% { opacity: 0.35; stroke-width: 1px; }
+    100% { opacity: 0.95; stroke-width: 1.6px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cursor-caret,
+    .wave-terra-strand,
+    .wave-gold-strand {
+      animation: none !important;
+    }
+  }
+</style>
+
