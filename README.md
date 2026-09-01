@@ -61,7 +61,7 @@ just ci-build
 just preview
 ```
 
-*(You can also use standard `npm run dev`, `npm run build`, and `npm run preview`.)*
+*(You can also use standard `pnpm run dev`, `pnpm run build`, and `pnpm run preview`.)*
 
 ---
 
@@ -241,4 +241,4 @@ Before merging dependency, Astro configuration, integration, or build-pipeline c
 just ci-build
 ```
 
-This command matches the workflow's build steps: `npm ci --legacy-peer-deps` followed by `npm run build`. Unlike `just build`, it replaces local dependencies with the versions in `package-lock.json`, so it catches missing direct dependencies and lockfile drift that a warm `node_modules` directory can hide.
+This command matches the workflow's build steps: `pnpm install --frozen-lockfile` followed by `pnpm run build`. Unlike `just build`, it replaces local dependencies with the versions in `pnpm-lock.yaml`, so it catches missing direct dependencies and lockfile drift that a warm `node_modules` directory can hide.

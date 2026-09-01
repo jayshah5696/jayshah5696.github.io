@@ -8,7 +8,7 @@ You are an expert frontend engineer and Astro developer. You have exceptional de
 - **Skill Requirement:** ALWAYS load the `frontend-design` skill using the skill tool before making any UI/UX or styling changes. This ensures high-quality, distinctive aesthetic outputs.
 - Use Astro 7 with Content Collections (`src/content.config.ts`)
 - Use Tailwind CSS 4 for styling
-- Use `npm` and `just` for package and task management
+- Use `pnpm` and `just` for package and task management
 - Always use `import type` for TypeScript interfaces
 - Keep components modular and single-purpose
 
@@ -52,7 +52,7 @@ Interactive, simulation-heavy, or dashboard-based blog posts are first-class cit
 - Project data lives in `src/data/projects.ts` — do NOT inline it in pages
 - Use `.prose :where(img)` (not `.prose img`) in global CSS to avoid specificity conflicts with utility classes
 - Ultra-wide layout is handled by `.app-sidebar`, `.app-content`, `.app-progress` classes in `global.css` — no `justify-center` wrapper needed
-- Search uses Pagefind — build pipeline is `astro build && npx pagefind --site dist`
+- Search uses Pagefind — build pipeline is `astro build && node scripts/generate-markdown-variants.js && pagefind --site dist`
 - Blog images must be WebP format in `public/assets/images/`
 - Content schema supports `series` and `seriesOrder` frontmatter for grouping related posts
 
@@ -68,10 +68,10 @@ Interactive, simulation-heavy, or dashboard-based blog posts are first-class cit
 ## Working Agreement
 
 ### Safety
-- Before modifying CSS, verify the impact using local preview (`npm run dev`).
+- Before modifying CSS, verify the impact using local preview (`pnpm run dev`).
 - Ensure dark mode toggle works correctly when adding new UI components.
 - Always perform visual verification with actual screenshots (capturing both Light and Dark modes) using `agent-browser` against the local dev/preview server before completing tasks.
-- Run `npm run build` to verify both Astro build and Pagefind indexing succeed.
+- Run `pnpm run build` to verify both Astro build and Pagefind indexing succeed.
 - Run `just ci-build` before merging dependency, Astro configuration, integration, or build-pipeline changes. It runs the same clean install and build commands as GitHub Pages CI. Pull requests also run this build job without deploying.
 - Declare packages used by Astro configuration directly in `package.json`. Do not rely on transitive packages or a warm local `node_modules` directory.
 

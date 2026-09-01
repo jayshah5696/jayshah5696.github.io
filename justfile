@@ -6,26 +6,26 @@ default:
 
 # Start Astro development server
 dev:
-  npm run dev
+  pnpm run dev
 
 # Run production build and generate Pagefind search index
 build:
-  npm run build
+  pnpm run build
 
 # Reproduce the GitHub Pages build with a clean lockfile install
 ci-build:
-  npm ci --legacy-peer-deps
-  npm run build
+  pnpm install --frozen-lockfile
+  pnpm run build
 
 # Preview production build locally
 preview:
-  npm run preview
+  pnpm run preview
 
 # Publish an interactive HTML report into the blog collection
 # Usage: just publish-interactive <source-html-path> <slug> [tags] [date]
 publish-interactive source_html slug tags="ai-safety,llm,watermarking,gen-ai,research" date="2026-08-16":
   node scripts/publish-interactive.js "{{source_html}}" "{{slug}}" "{{tags}}" "{{date}}"
-  npm run build
+  pnpm run build
   node scripts/verify-post.js "{{slug}}"
 
 # Run automated visual verification on an existing post
@@ -46,7 +46,7 @@ measure-post-performance url label="measurement":
 
 # Add a reading list entry
 add-read:
-  npm run add-read
+  pnpm run add-read
 
 # Fetch recent reads from Karakeep, synthesize takeaways with LLM, review in UI, and create PR
 # Usage:
