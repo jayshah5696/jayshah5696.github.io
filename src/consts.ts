@@ -82,22 +82,23 @@ export const ABOUT_HEADLINE_PREFIX = "Hi, I'm Jay Shah,";
 
 export const ABOUT_ROTATING_PHRASES = [
   'an ML engineer.',
-  'an applied AI scientist.',
-  'a data scientist.',
-  'an AI researcher.',
-  'an AI builder.',
-  'an agent builder.',
-  'a model skeptic.',
-  'a systems thinker.',
-  'a language tools maker.',
   'a dad.',
+  'an applied AI scientist.',
   'a tea aficionado.',
+  'an agent builder.',
   'a cricket fanboy.',
+  'a model skeptic.',
   'a yogi.',
-  'a learner.',
+  'an AI researcher.',
   'a reader.',
+  'a systems thinker.',
+  'a learner.',
+  'a data scientist.',
+  'a language tools maker.',
+  'an AI builder.',
   'a builder.',
 ] as const;
+
 
 
 
