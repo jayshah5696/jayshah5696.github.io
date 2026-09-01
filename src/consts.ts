@@ -81,18 +81,24 @@ export const NAV_ITEMS = [
 export const ABOUT_HEADLINE_PREFIX = "Hi, I'm Jay Shah,";
 
 export const ABOUT_ROTATING_PHRASES = [
+  'an ML engineer.',
+  'an applied AI scientist.',
+  'a data scientist.',
+  'an AI researcher.',
+  'an AI builder.',
+  'an agent builder.',
+  'a model skeptic.',
+  'a systems thinker.',
+  'a language tools maker.',
   'a dad.',
-  'a builder.',
   'a tea aficionado.',
   'a cricket fanboy.',
   'a yogi.',
-  'a model skeptic.',
-  'a systems thinker.',
-  'a builder of AI agents.',
-  'a maker of language tools.',
-  'a father, learner & builder.',
-  'a Stoic.',
+  'a learner.',
+  'a reader.',
+  'a builder.',
 ] as const;
+
 
 
 
