@@ -32,7 +32,7 @@ async function main() {
   
   if (args.length === 0 || args[0] === '--help' || args[0] === '-h') {
     console.log(`
-Usage: npm run add-read <url> [tags] [title]
+Usage: pnpm run add-read <url> [tags] [title]
 
 Arguments:
   url      The URL you want to recommend (Required)
@@ -40,8 +40,8 @@ Arguments:
   title    Custom title (Optional. If omitted, it fetches the page title)
 
 Examples:
-  npm run add-read "https://simonwillison.net/" "dev,llm"
-  npm run add-read "https://example.com" "ml" "Custom Title of Article"
+  pnpm run add-read "https://simonwillison.net/" "dev,llm"
+  pnpm run add-read "https://example.com" "ml" "Custom Title of Article"
     `);
     process.exit(0);
   }

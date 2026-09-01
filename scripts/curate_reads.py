@@ -924,7 +924,7 @@ draft: false
 
         # 4. Verify Astro Build
         print("[Build] Verifying Astro production build & Pagefind indexing...")
-        build_res = subprocess.run(["npm", "run", "build"], cwd=REPO_DIR, capture_output=True, text=True)
+        build_res = subprocess.run(["pnpm", "run", "build"], cwd=REPO_DIR, capture_output=True, text=True)
         if build_res.returncode != 0:
             print(f"Astro build failed:\n{build_res.stderr}", file=sys.stderr)
             subprocess.run(["git", "checkout", default_branch], cwd=REPO_DIR, check=False)
