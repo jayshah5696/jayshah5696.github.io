@@ -282,7 +282,7 @@
   background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='20' y='20' width='20' height='20' rx='1' fill='none' stroke='%23c4623a' stroke-width='0.5' opacity='0.08' transform='rotate(45 30 30)'/%3E%3Ccircle cx='30' cy='30' r='1' fill='%23d4a843' opacity='0.12'/%3E%3C/svg%3E");
   &:hover {
     border-color: #c4623a;
-    box-shadow: 0 4px 16px rgba(196, 98, 58, 0.06);
+    box-shadow: 0 2px 0 #e8dbc0, 0 4px 0 #f5edd8, 0 8px 18px rgba(196, 98, 58, 0.08);
   }
   .dark & {
     border-color: #2a2438;
@@ -291,7 +291,7 @@
   }
   .dark &:hover {
     border-color: #e07a4f;
-    box-shadow: 0 4px 16px rgba(224, 122, 79, 0.08);
+    box-shadow: 0 2px 0 #2a2438, 0 4px 0 #15111e, 0 10px 24px rgba(0, 0, 0, 0.45);
   }
 }
 
@@ -324,6 +324,125 @@
   }
   .dark &::after {
     background: linear-gradient(to right, #e07a4f, #e8c462);
+  }
+}
+
+@utility shadow-stepwell {
+  /* ═══════════════════════════════════════
+     STEPWELL SHADOW — tiered stone depth
+     ═══════════════════════════════════════ */
+  box-shadow: 0 2px 0 #e8dbc0, 0 4px 0 #d4c4a0, 0 8px 16px rgba(44, 36, 22, 0.06);
+  .dark & {
+    box-shadow: 0 2px 0 #2a2438, 0 4px 0 #15111e, 0 8px 24px rgba(0, 0, 0, 0.5);
+  }
+}
+
+@utility reading-bindu {
+  /* ═══════════════════════════════════════
+     READING BINDU — glowing pearl on progress bar
+     ═══════════════════════════════════════ */
+  position: absolute;
+  right: -5px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #ffffff;
+  border: 2px solid #c4623a;
+  box-shadow: 0 0 10px rgba(196, 98, 58, 0.8), 0 0 4px rgba(212, 168, 67, 0.6);
+  .dark & {
+    background: #fdf9f1;
+    border-color: #e07a4f;
+    box-shadow: 0 0 12px rgba(224, 122, 79, 0.9), 0 0 5px rgba(232, 196, 98, 0.8);
+  }
+}
+
+@utility protocol-chip {
+  /* ═══════════════════════════════════════
+     PROTOCOL CHIP — agent dock item
+     ═══════════════════════════════════════ */
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 8px;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+  background-color: rgba(245, 237, 216, 0.6);
+  border: 1px solid #e8dbc0;
+  color: #2c2416;
+  text-decoration: none;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  &:hover {
+    border-color: #c4623a;
+    background-color: rgba(196, 98, 58, 0.08);
+    color: #c4623a;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(196, 98, 58, 0.08);
+  }
+  .dark & {
+    background-color: rgba(30, 25, 40, 0.7);
+    border-color: #2a2438;
+    color: #e8e0d4;
+  }
+  .dark &:hover {
+    border-color: #e07a4f;
+    background-color: rgba(224, 122, 79, 0.12);
+    color: #e07a4f;
+    box-shadow: 0 2px 10px rgba(224, 122, 79, 0.15);
+  }
+}
+
+@utility patent-card {
+  /* ═══════════════════════════════════════
+     PATENT DOSSIER CARD — engraved stone credential
+     ═══════════════════════════════════════ */
+  position: relative;
+  border-radius: 10px;
+  border: 1px solid #e8dbc0;
+  border-left: 3.5px solid #d4a843;
+  padding: 1rem 1.25rem;
+  background-color: #fdf9f1;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  &:hover {
+    border-color: #c4623a;
+    border-left-color: #c4623a;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(196, 98, 58, 0.08);
+  }
+  .dark & {
+    background-color: #1e1928;
+    border-color: #2a2438;
+    border-left-color: #e8c462;
+  }
+  .dark &:hover {
+    border-color: #e07a4f;
+    border-left-color: #e07a4f;
+    box-shadow: 0 4px 16px rgba(224, 122, 79, 0.12);
+  }
+}
+
+@utility stepwell-spine {
+  /* ═══════════════════════════════════════
+     STEPWELL TIMELINE SPINE — vertical descent rail
+     ═══════════════════════════════════════ */
+  position: relative;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 14px;
+    bottom: 14px;
+    left: 7px;
+    width: 2px;
+    background: linear-gradient(to bottom, #c4623a, #d4a843, #c4623a);
+    opacity: 0.35;
+    border-radius: 1px;
+  }
+  .dark &::before {
+    background: linear-gradient(to bottom, #e07a4f, #e8c462, #e07a4f);
+    opacity: 0.3;
   }
 }
 

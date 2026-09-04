@@ -41,9 +41,11 @@ const showToc = filteredHeadings.length > 3;
 ---
 
 <BaseLayout title={title} description={description} image={image} rightSidebar={showToc} jsonLdType="BlogPosting" date={date} tags={tags}>
-  <!-- Reading progress bar -->
-  <div id="reading-progress" class="fixed top-0 left-0 right-0 z-50 h-1 app-progress" aria-hidden="true">
-    <div id="reading-progress-bar" class="h-full w-0 transition-none shadow-sm" style="background: linear-gradient(to right, #c4623a, #d4a843); box-shadow: 0 1px 3px rgba(196,98,58,0.3);"></div>
+  <!-- Reading progress bar with Riding Bindu Beacon -->
+  <div id="reading-progress" class="fixed top-0 left-0 right-0 z-50 h-1 app-progress overflow-visible pointer-events-none" aria-hidden="true">
+    <div id="reading-progress-bar" class="relative h-full w-0 transition-none shadow-sm overflow-visible" style="background: linear-gradient(to right, #c4623a, #d4a843); box-shadow: 0 1px 3px rgba(196,98,58,0.3);">
+      <div class="reading-bindu"></div>
+    </div>
   </div>
 
   <article>

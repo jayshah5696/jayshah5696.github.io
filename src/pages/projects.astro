@@ -18,10 +18,43 @@ const getColSpan = (index: number) => {
     <p class="mt-4 text-ink-light dark:text-silk-muted text-base leading-relaxed">
       Selected open-source machine learning systems, developer agent extensions, retrieval pipelines, and software repositories.
     </p>
-    <KolamDivider class="mt-5" />
+
+    <!-- Category Filter Bar -->
+    <div class="flex items-center gap-2 mt-6 flex-wrap" id="project-filter-bar">
+      <button
+        type="button"
+        class="project-filter-btn px-3 py-1.5 rounded-lg text-xs font-mono font-medium border border-terra bg-terra/10 text-terra dark:text-terra-light cursor-pointer transition-all active-filter"
+        data-filter="all"
+      >
+        All Systems ({projects.length})
+      </button>
+      <button
+        type="button"
+        class="project-filter-btn px-3 py-1.5 rounded-lg text-xs font-mono font-medium border border-cream-300 dark:border-night-700 bg-cream-100/60 dark:bg-night-800/60 text-ink-muted dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:border-terra-light dark:hover:text-terra-light cursor-pointer transition-all"
+        data-filter="agents"
+      >
+        Agents &amp; Tooling
+      </button>
+      <button
+        type="button"
+        class="project-filter-btn px-3 py-1.5 rounded-lg text-xs font-mono font-medium border border-cream-300 dark:border-night-700 bg-cream-100/60 dark:bg-night-800/60 text-ink-muted dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:border-terra-light dark:hover:text-terra-light cursor-pointer transition-all"
+        data-filter="llms"
+      >
+        Foundational &amp; LLMs
+      </button>
+      <button
+        type="button"
+        class="project-filter-btn px-3 py-1.5 rounded-lg text-xs font-mono font-medium border border-cream-300 dark:border-night-700 bg-cream-100/60 dark:bg-night-800/60 text-ink-muted dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:border-terra-light dark:hover:text-terra-light cursor-pointer transition-all"
+        data-filter="systems"
+      >
+        ML &amp; Systems
+      </button>
+    </div>
+
+    <KolamDivider class="mt-6" />
   </header>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4" id="projects-grid">
     {projects.map((project, i) => (
       <ProjectCard
         title={project.title}
@@ -35,5 +68,55 @@ const getColSpan = (index: number) => {
       />
     ))}
   </div>
+
+  <script is:inline>
+    function initProjectFilters() {
+      const buttons = document.querySelectorAll('.project-filter-btn');
+      const cards = document.querySelectorAll('.project-card-item');
+      if (!buttons.length || !cards.length) return;
+
+      const agentKeywords = ['agent', 'developer tools', 'tui', 'langgraph', 'local-first'];
+      const llmKeywords = ['llm', 'fine-tuning', 'nlp', 'watermarking', 'rag', 'gemma', 'evaluation'];
+      const systemKeywords = ['ml', 'energy', 'statistics', 'quality control', 'elasticsearch', 'mrl', 'entity resolution', 'analytics'];
+
+      buttons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          const filter = btn.getAttribute('data-filter');
+
+          buttons.forEach(function(b) {
+            b.classList.remove('active-filter', 'border-terra', 'bg-terra/10', 'text-terra', 'dark:text-terra-light');
+            b.classList.add('border-cream-300', 'dark:border-night-700', 'bg-cream-100/60', 'dark:bg-night-800/60', 'text-ink-muted', 'dark:text-silk-muted');
+          });
+
+          btn.classList.add('active-filter', 'border-terra', 'bg-terra/10', 'text-terra', 'dark:text-terra-light');
+          btn.classList.remove('border-cream-300', 'dark:border-night-700', 'bg-cream-100/60', 'dark:bg-night-800/60', 'text-ink-muted', 'dark:text-silk-muted');
+
+          cards.forEach(function(card) {
+            const tags = (card.getAttribute('data-tags') || '').toLowerCase();
+            let show = false;
+
+            if (filter === 'all') {
+              show = true;
+            } else if (filter === 'agents') {
+              show = agentKeywords.some(function(k) { return tags.includes(k); });
+            } else if (filter === 'llms') {
+              show = llmKeywords.some(function(k) { return tags.includes(k); });
+            } else if (filter === 'systems') {
+              show = systemKeywords.some(function(k) { return tags.includes(k); });
+            }
+
+            if (show) {
+              card.classList.remove('hidden');
+            } else {
+              card.classList.add('hidden');
+            }
+          });
+        });
+      });
+    }
+
+    document.addEventListener('astro:page-load', initProjectFilters);
+    initProjectFilters();
+  </script>
 </BaseLayout>
 

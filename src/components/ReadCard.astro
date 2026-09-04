@@ -29,9 +29,9 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
 
 <article
   class:list={[
-    'reveal read-card-item featured-card rangoli-corners overflow-hidden hover:-translate-y-0.5 transition-all duration-200 relative p-4 sm:p-5 rounded-xl flex flex-col gap-2 cursor-pointer group',
+    'reveal read-card-item featured-card overflow-hidden hover:-translate-y-0.5 transition-all duration-200 relative p-4 sm:p-5 rounded-xl flex flex-col gap-2 cursor-pointer group',
     isFeatured
-      ? 'border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light'
+      ? 'rangoli-corners border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light shadow-stepwell'
       : 'border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light',
   ]}
   style={index !== undefined ? `--index: ${index};` : undefined}
@@ -114,6 +114,13 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
       <SocialIcon name="external" class="size-3.5" />
     </a>
   </div>
+
+  {hasNotes && (
+    <div class="flex items-center gap-1.5 font-mono text-[11px] text-terra dark:text-terra-light relative z-10 select-none">
+      <span class="size-1.5 rounded-full bg-terra dark:bg-terra-light animate-pulse" aria-hidden="true"></span>
+      <span class="read-card-expand-label font-medium opacity-80 group-hover:opacity-100 transition-opacity">Personal synthesis notes &bull; Click card to expand</span>
+    </div>
+  )}
 
   <!-- Commentary (Markdown Body - Click card to expand/collapse) -->
   {hasNotes && (

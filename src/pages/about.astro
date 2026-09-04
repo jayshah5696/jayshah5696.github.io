@@ -36,11 +36,11 @@ import profileImage from '../../public/assets/images/profile.webp';
         </div>
 
         <!-- Concentric Yellow/Gold Round Boundaries -->
-        <div class="relative shrink-0 z-10">
-          <div class="absolute -inset-3.5 rounded-full border border-dashed border-gold/40 dark:border-gold-light/40 transition-colors"></div>
-          <div class="absolute -inset-6 rounded-full border border-terra/20 dark:border-terra-light/25 transition-colors"></div>
+        <div class="relative shrink-0 z-10 group/avatar">
+          <div class="absolute -inset-3.5 rounded-full border border-dashed border-gold/40 dark:border-gold-light/40 transition-all duration-700 ease-out group-hover/avatar:rotate-90 group-hover/avatar:scale-105"></div>
+          <div class="absolute -inset-6 rounded-full border border-terra/20 dark:border-terra-light/25 transition-all duration-700 ease-out group-hover/avatar:-rotate-90"></div>
 
-          <div class="relative size-[160px] rounded-full overflow-hidden ring-4 ring-gold/60 dark:ring-gold-light/60 bg-cream-100 dark:bg-night-800 shadow-xl p-1 transition-all">
+          <div class="relative size-[160px] rounded-full overflow-hidden ring-4 ring-gold/60 dark:ring-gold-light/60 bg-cream-100 dark:bg-night-800 shadow-xl p-1 transition-all duration-300 group-hover/avatar:scale-[1.02]">
             <div class="relative size-full rounded-full overflow-hidden ring-1 ring-terra/30">
               <Image
                 src={profileImage}
@@ -145,12 +145,44 @@ import profileImage from '../../public/assets/images/profile.webp';
       </p>
     </section>
 
-    <section class="reveal">
+    <section class="reveal mb-10">
       <h2>Outside the Terminal</h2>
 
       <p>
         Cricket comes first. Tea, never coffee. Yoga is the habit that survived a newborn's sleep schedule.
       </p>
+
+      <div class="not-prose grid grid-cols-1 sm:grid-cols-3 gap-3 my-6">
+        <div class="p-3.5 rounded-xl border border-cream-200/80 dark:border-night-700/80 bg-cream-100/40 dark:bg-night-900/40 flex items-center gap-3">
+          <div class="size-9 rounded-lg bg-terra/10 dark:bg-terra-light/10 text-terra dark:text-terra-light flex items-center justify-center shrink-0 font-display text-base select-none">
+            ☕
+          </div>
+          <div>
+            <div class="font-body font-semibold text-xs text-ink dark:text-silk">Cutting Chai</div>
+            <div class="text-[11px] text-ink-muted dark:text-silk-muted">Tea, never coffee</div>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-xl border border-cream-200/80 dark:border-night-700/80 bg-cream-100/40 dark:bg-night-900/40 flex items-center gap-3">
+          <div class="size-9 rounded-lg bg-gold/10 dark:bg-gold-light/10 text-gold dark:text-gold-light flex items-center justify-center shrink-0 font-display text-base select-none">
+            🏏
+          </div>
+          <div>
+            <div class="font-body font-semibold text-xs text-ink dark:text-silk">Cricket First</div>
+            <div class="text-[11px] text-ink-muted dark:text-silk-muted">Patience &amp; test cricket</div>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-xl border border-cream-200/80 dark:border-night-700/80 bg-cream-100/40 dark:bg-night-900/40 flex items-center gap-3">
+          <div class="size-9 rounded-lg bg-mor/10 dark:bg-mor-light/10 text-mor dark:text-mor-light flex items-center justify-center shrink-0 font-display text-sm font-semibold select-none">
+            ગુ
+          </div>
+          <div>
+            <div class="font-body font-semibold text-xs text-ink dark:text-silk">Indic AI</div>
+            <div class="text-[11px] text-ink-muted dark:text-silk-muted">Gujarati Llama &amp; regional LLMs</div>
+          </div>
+        </div>
+      </div>
 
       <p>
         I care about Indic languages and culture, especially the gap between the languages people speak and the languages most AI systems understand. Gujarati Llama started as a personal project because useful language technology should not be limited to English-speaking users.
@@ -161,22 +193,116 @@ import profileImage from '../../public/assets/images/profile.webp';
       </p>
     </section>
 
-    <section class="reveal">
-      <h2>Honors &amp; Awards</h2>
-      <ul>
-        <li>Winner at Ragathon by LlamaIndex (Feb 2024)</li>
-        <li>Outstanding Master's of Science Student (Apr 2019)</li>
-        <li>2nd Runner-up at Texas Datathon by Citadel (Feb 2018)</li>
-      </ul>
+    <section class="reveal not-prose mb-10">
+      <h2 class="font-display text-2xl text-ink dark:text-silk carved-heading mb-4">Honors &amp; Awards</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <div class="p-4 rounded-xl border border-cream-200 dark:border-night-700 bg-cream-50/70 dark:bg-night-800/70 shadow-xs">
+          <div class="font-mono text-[10px] uppercase text-gold dark:text-gold-light mb-1.5 flex items-center gap-1 font-semibold tracking-wider">
+            <span>★</span> 1st Place Winner
+          </div>
+          <h3 class="font-body font-semibold text-sm text-ink dark:text-silk leading-snug">
+            Ragathon by LlamaIndex
+          </h3>
+          <p class="font-mono text-[11px] text-ink-faint dark:text-silk-faint mt-1">Feb 2024</p>
+        </div>
+
+        <div class="p-4 rounded-xl border border-cream-200 dark:border-night-700 bg-cream-50/70 dark:bg-night-800/70 shadow-xs">
+          <div class="font-mono text-[10px] uppercase text-terra dark:text-terra-light mb-1.5 flex items-center gap-1 font-semibold tracking-wider">
+            <span>◆</span> Academic Distinction
+          </div>
+          <h3 class="font-body font-semibold text-sm text-ink dark:text-silk leading-snug">
+            Outstanding M.S. Student
+          </h3>
+          <p class="font-mono text-[11px] text-ink-faint dark:text-silk-faint mt-1">Apr 2019 • Texas A&amp;M</p>
+        </div>
+
+        <div class="p-4 rounded-xl border border-cream-200 dark:border-night-700 bg-cream-50/70 dark:bg-night-800/70 shadow-xs">
+          <div class="font-mono text-[10px] uppercase text-mor dark:text-mor-light mb-1.5 flex items-center gap-1 font-semibold tracking-wider">
+            <span>▲</span> 2nd Runner-up
+          </div>
+          <h3 class="font-body font-semibold text-sm text-ink dark:text-silk leading-snug">
+            Texas Datathon by Citadel
+          </h3>
+          <p class="font-mono text-[11px] text-ink-faint dark:text-silk-faint mt-1">Feb 2018</p>
+        </div>
+      </div>
     </section>
 
-    <section class="reveal">
-      <h2>Patents</h2>
-      <ul>
-        <li><a href="https://patents.google.com/patent/US20230213560A1/en">Calculating energy loss during an outage</a> — US20230213560A1, Filed Dec 30, 2021</li>
-        <li><a href="https://patents.google.com/patent/US20230214703A1/en">Predicting energy production for energy generating assets</a> — US20230214703A1, Filed Dec 30, 2021</li>
-        <li><a href="https://patents.google.com/patent/IN201721044402A/en">Dimension Measurement Using Image Processing</a> — IN 201721044402, Filed Dec 11, 2017</li>
-      </ul>
+    <section class="reveal not-prose mb-10">
+      <h2 class="font-display text-2xl text-ink dark:text-silk carved-heading mb-4">Patents</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+        <a
+          href="https://patents.google.com/patent/US20230213560A1/en"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="patent-card group flex flex-col justify-between"
+        >
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <span class="font-mono text-xs font-semibold text-terra dark:text-terra-light flex items-center gap-1.5">
+                <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                US20230213560A1
+              </span>
+              <span class="font-mono text-[10px] uppercase px-1.5 py-0.5 rounded bg-cream-200 dark:bg-night-800 text-ink-muted dark:text-silk-muted">USPTO</span>
+            </div>
+            <h3 class="font-body font-semibold text-sm sm:text-base text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors leading-snug">
+              Calculating energy loss during an outage
+            </h3>
+          </div>
+          <div class="flex items-center justify-between mt-3 pt-2 border-t border-cream-200/60 dark:border-night-700/60 text-[11px] font-mono text-ink-faint dark:text-silk-faint">
+            <span>Filed Dec 30, 2021</span>
+            <span class="text-terra dark:text-terra-light group-hover:translate-x-0.5 transition-transform">Google Patents &nearr;</span>
+          </div>
+        </a>
+
+        <a
+          href="https://patents.google.com/patent/US20230214703A1/en"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="patent-card group flex flex-col justify-between"
+        >
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <span class="font-mono text-xs font-semibold text-terra dark:text-terra-light flex items-center gap-1.5">
+                <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                US20230214703A1
+              </span>
+              <span class="font-mono text-[10px] uppercase px-1.5 py-0.5 rounded bg-cream-200 dark:bg-night-800 text-ink-muted dark:text-silk-muted">USPTO</span>
+            </div>
+            <h3 class="font-body font-semibold text-sm sm:text-base text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors leading-snug">
+              Predicting energy production for assets
+            </h3>
+          </div>
+          <div class="flex items-center justify-between mt-3 pt-2 border-t border-cream-200/60 dark:border-night-700/60 text-[11px] font-mono text-ink-faint dark:text-silk-faint">
+            <span>Filed Dec 30, 2021</span>
+            <span class="text-terra dark:text-terra-light group-hover:translate-x-0.5 transition-transform">Google Patents &nearr;</span>
+          </div>
+        </a>
+
+        <a
+          href="https://patents.google.com/patent/IN201721044402A/en"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="patent-card group flex flex-col justify-between sm:col-span-2"
+        >
+          <div>
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <span class="font-mono text-xs font-semibold text-terra dark:text-terra-light flex items-center gap-1.5">
+                <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                IN201721044402A
+              </span>
+              <span class="font-mono text-[10px] uppercase px-1.5 py-0.5 rounded bg-cream-200 dark:bg-night-800 text-ink-muted dark:text-silk-muted">Indian Patent Office</span>
+            </div>
+            <h3 class="font-body font-semibold text-sm sm:text-base text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors leading-snug">
+              Dimension Measurement Using Image Processing
+            </h3>
+          </div>
+          <div class="flex items-center justify-between mt-3 pt-2 border-t border-cream-200/60 dark:border-night-700/60 text-[11px] font-mono text-ink-faint dark:text-silk-faint">
+            <span>Filed Dec 11, 2017</span>
+            <span class="text-terra dark:text-terra-light group-hover:translate-x-0.5 transition-transform">Google Patents &nearr;</span>
+          </div>
+        </a>
+      </div>
     </section>
   </article>
 

@@ -41,16 +41,25 @@ if (url.includes('github.com')) {
 
 <article
   class:list={[
-    'reveal group relative rounded-xl border overflow-hidden transition-all duration-200 featured-card rangoli-corners hover:-translate-y-0.5 flex flex-col justify-between',
+    'reveal group relative rounded-xl border overflow-hidden transition-all duration-200 featured-card hover:-translate-y-0.5 flex flex-col justify-between project-card-item',
     flagship
-      ? 'p-6 sm:p-7 border-terra/30 dark:border-terra-light/20 bg-cream-50/90 dark:bg-night-800/90 hover:border-terra dark:hover:border-terra-light'
+      ? 'rangoli-corners p-6 sm:p-7 border-terra/30 dark:border-terra-light/20 bg-cream-50/90 dark:bg-night-800/90 hover:border-terra dark:hover:border-terra-light shadow-stepwell'
       : featured
-        ? 'p-5 border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light'
+        ? 'rangoli-corners p-5 border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light'
         : 'p-5 border-cream-200 dark:border-night-700 bg-white dark:bg-night-800 hover:border-terra dark:hover:border-terra-light',
     className,
   ]}
   style={index !== undefined ? `--index: ${index};` : undefined}
+  data-tags={tags.join(',').toLowerCase()}
+  data-title={title.toLowerCase()}
 >
+  {/* Subtle cultural watermark for Gujarati Llama */}
+  {title.includes('Gujarati') && (
+    <span class="absolute right-3 top-3 text-4xl sm:text-5xl font-display text-terra/10 dark:text-terra-light/10 select-none pointer-events-none font-bold" aria-hidden="true">
+      ગુજરાતી
+    </span>
+  )}
+
   <div>
     <!-- Optional Flagship or Featured Badge -->
     {flagship ? (

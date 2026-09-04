@@ -195,16 +195,16 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
                     const isCurrentMonth = yIdx === 0 && mIdx === 0;
                     return (
                       <div
-                        class="reveal timeline-month-branch relative pl-6 sm:pl-8 border-l border-dashed border-cream-300 dark:border-night-700 ml-3 transition-colors duration-200"
+                        class="reveal timeline-month-branch relative pl-6 sm:pl-8 border-l-2 border-terra/30 dark:border-terra-light/25 ml-3 transition-colors duration-200"
                         data-month={monthNum}
                         data-year={year}
                         data-current-month={isCurrentMonth ? "true" : "false"}
                         id={`month-${year}-${monthNum}`}
                         style={`--index: ${mIdx};`}
                       >
-                        <!-- Timeline Node Dot -->
+                        <!-- Stepwell Timeline Node Dot -->
                         <div
-                          class="timeline-node-dot absolute -left-[5px] top-2.5 size-2.5 rounded-full bg-terra dark:bg-terra-light ring-4 ring-cream-100 dark:ring-night-900 transition-all duration-200"
+                          class="timeline-node-dot absolute -left-[7px] top-2.5 size-3 rounded-full bg-terra dark:bg-terra-light ring-4 ring-cream-100 dark:ring-night-900 shadow-sm transition-all duration-200"
                           aria-hidden="true"
                         />
                         
