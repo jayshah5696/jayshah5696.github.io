@@ -3,10 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import KolamDivider from '../components/KolamDivider.astro';
 import { projects } from '../data/projects';
+
 const getColSpan = (index: number) => {
   if (index === 0) return 'col-span-1 sm:col-span-2 lg:col-span-3';
-  // Asymmetric rhythm for remaining cards in a 3-column grid
-  const pattern = [2, 1, 1, 2, 2, 1, 1, 2, 1, 1, 1, 1, 2];
+  // Harmonious rhythm that completes exact 3-column rows without gaps:
+  // [2, 1], [1, 2], [1, 1, 1], [2, 1], [1, 2], [1, 1, 1]
+  const pattern = [2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1];
   const span = pattern[(index - 1) % pattern.length] || 1;
   return span === 2 ? 'col-span-1 sm:col-span-2 lg:col-span-2' : 'col-span-1';
 };
@@ -14,21 +16,33 @@ const getColSpan = (index: number) => {
 
 <BaseLayout title="Engineering Projects" description="Selected open-source machine learning systems, agent tooling, and software repositories by Jay Shah.">
   <header class="reveal mb-8">
-    <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">Engineering Projects &amp; Tools</h1>
+    <div class="flex items-center justify-between gap-4 flex-wrap">
+      <div>
+        <span class="font-mono text-xs uppercase tracking-widest text-terra dark:text-terra-light font-semibold">
+          Open-Source Systems
+        </span>
+        <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading mt-1">
+          Engineering Projects &amp; Tools
+        </h1>
+      </div>
+      <span class="font-mono text-xs text-ink-muted dark:text-silk-muted px-3 py-1 rounded-full border border-cream-200 dark:border-night-700 bg-cream-50/50 dark:bg-night-800/50">
+        {projects.length} repositories
+      </span>
+    </div>
     <p class="mt-4 text-ink-light dark:text-silk-muted text-base leading-relaxed">
       Selected open-source machine learning systems, developer agent extensions, retrieval pipelines, and software repositories.
     </p>
     <KolamDivider class="mt-5" />
   </header>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
     {projects.map((project, i) => (
       <ProjectCard
         title={project.title}
         description={project.description}
         url={project.url}
         tags={project.tags}
-        featured={i === 0}
+        featured={i === 0 || i === 1}
         flagship={i === 0}
         index={i}
         class={getColSpan(i)}
@@ -36,4 +50,3 @@ const getColSpan = (index: number) => {
     ))}
   </div>
 </BaseLayout>
-

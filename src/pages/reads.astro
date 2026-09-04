@@ -57,7 +57,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
 
 <BaseLayout
   title="Reading Notes & Bibliography"
-  description="Curated papers, articles, and research bibliography on AI, ML systems, RAG, and engineering — curated by Jay Shah."
+  description="Curated papers, articles, and research bibliography on AI, ML systems, RAG, and engineering - curated by Jay Shah."
   rightSidebar={true}
 >
   <!-- Header -->
@@ -173,7 +173,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
               <!-- Year Heading (Clickable Accordion) -->
               <div class="year-accordion-header flex items-center justify-between cursor-pointer user-select-none mb-6 border-b border-cream-200 dark:border-night-700 pb-2 group/year">
                 <h2 class="font-display text-2xl text-ink dark:text-silk flex items-center gap-3 group-hover/year:text-terra dark:group-hover/year:text-terra-light transition-colors">
-                  <span class="font-mono text-xl text-ink-muted dark:text-silk-muted select-none">#</span>
+                  <div class="kolam-diamond-node relative static! size-3.5 shrink-0" aria-hidden="true" />
                   {year}
                 </h2>
                 <div class="flex items-center gap-2 font-mono text-xs text-ink-muted dark:text-silk-muted">
@@ -195,16 +195,16 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
                     const isCurrentMonth = yIdx === 0 && mIdx === 0;
                     return (
                       <div
-                        class="reveal timeline-month-branch relative pl-6 sm:pl-8 border-l border-dashed border-cream-300 dark:border-night-700 ml-3 transition-colors duration-200"
+                        class="reveal timeline-month-branch relative pl-8 sm:pl-10 border-l-2 border-terra/30 dark:border-terra-light/20 ml-2 sm:ml-3 transition-colors duration-200"
                         data-month={monthNum}
                         data-year={year}
                         data-current-month={isCurrentMonth ? "true" : "false"}
                         id={`month-${year}-${monthNum}`}
                         style={`--index: ${mIdx};`}
                       >
-                        <!-- Timeline Node Dot -->
+                        <!-- Kolam Diamond Bindu Node -->
                         <div
-                          class="timeline-node-dot absolute -left-[5px] top-2.5 size-2.5 rounded-full bg-terra dark:bg-terra-light ring-4 ring-cream-100 dark:ring-night-900 transition-all duration-200"
+                          class="timeline-node-dot kolam-diamond-node -left-[7px] top-2 size-3.5 transition-all duration-200"
                           aria-hidden="true"
                         />
                         
@@ -253,7 +253,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
   <RightSidebar slot="right-sidebar" />
 </BaseLayout>
 
-<script is:inline>
+<script is:inline data-astro-rerun>
   function initReadsPage() {
     var searchInput = document.getElementById('reads-search-input');
     var toggleFiltersBtn = document.getElementById('toggle-filters-btn');

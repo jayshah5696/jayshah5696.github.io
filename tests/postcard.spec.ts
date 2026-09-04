@@ -8,8 +8,8 @@ test.describe('PostCard Component', () => {
     // Select the first article (PostCard)
     const firstArticle = page.locator('article.group').first();
 
-    // Expect it to have the hover lift class
-    await expect(firstArticle).toHaveClass(/hover:-translate-y-1/);
+    // Expect it to have the featured-card class
+    await expect(firstArticle).toHaveClass(/featured-card/);
 
     // Hover the article to trigger opacity transition
     await firstArticle.hover();
@@ -19,7 +19,7 @@ test.describe('PostCard Component', () => {
     await expect(readIndicator).toBeVisible();
 
     // The indicator should have a container with the transition classes
-    const indicatorContainer = firstArticle.locator('.group-hover\\:translate-x-1').first();
+    const indicatorContainer = firstArticle.locator('.group-hover\\\\:translate-x-0\\\\.5').first();
     await expect(indicatorContainer).toBeAttached();
   });
 });
