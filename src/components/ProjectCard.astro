@@ -44,8 +44,8 @@ if (url.includes('github.com')) {
     'reveal group relative rounded-xl border overflow-hidden transition-all duration-200 featured-card hover:-translate-y-0.5 flex flex-col justify-between project-card-item',
     flagship
       ? 'rangoli-corners p-6 sm:p-7 border-terra/30 dark:border-terra-light/20 bg-cream-50/90 dark:bg-night-800/90 hover:border-terra dark:hover:border-terra-light shadow-stepwell'
-      : featured
-        ? 'rangoli-corners p-5 border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light'
+      : featured || title.includes('Gujarati')
+        ? 'rangoli-corners p-5 border-terra/30 dark:border-terra-light/20 bg-cream-50/50 dark:bg-night-800/50 hover:border-terra dark:hover:border-terra-light'
         : 'p-5 border-cream-200 dark:border-night-700 bg-white dark:bg-night-800 hover:border-terra dark:hover:border-terra-light',
     className,
   ]}
@@ -53,15 +53,8 @@ if (url.includes('github.com')) {
   data-tags={tags.join(',').toLowerCase()}
   data-title={title.toLowerCase()}
 >
-  {/* Subtle cultural watermark for Gujarati Llama */}
-  {title.includes('Gujarati') && (
-    <span class="absolute right-3 top-3 text-4xl sm:text-5xl font-display text-terra/10 dark:text-terra-light/10 select-none pointer-events-none font-bold" aria-hidden="true">
-      ગુજરાતી
-    </span>
-  )}
-
-  <div>
-    <!-- Optional Flagship or Featured Badge -->
+  <div class="relative z-10">
+    <!-- Optional Flagship, Featured, or Cultural Badge -->
     {flagship ? (
       <div class="mb-3">
         <span class="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase text-terra dark:text-terra-light px-2.5 py-0.5 rounded-full bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20 font-semibold" style="letter-spacing: 0.12em;">
@@ -72,6 +65,14 @@ if (url.includes('github.com')) {
       <div class="mb-2">
         <span class="inline-block font-mono text-[10px] uppercase text-terra dark:text-terra-light px-2 py-0.5 rounded bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20" style="letter-spacing: 0.12em;">
           Featured Project
+        </span>
+      </div>
+    ) : title.includes('Gujarati') ? (
+      <div class="mb-2">
+        <span class="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase text-terra dark:text-terra-light px-2.5 py-0.5 rounded-full bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20 font-medium">
+          <span class="font-bold text-xs font-serif leading-none">ગુજરાતી</span>
+          <span class="opacity-40">•</span>
+          <span>Bilingual 7B</span>
         </span>
       </div>
     ) : null}
