@@ -20,13 +20,13 @@ This file provides the complete, consolidated text of all technical articles, re
 ## Author Profile & Background
 
 Jay Shah is a Senior Machine Learning Engineer at 6sense building intent intelligence systems, foundational models with custom embeddings, model explainability, contextual knowledge graphs, and evaluation systems for LLM agents.
-Previously at Avathon, he developed retrieval-augmented generation systems, Model Context Protocol (MCP) agent platforms, and foundation-model operations supporting 20+ agent workflows.
+Previously as Data Scientist III at Avathon, he developed retrieval-augmented generation systems, Model Context Protocol (MCP) agent platforms, and foundation-model operations supporting 20+ agent workflows.
 Graduate research at Texas A&M University focused on wind-energy failure prediction.
 
 ### Patents
 1. **Calculating energy loss during an outage** (US20230213560A1) — Filed Dec 30, 2021
 2. **Predicting energy production for energy generating assets** (US20230214703A1) — Filed Dec 30, 2021
-3. **Dimension Measurement Using Image Processing** (IN201721044402) — Filed Dec 11, 2017
+3. **Dimension Measurement Using Image Processing and Separation of Defective Products** (IN201721044402) — Filed Dec 11, 2017
 
 ---
 
@@ -48,8 +48,8 @@ Graduate research at Texas A&M University focused on wind-energy failure predict
   for (const post of posts) {
     content += `### ${post.data.title}
 - **URL**: ${SITE_URL}/posts/${post.id}/
-- **Published**: ${post.data.date.toISOString().split('T')[0]}
-- **Tags**: ${post.data.tags.join(', ')}
+- **Date**: ${post.data.date.toISOString().split('T')[0]}
+- **Tags**: ${post.data.tags?.join(', ') ?? 'None'}
 - **Description**: ${post.data.description}
 
 ${post.body ?? ''}
@@ -64,7 +64,6 @@ ${post.body ?? ''}
     headers: {
       'Content-Type': 'text/plain; charset=utf-8',
       'Cache-Control': 'public, max-age=3600',
-      'Vary': 'Accept, Accept-Encoding',
     },
   });
 };

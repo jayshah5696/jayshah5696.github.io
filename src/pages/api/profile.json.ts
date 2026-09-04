@@ -18,6 +18,7 @@ export const GET: APIRoute = async () => {
     current_role: {
       title: 'Senior Machine Learning Engineer',
       organization: '6sense',
+      period: 'Feb 2026 - Present',
       url: 'https://6sense.com',
       focus_areas: [
         'Intent Intelligence & Foundational Models',
@@ -29,18 +30,27 @@ export const GET: APIRoute = async () => {
     },
     previous_experience: [
       {
+        role: 'Data Scientist III',
         organization: 'Avathon',
+        period: '2019 - 2026',
         url: 'https://avathon.com',
         summary:
-          'Built retrieval-augmented generation systems, Model Context Protocol (MCP) agent platforms, anomaly detection products, and foundation-model operations.',
+          'Led foundation-model MLOps platforms, architected agent platforms with Model Context Protocol (MCP) tools, and built production anomaly detection and renewable energy forecasting systems.',
       },
     ],
     education: [
       {
         institution: 'Texas A&M University',
         url: 'https://www.tamu.edu',
-        degree: 'Master of Science',
+        degree: 'Master of Science in Industrial and Systems Engineering (minor Applied Statistics)',
+        period: '2017 - 2019',
         focus: 'Wind-energy failure prediction & statistical modeling',
+      },
+      {
+        institution: 'Gujarat Technological University',
+        url: 'https://gtu.ac.in',
+        degree: 'Bachelor of Engineering in Mechanical Engineering',
+        period: '2013 - 2017',
       },
     ],
     patents: [
@@ -58,7 +68,7 @@ export const GET: APIRoute = async () => {
       },
       {
         id: 'IN201721044402',
-        title: 'Dimension Measurement Using Image Processing',
+        title: 'Dimension Measurement Using Image Processing and Separation of Defective Products',
         url: 'https://patents.google.com/patent/IN201721044402A/en',
         filing_date: '2017-12-11',
       },
@@ -89,8 +99,7 @@ export const GET: APIRoute = async () => {
     status: 200,
     headers: {
       'Content-Type': 'application/json; charset=utf-8',
-      'Cache-Control': 'public, max-age=3600',
-      'Vary': 'Accept, Accept-Encoding',
+      'Cache-Control': 'public, max-age=3600, stale-while-revalidate=86400',
     },
   });
 };
