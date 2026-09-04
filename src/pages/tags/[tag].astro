@@ -95,7 +95,7 @@ const totalCount = posts.length + reads.length;
     )}
   </div>
 
-  <script is:inline>
+  <script is:inline data-astro-rerun>
     function initTagReadsCards() {
       document.querySelectorAll('.read-card-item').forEach(function(card) {
         card.addEventListener('click', function(e) {

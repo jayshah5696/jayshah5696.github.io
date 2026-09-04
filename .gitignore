@@ -30,3 +30,7 @@ playwright-report/
 __pycache__/
 *.pyc
 
+
+# agents
+.agents/
+.gemini/

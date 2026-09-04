@@ -3,12 +3,54 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import JsonLd from '../components/JsonLd.astro';
 import SocialIcon from '../components/SocialIcon.astro';
 import KolamDivider from '../components/KolamDivider.astro';
+import StepwellTimeline, { type TimelineItem } from '../components/StepwellTimeline.astro';
 import { SOCIAL_LINKS, ABOUT_HEADLINE_PREFIX, ABOUT_ROTATING_PHRASES } from '../consts';
 import { Image } from 'astro:assets';
 import profileImage from '../../public/assets/images/profile.webp';
+
+const CAREER_ITEMS: TimelineItem[] = [
+  {
+    period: '2023 - Present',
+    role: 'Senior Machine Learning Engineer',
+    organization: '6sense',
+    orgUrl: 'https://6sense.com',
+    current: true,
+    description: 'Leading AI systems engineering initiatives for enterprise intent intelligence. Architecting foundational models with custom embeddings, model explainability pipelines, contextual knowledge graphs, and evaluation harnesses for autonomous agents.',
+    highlights: [
+      'Engineered multi-turn agent evaluation frameworks benchmarking trajectory validity across complex workflow graphs.',
+      'Trained foundational models with custom domain embeddings and contextual knowledge graph integration.',
+      'Constructed production model explainability pipelines to ensure system trustworthiness under strict SLAs.',
+    ],
+    tags: ['AI AGENTS', 'EMBEDDINGS', 'EVALS', 'PYTORCH', 'SYSTEMS'],
+  },
+  {
+    period: '2021 - 2023',
+    role: 'Senior Machine Learning Engineer / Lead',
+    organization: 'Avathon',
+    orgUrl: 'https://avathon.com',
+    description: 'Built retrieval-augmented generation systems, Model Context Protocol agent platforms, anomaly detection products, and foundation-model operations.',
+    highlights: [
+      'Supported more than 20 production agent workflows and reduced model release cycles by 45%.',
+      'Developed industrial anomaly detection and failure prediction systems contributing to over $500k in cost savings.',
+      'Designed scalable vector retrieval pipelines and runtime evaluation benchmarks.',
+    ],
+    tags: ['RAG', 'MCP TOOLS', 'ANOMALY DETECTION', 'INFRASTRUCTURE'],
+  },
+  {
+    period: '2017 - 2019',
+    role: 'Graduate Researcher',
+    organization: 'Texas A&M University',
+    description: 'Graduate research focused on predicting wind-energy failures across industrial asset networks, time-series forecasting, and physical sensor telemetry.',
+    highlights: [
+      'Awarded Outstanding Master of Science Student (Apr 2019).',
+      'Established core engineering tenet: a model that works in a notebook has made a promise, not proved anything.',
+    ],
+    tags: ['RESEARCH', 'MACHINE LEARNING', 'TIME-SERIES', 'DATA SCIENCE'],
+  },
+];
 ---
 
-<BaseLayout title="About" description="About Jay Shah — Senior Machine Learning Engineer at 6sense, building production AI applications, foundational model systems, and agent evaluation frameworks" jsonLdType="ProfilePage">
+<BaseLayout title="About" description="About Jay Shah - Senior Machine Learning Engineer at 6sense, building production AI applications, foundational model systems, and agent evaluation frameworks" jsonLdType="ProfilePage">
   <article class="prose prose-kolam dark:prose-invert prose-lg max-w-none">
     <header class="reveal not-prose mb-10 flex flex-col items-center">
       <!-- 160px Profile photo with clean concentric Kolam yellow/gold boundaries & wave pedestal -->
@@ -76,7 +118,6 @@ import profileImage from '../../public/assets/images/profile.webp';
         Senior Machine Learning Engineer at <a href="https://6sense.com" target="_blank" rel="noopener noreferrer" class="text-terra dark:text-terra-light font-medium hover:underline decoration-terra/40 underline-offset-2">6sense</a>, building production AI applications, foundational embeddings, and agent evaluation frameworks.
       </p>
 
-
       <!-- Action Toolbar (GitHub, LinkedIn, Hugging Face, Resume) -->
       <div class="flex flex-wrap items-center justify-center gap-2.5 mt-5">
         <a
@@ -129,20 +170,27 @@ import profileImage from '../../public/assets/images/profile.webp';
       </p>
 
       <p>
-        At 6sense, I work on intent intelligence: foundational models with custom embeddings, model explainability, contextual knowledge graphs, and evaluation systems for large language model agents. The hard part is rarely choosing a better model. It is dealing with noisy signals, changing behavior, unclear definitions, and knowing whether a system is still trustworthy after it ships.
-      </p>
-
-      <p>
-        Before 6sense, I built retrieval-augmented generation systems, Model Context Protocol agent platforms, anomaly detection products, and foundation-model operations at <a href="https://avathon.com">Avathon</a>. Some of that work supported more than 20 agent workflows and reduced model release cycles by 45%. Earlier, I worked on energy forecasting and failure prediction systems, including anomaly detection work that contributed to more than $500k in savings.
-      </p>
-
-      <p>
-        My graduate research at Texas A&M focused on predicting wind-energy failures. That experience gave me a lasting rule: a model that works in a notebook has made a promise, not proved anything.
-      </p>
-
-      <p>
         I write about the systems I build, the assumptions behind them, and the parts that usually break. If something is on this site, it shipped or I learned enough from it to explain what happened.
       </p>
+    </section>
+
+    <!-- The Vav Stepwell Career & Research Timeline -->
+    <section class="reveal not-prose my-12">
+      <div class="flex items-center justify-between gap-4 mb-8">
+        <div>
+          <span class="font-mono text-xs uppercase tracking-widest text-terra dark:text-terra-light font-semibold">
+            Vav Architecture
+          </span>
+          <h2 class="font-display text-2xl sm:text-3xl text-ink dark:text-silk mt-1">
+            Career &amp; Engineering Timeline
+          </h2>
+        </div>
+        <span class="font-mono text-xs text-ink-faint dark:text-silk-faint hidden sm:inline-block">
+          2017 &ndash; Present
+        </span>
+      </div>
+
+      <StepwellTimeline items={CAREER_ITEMS} />
     </section>
 
     <section class="reveal">
@@ -161,22 +209,122 @@ import profileImage from '../../public/assets/images/profile.webp';
       </p>
     </section>
 
-    <section class="reveal">
-      <h2>Honors &amp; Awards</h2>
-      <ul>
-        <li>Winner at Ragathon by LlamaIndex (Feb 2024)</li>
-        <li>Outstanding Master's of Science Student (Apr 2019)</li>
-        <li>2nd Runner-up at Texas Datathon by Citadel (Feb 2018)</li>
-      </ul>
+    <!-- Honors & Awards (Consistent Kolam Stepwell Styling) -->
+    <section class="reveal not-prose my-12">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="kolam-diamond-node relative static! size-3.5 shrink-0" aria-hidden="true" />
+        <h2 class="font-display text-2xl text-ink dark:text-silk">
+          Honors &amp; Awards
+        </h2>
+      </div>
+      <div class="stepwell-spine pl-8 space-y-4">
+        <div class="relative group">
+          <div class="kolam-diamond-node -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 group-hover:scale-125 transition-transform duration-150" aria-hidden="true" />
+          <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="font-medium text-sm text-ink dark:text-silk">Winner at Ragathon by LlamaIndex</span>
+              <span class="font-mono text-xs text-terra dark:text-terra-light">Feb 2024</span>
+            </div>
+            <p class="text-xs text-ink-muted dark:text-silk-muted mt-1 leading-relaxed">
+              Developed FinRag, an agentic multi-source financial query engine with domain citation integrity.
+            </p>
+          </div>
+        </div>
+
+        <div class="relative group">
+          <div class="kolam-diamond-node -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 group-hover:scale-125 transition-transform duration-150" aria-hidden="true" />
+          <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="font-medium text-sm text-ink dark:text-silk">Outstanding Master of Science Student</span>
+              <span class="font-mono text-xs text-gold">Apr 2019</span>
+            </div>
+            <p class="text-xs text-ink-muted dark:text-silk-muted mt-1 leading-relaxed">
+              Texas A&amp;M University Department of Industrial and Systems Engineering.
+            </p>
+          </div>
+        </div>
+
+        <div class="relative group">
+          <div class="kolam-diamond-node -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 group-hover:scale-125 transition-transform duration-150" aria-hidden="true" />
+          <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <span class="font-medium text-sm text-ink dark:text-silk">2nd Runner-up at Texas Datathon by Citadel</span>
+              <span class="font-mono text-xs text-ink-faint dark:text-silk-faint">Feb 2018</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <section class="reveal">
-      <h2>Patents</h2>
-      <ul>
-        <li><a href="https://patents.google.com/patent/US20230213560A1/en">Calculating energy loss during an outage</a> — US20230213560A1, Filed Dec 30, 2021</li>
-        <li><a href="https://patents.google.com/patent/US20230214703A1/en">Predicting energy production for energy generating assets</a> — US20230214703A1, Filed Dec 30, 2021</li>
-        <li><a href="https://patents.google.com/patent/IN201721044402A/en">Dimension Measurement Using Image Processing</a> — IN 201721044402, Filed Dec 11, 2017</li>
-      </ul>
+    <!-- Patents (Consistent Kolam Stepwell Styling) -->
+    <section class="reveal not-prose my-12">
+      <div class="flex items-center gap-3 mb-6">
+        <div class="kolam-diamond-node relative static! size-3.5 shrink-0" aria-hidden="true" />
+        <h2 class="font-display text-2xl text-ink dark:text-silk">
+          Patents
+        </h2>
+      </div>
+      <div class="stepwell-spine pl-8 space-y-4">
+        <div class="relative group">
+          <div class="kolam-diamond-node -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 group-hover:scale-125 transition-transform duration-150" aria-hidden="true" />
+          <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <a
+                href="https://patents.google.com/patent/US20230213560A1/en"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-medium text-sm text-ink dark:text-silk hover:text-terra dark:hover:text-terra-light transition-colors"
+              >
+                Calculating energy loss during an outage &nearr;
+              </a>
+              <span class="font-mono text-xs text-terra dark:text-terra-light">US20230213560A1</span>
+            </div>
+            <p class="text-xs text-ink-muted dark:text-silk-muted mt-1 leading-relaxed">
+              Filed Dec 30, 2021. Systems and methods for computing operational losses across electrical grid outages.
+            </p>
+          </div>
+        </div>
+
+        <div class="relative group">
+          <div class="kolam-diamond-node -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 group-hover:scale-125 transition-transform duration-150" aria-hidden="true" />
+          <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <a
+                href="https://patents.google.com/patent/US20230214703A1/en"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-medium text-sm text-ink dark:text-silk hover:text-terra dark:hover:text-terra-light transition-colors"
+              >
+                Predicting energy production for energy generating assets &nearr;
+              </a>
+              <span class="font-mono text-xs text-terra dark:text-terra-light">US20230214703A1</span>
+            </div>
+            <p class="text-xs text-ink-muted dark:text-silk-muted mt-1 leading-relaxed">
+              Filed Dec 30, 2021. Machine learning models forecasting multi-horizon generation profiles.
+            </p>
+          </div>
+        </div>
+
+        <div class="relative group">
+          <div class="kolam-diamond-node -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 group-hover:scale-125 transition-transform duration-150" aria-hidden="true" />
+          <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
+            <div class="flex flex-wrap items-center justify-between gap-2">
+              <a
+                href="https://patents.google.com/patent/IN201721044402A/en"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="font-medium text-sm text-ink dark:text-silk hover:text-terra dark:hover:text-terra-light transition-colors"
+              >
+                Dimension Measurement Using Image Processing &nearr;
+              </a>
+              <span class="font-mono text-xs text-terra dark:text-terra-light">IN 201721044402</span>
+            </div>
+            <p class="text-xs text-ink-muted dark:text-silk-muted mt-1 leading-relaxed">
+              Filed Dec 11, 2017. Automated dimensional calibration via computer vision.
+            </p>
+          </div>
+        </div>
+      </div>
     </section>
   </article>
 
@@ -279,4 +427,3 @@ import profileImage from '../../public/assets/images/profile.webp';
     }
   }
 </style>
-

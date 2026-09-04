@@ -29,12 +29,11 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
 
 <article
   class:list={[
-    'reveal read-card-item featured-card rangoli-corners overflow-hidden hover:-translate-y-0.5 transition-all duration-200 relative p-4 sm:p-5 rounded-xl flex flex-col gap-2 cursor-pointer group',
+    'reveal read-card-item featured-card rangoli-corners overflow-hidden transition-colors duration-150 relative p-4 sm:p-5 rounded-xl flex flex-col gap-2 cursor-pointer group',
     isFeatured
       ? 'border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light'
       : 'border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light',
   ]}
-  style={index !== undefined ? `--index: ${index};` : undefined}
   data-read-card
   data-tags={tags.join(',')}
   data-year={year}
@@ -42,6 +41,7 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
   data-title={title.toLowerCase()}
   data-domain={domain.toLowerCase()}
   data-has-notes={hasNotes ? 'true' : 'false'}
+  onclick={hasNotes ? "var n = this.querySelector('.read-card-notes'); if (n && !event.target.closest('a') && !event.target.closest('.read-card-notes')) { n.classList.toggle('hidden'); }" : undefined}
 >
   {/* Optional Featured Read Pill */}
   {isFeatured && (
@@ -99,7 +99,7 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
 
   <!-- Title & External Link Icon -->
   <div class="flex items-start justify-between gap-3 relative z-10">
-    <h3 class="font-display text-base sm:text-lg text-ink dark:text-silk leading-snug group-hover:text-terra dark:group-hover:text-terra-light transition-colors">
+    <h3 class="font-display text-base sm:text-lg text-ink dark:text-silk leading-snug group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150">
       <span>{title}</span>
     </h3>
 
@@ -107,7 +107,7 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
       href={url}
       target="_blank"
       rel="noopener noreferrer"
-      class="size-6 rounded-md hover:bg-cream-200 dark:hover:bg-night-800 text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light inline-flex items-center justify-center transition-all shrink-0 -mt-0.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+      class="size-6 rounded-md hover:bg-cream-200 dark:hover:bg-night-800 text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light inline-flex items-center justify-center transition-colors duration-150 shrink-0 -mt-0.5"
       title={`Open ${title} in new tab`}
       onclick="event.stopPropagation();"
     >

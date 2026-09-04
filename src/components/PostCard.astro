@@ -21,12 +21,11 @@ const stats = readingTime(body);
 
 <article
   class:list={[
-    'reveal group relative rounded-xl border overflow-hidden transition-all duration-200 featured-card rangoli-corners hover:-translate-y-0.5',
+    'reveal group relative rounded-xl border overflow-hidden transition-colors duration-150 featured-card rangoli-corners',
     featured
-      ? 'border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light'
+      ? 'border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light hover:shadow-md'
       : 'border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light',
   ]}
-  style={index !== undefined ? `--index: ${index};` : undefined}
 >
   {featured ? (
     <div class="flex flex-col">
@@ -36,7 +35,7 @@ const stats = readingTime(body);
           <img
             src={image}
             alt={title}
-            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            class="w-full h-full object-cover group-hover:opacity-95 transition-opacity duration-150"
             loading="lazy"
           />
         </div>
@@ -47,7 +46,7 @@ const stats = readingTime(body);
           <span class="inline-block font-mono text-[10px] uppercase text-terra dark:text-terra-light mb-2.5 px-2 py-0.5 rounded bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20" style="letter-spacing: 0.12em;">
             Latest
           </span>
-          <h3 class="font-display text-xl sm:text-2xl text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-200 text-balance leading-snug">
+          <h3 class="font-display text-xl sm:text-2xl text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150 text-balance leading-snug">
             <a href={`/posts/${slug}/`} class="hover:text-terra dark:hover:text-terra-light">
               <span class="absolute inset-0 z-0" aria-hidden="true"></span>
               {title}
@@ -73,7 +72,7 @@ const stats = readingTime(body);
             <span class="font-mono tabular-nums">{stats.text}</span>
           </div>
 
-          <div class="inline-flex items-center text-terra dark:text-terra-light font-medium text-xs sm:text-sm whitespace-nowrap transition-all duration-200 group-hover:translate-x-1 opacity-80 group-hover:opacity-100">
+          <div class="inline-flex items-center text-terra dark:text-terra-light font-medium text-xs sm:text-sm whitespace-nowrap transition-transform duration-150 group-hover:translate-x-0.5 opacity-85 group-hover:opacity-100">
             <span class="mr-1">Read article</span>
             <svg class="size-3.5 sm:size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </div>
@@ -86,7 +85,7 @@ const stats = readingTime(body);
       {/* Text column (order-2 on mobile, order-1 on desktop) */}
       <div class="flex-1 min-w-0 flex flex-col justify-between order-2 sm:order-1">
         <div>
-          <h3 class="font-display text-lg text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-200 text-balance leading-snug">
+          <h3 class="font-display text-lg text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150 text-balance leading-snug">
             <a href={`/posts/${slug}/`} class="hover:text-terra dark:hover:text-terra-light">
               <span class="absolute inset-0 z-0" aria-hidden="true"></span>
               {title}
@@ -112,7 +111,7 @@ const stats = readingTime(body);
             <span class="font-mono tabular-nums">{stats.text}</span>
           </div>
 
-          <div class="inline-flex items-center text-terra dark:text-terra-light font-medium text-xs sm:text-sm whitespace-nowrap transition-all duration-200 group-hover:translate-x-1 opacity-80 group-hover:opacity-100">
+          <div class="inline-flex items-center text-terra dark:text-terra-light font-medium text-xs sm:text-sm whitespace-nowrap transition-transform duration-150 group-hover:translate-x-0.5 opacity-85 group-hover:opacity-100">
             <span class="mr-1">Read article</span>
             <svg class="size-3.5 sm:size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </div>
@@ -126,7 +125,7 @@ const stats = readingTime(body);
             <img
               src={image}
               alt={title}
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              class="w-full h-full object-cover group-hover:opacity-95 transition-opacity duration-150"
               loading="lazy"
             />
           </div>

@@ -56,26 +56,25 @@ const PROFILES = [
     </header>
 
     <div class="space-y-4">
-      {PROFILES.map((profile, i) => (
+      {PROFILES.map((profile) => (
         <a
           href={profile.url}
           target={profile.icon === 'email' ? undefined : '_blank'}
           rel={profile.icon === 'email' ? undefined : 'noopener noreferrer'}
           class:list={[
-            'reveal featured-card rangoli-corners overflow-hidden relative flex items-center justify-between p-4 sm:p-5 rounded-xl border transition-all duration-200 group hover:-translate-y-0.5',
+            'reveal featured-card rangoli-corners overflow-hidden relative flex items-center justify-between p-4 sm:p-5 rounded-xl border transition-colors duration-150 group',
             profile.featured
-              ? 'border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light'
+              ? 'border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light hover:shadow-sm'
               : 'border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light',
           ]}
-          style={`--index: ${i};`}
         >
           <div class="flex items-start sm:items-center gap-4 relative z-10 min-w-0">
-            <div class="flex items-center justify-center size-11 rounded-lg bg-terra/10 dark:bg-terra-light/10 text-terra dark:text-terra-light group-hover:scale-105 group-hover:bg-terra/15 dark:group-hover:bg-terra-light/15 transition-all duration-300 shrink-0">
+            <div class="flex items-center justify-center size-11 rounded-lg bg-terra/10 dark:bg-terra-light/10 text-terra dark:text-terra-light group-hover:bg-terra/15 dark:group-hover:bg-terra-light/15 transition-colors duration-150 shrink-0">
               <SocialIcon name={profile.icon} class="size-5" />
             </div>
             <div class="min-w-0 pr-2">
               <div class="flex items-center gap-2 flex-wrap">
-                <h2 class="font-display text-base sm:text-lg text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors">
+                <h2 class="font-display text-base sm:text-lg text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150">
                   {profile.name}
                 </h2>
                 {profile.featured && (
@@ -95,8 +94,8 @@ const PROFILES = [
             </div>
           </div>
 
-          <div class="flex items-center text-ink-muted dark:text-silk-muted group-hover:text-terra dark:group-hover:text-terra-light transition-all duration-200 shrink-0 pl-2 relative z-10">
-            <svg class="size-5 transform group-hover:translate-x-1 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+          <div class="flex items-center text-ink-muted dark:text-silk-muted group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150 shrink-0 pl-2 relative z-10">
+            <svg class="size-5 transform group-hover:translate-x-0.5 transition-transform duration-150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
               <path d="M5 12h14M12 5l7 7-7 7"/>
             </svg>
           </div>
