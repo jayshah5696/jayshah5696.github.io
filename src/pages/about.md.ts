@@ -29,14 +29,14 @@ I care about Indic languages and culture, especially the gap between the languag
 I also read outside machine learning: systems thinking, philosophy, and energy policy. Some of my best technical ideas began as questions from another field.
 
 ## Honors & Awards
-- Winner at Ragathon by LlamaIndex (Feb 2024)
+- Winner at Ragathon by LlamaIndex (Feb 2024) — StreamLens, multi-model RAG system for autonomous vehicle streams
 - Outstanding Master's of Science Student (Apr 2019)
 - 2nd Runner-up at Texas Datathon by Citadel (Feb 2018)
 
 ## Patents
 - [Calculating energy loss during an outage](https://patents.google.com/patent/US20230213560A1/en) — US20230213560A1, Filed Dec 30, 2021
 - [Predicting energy production for energy generating assets](https://patents.google.com/patent/US20230214703A1/en) — US20230214703A1, Filed Dec 30, 2021
-- [Dimension Measurement Using Image Processing](https://patents.google.com/patent/IN201721044402A/en) — IN 201721044402, Filed Dec 11, 2017
+- [Dimension Measurement Using Image Processing and Separation of Defective Products](https://patents.google.com/patent/IN201721044402A/en) — IN 201721044402, Filed Dec 11, 2017
 
 ## Profiles & Links
 - GitHub: ${SOCIAL_LINKS.github}
