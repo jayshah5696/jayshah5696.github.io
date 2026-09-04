@@ -1,91 +1,28 @@
 # jayshah5696.github.io
 
-## Role
-You are an expert frontend engineer and Astro developer. You have exceptional design taste and specialize in building distinctive, culturally-inspired interfaces that avoid generic "AI slop" aesthetics.
+## Stack & Commands
+- Astro 7 (Content Collections), Tailwind CSS 4, pnpm, just
+- Dev: `pnpm dev` | Build: `just build` (Astro + Pagefind) | CI: `just ci-build`
 
-## Preferences
+## Skills & Routing
+- UI/UX & Styling: ALWAYS invoke the `design-taste-frontend` skill before modifying UI, layouts, or cards.
+- Interactive Posts: Follow `docs/publishing-interactive-blogs.md`.
+- Historical Bug Log: Archived in `docs/historical-learnings.md`.
 
-- **Skill Requirement:** ALWAYS load the `frontend-design` skill using the skill tool before making any UI/UX or styling changes. This ensures high-quality, distinctive aesthetic outputs.
-- Use Astro 7 with Content Collections (`src/content.config.ts`)
-- Use Tailwind CSS 4 for styling
-- Use `pnpm` and `just` for package and task management
-- Always use `import type` for TypeScript interfaces
-- Keep components modular and single-purpose
+## Design System & Visual Perspective ("Vav")
+- **Themes:** Light (Kolam: warm cream paper `#fdf9f1`, dark brown ink `#2c2416`, terra/gold) & Dark (Rangoli: indigo night `#15111e`, cream silk `#e8e0d4`).
+- **Typography:** Display headings use `font-display` (Yeseva One). Reading body uses `font-sans` (Outfit). Technical meta, dates, and tags use `font-mono` (Fira Code).
+- **Cards & Structure:** Grounded `.featured-card` with rangoli corners and 150ms border shifts. NO floaty vertical translations (`hover:-translate-y-*`), NO scaling on dense lists (`scale-125`), and NO synthetic telemetry spec grids (`DuckDB`, `LangGraph`).
+- **Surface Parity (Anti-Isolation):** Never design or refactor a component in a vacuum. Any motif change (e.g. Vav dual-rail spine `.stepwell-spine`, Kolam diamond bindu node `.kolam-diamond-node`) must be audited and applied consistently across peer surfaces (`/about`, `/projects`, `/reads`, `/archives`, `/links`).
+- **High-Frequency Interaction:** Zero hover latency. Never allow entrance stagger delays (`--index`, `.reveal`) to leak into interactive states. Enforce `transition-delay: 0s !important` on `:hover` and `:focus-visible`.
 
-## Design System: "Vav" (Kolam & Rangoli)
+## Hard Invariants
+- Zero UI frameworks (no React/Vue/Svelte) — prefer Astro zero-JS or minimal inline scripts.
+- Image assets must be WebP under `public/assets/images/`.
+- Tag color and categorization logic lives strictly in `src/utils/tags.ts` — do not duplicate.
+- Keep SVG borders authentic via CSS data URIs — no unicode border hacks.
 
-This site uses a custom Indian-inspired design system:
-
-### Themes
-- **Light Mode (Kolam):** Warm cream paper (`#fdf9f1`), dark brown ink text (`#2c2416`), geometric SVG patterns, terracotta/gold accents. Feels like a clean, well-lit stepwell with kolam line art.
-- **Dark Mode (Rangoli):** Deep indigo night (`#15111e`), cream silk text (`#e8e0d4`), vibrant colorful accents. Feels like an illuminated rangoli at night.
-
-### Rules for UI Changes
-- **NO generic UI:** Avoid standard rounded boxes, generic shadows, or default Tailwind blues/grays.
-- **NO Unicode text borders:** Always use actual CSS-based SVG patterns (data URIs) for borders and decorative elements.
-- **Maintain contrast:** Ensure text remains legible against patterned backgrounds.
-- **Use semantic colors:** Use the custom Tailwind tokens defined in `tailwind.config.mjs` (`cream`, `night`, `terra`, `gold`, `ink`, `silk`, `kumkum`, `mor`).
-
-## Interactive Posts Architecture ("Vav Interactive")
-
-Interactive, simulation-heavy, or dashboard-based blog posts are first-class citizens in the content collection:
-1. **Schema flag:** Set `interactive: true` in frontmatter in `src/content/blog/<slug>.md`.
-2. **Layout Routing:** `src/pages/posts/[...slug].astro` automatically routes `interactive: true` posts to `InteractivePostLayout.astro` (which uses a wide `max-w-[960px]` canvas, `interactive-theme.css`, and full Vav tokens).
-3. **Styling & Token Adapter:** `src/styles/interactive-theme.css` maps generic visualization CSS variables (`--bg`, `--surface`, `--border`, `--orange`, `--blue`, `--green`, `--yellow`, `--red`) to Vav tokens in both Kolam and Rangoli modes.
-4. **Publishing CLI:** Run `just publish-interactive <source_html> <slug>` to transform raw HTML, build the site, index search with Pagefind, and capture verified Light and Dark screenshots in `public/assets/images/previews/<slug>/`.
-
-## Commands
-- `just` / `just --list` — List all automation commands
-- `just dev` — Dev server
-- `just build` — Production build + Pagefind indexing with current local dependencies
-- `just ci-build` — Clean lockfile install + production build, matching GitHub Pages CI
-- `just publish-interactive <html-path> <slug>` — Transform & publish interactive HTML blog
-- `just verify-post <slug>` — Run visual verification and capture light/dark screenshots
-
-## Patterns
-
-- Use `BaseLayout` as the root wrapper for all standard pages
-- Use `InteractivePostLayout` for rich data-heavy / interactive posts
-- Use `PostCard` for rendering individual blog entries in lists
-- Date formatting should use the `FormattedDate.astro` component
-- Tags should use `TagList.astro` which imports from `src/utils/tags.ts` — do NOT duplicate tag color logic
-- Project data lives in `src/data/projects.ts` — do NOT inline it in pages
-- Use `.prose :where(img)` (not `.prose img`) in global CSS to avoid specificity conflicts with utility classes
-- Ultra-wide layout is handled by `.app-sidebar`, `.app-content`, `.app-progress` classes in `global.css` — no `justify-center` wrapper needed
-- Search uses Pagefind — build pipeline is `astro build && node scripts/generate-markdown-variants.js && pagefind --site dist`
-- Blog images must be WebP format in `public/assets/images/`
-- Content schema supports `series` and `seriesOrder` frontmatter for grouping related posts
-
-## What NOT to Do
-
-- Do NOT add React/Vue/Svelte islands unless absolutely necessary. Prefer Astro's zero-JS approach or lightweight vanilla JS `<script is:inline>`.
-- Do NOT use absolute file paths for images in Markdown (use `/assets/images/...` not `../assets/...`)
-- Do NOT modify `src/styles/global.css` without checking the SVG data URIs carefully—they are hand-tuned for the design system.
-- Do NOT use `.prose img` — always use `.prose :where(img)` to avoid overriding utility classes.
-- Do NOT use PNG/JPG for new blog images — convert to WebP first.
-- Do NOT duplicate tag categorization logic — it lives in `src/utils/tags.ts`.
-
-## Working Agreement
-
-### Safety
-- Before modifying CSS, verify the impact using local preview (`pnpm run dev`).
-- Ensure dark mode toggle works correctly when adding new UI components.
-- Always perform visual verification with actual screenshots (capturing both Light and Dark modes) using `agent-browser` against the local dev/preview server before completing tasks.
-- Run `pnpm run build` to verify both Astro build and Pagefind indexing succeed.
-- Run `just ci-build` before merging dependency, Astro configuration, integration, or build-pipeline changes. It runs the same clean install and build commands as GitHub Pages CI. Pull requests also run this build job without deploying.
-- Declare packages used by Astro configuration directly in `package.json`. Do not rely on transitive packages or a warm local `node_modules` directory.
-
-## Key Learnings
-
-| Date | Source | What Went Wrong | What To Do Instead |
-|------|--------|----------------|-------------------|
-| 2025-02-21 | User | Used Unicode chars (`◆`) for borders | Use real SVG data URIs in CSS for authentic Kolam/Rangoli patterns |
-| 2025-02-21 | User | Dark/Light toggle got stuck due to script loading order | Place theme toggle script at the very end of `BaseLayout` body to ensure DOM elements exist |
-| 2025-02-21 | User | Design looked like "mud" (too brown) | Use clear contrast: cream/brown for light mode, deep indigo/cream for dark mode |
-| 2025-02-21 | User | Astro build failed due to `post.render()` | In Astro 5 with `glob` loader, import `render` from `astro:content` and call `await render(post)` |
-| 2026-02-28 | Agent | `.prose img` overrode `rounded-full` on profile image | Use `.prose :where(img)` to lower specificity so utility classes win |
-| 2026-02-28 | Agent | Centered content created left gap on all monitors | Remove `justify-center` wrapper; use app centering CSS for ultra-wide only |
-| 2026-02-28 | Agent | Tag color logic duplicated in TagList and RightSidebar | Centralize in `src/utils/tags.ts`, import in both components |
-| 2026-02-28 | Agent | SVG decorative frame clipped at edges on about page | Use CSS borders (`border-dashed`, `rounded-full`) instead of SVGs with tight viewBox |
-| 2026-08-17 | Agent | Interactive post showed "0 min read" | Put full article text in `post.body` within content collection so `reading-time` calculates actual duration (~48 min) |
-| 2026-08-18 | Agent | Local build passed but GitHub Pages failed because Astro's Markdown processor existed only transitively | Add `@astrojs/markdown-remark` as a direct dependency and run `just ci-build` for build-system changes |
+## Verification
+- Verify interactive changes (click-to-accordion toggles, theme switching) across view transitions.
+- Audit rapid mouse sweeps across list stacks to ensure zero hover lag or half-rendered glitches.
+- Run `just ci-build` before committing build, integration, or dependency updates.
