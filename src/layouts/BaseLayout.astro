@@ -204,6 +204,29 @@ const markdownURL = Astro.url.pathname === '/' || Astro.url.pathname === ''
         });
       }
 
+      // Code block copy button initialization
+      function initCodeCopyButtons() {
+        document.querySelectorAll('pre:not(.mermaid)').forEach(function(pre) {
+          if (pre.querySelector('.copy-code-btn')) return;
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'copy-code-btn';
+          btn.setAttribute('aria-label', 'Copy code to clipboard');
+          btn.innerHTML = 'Copy';
+          btn.addEventListener('click', function() {
+            var code = pre.querySelector('code');
+            var text = code ? code.innerText : pre.innerText;
+            navigator.clipboard.writeText(text).then(function() {
+              btn.innerHTML = '<span style="color:#2ec4b6">✓ Copied</span>';
+              setTimeout(function() {
+                btn.innerHTML = 'Copy';
+              }, 1800);
+            });
+          });
+          pre.appendChild(btn);
+        });
+      }
+
       // Re-apply theme after View Transition swap (before new page renders)
       document.addEventListener('astro:after-swap', function() {
         var t = localStorage.getItem('theme');
@@ -219,12 +242,14 @@ const markdownURL = Astro.url.pathname === '/' || Astro.url.pathname === ''
         initThemeToggle();
         initMobileMenu();
         initScrollReveal();
+        initCodeCopyButtons();
       });
 
       // Also run on initial page load (before astro:page-load fires)
       initThemeToggle();
       initMobileMenu();
       initScrollReveal();
+      initCodeCopyButtons();
     </script>
   </body>
 </html>

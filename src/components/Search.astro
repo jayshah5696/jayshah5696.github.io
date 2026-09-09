@@ -114,11 +114,13 @@
     if (trigger) trigger.addEventListener('click', openSearch);
     if (backdrop) backdrop.addEventListener('click', closeSearch);
 
-    // Keyboard: "/" to open, Escape to close, Tab to trap
+    // Keyboard: "/" or Cmd/Ctrl+K to open, Escape to close, Tab to trap
     document.addEventListener('keydown', function(e) {
-      if (e.key === '/' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
-        e.preventDefault();
-        openSearch();
+      if ((e.key === '/' && !e.ctrlKey && !e.metaKey) || (e.key.toLowerCase() === 'k' && (e.metaKey || e.ctrlKey))) {
+        if (document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+          e.preventDefault();
+          openSearch();
+        }
       }
       if (e.key === 'Escape') closeSearch();
       trapFocus(e);
