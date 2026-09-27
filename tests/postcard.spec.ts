@@ -19,7 +19,7 @@ test.describe('PostCard Component', () => {
     await expect(readIndicator).toBeVisible();
 
     // The indicator should have a container with the transition classes
-    const indicatorContainer = firstArticle.locator('.group-hover\\\\:translate-x-0\\\\.5').first();
+    const indicatorContainer = firstArticle.locator('[class*="group-hover:translate-x-0.5"]').first();
     await expect(indicatorContainer).toBeAttached();
   });
 });
