@@ -265,24 +265,6 @@ const showToc = filteredHeadings.length > 2;
           progressUpdate();
         }
 
-        // Copy button on code blocks
-        document.querySelectorAll('pre:not(.mermaid)').forEach(function(pre) {
-          if (pre.querySelector('.copy-code-btn')) return;
-          var btn = document.createElement('button');
-          btn.className = 'copy-code-btn';
-          btn.textContent = 'Copy';
-          btn.setAttribute('aria-label', 'Copy code to clipboard');
-          btn.addEventListener('click', function() {
-            var code = pre.querySelector('code');
-            var text = code ? code.innerText : pre.innerText;
-            navigator.clipboard.writeText(text).then(function() {
-              btn.textContent = 'Copied!';
-              setTimeout(function() { btn.textContent = 'Copy'; }, 2000);
-            });
-          });
-          pre.appendChild(btn);
-        });
-
         // Table of Contents Scrollspy (Option 1: Kolam Rail & Knot)
         var tocNav = document.getElementById('toc-nav');
         var knot = document.getElementById('toc-active-knot');
