@@ -6,6 +6,4 @@ tags: ["ai-agents", "llm", "systems"]
 draft: false
 ---
 
-I liked the concrete framing of multi-agent swarms as a new scaling axis for wall-clock time, especially for broad research and data work where agents can share findings through agent-to-agent communication. That gives me a useful mental model: fan out when parallel discovery matters, rather than assuming a longer-running single agent is always better.
-
-- The cost warning is hard to ignore: the swarm can spend tens of billions of tokens, and Astra can spawn dozens or hundreds of subagents, costing thousands of dollars on a simple task. Any implementation needs explicit budgets and stopping conditions.
+The post doesn't establish that swarms outperform a well-run single agent; its evidence is one operator's usage and experiments. I'd still open it for the account of how wall-clock time becomes a constraint, with agents splitting broad research and relaying findings as token use climbs past 5B a day.

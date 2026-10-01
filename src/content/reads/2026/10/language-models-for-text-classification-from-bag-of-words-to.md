@@ -1,9 +1,9 @@
 ---
 title: "Language Models for Text Classification: From Bag-of-Words to Jev"
-url: "https://magazine.sebastianraschka.com/p/classifier-history-and-jev?utm_campaign=posts-open-in-app&triedRedirect=true"
+url: "https://magazine.sebastianraschka.com/p/classifier-history-and-jev"
 date: 2026-10-01
-tags: ["llm", "machine-learning", "nlp", "statistics"]
+tags: ["machine-learning", "llm"]
 draft: false
 ---
 
-I liked the framing of Jev as a middle point: GPT-class models can classify while doing much more, special-purpose classifiers can be better on narrow tasks, and Jev trades some of that specialization for broader coverage at lower claimed speed and cost. That gives a useful mental model for choosing a classifier instead of defaulting to an LLM. The supplied material does not include the actual accuracy or efficiency experiments, so those performance claims cannot be judged here.
+Jev is presented as a middle ground: more general than task-specific classifiers, and faster and cheaper for classification than general-purpose LLMs. Raschka starts with how bag-of-words converts variable-length text into fixed-size vectors for classic classifiers; the excerpt ends before the promised neural, transformer, and calibration discussion.

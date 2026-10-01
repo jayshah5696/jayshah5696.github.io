@@ -1,9 +1,9 @@
 ---
 title: "Try to Take My Position: Promotion Through Sustained Ownership"
-url: "https://andrew.grahamyooll.com/blog/Try-to-Take-My-Position/?utm_source=substack&utm_medium=email"
+url: "https://andrew.grahamyooll.com/blog/Try-to-Take-My-Position/"
 date: 2026-10-01
 tags: ["career", "software-engineering"]
 draft: false
 ---
 
-I liked this enough to recommend because its promotion advice becomes concrete in the example of a junior engineer who wrote an RFC to reduce service incidents and estimated four weeks to execute it, rather than merely flagging the problem. I’d open it for the follow-through: the signal is taking on team-level problems consistently for six months, not producing one impressive project. VP OF AI (I will take your role). 😂
+Start with “What Taking the Position Actually Looks Like”: a junior engineer brings an RFC to reduce service incidents and estimates four weeks to execute it. The example shows how ownership means arriving with a proposed solution to a team-level problem instead of waiting for a manager to assign one.

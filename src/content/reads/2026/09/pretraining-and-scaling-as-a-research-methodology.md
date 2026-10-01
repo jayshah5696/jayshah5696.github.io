@@ -2,10 +2,8 @@
 title: "Pretraining and scaling as a research methodology"
 url: "https://jiaxuanzou0714.github.io/en/blog/2026/pretrain-scaling-methodology-scientific-perspective/"
 date: 2026-09-07
-tags: ["llm", "machine-learning", "research"]
+tags: ["machine-learning", "research"]
 draft: false
 ---
 
-I liked the concrete transfer result: under the same post-training setup, Dyna-2's average normalized robot-task score rises from 20% with 1,000 hours of human video to 53% with one million hours. That makes this worth opening if you design training systems, because the key question is whether an architecture and objective let more data improve unseen tasks, not merely whether the pretraining loss falls.
-
-- The piece also uses GEN-1.5 to make pretraining's payoff measurable: a single demonstration enables in-context task adaptation, while a few gradient updates enable further adaptation. I would carry that evaluation lens into experiments by tracking how much new data, parameter updating, and compute each downstream task requires.
+Dyna-2's average normalized score across 14 robot tasks rises from 20% to 53% as human pretraining grows from 1,000 to 1,000,000 hours, with the same post-training setup. I like that the account also notes data composition and the video prediction objective affect the result: the curve is evidence of transfer, not a standalone scaling law.

@@ -2,8 +2,8 @@
 title: "DeepSeek-V4.1-Flash: KV Cache Compression for Long-Horizon Agents"
 url: "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash/resolve/main/DeepSeek_V41_Tech_Report.pdf"
 date: 2026-09-10
-tags: ["infrastructure", "llm", "systems"]
+tags: ["systems", "infrastructure", "llm"]
 draft: false
 ---
 
-I like this report because it treats long-context inference as a storage and data-movement problem, not only an attention-compute problem: CSA2 with FP4 KV caching brings the global KV footprint to 890 bytes per token, while SWA Bounded Replay cuts persistent KV storage to roughly one-eighth of the previous model. It is worth opening for the deployment mental model: reducing HBM, SSD, and cache-transfer pressure can matter as much as reducing FLOPs when agents reuse million-token contexts.
+At 890 bytes per token, DeepSeek-V4.1-Flash reports a global KV footprint roughly one-quarter of DeepSeek-V4-Flash's. I like that the report names the mechanisms behind the reductions: cross-layer KV reuse in CSA2 and FP4 KV caching, with SWA Bounded Replay reducing persistent cache to roughly one-eighth.

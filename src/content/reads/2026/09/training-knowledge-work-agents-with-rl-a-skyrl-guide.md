@@ -2,8 +2,8 @@
 title: "Training Knowledge-Work Agents with RL: A SkyRL Guide"
 url: "https://www.mercor.com/blog/training-frontier-knowledge-work-agents-a-397b-rl-training-guide-with-skyrl/"
 date: 2026-09-04
-tags: ["ai-agents", "machine-learning", "rl"]
+tags: ["ai-agents", "rl", "systems"]
 draft: false
 ---
 
-I liked that this guide puts environment reliability and harness correctness ahead of the 397B hero run: its first three steps are explicitly de-risking, including driving non-model errors near zero at 300–600 concurrent rollouts. Open it for the practical mental model that failed trajectories waste GPU time and bias the reward, so timeouts, retry classification, isolated MCP clients, and trace inspection belong in the training plan rather than after it.
+The Step 1 infrastructure section explains why Mercor isolated each agent loop in its own Ray task after a shared Python process caused constant MCP disconnects. It also covers pretraining checks, from timeouts and retry classification to running the full training set at expected rollout concurrency.

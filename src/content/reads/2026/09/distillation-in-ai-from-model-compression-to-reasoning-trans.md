@@ -2,8 +2,8 @@
 title: "Distillation in AI: From Model Compression to Reasoning Transfer"
 url: "https://huggingface.co/blog/sergiopaniego/brief-history-of-distillation-in-ai"
 date: 2026-09-11
-tags: ["distillation", "fine-tuning", "machine-learning"]
+tags: ["distillation", "llm", "machine-learning"]
 draft: false
 ---
 
-I liked how this frames distillation as the same teacher-student mechanic applied to larger goals: from reproducing a big model's predictions, to transferring reasoning traces, to on-policy distillation where the student generates and the teacher scores its own tokens. I recommend it for that mental model, especially if you want to understand why distillation now overlaps with supervised fine-tuning, reinforcement learning, and synthetic data; the post does not provide enough detail to judge the relative quality of those methods.
+If you work on model training or post-training, read this to distinguish distillation as model compression from distillation as capability transfer. Its clearest technical detail is on-policy distillation: the student generates tokens, then a stronger teacher scores them so the student can correct mistakes it actually makes.

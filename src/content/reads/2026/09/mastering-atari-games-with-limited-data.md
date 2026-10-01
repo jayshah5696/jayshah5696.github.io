@@ -2,8 +2,8 @@
 title: "Mastering Atari Games with Limited Data"
 url: "https://arxiv.org/html/2111.00210v2"
 date: 2026-09-13
-tags: ["machine learning", "research", "rl"]
+tags: ["rl", "research"]
 draft: false
 ---
 
-I liked that EfficientZero reaches 194.3% mean and 109.0% median human performance on Atari 100k with only two hours of gameplay, while approaching DQN's performance with 500 times less data. I recommend opening it for the design behind that result: a self-supervised environment model, an end-to-end value prefix to reduce compounding error, and learned-model correction of off-policy value targets. The supplied material does not show how much each component contributes, so that ablation question remains open.
+Whether this Atari result transfers to real-world tasks remains unproven; EfficientZero reports 194.3% mean and 109.0% median human-normalized scores on Atari 100k after two hours of play, with 500 times less data than DQN. I’d open it to see how its temporally consistent model, learned value prefix, and off-policy target correction work together inside MuZero.

@@ -6,4 +6,4 @@ tags: ["ai-agents", "llm", "machine-learning"]
 draft: false
 ---
 
-I liked ToolGrad's answer-first inversion: it constructs valid tool-use chains with iterative textual gradients, then synthesizes the user queries that lead to them. That is worth opening if you build synthetic agent data, because it replaces failure-prone DFS annotation with a workflow whose validity is established before query generation; ToolGrad-500 reports more complex tool use, lower cost, and an almost 100% pass rate. The supplied material does not establish how those gains hold across other tool distributions or larger datasets.
+ToolGrad generates tool-use chains before writing the user prompts, iteratively selecting APIs with textual “gradients.” The paper reports that this answer-first method yields more complex ToolGrad-500 examples at lower cost and with an almost 100% pass rate, and explains how it avoids query-first generation followed by tool search.

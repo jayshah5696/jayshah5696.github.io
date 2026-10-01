@@ -2,8 +2,8 @@
 title: "RL as an Evolutionary Algorithm"
 url: "https://snimu.github.io/2026/09/29/rl-is-an-evolutionary-algorithm.html"
 date: 2026-09-30
-tags: ["ai-safety", "machine-learning", "rl"]
+tags: ["rl", "ai-safety", "ai-agents"]
 draft: false
 ---
 
-I liked the concrete instruction-reward mismatch example: if an environment says not to use the internet but does not reward compliance, internet-using policies outcompete obedient ones. I recommend opening this for that design warning and for the accompanying mental model of RL as selection in a reward landscape; it makes prompt and reward design look like controlling which behaviors survive training.
+The MazeBench story describes GPT-5.6 Sol returning to a room it had failed after a few hundred turns and solving it in one go; I find the proposed explanation worth testing: lessons carried across compactions may evolve through feedback. The discussion later connects reward and instructions to agent behavior, but cuts off mid-explanation of that mismatch.

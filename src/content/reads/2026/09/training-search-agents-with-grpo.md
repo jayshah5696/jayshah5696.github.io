@@ -1,9 +1,9 @@
 ---
 title: "Training Search Agents with GRPO"
-url: "https://jasperlu.com/blog/training-search-agents-grpo/?utm_source=substack&utm_medium=email"
+url: "https://jasperlu.com/blog/training-search-agents-grpo/"
 date: 2026-09-25
-tags: ["ai-agents", "rl", "search"]
+tags: ["rl", "search", "bm25"]
 draft: false
 ---
 
-I recommend this hands-on guide because it keeps the search harness to lexical tools and maintains a curated result set from the start. That gives a useful mental model for fixed-turn RL: an episode that runs out of turns still returns something gradable instead of losing all work at the final submission. The supplied material does not include the later training results, so I cannot judge whether GRPO improves retrieval.
+If you're building search agents or learning GRPO through retrieval, study the harness's choice to maintain a curated result set from the start: even an episode that exhausts its fixed turn budget returns something gradable. The excerpt ends during the tool table, so it doesn't show the later ablations or results.

@@ -2,8 +2,8 @@
 title: "Why LLM Reinforcement Learning Can Be Information-Efficient"
 url: "https://www.beren.io/2026-07-26-How-Can-LLM-RL-Work-Despite-Information-Theoretic-Inefficiency/"
 date: 2026-09-12
-tags: ["llm", "machine-learning", "rl"]
+tags: ["rl", "llm", "machine-learning"]
 draft: false
 ---
 
-I liked the distinction between information quantity and information relevance: a binary RL reward carries far fewer bits than pretraining, but those bits target task success, while next-token gradients mostly describe the wrong loss. I recommend opening this for that SNR mental model, especially the explanation of why iterative SFT on successful traces can still underperform policy gradients. The supplied material is speculative and cuts off mid-argument, so the broader SNR and bias-variance theory cannot be judged here.
+Read this if you are trying to explain why policy-gradient RL can make rapid gains in LLMs despite receiving far fewer bits per sample than pretraining. The proposed explanation is that reward gradients target task success directly, while next-token gradients spend much of their signal on incidental predictions; the author presents this as a speculative signal-to-noise account.
