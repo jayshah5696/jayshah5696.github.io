@@ -54,7 +54,8 @@ add-read:
 #   just sync-reads 2026-08-15                          # From date onwards
 #   just sync-reads 2026-08-15 2026-08-27               # Specific date range
 #   just sync-reads 2026-08-15 "" google/gemini-3.5-flash-lite # Custom model slug
-sync-reads start="auto" end="" model="openai/gpt-5.6-luna":
+#   uv run scripts/curate_reads.py 14 --dry-run --limit 10      # Preview notes only (no UI/PR)
+sync-reads start="auto" end="" model="openai/gpt-6-luna":
   uv run scripts/curate_reads.py --start "{{start}}" --end "{{end}}" --model "{{model}}"
 
 
