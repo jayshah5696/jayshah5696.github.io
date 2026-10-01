@@ -2,8 +2,8 @@
 title: "MuZero: Planning with a Learned Model"
 url: "https://arxiv.org/html/1911.08265v2"
 date: 2026-09-13
-tags: ["rl", "machine-learning", "research"]
+tags: ["rl", "research", "machine-learning"]
 draft: false
 ---
 
-MuZero trains its recurrent model to predict reward, policy, and value, without requiring its hidden state to reconstruct observations or match the environment’s true state. Read it if you’re designing model-based RL systems and need to reason about what a planner’s model must preserve; the paper reports state-of-the-art results on 57 Atari games and AlphaZero-matching superhuman performance in Go, chess, and shogi without game rules.
+I don't take matching AlphaZero on Go, chess, and shogi as proof that learned-model planning will transfer to messy real-world control. I still recommend this for the design choice: MuZero predicts the reward, policy, and value most relevant to planning, without requiring its hidden state to reconstruct the screen or match the environment's true state.

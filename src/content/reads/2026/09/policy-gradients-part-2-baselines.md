@@ -6,4 +6,4 @@ tags: ["rl", "machine-learning"]
 draft: false
 ---
 
-A clean variance-reduction derivation: subtracting a state-only baseline preserves the expected policy gradient and lowers the stated variance bound from O(T^3) to O(T^2), though the discussion cuts off as it begins choosing the baseline.
+I'd read this for the control-variate derivation: the policy score has zero conditional mean given the state, so subtracting a state-only baseline keeps the gradient unbiased while the stated variance bound drops from O(T^3) to O(T^2). That constraint is easy to inspect: the baseline can depend on the state, but not the action or future rewards.

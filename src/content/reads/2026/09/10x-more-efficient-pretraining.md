@@ -6,4 +6,4 @@ tags: ["machine-learning", "llm", "research"]
 draft: false
 ---
 
-Magic claims its pretraining recipe matches DeepSeek V4 Pro Base with roughly 50x fewer FLOPs, then scales another 10x to outperform publicly available open base models on perplexity. The plots track bits per byte on private code repos and held-out research papers, with dashed projections beyond the largest run, giving readers both the reported scaling evidence and a clear boundary between runs and projections.
+I like this because it puts the efficiency claim next to the scaling evidence: Magic says it matches DeepSeek V4 Pro Base with ~50× fewer FLOPs, while the curve beyond its largest run is explicitly dashed as a projection. That separation between a measured run and an extrapolation is what I want to inspect before buying a pretraining-cost claim.

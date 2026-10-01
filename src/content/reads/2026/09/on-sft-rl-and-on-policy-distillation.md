@@ -6,4 +6,4 @@ tags: ["distillation", "rl", "machine-learning"]
 draft: false
 ---
 
-On-policy distillation can reach a same-family teacher's level faster than RL, but its target also caps its ceiling. The post reports 9 to 30 times less compute on AIME-style benchmarks, using student rollouts with per-token reverse KL feedback. A clean way to see the trade: faster, but capped by the teacher.
+I trust this one because it frames OPD as a way to reach the teacher's level faster, not a replacement for RL, whose ceiling is set by the verifier. The reported 9-30× compute savings on AIME-style benchmarks are striking, though I'd want the benchmark and accounting details before generalizing them.

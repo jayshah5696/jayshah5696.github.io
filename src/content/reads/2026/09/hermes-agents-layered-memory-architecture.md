@@ -6,4 +6,4 @@ tags: ["ai-agents", "memory", "systems"]
 draft: false
 ---
 
-Hermes caps always-injected memory at 2,200 characters in `MEMORY.md` and 1,375 in `USER.md`, while keeping past sessions in SQLite for on-demand search. I like the separation: a small, stable prompt prefix supports caching, and episodic recall comes back through FTS5 search and focused session summaries.
+The frozen `MEMORY.md` and `USER.md` snapshot caught my attention: mid-session edits wait for a new session or a prompt rebuild after compression. I like the split between tiny curated prompt memory and SQLite-backed `session_search`; keeping the stable prefix cacheable while pulling history on demand is a design I'd take from this.

@@ -2,8 +2,8 @@
 title: "Looking into the Swarm's Eye"
 url: "https://florianbrand.com/posts/swarms"
 date: 2026-09-18
-tags: ["ai-agents", "llm", "systems"]
+tags: ["ai-agents", "evals", "systems"]
 draft: false
 ---
 
-The post doesn't establish that swarms outperform a well-run single agent; its evidence is one operator's usage and experiments. I'd still open it for the account of how wall-clock time becomes a constraint, with agents splitting broad research and relaying findings as token use climbs past 5B a day.
+I work on evals for LLM agents, so I like that this treats wall-clock time as a distinct scaling axis. The split between broad research and data work, where persistent subagents can relay findings, and tasks that don't benefit from parallelism gives me a sharper question for eval design: when does adding agents actually reduce elapsed time?

@@ -2,8 +2,8 @@
 title: "Fast Embeddings on GPUs"
 url: "https://www.perplexity.ai/hub/blog/fast-embeddings-on-gpus"
 date: 2026-09-05
-tags: ["embedding-models", "infrastructure", "systems"]
+tags: ["embedding-models", "infrastructure", "search"]
 draft: false
 ---
 
-The default is to keep tuning GPU kernels, but Perplexity argues the remaining latency is in the runtime around them. Whole-model CUDA graphs reduce repeated host launches, while a Rust-side `LazyTensor` tracks GPU results asynchronously so CPU scheduling can overlap GPU work.
+My RAG post focuses more on retrieval; I like that this adds the serving path behind it. The split between batch embedding for throughput and online embedding for latency, along with the note that a sub-billion-parameter model can saturate around 512 tokens, makes workload shape feel just as important as kernel speed.

@@ -6,4 +6,4 @@ tags: ["rl", "llm", "machine-learning"]
 draft: false
 ---
 
-Read this if you are trying to explain why policy-gradient RL can make rapid gains in LLMs despite receiving far fewer bits per sample than pretraining. The proposed explanation is that reward gradients target task success directly, while next-token gradients spend much of their signal on incidental predictions; the author presents this as a speculative signal-to-noise account.
+I'm not convinced by the speculative SNR explanation on its own; the "valleys-within-valleys" picture needs more than intuition. I still like the distinction between information volume and task relevance: one bit per rollout may carry less information than next-token training, but it directly signals whether the task succeeded.

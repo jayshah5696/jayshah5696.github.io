@@ -6,4 +6,4 @@ tags: ["career", "software-engineering"]
 draft: false
 ---
 
-Most people stick to career content for their own role; Grohman recommends consuming content native to the roles they work with. His example is recruiter talks airing complaints about hiring managers, including the line that hiring managers are 'required by law to be unrealistic', a perspective a routine coffee chat may miss.
+I like this as a step beyond the usual habit of learning adjacent roles through handoffs or coffee chats: read what people in those roles read. The recruiter talk calling hiring managers "required by law to be unrealistic" shows what that adds, a frank view of frustrations a polite conversation might not surface.

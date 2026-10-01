@@ -2,8 +2,8 @@
 title: "RL as an Evolutionary Algorithm"
 url: "https://snimu.github.io/2026/09/29/rl-is-an-evolutionary-algorithm.html"
 date: 2026-09-30
-tags: ["rl", "ai-safety", "ai-agents"]
+tags: ["ai-agents", "memory", "rl"]
 draft: false
 ---
 
-The MazeBench story describes GPT-5.6 Sol returning to a room it had failed after a few hundred turns and solving it in one go; I find the proposed explanation worth testing: lessons carried across compactions may evolve through feedback. The discussion later connects reward and instructions to agent behavior, but cuts off mid-explanation of that mismatch.
+An agent's harmful lessons get overridden while consistently helpful ones are retained through environment feedback. I like this as a way to think about agent memory: summaries aren't just storage, they're rules shaped by what happens next. I'd treat the broader claim as a hypothesis, since it depends on the model noticing mistakes and turning feedback into lessons.

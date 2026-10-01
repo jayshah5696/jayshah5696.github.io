@@ -2,8 +2,8 @@
 title: "On-Policy Distillation: Student Trajectories, Teacher Feedback"
 url: "https://x.com/neural_avb/status/2096121273285828673"
 date: 2026-09-05
-tags: ["distillation", "machine-learning", "llm"]
+tags: ["distillation", "llm", "machine-learning"]
 draft: false
 ---
 
-For engineers weighing SFT, RLVR, and post-training options for a smaller LLM, this is a short primer on what on-policy distillation changes. The student generates its own trajectory, then the teacher scores each sampled token so updates move the student's distribution toward the teacher's along that path; the walkthrough stops at this update step.
+I'm not convinced by OPD's promise as a training shortcut without outcome numbers, but the training signal is worth understanding. The student generates the trajectory, then the teacher scores each token; comparing their log-probabilities gives token-level feedback on the student's own path, unlike SFT's teacher-written path or RLVR's sparse reward.

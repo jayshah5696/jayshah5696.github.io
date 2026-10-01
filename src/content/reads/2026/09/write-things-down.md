@@ -2,8 +2,8 @@
 title: "Write Things Down"
 url: "https://stratechery.com/2026/write-things-down/"
 date: 2026-09-08
-tags: ["ai-agents", "llm", "memory"]
+tags: ["ai-agents", "memory", "systems"]
 draft: false
 ---
 
-Treating agents' shared files as evidence of an AI civilization mistakes a model's mechanics for persistence. Each new token requires rereading the KV cache, Shah argues, so Markdown notes and folders give a frozen model crude continuity by restoring context.
+My file-based memory post looks at how notes carry context across sessions; this adds the sharper distinction that the model itself still isn't learning continuously. I like the explanation that every new token rereads the KV cache, grounding apparent continuity in the mechanics rather than implying a persistent agent.

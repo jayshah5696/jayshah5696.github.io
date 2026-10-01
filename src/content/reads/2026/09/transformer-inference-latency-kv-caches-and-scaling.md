@@ -2,8 +2,8 @@
 title: "Transformer Inference: Latency, KV Caches, and Scaling"
 url: "https://jax-ml.github.io/scaling-book/inference/"
 date: 2026-09-12
-tags: ["llm", "systems", "infrastructure"]
+tags: ["llm", "infrastructure", "systems"]
 draft: false
 ---
 
-Read “What do we actually want to optimize?” for a clear split between throughput, time to first token, and per-token latency, and why offline batch inference and streaming chat value them differently. It also explains why maximizing hardware utilization can lower cost without necessarily improving an individual user’s experience.
+I'd read "What do we actually want to optimize?" first and skip the basic sampling walkthrough. The distinction between offline batch inference, chat streaming, and edge inference makes the latency tradeoffs tangible: TTFT and per-token latency matter alongside throughput.

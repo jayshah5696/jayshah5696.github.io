@@ -6,4 +6,4 @@ tags: ["software-engineering", "systems"]
 draft: false
 ---
 
-A blunt design-doc guide: decide what belongs by the penalty for being wrong, and keep reversible choices like a "Load more" button out of review.
+I'd read this for its test of design decisions: "what's the penalty for being wrong?" The contrast between a hard-to-reverse language choice and a "load more" button that can be changed in a few hours is a sharp way to keep review time on the decisions that matter.

@@ -2,8 +2,8 @@
 title: "Training a 4B Model to Produce Faster Query Plans Than Postgres"
 url: "https://rohanbansal.com/qorl"
 date: 2026-09-17
-tags: ["systems", "rl", "machine-learning"]
+tags: ["rl", "evals", "systems"]
 draft: false
 ---
 
-Postgres's default plan is usually the starting point; this experiment instead trains a 4B model with supervised fine-tuning and agentic reinforcement learning to produce faster plans. Across 113 join-heavy queries, it reports 44.7% lower latency, even though the model initially could not produce plans for 99 of them.
+My RAG post is about retrieval choices; this brings the same measurement instinct to query planning, with a custom GRPO variant for scoring rollouts in a noisy environment. I like the care around measurement, and the reported 44.7% latency reduction across 113 join-heavy queries is interesting without settling how broadly it transfers.

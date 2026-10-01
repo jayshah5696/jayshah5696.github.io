@@ -6,4 +6,4 @@ tags: ["machine-learning", "research", "gen-ai"]
 draft: false
 ---
 
-The book gives diffusion models a shared mathematical backbone: a time-dependent velocity field. It connects variational denoising, score estimation, and flow matching through a field that transports a simple prior to the data, with sampling framed as solving a differential equation. A clear route through the family resemblance.
+I trust this one as a map of the field because it puts variational, score-based, and flow-based views on a shared backbone: a time-dependent velocity field that transports a simple prior to data. The contents connect that picture to guidance, sampling solvers, and flow-map models; the abstract and chapter map establish the scope, though not yet the quality of the explanations.

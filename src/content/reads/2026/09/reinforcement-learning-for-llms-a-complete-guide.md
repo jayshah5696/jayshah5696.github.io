@@ -6,4 +6,4 @@ tags: ["rl", "llm", "machine-learning"]
 draft: false
 ---
 
-The opening says RL is being used to address reasoning, agents, and reliability, but doesn’t establish those claims with examples here. I’d still open it for the promised progression from RL fundamentals to policy-gradient algorithms for LLM training, with links to deeper treatments along the way.
+For my work on LLM-agent evals, the choice I like is to start with the agent-environment loop and make the LLM a stochastic policy. That gives the guide's walk from RL fundamentals through policy-gradient methods a clear backbone, connecting agent behavior to the training setup rather than presenting algorithms in isolation.

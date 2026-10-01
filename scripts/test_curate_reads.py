@@ -41,11 +41,17 @@ def test_thin_sources_may_have_empty_notes_but_others_may_not():
     raise AssertionError("empty notes accepted for a non-thin item")
 
 
-def test_note_guards_catch_repeated_openers_and_banned_phrases():
-    tracker = cr.OpenerTracker(batch_size=30)
-    for _ in range(cr.MAX_SAME_OPENER):
-        tracker.add("I liked the routing table.")
-    problems = cr.check_note("I liked the cache layout. It is a useful mental model.", tracker)
+def test_note_guards_catch_repeated_openers_banned_phrases_and_summary_voice():
+    tracker = cr.OpenerTracker(batch_size=8)
+    for _ in range(2):
+        tracker.add("I like the routing table.")
+    problems = cr.check_note("I like the cache layout. It is a useful mental model.", tracker)
     assert any("already used" in p for p in problems)
     assert any("mental model" in p and "useful" in p for p in problems)
-    assert cr.check_note("Read the eviction section first.", tracker) == []
+    assert any("first person" in p for p in cr.check_note("The paper reports a 12% gain over the baseline.", tracker))
+    assert any("ran, built" in p for p in cr.check_note("I built this at work and it held up.", tracker))
+    assert cr.check_note("I'd read the eviction section first.", tracker) == []
+
+
+def test_straighten_replaces_curly_quotes_and_dashes():
+    assert cr.straighten("It\u2019s \u201cfast\u201d \u2014 mostly") == "It's \"fast\", mostly"

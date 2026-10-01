@@ -2,8 +2,8 @@
 title: "Making Startups Powerful"
 url: "https://paulgraham.com/powerful.html"
 date: 2026-09-14
-tags: ["infrastructure"]
+tags: ["ai-agents", "systems"]
 draft: false
 ---
 
-Paul Graham argues that startups gain power by signing up customers early and growing with their usage. The Stripe example shows the mechanism: payments infrastructure tends to stay in place once installed, and early-stage founders can decide quickly.
+I like this because it makes strategy questions specific: for a startup building agent payments, Graham asks whether agents could pay one another, potentially turning a tool into a marketplace. I'd keep that reframing prompt around, while treating the marketplace shift as a possibility to test rather than a default.

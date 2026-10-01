@@ -6,4 +6,4 @@ tags: ["llm", "systems", "infrastructure"]
 draft: false
 ---
 
-With vLLM's default block size of 16, the KV-cache manager maps tokens to cache blocks and returns them to a free-block queue when requests finish. I like how the breakdown connects paged attention to scheduler bookkeeping, then builds from a single-GPU engine toward online, multi-GPU serving.
+The `free_block_queue` caught my attention: it makes the KV-cache blocks behind paged attention visible as something the scheduler allocates and returns. I'd take the post's inverse-pyramid route from a single-GPU engine toward distributed serving as a systems map before digging into individual kernels.

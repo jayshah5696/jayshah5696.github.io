@@ -6,4 +6,4 @@ tags: ["rl", "research", "machine-learning"]
 draft: false
 ---
 
-What caught my attention is that TailRL treats each reward threshold as a binary success event, then maximizes the log-probability of exceeding a uniformly chosen threshold. Its gradient is a harmonic mixture of Best-of-k gradients, and the method needs only a change to the advantage calculation in an existing RL pipeline.
+If you're looking at why policies stop improving when you draw more samples, this is the paper I'd point you to. I like its shift from mean reward to log-probability across reward thresholds, especially the connection to a harmonic mixture of Best-of-k gradients: it gives a clear way to think about keeping rare, high-reward rollouts in play.

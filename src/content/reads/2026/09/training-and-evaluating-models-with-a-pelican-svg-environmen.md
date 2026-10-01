@@ -6,4 +6,4 @@ tags: ["rl", "evals"]
 draft: false
 ---
 
-A thoughtful benchmark design with a weak spot: 136 of 139 samples maxed out the geometry score, leaving most of the ranking to a vision judge.
+I'd read this for its warning about reward design: 136 of 139 samples scored exactly 1.000 on the "structure" layer, leaving the vision judge to provide nearly all the remaining signal. I like that the post shows how a neat reward can hide a saturated component, especially when the judge choice itself moves the score.

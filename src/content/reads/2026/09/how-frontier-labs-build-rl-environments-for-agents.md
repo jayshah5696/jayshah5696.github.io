@@ -6,4 +6,4 @@ tags: ["ai-agents", "rl", "infrastructure"]
 draft: false
 ---
 
-The section “What the labs put inside them” is a good place to begin: it contrasts white-box harnesses, reconstructed for training, with black-box harnesses whose token-level traffic is captured. It also notes that GLM-5.3’s generated environments still need meaningful human input; the text ends partway through a later section.
+My first stop would be the harness section; I'd save the lab-by-lab census for later. The contrast between Kimi's white-box harness reconstructions and Liquid's black-box proxy, which captures token-level trajectories without changing the harness, gets at a systems choice that matters for training agents.

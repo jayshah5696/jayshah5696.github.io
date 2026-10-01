@@ -6,4 +6,4 @@ tags: ["llm", "prompt"]
 draft: false
 ---
 
-Read “What Can These Things Do?” first: it turns copyediting into checks for passive voice, nominalized verbs, repeated phrasing, and paragraphs that could move. The model flags problems while you rewrite, then a model without the editing context compares the original and revision to limit reflexive praise.
+I'd read the two rules first and skip the writing-tool detour: "You may not use a single word an LLM suggests to you" is a strikingly hard boundary, and the warning about praise makes clear why the model shouldn't steer your judgment either. I like the division of labor here: let it flag passive voice, repeated phrasing, and paragraphs that might move, while leaving the actual words to the writer.

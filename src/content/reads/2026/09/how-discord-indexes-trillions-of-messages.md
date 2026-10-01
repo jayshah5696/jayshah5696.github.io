@@ -2,8 +2,8 @@
 title: "How Discord Indexes Trillions of Messages"
 url: "https://discord.com/blog/how-discord-indexes-trillions-of-messages"
 date: 2026-09-12
-tags: ["systems", "infrastructure", "search"]
+tags: ["search", "infrastructure", "systems"]
 draft: false
 ---
 
-With 100 Elasticsearch nodes and batches of 50 messages, a single node failure gave a batch about a 40% chance of failing; I like how Discord connects that figure to bulk operations fanning out across nodes. The redesign batches messages by cluster and index so each bulk operation targets a single Elasticsearch index and node, containing the blast radius when one fails.
+A 50-message batch could fan out to 50 Elasticsearch nodes, so one failed node could make roughly 40% of bulk operations fail in a 100-node cluster. I like the fix of batching by cluster and index: it narrows the failure domain instead of making unrelated messages share a retry.

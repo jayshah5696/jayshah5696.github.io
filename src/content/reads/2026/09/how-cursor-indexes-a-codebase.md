@@ -2,8 +2,8 @@
 title: "How Cursor Indexes a Codebase"
 url: "https://manthanguptaa.in/posts/how_cursor_index_your_codebase/"
 date: 2026-09-02
-tags: ["coding-tools", "search", "embedding-models"]
+tags: ["ai-agents", "embedding-models", "search"]
 draft: false
 ---
 
-The reported 12.5% average accuracy gain from combining semantic search with grep comes without evaluation details here. I’d still open it for the explanation of why Cursor keeps both: vector search handles conceptual queries, while a sparse n-gram index finds exact patterns that embeddings can miss.
+The retrieval signal I'd steal is training embeddings from agent traces, using an LLM to rank "what should have been retrieved earlier." That connects to my own dense-retrieval work, and I appreciate that the post separates Cursor's stated approach from its inference about the training objective; I'd still want the evaluation setup before trusting the reported 12.5% lift elsewhere.

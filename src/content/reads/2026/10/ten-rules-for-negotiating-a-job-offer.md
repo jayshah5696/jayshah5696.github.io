@@ -6,4 +6,4 @@ tags: ["career"]
 draft: false
 ---
 
-The excerpt cuts off mid-argument, and the claim that offers are rarely rescinded rests on the author's experience rather than broader evidence. I’d still open it for the explanation of how naming a salary target early reveals your position while the employer keeps its own range hidden.
+I like that Qureshi calls employment "just a deal" and backs it with a rule I can act on: write down even the non-monetary details recruiters mention. That keeps the negotiation about the whole offer, not just salary, though his caveat about social dynamics matters because the same advice won't fit every candidate.

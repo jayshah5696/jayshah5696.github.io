@@ -2,8 +2,8 @@
 title: "GRPO++: Tricks for Making RL Actually Work"
 url: "https://cameronrwolfe.substack.com/p/grpo-tricks"
 date: 2026-08-27
-tags: ["rl", "llm", "research"]
+tags: ["rl", "machine-learning", "llm"]
 draft: false
 ---
 
-If you're building RLVR training for reasoning models, read this to place GRPO in the online RL loop and distinguish verifier-based rewards from reward-model feedback. It gives examples, including sandboxed code tests and ground-truth math answers, but the available text stops before the promised GRPO fixes are covered.
+I'm wary of any "tricks" roundup that makes RL training sound like a checklist, but I like that this one starts by separating RLHF's reward model from RLVR's rule-based or deterministic verifiers. That distinction is worth keeping in view when judging GRPO fixes, especially when vanilla GRPO's simplicity can hide issues at scale.

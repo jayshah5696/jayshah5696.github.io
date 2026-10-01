@@ -6,4 +6,4 @@ tags: ["systems", "infrastructure"]
 draft: false
 ---
 
-Start with the synchronous-processing section: it lays out the constraint clearly, with work inside the HTTP request-response lifecycle while the caller waits. The page text ends before the asynchronous-processing explanation, so the contrast itself is not visible here.
+I'd read the synchronous-processing section first and skip the personal preface. I like the distinction that code "lives within the HTTP request response lifecycle" because it pins the timeout problem to a specific part of the system.

@@ -6,4 +6,4 @@ tags: ["distillation", "rl", "machine-learning"]
 draft: false
 ---
 
-Several frontier-model recipes use on-policy distillation to combine separate RL specialists: the student generates its own rollouts, and the teachers provide feedback on each token. The examples clarify how this differs from training a smaller student on a larger teacher, and how a model can also learn from a better-conditioned or earlier version of itself.
+What I like here is the shift from treating distillation as compression to using same-size, domain-specialized RL checkpoints as teachers for one student. That framing makes the token-by-token guidance distinct from reward-based RL and gives me a clear lens for reading these model reports.

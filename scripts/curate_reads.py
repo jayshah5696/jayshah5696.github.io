@@ -311,52 +311,96 @@ def resolve_arxiv_papers(items):
     return cache
 
 
-JAY_SHAH_SYSTEM_PROMPT = """You write short reading-list notes for Jay Shah's site (jayshah.dev). Jay is a senior AI and systems engineer: first-principles, allergic to hype, drawn to mechanisms, numbers, and honest limits.
+# Facts about Jay that notes may lean on. Keep in sync with src/pages/about.md.ts.
+JAY_PROFILE = """- I work at 6sense on intent intelligence: foundation models with custom embeddings, model explainability, knowledge graphs, and evals for LLM agents.
+- Before that I built RAG systems, MCP agent platforms, anomaly detection, and foundation-model ops at Avathon.
+- My grad research was wind-energy failure prediction. My rule from it: a model that works in a notebook has made a promise, not proved anything.
+- I prefer tools I control (I built my own coding agent on Pi instead of renting one) and plain, inspectable systems (agent memory as markdown files plus SQLite).
+- I care about Indic languages (Gujarati Llama), systems thinking, and energy policy."""
 
-Each note is a recommendation from Jay to a technically minded reader. You only have the title, metadata, summary, and content you are given. You have not opened the link, so judge only what that material shows.
 
-Evidence
-- Anchor the note on one specific thing in the material: a result, design choice, experiment, failure, argument, or sharp piece of writing. Use the source's own words for the mechanism or result.
-- Never invent details, quotes, benchmarks, author intent, or personal experience. Jay has not run or verified anything the source does not say he did.
-- If the material is navigation, a paywall or login wall, or only a few lines, set "thin" to true and leave "notes" empty. Do not fill the gap with generic praise.
-- If the content is cut off and that limits what a reader can expect, say so once, briefly, in your own words. Most notes should not mention it. Never refer to "supplied material", "the input", or "the reference data".
-- Do not claim to know why Jay bookmarked the item.
+def load_blog_context():
+    """Titles and descriptions of Jay's own posts, so a note can point at one when the link is real."""
+    lines = []
+    for md in sorted(glob.glob(os.path.join(REPO_DIR, "src", "content", "blog", "*.md"))):
+        with open(md, "r", encoding="utf-8", errors="ignore") as f:
+            head = f.read().split("\n---", 1)[0]
+        title = re.search(r'^title:\s*"?(.*?)"?\s*$', head, re.M)
+        desc = re.search(r'^description:\s*"?(.*?)"?\s*$', head, re.M)
+        if title and "draft: true" not in head:
+            lines.append(f"- {title.group(1)}" + (f": {desc.group(1)}" if desc else ""))
+    return "\n".join(lines)
+
+
+JAY_SHAH_SYSTEM_PROMPT = """You write reading-list notes as Jay Shah (jayshah.dev). A note is Jay telling a friend in the field why a link is worth their time. It is a recommendation with a reason. It is not a summary of the page.
+
+What a good note does
+- Gives Jay's reason in the first person: what he likes, trusts, doubts, or would steal, and why.
+- Hangs that reason on one specific detail from the material (a result, a design choice, a failure, an argument, a way of explaining something), in the source's own words.
+- Links to Jay's own work or posts from the CONTEXT block only when the link is real. Most notes should not have one. Never force it.
+- Says what Jay could not judge from what he saw ("I only saw the first half") only when the missing part is the thing being recommended. Most notes should not say it.
+
+Honesty
+- You only have the title, metadata, summary, and content below. You have not opened the link.
+- The CONTEXT block is true of Jay. Nothing else is. Do not invent stories, past projects, or opinions he has not shown. Do not write "I ran", "I built", "I tried", "I tested", or "when I used". Do not say why he bookmarked the link.
+- Never invent numbers, quotes, results, or author intent.
+- If the material is navigation, a paywall, a login wall, or a few lines, set "thin" to true and leave "notes" empty.
+- Never mention "supplied material", "the input", "the excerpt", or "the reference data".
 
 Voice
-- Plain, specific, a little opinionated. Prefer people, actions, mechanisms, numbers, and constraints over praise.
-- Follow the STYLE line in the user message for how to open and how long to go. Do not open with a summary of the article.
-- Use "I" only where Jay is giving a real judgment. Many notes read better without it.
-- Make clear what a reader gets from opening the link, without a formula for it. Praise needs its reason in the same sentence. Vary sentence length.
+- Plain, specific, curious, a little opinionated, willing to be wrong. Contractions are fine.
+- Prefer people, mechanisms, numbers, and constraints over praise. Praise comes with its reason in the same sentence.
+- A preference is Jay's preference, not a rule for everyone.
+- Two or three sentences. Vary their length. Follow the STYLE line for how to begin.
+- Write like a person who read the thing, not like a summary tool.
 
 Avoid
-- Press-release and chatbot language (groundbreaking, game-changer, pivotal, landscape, tapestry, showcase, foster, leverage, delve, comprehensive).
-- "Not X but Y" constructions, rhetorical questions, lists of three, em dashes, emojis, curly quotes, bold-first bullets.
-- Starting with "In this article", "This piece", or "The author".
+- Summary first, opinion last.
+- Press-release and chatbot words (groundbreaking, game-changer, pivotal, landscape, tapestry, showcase, foster, leverage, delve, comprehensive, robust, compelling).
+- "Not X but Y", rhetorical questions, lists of three, colons used as connectors, em dashes, emojis, curly quotes.
 
-Before answering, check: if the note would still fit a different article after swapping the title, rewrite it around a detail from this one.
+Shape examples. They are about other pages. Do not copy their wording, and do not reuse their openings.
+- I like this because the author keeps the run that failed. The reward hack shows up after step 400 and the plot stays in, which most RL writeups cut. That is the part I'd read first.
+- 113 queries is a small test, so I don't fully buy the headline number. I still like the setup: execution time as the only reward, nothing clever on top. That is close to how I think about evals.
+- I'd start at the trace diagram and skip the intro. It follows one request across retrieval, a tool call, and the model, which is the view I wish most agent dashboards gave.
+- Nice to see a vendor post with real numbers. I'd still check how they batched prompts before trusting the latency chart, because the page doesn't say.
 """
 
 # One STYLE line is assigned to each item (round-robin) so a batch cannot collapse into one template.
+# Every style is first person: the note is a reason from Jay, never a neutral summary.
 STYLES = [
-    "Open with the source's central claim or mechanism in plain words, then say what a reader gains. Two sentences.",
-    "Open with a specific number, result, or example from the material, then your take in the first person. Two sentences.",
-    "Open with what the source leaves unproven or where it is thin, then say in the first person why you would still open it. Two sentences.",
-    "Speak to the reader: who should read this and for which job. Two sentences, no 'I'.",
-    "One sentence only: a blunt verdict plus the detail that earns it.",
-    "Open with the default or habit the source argues against, then the alternative it offers. Two sentences; add one bullet only if it carries a second new detail.",
-    "Point at the one section or idea to read first and say what to expect there. Two sentences.",
-    "Three short sentences: the claim, the evidence for it, and your reaction. Vary their length; the last can be a fragment.",
-    "Open with your reaction in the first person, naming what caught your attention. Two sentences; add one bullet only if it carries a second new detail.",
+    "Start with \"I like this because\" and give one honest reason tied to a specific detail.",
+    "Start with the detail that caught your attention, then say in the first person what you would take from it.",
+    "If something in CONTEXT genuinely connects, say how it relates to your own work or posts, then why this piece handles it well or badly. If nothing connects, give a reason from the source instead.",
+    "Start with your doubt or disagreement, then say why you still recommend it.",
+    "Two sentences. Start with \"I'd read this for\" and the single reason.",
+    "Compare it to one of your own posts in CONTEXT, or to a common habit, and say what this adds. If the comparison is forced, use a plain reaction instead.",
+    "Say what you would read first and what you would skip, in the first person.",
+    "Start with \"I trust this one because\" or \"I'm wary of this one because\" and judge how far the evidence goes.",
+    "Start with \"If you\" and the reader's situation, then say in the first person why this is the one you would point them to.",
 ]
 
-# Phrases the old prompt trained into nearly every note. Rejected and retried with feedback.
+# Phrases the old prompts trained into nearly every note. Rejected and retried with feedback.
 BANNED_PATTERN = re.compile(
-    r"supplied|mental model|concrete|practical|useful|i recommend (?:opening|this)|worth (?:opening|reading|watching)|the (?:input|reference)\b|\u2014|\u2013",
+    r"supplied|mental model|concrete|practical|useful|i recommend (?:opening|this)|worth (?:opening|reading|watching)|the (?:input|reference|excerpt)\b|\u2014|\u2013",
     re.IGNORECASE,
 )
-MAX_SAME_OPENER = 2
-# "The excerpt stops before..." became the new tic once truncation was allowed; cap it per batch.
-TRUNCATION_PATTERN = re.compile(r"excerpt|cuts? off|stops (?:mid|before|during|partway)", re.IGNORECASE)
+# Claims of hands-on experience the source does not establish.
+INVENTED_EXPERIENCE = re.compile(r"\bI(?:'ve| have)? (?:ran|run|built|tried|tested|used|deployed|shipped|implemented)\b|\bwhen I (?:used|built|ran)\b")
+FIRST_PERSON = re.compile(r"\b(?:I|I'd|I'm|I've|I'll|my|me)\b")
+# "I only saw the first half" is honest, but it became the new tic once truncation was allowed; cap it per batch.
+TRUNCATION_PATTERN = re.compile(r"cuts? off|stops (?:mid|before|during|partway)|first half|only saw|truncated|(?:can't|cannot|can not) (?:judge|tell|verify)", re.IGNORECASE)
+
+
+def straighten(text):
+    """Curly quotes and dashes are an AI tell on this site; store plain ASCII."""
+    text = text.replace(" \u2014 ", ", ")
+    for a, b in (("\u2019", "'"), ("\u2018", "'"), ("\u201c", '"'), ("\u201d", '"'), ("\u2013", "-"), ("\u2014", ", ")):
+        text = text.replace(a, b)
+    return text
+
+
+MAX_SAME_OPENER = 2  # floor; grows with batch size (one in eight notes may share an opener)
 
 
 class OpenerTracker:
@@ -364,6 +408,7 @@ class OpenerTracker:
 
     def __init__(self, batch_size):
         self._counts = Counter()
+        self._max_same_opener = max(MAX_SAME_OPENER, batch_size // 8)
         self._truncation_budget = max(2, batch_size // 10)
         self._truncation_used = 0
         self._lock = threading.Lock()
@@ -374,7 +419,7 @@ class OpenerTracker:
 
     def is_overused(self, note):
         with self._lock:
-            return self._counts[self._key(note)] >= MAX_SAME_OPENER
+            return self._counts[self._key(note)] >= self._max_same_opener
 
     def truncation_exhausted(self, note):
         with self._lock:
@@ -393,11 +438,15 @@ def check_note(note, tracker):
     found = sorted({m.group(0).lower() for m in BANNED_PATTERN.finditer(note)})
     if found:
         problems.append(f"remove these words/phrases: {', '.join(found)} (no em dashes either)")
+    if not FIRST_PERSON.search(note):
+        problems.append("write it in Jay's first person (I, I'd, my); it reads like a summary")
+    if INVENTED_EXPERIENCE.search(note):
+        problems.append("remove claims that Jay ran, built, tried, or used something; the source does not establish that")
     if tracker.is_overused(note):
         problems.append(f'the opening "{OpenerTracker._key(note)}..." is already used by other notes; open differently')
     if tracker.truncation_exhausted(note):
         problems.append("too many notes already mention cut-off content; drop that remark and focus on what the source does say")
-    if len(note) > 650:
+    if len(note) > 550:
         problems.append("too long; keep it compact")
     return problems
 
@@ -441,6 +490,7 @@ def call_llm(system_prompt, user_prompt, model, openrouter_key):
     raise last_err or Exception("All model attempts failed.")
 
 
+BLOG_CONTEXT = load_blog_context()
 THIN_RESULT = {"tags": [], "notes": "", "thin": True}
 
 
@@ -449,7 +499,11 @@ def analyze_item_with_llm(item, model, openrouter_key, style, tracker):
     if not openrouter_key:
         return {**THIN_RESULT, "clean_title": item["title"], "used_model": "none", "warning": "OPENROUTER_API_KEY missing"}
 
-    sys_prompt = JAY_SHAH_SYSTEM_PROMPT + f"\nCanonical Allowed Tags: {json.dumps(CANONICAL_TAGS)}"
+    sys_prompt = (
+        JAY_SHAH_SYSTEM_PROMPT
+        + f"\nCONTEXT (true of Jay, usable in notes):\n{JAY_PROFILE}\n\nJay's posts on this site:\n{BLOG_CONTEXT}\n"
+        + f"\nCanonical Allowed Tags: {json.dumps(CANONICAL_TAGS)}"
+    )
 
     base_prompt = f"""Curate this reading list entry for /reads/.
 
@@ -483,6 +537,7 @@ Return exactly one valid JSON object with exactly these keys:
             if validated.thin:
                 return {"clean_title": validated.clean_title, "tags": validated.tags, "notes": "", "thin": True,
                         "used_model": used_m, "warning": "source too thin to judge"}
+            validated.notes = straighten(validated.notes)
             problems = check_note(validated.notes, tracker)
             if not problems:
                 break
