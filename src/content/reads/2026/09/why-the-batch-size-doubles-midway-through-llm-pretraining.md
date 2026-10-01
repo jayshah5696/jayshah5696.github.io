@@ -6,4 +6,4 @@ tags: ["llm", "machine-learning", "research"]
 draft: false
 ---
 
-The move I like here is tying the mid-training jump to a clipped power-law schedule, then checking that shape exactly in the noisy quadratic model. I'd keep the scope caveat close: the derivation assumes vanilla SGD with a constant learning rate, and the author says the joint AdamW schedule still needs analysis.
+I like this because it turns a mid-training batch jump from a seeming recipe into a hardware-constrained approximation of an accelerating, clipped power-law schedule. The noisy quadratic model gives that schedule an exact test without Monte Carlo, but the derivation assumes vanilla SGD with a constant learning rate, so its fit to AdamW and other objectives is still open.

@@ -6,4 +6,4 @@ tags: ["ai-agents", "llm", "research"]
 draft: false
 ---
 
-I like this because it moves the work to a more controllable part of the problem: ToolGrad builds valid API chains first, then synthesizes queries, with textual "gradients" guiding the iterations. That answer-first design is worth considering for agent data generation; I'd still want to inspect how the almost-100% pass rate was measured on ToolGrad-500.
+I like the answer-first shift: ToolGrad builds valid API workflows with textual "gradients" and only then synthesizes queries, sidestepping the costly, failure-prone search for a solution to an already-written prompt. The reported near-100% pass rate and lower cost are promising, though ToolGrad-500 has just 500 samples, so I'd want to see how the approach scales across larger API pools.

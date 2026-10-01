@@ -6,4 +6,4 @@ tags: ["rl", "machine-learning"]
 draft: false
 ---
 
-I'd read this for the control-variate derivation: the policy score has zero conditional mean given the state, so subtracting a state-only baseline keeps the gradient unbiased while the stated variance bound drops from O(T^3) to O(T^2). That constraint is easy to inspect: the baseline can depend on the state, but not the action or future rewards.
+I trust the variance argument as far as it goes: the score has zero conditional mean, so a baseline can depend on state without biasing the gradient, as long as it doesn't depend on the action or future rewards. The claimed drop in the variance bound from O(T^3) to O(T^2) explains why baselines matter, though it doesn't tell us how much variance falls in a particular training setup.

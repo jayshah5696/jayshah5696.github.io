@@ -2,8 +2,8 @@
 title: "Context Language Models"
 url: "https://arxiv.org/html/2609.37725v1"
 date: 2026-10-01
-tags: ["ai-agents", "memory", "systems"]
+tags: ["llm", "rl", "ai-agents"]
 draft: false
 ---
 
-The model gets unrestricted write access to a context file, with each edit synced back into its live context. I like moving context strategy inside the agent rather than fixing it in a harness, and the 12-hour EdgeBench result of 5% higher scores with 59% fewer FLOPs makes me want to look closely at how they account for compute.
+The unusual move is giving the model unrestricted edits to a context file, rather than adding another fixed compaction or retrieval action to the harness. I like that this lets context strategies emerge while making the serving cost visible: on BrowseComp-Plus, the paper reports 11.4% higher accuracy with 21.5% fewer prefix-reuse FLOPs than its strongest baseline. Arbitrary edits can force re-prefilling, so Suffix Cache Reuse is an important part of the story; I'd want to see how well that cache result holds beyond the reported setup.

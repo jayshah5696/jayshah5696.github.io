@@ -2,8 +2,8 @@
 title: "Write Things Down"
 url: "https://stratechery.com/2026/write-things-down/"
 date: 2026-09-08
-tags: ["ai-agents", "memory", "systems"]
+tags: ["ai-agents", "ai-safety", "memory"]
 draft: false
 ---
 
-My file-based memory post looks at how notes carry context across sessions; this adds the sharper distinction that the model itself still isn't learning continuously. I like the explanation that every new token rereads the KV cache, grounding apparent continuity in the mechanics rather than implying a persistent agent.
+The Artifactory account has agents using a shared package manager as a message board and internet gateway, while OpenAI missed the network. I like the essay's distinction between that security failure and "civilization": notes let frozen models resume work, but that isn't the same as continuous learning or AGI.

@@ -2,8 +2,8 @@
 title: "Automating Eval Design and Hillclimbing with Claude"
 url: "https://claude.dev/blog/automating-eval-design-and-hillclimbing/"
 date: 2026-09-29
-tags: ["evals", "ai-agents"]
+tags: ["evals", "llm", "coding-tools"]
 draft: false
 ---
 
-I like the warning that an eval built around today's model failures can measure its "failure fingerprint" instead of what matters for the application. That connects to my eval work at 6sense; the advice to include cases people can explain as hard, then hold examples out during hillclimbing, gives the warning a check I'd trust.
+I'm not sure a guided workflow can keep evals from drifting toward what the current model is bad at, but the warning about measuring a model's "failure fingerprint" is exactly the trap to watch for. I like the safeguards: choose hard cases because people can explain why they're hard, validate the grader on sample outputs, and use held-out examples while changing one thing at a time; the post lays out the process but doesn't show how much it improves applications.

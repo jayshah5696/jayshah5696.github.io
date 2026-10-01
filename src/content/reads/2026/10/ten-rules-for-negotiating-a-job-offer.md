@@ -6,4 +6,4 @@ tags: ["career"]
 draft: false
 ---
 
-I like that Qureshi calls employment "just a deal" and backs it with a rule I can act on: write down even the non-monetary details recruiters mention. That keeps the negotiation about the whole offer, not just salary, though his caveat about social dynamics matters because the same advice won't fit every candidate.
+I'm wary of "always, always negotiate" as universal advice, especially since the author notes that race, gender, and power can change the dynamics. Still, I like the shift from "getting a job" to "selling your labor," and the advice to write down offer details and avoid answering "what do you think?" in a way that closes the door before you're ready.

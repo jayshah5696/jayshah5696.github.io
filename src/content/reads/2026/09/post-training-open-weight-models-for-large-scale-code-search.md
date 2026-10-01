@@ -2,8 +2,8 @@
 title: "Post-Training Open-Weight Models for Large-Scale Code Search"
 url: "https://turbopuffer.com/blog/large-scale-code-search"
 date: 2026-09-04
-tags: ["ai-agents", "search", "evals"]
+tags: ["coding-tools", "search", "rl"]
 draft: false
 ---
 
-I trust this one because the open-ended task rewards precision and efficiency, with each claimed repository checked against cited code in context. That's a thoughtful test across 9,000 repositories, but I can't judge the claimed quality, cost, or latency gains from the setup alone.
+This treats large-scale code search as a tool-use policy to post-train, pairing a small model with precomputed BM25 and dense indexes. I like that the open-ended task scores precision and efficiency while requiring code citations; the LLM judge and constructed tasks leave transfer to real queries uncertain.

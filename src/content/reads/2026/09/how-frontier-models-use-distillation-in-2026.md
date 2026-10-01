@@ -2,8 +2,8 @@
 title: "How Frontier Models Use Distillation in 2026"
 url: "https://huggingface.co/blog/sergiopaniego/distillation-2026"
 date: 2026-09-11
-tags: ["distillation", "rl", "machine-learning"]
+tags: ["distillation", "rl", "llm"]
 draft: false
 ---
 
-What I like here is the shift from treating distillation as compression to using same-size, domain-specialized RL checkpoints as teachers for one student. That framing makes the token-by-token guidance distinct from reward-based RL and gives me a clear lens for reading these model reports.
+I like this because it separates ordinary teacher-to-student compression from a newer pattern: same-size, domain-specialized RL checkpoints guide a student on its own rollouts. The contrast between token-level teacher feedback and RL's single reward for an attempt makes the appeal clear, though the model-report examples don't establish when distillation actually wins.

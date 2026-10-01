@@ -55,3 +55,15 @@ def test_note_guards_catch_repeated_openers_banned_phrases_and_summary_voice():
 
 def test_straighten_replaces_curly_quotes_and_dashes():
     assert cr.straighten("It\u2019s \u201cfast\u201d \u2014 mostly") == "It's \"fast\", mostly"
+
+
+def test_notes_may_not_talk_about_jays_own_work():
+    tracker = cr.OpenerTracker(batch_size=8)
+    for bad in (
+        "I like this. It connects to my eval work at 6sense.",
+        "I like this. My RAG post covers retrieval.",
+        "I work on agent systems, so I like this.",
+        "I like this. My wind-energy research made me wary.",
+    ):
+        assert any("own work" in p for p in cr.check_note(bad, tracker)), bad
+    assert cr.check_note("I like this because the failed run stays in the plot.", tracker) == []

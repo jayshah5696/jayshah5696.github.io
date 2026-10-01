@@ -2,8 +2,8 @@
 title: "Pretraining and scaling as a research methodology"
 url: "https://jiaxuanzou0714.github.io/en/blog/2026/pretrain-scaling-methodology-scientific-perspective/"
 date: 2026-09-07
-tags: ["llm", "machine-learning", "research"]
+tags: ["llm", "machine-learning", "rl"]
 draft: false
 ---
 
-Dyna-2's average score across 14 robot tasks rises from 20% to 53% as human-video pretraining grows from 1,000 hours to a million, with the same post-training setup. I like that the focus is on whether pretraining transfers to new tasks, not just whether a training curve keeps improving; that's the question I'd carry into scaling work.
+I like that this treats scaling as a question about reusable learning, not just lower loss: the Dyna-2 example follows human-video pretraining into robot task scores under the same post-training setup, rising from 20% to 53% as the data grows from 1,000 to 1 million hours. That transfer is the interesting part, though data composition and the video prediction objective matter too, so I wouldn't read the curve as a clean scale-only law.

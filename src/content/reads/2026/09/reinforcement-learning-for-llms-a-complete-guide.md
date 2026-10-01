@@ -2,8 +2,8 @@
 title: "Reinforcement Learning for LLMs: A Complete Guide"
 url: "https://cameronrwolfe.substack.com/p/llm-rl"
 date: 2026-09-11
-tags: ["rl", "llm", "machine-learning"]
+tags: ["rl", "llm", "research"]
 draft: false
 ---
 
-For my work on LLM-agent evals, the choice I like is to start with the agent-environment loop and make the LLM a stochastic policy. That gives the guide's walk from RL fundamentals through policy-gradient methods a clear backbone, connecting agent behavior to the training setup rather than presenting algorithms in isolation.
+A single overview can flatten the important details, so I'd treat this as a map rather than a substitute for the deeper sources it links. I like the choice to start with the standard agent, action, and policy setup, then frame the LLM as a stochastic policy; it connects familiar RL machinery to LLM training without making the basics feel like a special case.

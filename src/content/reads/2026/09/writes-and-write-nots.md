@@ -6,4 +6,4 @@ tags: ["gen-ai", "llm"]
 draft: false
 ---
 
-I'm not convinced AI will split people cleanly into writes and write-nots. I still recommend this because the pressure-valve argument is worth taking seriously: if writing is a way to think, outsourcing it can cost more than the words, as Lamport puts it, "If you're thinking without writing, you only think you're thinking."
+I'd start with Lamport's line, "If you're thinking without writing, you only think you're thinking," then read the prediction about AI removing pressure to write through it. I like the link between writing practice and a kind of thinking, though the claim that the middle ground of writers will disappear is an argument, not a demonstrated outcome.

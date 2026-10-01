@@ -6,4 +6,4 @@ tags: ["rl", "research", "machine-learning"]
 draft: false
 ---
 
-If you're looking at why policies stop improving when you draw more samples, this is the paper I'd point you to. I like its shift from mean reward to log-probability across reward thresholds, especially the connection to a harmonic mixture of Best-of-k gradients: it gives a clear way to think about keeping rare, high-reward rollouts in play.
+I like that TailRL turns continuous rewards into a family of binary success events, then optimizes their log-probabilities instead of only the mean. The harmonic mixture of Best-of-k gradients makes the connection to inference-time sampling easy to see, though I'm not sure how sensitive the method is to choosing thresholds uniformly over [0,1].

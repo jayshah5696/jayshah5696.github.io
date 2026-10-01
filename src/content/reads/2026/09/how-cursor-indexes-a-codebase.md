@@ -2,8 +2,8 @@
 title: "How Cursor Indexes a Codebase"
 url: "https://manthanguptaa.in/posts/how_cursor_index_your_codebase/"
 date: 2026-09-02
-tags: ["ai-agents", "embedding-models", "search"]
+tags: ["coding-tools", "search", "embedding-models"]
 draft: false
 ---
 
-The retrieval signal I'd steal is training embeddings from agent traces, using an LLM to rank "what should have been retrieved earlier." That connects to my own dense-retrieval work, and I appreciate that the post separates Cursor's stated approach from its inference about the training objective; I'd still want the evaluation setup before trusting the reported 12.5% lift elsewhere.
+I can't judge the reported 12.5% accuracy lift without the evaluation details, but the two-index explanation is worth reading: semantic search handles intent, while sparse n-grams handle exact patterns, and each covers a gap in the other. The more unusual detail is training embeddings from agent-session traces, with an LLM ranking what should have surfaced earlier; the author's suggested contrastive objective is clearly marked as inference, not a confirmed implementation detail.

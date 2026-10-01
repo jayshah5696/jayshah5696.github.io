@@ -2,8 +2,8 @@
 title: "GRPO++: Tricks for Making RL Actually Work"
 url: "https://cameronrwolfe.substack.com/p/grpo-tricks"
 date: 2026-08-27
-tags: ["rl", "machine-learning", "llm"]
+tags: ["rl", "llm", "machine-learning"]
 draft: false
 ---
 
-I'm wary of any "tricks" roundup that makes RL training sound like a checklist, but I like that this one starts by separating RLHF's reward model from RLVR's rule-based or deterministic verifiers. That distinction is worth keeping in view when judging GRPO fixes, especially when vanilla GRPO's simplicity can hide issues at scale.
+I'd start with the RLVR framing: it separates where the reward comes from, a verifier rather than a preference model, from which optimizer produces the policy update. I like the focus on vanilla GRPO's subtle problems at scale, though the portion available here is still laying foundations, so I can't assess whether the promised training tricks are convincing.

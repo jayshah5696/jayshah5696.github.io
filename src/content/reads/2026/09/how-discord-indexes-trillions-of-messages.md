@@ -6,4 +6,4 @@ tags: ["search", "infrastructure", "systems"]
 draft: false
 ---
 
-A 50-message batch could fan out to 50 Elasticsearch nodes, so one failed node could make roughly 40% of bulk operations fail in a 100-node cluster. I like the fix of batching by cluster and index: it narrows the failure domain instead of making unrelated messages share a retry.
+The failure math is the part I like: with 50-message batches spread across 100 nodes, one failed node could make about 40% of bulk operations fail. Discord's fix pairs PubSub's guaranteed delivery with batching by cluster and index, so a node failure has a smaller blast radius; I'd still want post-migration numbers to judge the performance gains.

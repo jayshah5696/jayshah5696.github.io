@@ -6,4 +6,4 @@ tags: ["llm", "infrastructure", "systems"]
 draft: false
 ---
 
-If you're trying to improve LLM serving without treating every slowdown as a compute problem, this is the one I'd point you to. I like the distinction between prefill and decode: the post explains that decode is often memory-bound, and that static batches make short requests wait for the longest one.
+The split between prefill and decode is the idea I'd keep: prefill is parallel and compute-heavy, while decode is autoregressive and memory-bound, so the bottleneck shifts rather than staying fixed. I'd recommend this for its clear connection between that distinction, static batching's longest-request wait, and per-request KV-cache costs; the explanations build good systems intuition, though they don't establish how much a given optimization helps on a particular workload.

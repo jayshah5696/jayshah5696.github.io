@@ -6,4 +6,4 @@ tags: ["ai-agents", "memory", "systems"]
 draft: false
 ---
 
-The frozen `MEMORY.md` and `USER.md` snapshot caught my attention: mid-session edits wait for a new session or a prompt rebuild after compression. I like the split between tiny curated prompt memory and SQLite-backed `session_search`; keeping the stable prefix cacheable while pulling history on demand is a design I'd take from this.
+Hermes treats provider-side prompt caching as the constraint that shapes memory: tiny, frozen MEMORY.md and USER.md files hold durable facts, while SQLite FTS5 search retrieves past sessions on demand. I like the pre-compression memory flush, which gives the model a chance to save durable details before a lossy summary; the walkthrough explains the architecture well, but doesn't establish how reliably session search finds the right history.

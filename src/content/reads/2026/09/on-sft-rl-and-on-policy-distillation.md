@@ -2,8 +2,8 @@
 title: "On SFT, RL, and On-Policy Distillation"
 url: "https://x.com/willcb/status/2050038277454143918"
 date: 2026-09-05
-tags: ["distillation", "rl", "machine-learning"]
+tags: ["distillation", "fine-tuning", "rl"]
 draft: false
 ---
 
-I trust this one because it frames OPD as a way to reach the teacher's level faster, not a replacement for RL, whose ceiling is set by the verifier. The reported 9-30× compute savings on AIME-style benchmarks are striking, though I'd want the benchmark and accounting details before generalizing them.
+The strongest part is the ceiling argument: fixed teacher data can only carry SFT so far, while OPD samples from the student's own states and still uses teacher token-level feedback. That makes the comparison more precise than "OPD beats RL": OPD can reach teacher quality efficiently, while verifier-based RL can aim past it; the reported 9-30× compute gap is intriguing, though I'd want benchmark and teacher-call details before generalizing it.

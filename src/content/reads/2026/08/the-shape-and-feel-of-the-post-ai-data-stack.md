@@ -2,8 +2,8 @@
 title: "The Shape and Feel of the Post-AI Data Stack"
 url: "https://www.iandmacomber.com/blog/post-ai-data-stack"
 date: 2026-08-31
-tags: ["ai-agents", "analytics", "infrastructure"]
+tags: ["analytics", "ai-agents", "infrastructure"]
 draft: false
 ---
 
-I'd go straight to the claim that AI makes producing analysis cheap but doesn't make agreeing on reality cheap. I like that framing because it puts shared definitions and expert judgment at the center; I'd skip the familiar tour through earlier data stacks and focus on what changes when agents answer questions for everyone.
+If you're thinking about what AI changes for data teams, I like this framing: "AI makes producing analysis cheap" while "agreeing on reality" stays hard. The path from warehouses that brought company data together to the Modern Data Stack that let teams act on it makes the proposed shift feel grounded; I'd treat "a singular reality" as a thesis to examine, not an outcome the piece has established.

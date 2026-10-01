@@ -6,4 +6,4 @@ tags: ["career", "software-engineering"]
 draft: false
 ---
 
-I'd read the junior engineer's incident-reduction RFC example first: they identified a team problem, wrote a proposal, and estimated four weeks of work. I'd skip the repeated promotion advice and keep the six-month consistency point, since one strong project doesn't show you can handle the next role day after day.
+If you're aiming for a broader engineering role, I like the example of bringing an RFC, an estimate, and a plan to reduce service incidents instead of just flagging the problem. The case for showing that kind of team-level judgment consistently is sound; I'm less sold on the 3-6 month promotion window without more detail on the research behind it.

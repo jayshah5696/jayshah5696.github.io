@@ -2,8 +2,8 @@
 title: "Transformer Inference Arithmetic"
 url: "https://kipply.github.io/blog/transformer-inference-arithmetic/"
 date: 2026-09-12
-tags: ["llm", "machine-learning", "infrastructure"]
+tags: ["llm", "machine-learning", "systems"]
 draft: false
 ---
 
-Most inference writeups reach for benchmark charts first; this one starts with a simple model and derives an A100 compute-to-memory ratio of 208. I'd steal that way of reasoning from KV-cache storage through bandwidth, because it gives the hardware constraints a shape before the benchmark numbers arrive.
+The number to remember is 208: under the A100 bandwidth and FLOP assumptions, the post says K/V work for one token takes about as long as computing it for up to 208 tokens. I like how it derives that limit from KV-cache and matmul costs instead of treating inference speed as a black-box benchmark, though the ratio is hardware-specific, not a general latency guarantee.

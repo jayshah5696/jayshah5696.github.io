@@ -2,8 +2,8 @@
 title: "Policy Gradients Part 1: The REINFORCE Estimator"
 url: "https://fa.bianp.net/blog/2026/policy-gradient/"
 date: 2026-09-01
-tags: ["rl", "machine-learning", "research"]
+tags: ["rl", "machine-learning", "statistics"]
 draft: false
 ---
 
-I prefer this to an estimator-first explanation because it starts with the obstacle: the environment's transition dynamics are a black box. The step where "the world drops out" shows why REINFORCE can avoid differentiating through those dynamics: their terms have zero gradient with respect to the policy parameters.
+Taking the log of the trajectory probability turns the product into a sum, and the environment-transition terms vanish when differentiated with respect to policy parameters. I like this clear account of how REINFORCE learns from sampled trajectories without differentiating through the environment; the connection to variance and trajectory length keeps the cost of that choice in view.

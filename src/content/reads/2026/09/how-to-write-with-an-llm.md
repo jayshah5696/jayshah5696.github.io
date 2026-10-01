@@ -6,4 +6,4 @@ tags: ["llm", "prompt"]
 draft: false
 ---
 
-I'd read the two rules first and skip the writing-tool detour: "You may not use a single word an LLM suggests to you" is a strikingly hard boundary, and the warning about praise makes clear why the model shouldn't steer your judgment either. I like the division of labor here: let it flag passive voice, repeated phrasing, and paragraphs that might move, while leaving the actual words to the writer.
+If you want an LLM to help with prose without sanding off your voice, I like this boundary: let it flag passive voice, filler words, and paragraphs that might move, but don't take its suggested wording or encouragement. The warning that praise can reinforce weak first-draft choices is sharp; I'm less convinced by the absolute ban on using any suggested word, which the piece argues for through experience rather than evidence.

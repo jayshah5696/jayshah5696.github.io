@@ -6,4 +6,4 @@ tags: ["machine-learning", "llm", "research"]
 draft: false
 ---
 
-I like this because it puts the efficiency claim next to the scaling evidence: Magic says it matches DeepSeek V4 Pro Base with ~50× fewer FLOPs, while the curve beyond its largest run is explicitly dashed as a projection. That separation between a measured run and an extrapolation is what I want to inspect before buying a pretraining-cost claim.
+I like this because the scaling plots put bits per byte on private code and held-out research papers against training compute, with measured runs distinct from the dashed projection. Magic claims a DeepSeek V4 Pro Base match at roughly 50x fewer FLOPs, an interesting efficiency result, though these pretraining evaluations alone don't establish downstream coding-agent performance.

@@ -2,8 +2,8 @@
 title: "Language Models for Text Classification: From Bag-of-Words to Jev"
 url: "https://magazine.sebastianraschka.com/p/classifier-history-and-jev"
 date: 2026-10-01
-tags: ["llm", "machine-learning", "analytics"]
+tags: ["llm", "machine-learning", "nlp"]
 draft: false
 ---
 
-I like this because it frames Jev's tradeoff in terms I can evaluate: faster and cheaper than broad GPT and open-weight models, but potentially outclassed by a purpose-built classifier on a narrow task. The author calls the account of Jev's methodology an "educated guess," which keeps the technical framing separate from claims of certainty.
+I like the framing of Jev between general-purpose LLMs and task-specific classifiers: the article describes it as faster and cheaper than the former, while more general than the latter. The walk from bag-of-words classifiers toward Jev helps put the hype in context, though the proposed account of Jev's methodology is explicitly an educated guess.

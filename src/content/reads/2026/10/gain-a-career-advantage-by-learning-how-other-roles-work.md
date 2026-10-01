@@ -6,4 +6,4 @@ tags: ["career", "software-engineering"]
 draft: false
 ---
 
-I like this as a step beyond the usual habit of learning adjacent roles through handoffs or coffee chats: read what people in those roles read. The recruiter talk calling hiring managers "required by law to be unrealistic" shows what that adds, a frank view of frustrations a polite conversation might not surface.
+The recruiter example stood out: talks for recruiters surface complaints about hiring managers, including the blunt line, "Hiring managers are required by law to be unrealistic," that a polite coffee chat might never reach. I like the case for reading content native to the roles you work with; it can reveal friction that cross-functional collaboration depends on understanding, though the career advantage is argued rather than demonstrated.

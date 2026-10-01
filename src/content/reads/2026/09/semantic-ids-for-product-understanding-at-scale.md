@@ -6,4 +6,4 @@ tags: ["embedding-models", "machine-learning", "search"]
 draft: false
 ---
 
-I'd want outcome numbers before believing shared prefixes improve recommendations. Still, the hierarchy is worth a look: one prefix groups Italian cheeses, olives, and tapenades across catalog branches, then finer codes distinguish hard Italian cheeses from crumbles.
+I'd start with the cheese-board example: residual-quantized codes give cheeses, olives, tapenade, and deli trays shared prefixes across taxonomy branches, then finer levels separate close substitutions from looser accompaniments. That makes the representation easy to reason about, though the examples show what the codes mean, not whether they improve recommendations; the interesting angle is using grocery taxonomy structure as a supervision signal alongside product embeddings.

@@ -2,8 +2,8 @@
 title: "Scaling Laws in Large Language Models and Toy Models"
 url: "https://nicolaszucchet.github.io/Tutorial-scaling-laws/#1"
 date: 2026-09-14
-tags: ["llm", "machine-learning", "research"]
+tags: ["machine-learning", "llm", "research"]
 draft: false
 ---
 
-If you're trying to connect scaling laws in practice with why they hold, I'd point you here. I like that the tutorial moves from how scaling laws guide model and learning recipes to a toy associative memory model, so it aims to build intuition rather than leave the story at predictable next-token loss.
+Separating scaling laws as tools for choosing models and training recipes from the question of why they hold is the tutorial's best choice. I'm drawn to the second half's toy associative-memory model as a way to look for a mechanism behind the curves, though the opening only states that agenda, so I can't judge whether the explanation carries beyond the toy setup.

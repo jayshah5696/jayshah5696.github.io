@@ -6,4 +6,4 @@ tags: ["llm", "systems", "infrastructure"]
 draft: false
 ---
 
-The `free_block_queue` caught my attention: it makes the KV-cache blocks behind paged attention visible as something the scheduler allocates and returns. I'd take the post's inverse-pyramid route from a single-GPU engine toward distributed serving as a systems map before digging into individual kernels.
+The unusual choice is to start with an offline, synchronous, single-GPU engine, then build toward distributed serving. I like that progression because it makes the scheduler, KV-cache block pool, and schedule/forward-pass/postprocess loop easier to place before continuous batching and multi-GPU execution enter the picture. The analysis is pinned to commit 42172ad, and the author notes that class names may shift, so I'd use this for a picture of the system rather than exact API guidance.

@@ -6,4 +6,4 @@ tags: ["machine-learning", "research", "gen-ai"]
 draft: false
 ---
 
-I trust this one as a map of the field because it puts variational, score-based, and flow-based views on a shared backbone: a time-dependent velocity field that transports a simple prior to data. The contents connect that picture to guidance, sampling solvers, and flow-map models; the abstract and chapter map establish the scope, though not yet the quality of the explanations.
+The move I like here is to treat variational, score-based, and flow-based models as different routes to a shared time-dependent velocity field, rather than as separate families of recipes. I'd use it as a conceptual map: it connects the origins in VAEs and energy-based models to score SDEs, flow matching, guidance, and faster sampling, though that breadth makes it more of a foundation than a guide to any one current technique.

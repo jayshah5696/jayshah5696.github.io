@@ -2,8 +2,8 @@
 title: "LLM Inference Benchmarking: Fundamental Concepts"
 url: "https://developer.nvidia.com/blog/llm-benchmarking-fundamental-concepts/"
 date: 2026-09-11
-tags: ["llm", "evals"]
+tags: ["llm", "analytics", "systems"]
 draft: false
 ---
 
-I trust this one because it distinguishes load testing from performance benchmarking and flags that tools define latency metrics differently. That makes it a good starting point for interpreting LLM serving numbers, though the piece establishes terminology rather than showing that one stack performs better.
+For comparing LLM serving results, this makes an important distinction between load testing a deployment and benchmarking model performance. I like that it flags how tools can define the same metrics differently; latency and throughput numbers only mean something once you know what was measured and under which parameters.

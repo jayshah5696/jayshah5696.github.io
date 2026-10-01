@@ -6,4 +6,4 @@ tags: ["distillation", "llm", "machine-learning"]
 draft: false
 ---
 
-I'm not convinced by OPD's promise as a training shortcut without outcome numbers, but the training signal is worth understanding. The student generates the trajectory, then the teacher scores each token; comparing their log-probabilities gives token-level feedback on the student's own path, unlike SFT's teacher-written path or RLVR's sparse reward.
+I'd start with the contrast between SFT and OPD: the student generates the trajectory, then the teacher gives token-level feedback on that same path. The walkthrough makes the idea of the "teacher's distribution over the student's trajectory" easier to follow, including a sampled-token, reverse-KL variant; I like that it distinguishes OPD from both imitation and sparse-reward RL, though it doesn't show whether this approach works better in practice.

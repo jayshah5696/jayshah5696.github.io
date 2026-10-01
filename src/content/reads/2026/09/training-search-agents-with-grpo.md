@@ -2,8 +2,8 @@
 title: "Training Search Agents with GRPO"
 url: "https://jasperlu.com/blog/training-search-agents-grpo/"
 date: 2026-09-25
-tags: ["rl", "ai-agents", "search"]
+tags: ["rl", "search", "bm25"]
 draft: false
 ---
 
-I'm wary of treating runs with 256 training queries and 32 evaluation queries as evidence about a real search workload. I still recommend this for the harness choice: the agent curates its result set as it goes, so even a run that uses up its turn budget returns something gradable.
+I'd start with the harness design: the agent maintains a curated result set as it searches, so running out of turns still leaves something gradable. I like that clear connection between episode limits and evaluation, but the early runs use only 256 training queries and treat supporting facts like answers, so they don't establish performance on the canonical task.

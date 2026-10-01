@@ -6,4 +6,4 @@ tags: ["rl", "machine-learning", "research"]
 draft: false
 ---
 
-I like that EfficientZero makes the data budget part of the headline: 194.3% mean and 109.0% median human performance on Atari 100k, with 500 times less data than DQN. My wind-energy research left me wary of treating a benchmark win as proof of real-world readiness, so I'd read this for the model-based techniques and keep the deployment claim provisional.
+I'm not convinced Atari 100k makes the case for real-world viability; the leap from a game benchmark to robotics or healthcare is still unshown here. I like the paper's diagnosis of what limits sample-efficient MuZero-style learning, especially its end-to-end value prefix to reduce compounding error, and the 109% median human score against DQN's 96% with 500 times less data makes the result worth inspecting.
