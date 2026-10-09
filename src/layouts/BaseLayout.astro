@@ -105,17 +105,13 @@ const markdownURL = Astro.url.pathname === '/' || Astro.url.pathname === ''
     <ClientRouter />
 
     <script is:inline>
-      // Apply theme and font preset immediately to prevent flash (runs before paint)
+      // Apply theme immediately to prevent flash (runs before paint)
       ;(function() {
         var t = localStorage.getItem('theme');
         if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           document.documentElement.classList.add('dark');
         } else {
           document.documentElement.classList.remove('dark');
-        }
-        var fp = localStorage.getItem('font_preview_preset');
-        if (fp) {
-          document.documentElement.setAttribute('data-font-preset', fp);
         }
       })();
     </script>
@@ -231,17 +227,13 @@ const markdownURL = Astro.url.pathname === '/' || Astro.url.pathname === ''
         });
       }
 
-      // Re-apply theme and font preset after View Transition swap (before new page renders)
+      // Re-apply theme after View Transition swap (before new page renders)
       document.addEventListener('astro:after-swap', function() {
         var t = localStorage.getItem('theme');
         if (t === 'dark' || (!t && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
           document.documentElement.classList.add('dark');
         } else {
           document.documentElement.classList.remove('dark');
-        }
-        var fp = localStorage.getItem('font_preview_preset');
-        if (fp) {
-          document.documentElement.setAttribute('data-font-preset', fp);
         }
       });
 
