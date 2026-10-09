@@ -2,6 +2,45 @@
 @import '@fontsource-variable/outfit' layer(base);
 @import '@fontsource/fira-code' layer(base);
 
+/* ── Libron (Open-Source E-Reader / Editorial Serif by Nico Verbruggen) ── */
+@font-face {
+  font-family: 'Libron';
+  src: url('/fonts/libron/Libron-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Libron';
+  src: url('/fonts/libron/Libron-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Libron';
+  src: url('/fonts/libron/Libron-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Libron';
+  src: url('/fonts/libron/Libron-BoldItalic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+:root {
+  --font-display: 'Yeseva One', Georgia, serif;
+  --font-body: 'Libron', Georgia, serif;
+  --font-mono: 'Fira Code', Menlo, monospace;
+}
+
 @import 'tailwindcss';
 
 @config '../../tailwind.config.mjs';

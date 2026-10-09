@@ -11,7 +11,7 @@
 
 ## Design System & Visual Perspective ("Vav")
 - **Themes:** Light (Kolam: warm cream paper `#fdf9f1`, dark brown ink `#2c2416`, terra/gold) & Dark (Rangoli: indigo night `#15111e`, cream silk `#e8e0d4`).
-- **Typography:** Display headings use `font-display` (Yeseva One). Reading body uses `font-sans` (Outfit). Technical meta, dates, and tags use `font-mono` (Fira Code).
+- **Typography:** Display headings use `font-display` (Yeseva One). Reading body uses `font-body` (Libron / Outfit). Technical meta, dates, and tags use `font-mono` (Fira Code).
 - **Cards & Structure:** Grounded `.featured-card` with rangoli corners and 150ms border shifts. NO floaty vertical translations (`hover:-translate-y-*`), NO scaling on dense lists (`scale-125`), and NO synthetic telemetry spec grids (`DuckDB`, `LangGraph`).
 - **Surface Parity (Anti-Isolation):** Never design or refactor a component in a vacuum. Any motif change (e.g. Vav dual-rail spine `.stepwell-spine`, Kolam diamond bindu node `.kolam-diamond-node`) must be audited and applied consistently across peer surfaces (`/about`, `/projects`, `/reads`, `/archives`, `/links`).
 - **High-Frequency Interaction:** Zero hover latency. Never allow entrance stagger delays (`--index`, `.reveal`) to leak into interactive states. Enforce `transition-delay: 0s !important` on `:hover` and `:focus-visible`.
