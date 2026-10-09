@@ -8,9 +8,9 @@ export default {
         base: '16px', // Slightly larger base for better readability
       },
       fontFamily: {
-        display: ['Yeseva One', 'Georgia', 'serif'],
-        body: ['Outfit', 'system-ui', 'sans-serif'],
-        mono: ['Fira Code', 'Menlo', 'monospace'],
+        display: ['var(--font-display)', 'Yeseva One', 'Georgia', 'serif'],
+        body: ['var(--font-body)', 'Libron', 'Outfit Variable', 'Outfit', 'system-ui', 'sans-serif'],
+        mono: ['var(--font-mono)', 'Fira Code', 'Menlo', 'monospace'],
       },
       colors: {
         // Light mode surface

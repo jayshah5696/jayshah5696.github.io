@@ -1,6 +1,88 @@
 @import '@fontsource/yeseva-one' layer(base);
 @import '@fontsource-variable/outfit' layer(base);
 @import '@fontsource/fira-code' layer(base);
+@import '@fontsource-variable/geist' layer(base);
+@import '@fontsource/geist-mono' layer(base);
+@import '@fontsource-variable/plus-jakarta-sans' layer(base);
+@import '@fontsource-variable/literata' layer(base);
+@import '@fontsource/jetbrains-mono' layer(base);
+
+/* ── Libron (Open-Source E-Reader / Editorial Serif by Nico Verbruggen) ── */
+@font-face {
+  font-family: 'Libron';
+  src: url('/fonts/libron/Libron-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Libron';
+  src: url('/fonts/libron/Libron-Italic.woff2') format('woff2');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Libron';
+  src: url('/fonts/libron/Libron-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Libron';
+  src: url('/fonts/libron/Libron-BoldItalic.woff2') format('woff2');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ── Typography Preset System ── */
+:root,
+:root:not([data-font-preset]) {
+  --font-display: 'Yeseva One', Georgia, serif;
+  --font-body: 'Libron', Georgia, serif;
+  --font-mono: 'Fira Code', Menlo, monospace;
+}
+
+html[data-font-preset='current'] {
+  --font-display: 'Yeseva One', Georgia, serif;
+  --font-body: 'Outfit Variable', 'Outfit', system-ui, sans-serif;
+  --font-mono: 'Fira Code', Menlo, monospace;
+}
+
+html[data-font-preset='libron-pure'] {
+  --font-display: 'Libron', Georgia, serif;
+  --font-body: 'Libron', Georgia, serif;
+  --font-mono: 'Fira Code', Menlo, monospace;
+}
+
+html[data-font-preset='editorial-scholar'] {
+  --font-display: 'Yeseva One', Georgia, serif;
+  --font-body: 'Libron', Georgia, serif;
+  --font-mono: 'Fira Code', Menlo, monospace;
+}
+
+html[data-font-preset='research-press'] {
+  --font-display: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-body: 'Libron', Georgia, serif;
+  --font-mono: 'Fira Code', Menlo, monospace;
+}
+
+html[data-font-preset='frontier-ai'] {
+  --font-display: 'Geist Variable', 'Geist', system-ui, sans-serif;
+  --font-body: 'Geist Variable', 'Geist', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', Menlo, monospace;
+}
+
+html[data-font-preset='academic-literata'] {
+  --font-display: 'Literata Variable', 'Literata', Georgia, serif;
+  --font-body: 'Literata Variable', 'Literata', Georgia, serif;
+  --font-mono: 'JetBrains Mono', Menlo, monospace;
+}
 
 @import 'tailwindcss';
 

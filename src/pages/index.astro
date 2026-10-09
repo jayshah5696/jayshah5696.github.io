@@ -4,6 +4,7 @@ import PostCard from '../components/PostCard.astro';
 import RightSidebar from '../components/RightSidebar.astro';
 import SocialIcon from '../components/SocialIcon.astro';
 import KolamDivider from '../components/KolamDivider.astro';
+import FontEvaluator from '../components/FontEvaluator.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog'))
@@ -14,6 +15,9 @@ const totalPosts = posts.length;
 ---
 
 <BaseLayout rightSidebar={true} jsonLdType="WebSite">
+  <!-- Interactive Font Evaluator (Lab Mode) -->
+  <FontEvaluator />
+
   <!-- Hero welcome section -->
   <header class="reveal mb-12">
     <h2 class="font-display text-2xl sm:text-3xl text-ink dark:text-silk carved-heading mb-3">
