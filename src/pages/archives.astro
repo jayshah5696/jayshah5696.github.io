@@ -61,19 +61,19 @@ const years = Object.keys(byYear)
               <li class="relative group">
                 <!-- Sacred Kolam Diamond Bindu Node on the spine line -->
                 <div
-                  class="kolam-diamond-node -left-[27px] top-3 group-hover:border-gold group-hover:ring-2 group-hover:ring-gold/30 dark:group-hover:ring-gold/35 transition-colors duration-150"
+                  class="kolam-diamond-node pointer-events-none -left-[27px] top-3 group-hover:border-gold group-hover:ring-2 group-hover:ring-gold/30 dark:group-hover:ring-gold/35"
                   aria-hidden="true"
                 />
 
                 <!-- Article Row Link (Clean horizontal spacing with no collision) -->
                 <a
                   href={`/posts/${post.id}/`}
-                  class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 p-2.5 rounded-lg border border-transparent hover:border-cream-200 dark:hover:border-night-700 hover:bg-cream-50/70 dark:hover:bg-night-800/60 transition-colors duration-150"
+                  class="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 p-2.5 rounded-lg border border-transparent group-hover:border-cream-200 dark:group-hover:border-night-700 group-hover:bg-cream-50/70 dark:group-hover:bg-night-800/60 transition-colors duration-150"
                 >
                   <span class="font-mono text-xs text-ink-muted dark:text-silk-faint tabular-nums shrink-0 sm:w-20">
                     {post.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
                   </span>
-                  <span class="text-sm font-medium text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors leading-snug">
+                  <span class="text-sm font-medium text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150 leading-snug">
                     {post.data.title}
                   </span>
                 </a>
