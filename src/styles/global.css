@@ -1072,6 +1072,7 @@
 /* High-frequency interactions (hover, focus, list navigation):
    Instant tactile feedback with 0s delay per Emil Kowalski / ReUI principles */
 :is(a, button, article, [role="button"], .featured-card, .stepwell-card, .group, .kolam-diamond-node, li),
+:is(a, button, article, [role="button"], .featured-card, .stepwell-card, .group, .kolam-diamond-node, li) *,
 :is(a, button, article, [role="button"], .featured-card, .stepwell-card, .group, .kolam-diamond-node, li):hover,
 :is(a, button, article, [role="button"], .featured-card, .stepwell-card, .group, .kolam-diamond-node, li):focus-visible,
 .group:hover * {
