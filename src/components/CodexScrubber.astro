@@ -1,0 +1,449 @@
+---
+interface HeadingItem {
+  depth: number;
+  text: string;
+  slug: string;
+}
+
+interface Props {
+  headings?: HeadingItem[];
+}
+
+const { headings = [] } = Astro.props;
+const filteredHeadings = headings.filter(h => h.depth === 2 || h.depth === 3);
+const hasEnoughHeadings = filteredHeadings.length >= 3;
+---
+
+{hasEnoughHeadings && (
+  <div class="contents" data-codex-system>
+    <!-- ═════════ DESKTOP: RIGHT-SLOT CODEX DOCK ═════════ -->
+    <aside class="hidden xl:block w-[240px] shrink-0" aria-label="Table of contents">
+      <div class="sticky top-16 max-h-[calc(100dvh-5rem)] overflow-y-auto pr-2 scrollbar-none">
+        <div class="mb-3 flex items-center justify-between">
+          <h4 class="font-mono uppercase text-ink-faint dark:text-silk-faint text-[10px] tracking-[0.15em] font-semibold">
+            On this page
+          </h4>
+          <span class="font-mono text-[10px] text-ink-faint dark:text-silk-faint tabular-nums" id="desktop-progress-pct">0%</span>
+        </div>
+
+        <div class="relative">
+          <nav class="flex flex-col gap-0.5 p-2 rounded-xl bg-cream-50/40 dark:bg-night-800/40 border border-cream-200/80 dark:border-night-700/80" id="codex-desktop-dock">
+            {filteredHeadings.map((h, i) => (
+              <button
+                type="button"
+                data-codex-node={i}
+                data-slug={h.slug}
+                data-depth={h.depth}
+                class:list={[
+                  'group flex items-center gap-2.5 h-6 px-1.5 rounded-md text-left transition-colors duration-100 cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-terra dark:focus-visible:ring-terra-light',
+                  h.depth === 3 ? 'pl-4' : ''
+                ]}
+              >
+                <!-- Dash node -->
+                <span
+                  data-codex-dash
+                  class:list={[
+                    'rounded-full transition-all duration-100 shrink-0 bg-cream-400 dark:bg-night-600 group-hover:bg-terra dark:group-hover:bg-terra-light',
+                    h.depth === 3 ? 'w-2 h-0.5' : 'w-3.5 h-[2.5px]'
+                  ]}
+                  aria-hidden="true"
+                />
+                <!-- Label text -->
+                <span
+                  data-codex-label
+                  class:list={[
+                    'font-sans truncate transition-colors duration-100',
+                    h.depth === 3 ? 'text-xs text-ink-muted/80 dark:text-silk-muted/80' : 'text-xs text-ink-muted dark:text-silk-muted font-normal',
+                    'group-hover:text-ink dark:group-hover:text-silk'
+                  ]}
+                >
+                  {h.text}
+                </span>
+              </button>
+            ))}
+          </nav>
+
+          <!-- Leftward Peek HUD (Expands into gutter margin, 0% text overlap) -->
+          <div
+            id="codex-peek-hud"
+            class="fixed w-72 p-3.5 rounded-xl bg-cream-50/95 dark:bg-night-800/95 border border-cream-200 dark:border-night-700 shadow-xl pointer-events-none opacity-0 translate-x-2 transition-all duration-100 ease-out z-50 backdrop-blur-sm"
+            aria-hidden="true"
+          >
+            <h5 id="peek-point-title" class="font-display text-sm text-ink dark:text-silk leading-snug mb-1.5 font-normal">
+              Section Title
+            </h5>
+            <p id="peek-point-summary" class="font-sans text-xs text-ink-light dark:text-silk-muted leading-relaxed line-clamp-3 mb-2">
+              Summary preview of this section.
+            </p>
+            <div class="flex items-center gap-3 pt-1.5 border-t border-dashed border-cream-200 dark:border-night-700 font-mono text-[10px] text-ink-faint dark:text-silk-faint">
+              <span id="peek-point-read">~2 min read</span>
+              <span>&bull;</span>
+              <span class="text-terra dark:text-terra-light font-medium">Click to jump</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ═════════ MOBILE & TABLET: BOTTOM SCRUBBER HUD & DRAWER ═════════ -->
+    <div class="xl:hidden">
+      <!-- Floating Bottom Pill -->
+      <div
+        id="codex-mobile-pill"
+        role="button"
+        tabindex="0"
+        aria-label="Table of contents outline"
+        aria-expanded="false"
+        class="fixed bottom-4 left-4 right-4 sm:left-auto sm:right-6 sm:w-80 h-11 px-4 rounded-full bg-cream-50/90 dark:bg-night-800/90 border border-cream-200 dark:border-night-700 shadow-lg backdrop-blur-md z-40 flex items-center justify-between cursor-pointer transition-transform duration-150 active:scale-[0.98]"
+      >
+        <div class="flex items-center gap-2.5 min-w-0 pr-2">
+          <!-- Kolam diamond mini node -->
+          <span class="size-2 rotate-45 rounded-[1px] bg-terra dark:bg-terra-light shrink-0" aria-hidden="true"></span>
+          <span id="mobile-pill-text" class="font-sans text-xs font-medium text-ink dark:text-silk truncate">
+            {filteredHeadings[0]?.text}
+          </span>
+        </div>
+        
+        <!-- Chapter Dots indicator -->
+        <div class="flex items-center gap-1 shrink-0" aria-hidden="true" id="mobile-chapter-dots">
+          {filteredHeadings.slice(0, 7).map((_, i) => (
+            <span
+              data-mobile-dot={i}
+              class="size-1.5 rounded-full bg-cream-400 dark:bg-night-600 transition-colors duration-150"
+            />
+          ))}
+        </div>
+      </div>
+
+      <!-- Slide-up Mobile Drawer Sheet -->
+      <div
+        id="codex-mobile-drawer"
+        class="fixed inset-x-0 bottom-0 max-h-[75vh] bg-cream-50 dark:bg-night-800 border-t border-cream-200 dark:border-night-700 rounded-t-2xl shadow-2xl p-4 pb-8 z-50 translate-y-full transition-transform duration-200 ease-out overflow-y-auto"
+        aria-hidden="true"
+      >
+        <div class="w-10 h-1 rounded-full bg-cream-300 dark:bg-night-600 mx-auto mb-3" aria-hidden="true"></div>
+        <div class="flex items-center justify-between pb-2 mb-3 border-b border-cream-200 dark:border-night-700">
+          <span class="font-mono text-[10px] uppercase font-semibold text-terra dark:text-terra-light tracking-wider">
+            Contents &bull; Tap to Jump
+          </span>
+          <button
+            type="button"
+            id="codex-drawer-close"
+            class="font-mono text-xs text-ink-muted dark:text-silk-muted hover:text-ink dark:hover:text-silk px-2 py-0.5 rounded cursor-pointer"
+          >
+            Close &times;
+          </button>
+        </div>
+
+        <ul class="space-y-2">
+          {filteredHeadings.map((h, i) => (
+            <li>
+              <button
+                type="button"
+                data-drawer-item={i}
+                data-slug={h.slug}
+                class="w-full text-left p-2.5 rounded-lg border border-cream-200/60 dark:border-night-700/60 bg-cream-100/40 dark:bg-night-900/40 transition-colors duration-100 cursor-pointer hover:border-terra dark:hover:border-terra-light"
+              >
+                <div class="flex items-baseline gap-2">
+                  <span class="font-mono text-[10px] text-ink-faint dark:text-silk-faint tabular-nums shrink-0">
+                    {String(i + 1).padStart(2, '0')}.
+                  </span>
+                  <div class="min-w-0">
+                    <div class="font-display text-sm text-ink dark:text-silk font-normal line-clamp-1" data-drawer-title>
+                      {h.text}
+                    </div>
+                    <div class="font-sans text-xs text-ink-muted dark:text-silk-muted line-clamp-1 mt-0.5" data-drawer-summary>
+                      Jump to this section
+                    </div>
+                  </div>
+                </div>
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Backdrop for mobile drawer -->
+      <div
+        id="codex-drawer-backdrop"
+        class="fixed inset-0 bg-ink/20 dark:bg-night-950/40 backdrop-blur-xs z-40 opacity-0 pointer-events-none transition-opacity duration-200"
+        aria-hidden="true"
+      />
+    </div>
+  </div>
+)}
+
+<script is:inline>
+(function() {
+  var cleanup = null;
+
+  function initCodexScrubber() {
+    if (cleanup) {
+      cleanup();
+      cleanup = null;
+    }
+
+    var root = document.querySelector('[data-codex-system]');
+    if (!root) return;
+
+    var headings = Array.from(document.querySelectorAll('article h2[id], article h3[id]'));
+    if (headings.length < 3) return;
+
+    // Collect summaries from paragraph following each heading in DOM
+    var sectionData = headings.map(function(h, idx) {
+      var nextP = h.nextElementSibling;
+      while (nextP && nextP.tagName !== 'P' && nextP.tagName !== 'BLOCKQUOTE') {
+        nextP = nextP.nextElementSibling;
+        if (nextP && (/^H[1-6]$/.test(nextP.tagName))) {
+          nextP = null;
+          break;
+        }
+      }
+      var summaryText = nextP ? nextP.textContent.trim().slice(0, 140) + '...' : 'Explore section findings and evaluation.';
+      return {
+        id: h.id,
+        text: h.textContent.trim(),
+        depth: h.tagName === 'H3' ? 3 : 2,
+        summary: summaryText,
+        el: h
+      };
+    });
+
+    // 1. Desktop Dock Elements
+    var dock = document.getElementById('codex-desktop-dock');
+    var hud = document.getElementById('codex-peek-hud');
+    var progressPct = document.getElementById('desktop-progress-pct');
+    var dockButtons = dock ? Array.from(dock.querySelectorAll('[data-codex-node]')) : [];
+
+    // HUD Text Elements
+    var hudTitle = document.getElementById('peek-point-title');
+    var hudSummary = document.getElementById('peek-point-summary');
+    var hudRead = document.getElementById('peek-point-read');
+
+    // 2. Mobile Elements
+    var mobilePill = document.getElementById('codex-mobile-pill');
+    var mobilePillText = document.getElementById('mobile-pill-text');
+    var mobileDrawer = document.getElementById('codex-mobile-drawer');
+    var mobileBackdrop = document.getElementById('codex-drawer-backdrop');
+    var drawerClose = document.getElementById('codex-drawer-close');
+    var mobileDots = Array.from(document.querySelectorAll('[data-mobile-dot]'));
+    var drawerButtons = Array.from(document.querySelectorAll('[data-drawer-item]'));
+
+    // Populate dynamic summaries into mobile drawer
+    drawerButtons.forEach(function(btn, i) {
+      if (sectionData[i]) {
+        var summaryEl = btn.querySelector('[data-drawer-summary]');
+        if (summaryEl) summaryEl.textContent = sectionData[i].summary;
+      }
+    });
+
+    // 3. Desktop Hover Peek Handlers
+    dockButtons.forEach(function(btn, idx) {
+      btn.addEventListener('mouseenter', function() {
+        if (!hud || !sectionData[idx]) return;
+        var r = btn.getBoundingClientRect();
+        hud.style.top = Math.max(16, r.top - 20) + 'px';
+        hud.style.right = (window.innerWidth - r.left + 14) + 'px';
+
+        hudTitle.textContent = sectionData[idx].text;
+        hudSummary.textContent = sectionData[idx].summary;
+        hudRead.textContent = sectionData[idx].depth === 3 ? '~1-2 min read' : '~2-3 min read';
+
+        hud.classList.remove('opacity-0', 'translate-x-2', 'pointer-events-none');
+        hud.classList.add('opacity-100', 'translate-x-0', 'pointer-events-auto');
+      });
+    });
+
+    if (dock) {
+      dock.addEventListener('mouseleave', function() {
+        if (hud) {
+          hud.classList.remove('opacity-100', 'translate-x-0', 'pointer-events-auto');
+          hud.classList.add('opacity-0', 'translate-x-2', 'pointer-events-none');
+        }
+      });
+    }
+
+    // 4. Click Jump Handling
+    function jumpToHeading(id) {
+      var target = document.getElementById(id);
+      if (target) {
+        history.pushState(null, '', '#' + id);
+        target.scrollIntoView({ behavior: 'smooth' });
+        closeDrawer();
+      }
+    }
+
+    dockButtons.forEach(function(btn, idx) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (sectionData[idx]) jumpToHeading(sectionData[idx].id);
+      });
+    });
+
+    drawerButtons.forEach(function(btn, idx) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (sectionData[idx]) jumpToHeading(sectionData[idx].id);
+      });
+    });
+
+    // 5. Mobile Drawer Toggle
+    function openDrawer() {
+      if (!mobileDrawer || !mobileBackdrop) return;
+      mobileDrawer.classList.remove('translate-y-full');
+      mobileBackdrop.classList.remove('opacity-0', 'pointer-events-none');
+      mobileBackdrop.classList.add('opacity-100', 'pointer-events-auto');
+      if (mobilePill) mobilePill.setAttribute('aria-expanded', 'true');
+    }
+
+    function closeDrawer() {
+      if (!mobileDrawer || !mobileBackdrop) return;
+      mobileDrawer.classList.add('translate-y-full');
+      mobileBackdrop.classList.remove('opacity-100', 'pointer-events-auto');
+      mobileBackdrop.classList.add('opacity-0', 'pointer-events-none');
+      if (mobilePill) mobilePill.setAttribute('aria-expanded', 'false');
+    }
+
+    if (mobilePill) {
+      mobilePill.addEventListener('click', openDrawer);
+      mobilePill.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openDrawer();
+        }
+      });
+    }
+    if (drawerClose) drawerClose.addEventListener('click', closeDrawer);
+    if (mobileBackdrop) mobileBackdrop.addEventListener('click', closeDrawer);
+
+    window.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') closeDrawer();
+    });
+
+    // 6. Scrollspy Engine
+    var activeIdx = -1;
+
+    function onScrollUpdate() {
+      var scrollPos = window.scrollY + 140;
+      var docH = document.documentElement.scrollHeight - window.innerHeight;
+      var pct = docH > 0 ? Math.min(Math.round((window.scrollY / docH) * 100), 100) : 0;
+      if (progressPct) progressPct.textContent = pct + '%';
+
+      var cur = 0;
+      var isBottom = (window.scrollY + window.innerHeight) >= (document.documentElement.scrollHeight - 50);
+
+      if (isBottom) {
+        cur = headings.length - 1;
+      } else {
+        for (var i = 0; i < headings.length; i++) {
+          var top = headings[i].getBoundingClientRect().top + window.scrollY;
+          if (top <= scrollPos) cur = i; else break;
+        }
+      }
+
+      if (cur !== activeIdx) {
+        activeIdx = cur;
+
+        // Desktop Dock active styling
+        dockButtons.forEach(function(btn, i) {
+          var dash = btn.querySelector('[data-codex-dash]');
+          var label = btn.querySelector('[data-codex-label]');
+          var isActive = (i === activeIdx);
+          var isRead = (i < activeIdx);
+
+          if (isActive) {
+            btn.classList.add('bg-terra/10', 'dark:bg-terra-light/10');
+            if (dash) {
+              dash.classList.add('bg-terra', 'dark:bg-terra-light', 'w-5');
+              dash.classList.remove('bg-cream-400', 'dark:bg-night-600', 'bg-gold', 'dark:bg-gold-light');
+            }
+            if (label) {
+              label.classList.add('text-terra', 'dark:text-terra-light', 'font-medium');
+              label.classList.remove('text-ink-muted', 'dark:text-silk-muted');
+            }
+          } else {
+            btn.classList.remove('bg-terra/10', 'dark:bg-terra-light/10');
+            if (dash) {
+              dash.classList.remove('bg-terra', 'dark:bg-terra-light', 'w-5');
+              if (isRead) {
+                dash.classList.add('bg-gold', 'dark:bg-gold-light');
+                dash.classList.remove('bg-cream-400', 'dark:bg-night-600');
+              } else {
+                dash.classList.remove('bg-gold', 'dark:bg-gold-light');
+                dash.classList.add('bg-cream-400', 'dark:bg-night-600');
+              }
+            }
+            if (label) {
+              label.classList.remove('text-terra', 'dark:text-terra-light', 'font-medium');
+              label.classList.add('text-ink-muted', 'dark:text-silk-muted');
+            }
+          }
+        });
+
+        // Mobile active styling
+        if (mobilePillText && sectionData[activeIdx]) {
+          mobilePillText.textContent = sectionData[activeIdx].text;
+        }
+        mobileDots.forEach(function(dot, i) {
+          dot.classList.toggle('bg-terra', i === activeIdx);
+          dot.classList.toggle('dark:bg-terra-light', i === activeIdx);
+          dot.classList.toggle('ring-2', i === activeIdx);
+          dot.classList.toggle('ring-terra/30', i === activeIdx);
+          dot.classList.toggle('dark:ring-terra-light/30', i === activeIdx);
+        });
+
+        // Drawer active styling
+        drawerButtons.forEach(function(btn, i) {
+          var isActive = (i === activeIdx);
+          btn.classList.toggle('border-terra', isActive);
+          btn.classList.toggle('dark:border-terra-light', isActive);
+          btn.classList.toggle('bg-terra/5', isActive);
+          btn.classList.toggle('dark:bg-terra-light/10', isActive);
+          var titleEl = btn.querySelector('[data-drawer-title]');
+          if (titleEl) {
+            titleEl.classList.toggle('text-terra', isActive);
+            titleEl.classList.toggle('dark:text-terra-light', isActive);
+          }
+        });
+      }
+    }
+
+    var ticking = false;
+    var scrollHandler = function() {
+      if (!ticking) {
+        window.requestAnimationFrame(function() {
+          onScrollUpdate();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', scrollHandler, { passive: true });
+    window.addEventListener('resize', scrollHandler, { passive: true });
+    onScrollUpdate();
+
+    cleanup = function() {
+      window.removeEventListener('scroll', scrollHandler);
+      window.removeEventListener('resize', scrollHandler);
+    };
+  }
+
+  document.addEventListener('astro:page-load', initCodexScrubber);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCodexScrubber);
+  } else {
+    initCodexScrubber();
+  }
+})();
+</script>
+
+<style>
+  [data-codex-node]:hover,
+  [data-codex-node]:focus-visible {
+    transition-delay: 0s !important;
+  }
+  #codex-peek-hud {
+    transition-delay: 0s !important;
+  }
+</style>

@@ -5,6 +5,7 @@ import TagList from '../components/TagList.astro';
 import Giscus from '../components/Giscus.astro';
 import JsonLd from '../components/JsonLd.astro';
 import KolamDivider from '../components/KolamDivider.astro';
+import CodexScrubber from '../components/CodexScrubber.astro';
 import readingTime from 'reading-time';
 import '../styles/interactive-theme.css';
 
@@ -165,80 +166,8 @@ const showToc = filteredHeadings.length > 2;
     </footer>
   </article>
 
-  <!-- Right Sidebar with Table of Contents -->
   {showToc && (
-    <aside slot="right-sidebar" class="hidden xl:block w-[240px] shrink-0">
-      <div id="toc-container" class="sticky top-16 max-h-[calc(100dvh-5rem)] overflow-y-auto pr-2 scrollbar-none">
-        <nav id="toc-nav" class="text-xs" aria-label="Table of contents">
-          <!-- Header -->
-          <div class="mb-4">
-            <h4 class="font-mono uppercase text-ink-faint dark:text-silk-faint text-[10px] tracking-[0.15em] font-semibold">
-              On this page
-            </h4>
-          </div>
-
-          <!-- Main Track and Headings -->
-          <div class="relative pl-6">
-            <!-- Dual Kolam Track (Terra & Gold vertical rails) -->
-            <div class="absolute left-[7px] top-1.5 bottom-1.5 flex gap-[1px] pointer-events-none" aria-hidden="true">
-              <div class="w-0.5 h-full bg-terra/40 dark:bg-terra-light/35 rounded-full"></div>
-              <div class="w-0.5 h-full bg-gold/40 dark:bg-gold-light/35 rounded-full"></div>
-            </div>
-
-            <!-- Sliding Kolam Interlaced Diamond Knot -->
-            <div
-              id="toc-active-knot"
-              class="absolute -left-[1px] top-0 pointer-events-none transition-all duration-200 ease-out opacity-0 z-10"
-              aria-hidden="true"
-            >
-              <svg class="size-5 text-terra dark:text-terra-light drop-shadow-[0_0_8px_rgba(196,98,58,0.6)] dark:drop-shadow-[0_0_10px_rgba(224,122,79,0.8)]" viewBox="0 0 24 24" fill="none">
-                <!-- Kolam 4-petal sikku loop motif -->
-                <path
-                  d="M12 2 Q15 6 18 6 Q22 6 22 12 Q22 18 18 18 Q15 18 12 22 Q9 18 6 18 Q2 18 2 12 Q2 6 6 6 Q9 6 12 2 Z"
-                  fill="currentColor"
-                  fill-opacity="0.18"
-                  stroke="currentColor"
-                  stroke-width="1.2"
-                />
-                <!-- Center rotated diamond knot -->
-                <rect x="7" y="7" width="10" height="10" rx="1" transform="rotate(45 12 12)" fill="currentColor" />
-                <rect x="9" y="9" width="6" height="6" transform="rotate(45 12 12)" fill="#fdf9f1" class="dark:fill-[#15111e]" stroke="#d4a843" stroke-width="1" />
-                <!-- Bindu Gold Center Dot -->
-                <circle cx="12" cy="12" r="1.5" fill="#d4a843" class="dark:fill-[#e8c462]" />
-              </svg>
-            </div>
-
-            <ul class="space-y-3">
-              {filteredHeadings.map(({ depth, text, slug }) => (
-                <li
-                  data-toc-item
-                  data-depth={depth}
-                  class:list={[
-                    'relative transition-all duration-150',
-                    depth === 3 ? 'pl-4 ml-1.5' : '',
-                  ]}
-                >
-                  {depth === 3 && (
-                    <span
-                      class="absolute left-0 top-2.5 w-3 h-px bg-cream-300/90 dark:bg-night-700 pointer-events-none"
-                      aria-hidden="true"
-                    />
-                  )}
-                  <a
-                    href={`#${slug}`}
-                    data-toc-link
-                    data-heading-id={slug}
-                    class="block text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors duration-150 line-clamp-2 leading-relaxed py-0.5 font-normal"
-                  >
-                    {text}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </nav>
-      </div>
-    </aside>
+    <CodexScrubber slot="right-sidebar" headings={headings} />
   )}
 
   <script is:inline>
@@ -265,117 +194,8 @@ const showToc = filteredHeadings.length > 2;
           progressUpdate();
         }
 
-        // Table of Contents Scrollspy (Option 1: Kolam Rail & Knot)
-        var tocNav = document.getElementById('toc-nav');
-        var knot = document.getElementById('toc-active-knot');
-        var headings = Array.from(document.querySelectorAll('article h2[id], article h3[id]'));
-        var tocLinks = tocNav ? Array.from(tocNav.querySelectorAll('a[data-heading-id]')) : [];
-
-        var scrollHandler = null;
-
-        if (tocNav && headings.length > 0 && tocLinks.length > 0) {
-          var activeId = '';
-
-          function updateActiveHeading() {
-            var scrollPos = window.scrollY + 140;
-            var docHeight = document.documentElement.scrollHeight;
-            var winHeight = window.innerHeight;
-            var isAtBottom = (window.scrollY + winHeight) >= (docHeight - 60);
-
-            var currentActiveId = headings[0].id;
-
-            if (isAtBottom) {
-              currentActiveId = headings[headings.length - 1].id;
-            } else {
-              for (var i = 0; i < headings.length; i++) {
-                var h = headings[i];
-                var top = h.getBoundingClientRect().top + window.scrollY;
-                if (top <= scrollPos) {
-                  currentActiveId = h.id;
-                } else {
-                  break;
-                }
-              }
-            }
-
-            if (currentActiveId !== activeId) {
-              activeId = currentActiveId;
-
-              tocLinks.forEach(function(link) {
-                var headingId = link.getAttribute('data-heading-id');
-                var item = link.closest('[data-toc-item]');
-                var isActive = (headingId === activeId);
-
-                if (isActive) {
-                  link.classList.add('text-terra', 'dark:text-terra-light', 'font-medium');
-                  link.classList.remove('text-ink-muted', 'dark:text-silk-muted');
-
-                  // Move the Kolam knot to center on the active heading item
-                  if (knot && item) {
-                    var itemTop = item.offsetTop;
-                    var linkEl = item.querySelector('a');
-                    var linkH = linkEl ? linkEl.offsetHeight : item.offsetHeight;
-                    var knotY = itemTop + Math.max(0, (linkH / 2) - 10);
-                    knot.style.transform = 'translateY(' + knotY + 'px)';
-                    knot.style.opacity = '1';
-                  }
-
-                  // Auto-scroll TOC sidebar container if needed
-                  var container = document.getElementById('toc-container');
-                  if (container && item) {
-                    var cRect = container.getBoundingClientRect();
-                    var iRect = item.getBoundingClientRect();
-                    if (iRect.top < cRect.top + 20 || iRect.bottom > cRect.bottom - 20) {
-                      item.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-                    }
-                  }
-                } else {
-                  link.classList.remove('text-terra', 'dark:text-terra-light', 'font-medium');
-                  link.classList.add('text-ink-muted', 'dark:text-silk-muted');
-                }
-              });
-            }
-          }
-
-          var ticking = false;
-          scrollHandler = function() {
-            if (!ticking) {
-              window.requestAnimationFrame(function() {
-                updateActiveHeading();
-                ticking = false;
-              });
-              ticking = true;
-            }
-          };
-
-          window.addEventListener('scroll', scrollHandler, { passive: true });
-          window.addEventListener('resize', scrollHandler, { passive: true });
-
-          // Smooth anchor scroll on TOC link click
-          tocLinks.forEach(function(link) {
-            link.addEventListener('click', function(e) {
-              var targetId = link.getAttribute('data-heading-id');
-              var targetEl = document.getElementById(targetId);
-              if (targetEl) {
-                e.preventDefault();
-                history.pushState(null, '', '#' + targetId);
-                targetEl.scrollIntoView({ behavior: 'smooth' });
-                activeId = targetId;
-                updateActiveHeading();
-              }
-            });
-          });
-
-          // Run immediately
-          updateActiveHeading();
-        }
-
         cleanup = function() {
           if (progressUpdate) window.removeEventListener('scroll', progressUpdate);
-          if (scrollHandler) {
-            window.removeEventListener('scroll', scrollHandler);
-            window.removeEventListener('resize', scrollHandler);
-          }
           initializedPage = null;
           cleanup = null;
         };
