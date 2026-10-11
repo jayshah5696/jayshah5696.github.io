@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Archives mouse interaction and hover synchronization', () => {
-  const port = process.env.PORT || '4322';
+  const port = process.env.PORT || '4321';
 
   test.beforeEach(async ({ page }) => {
     await page.setViewportSize({ width: 1280, height: 800 });

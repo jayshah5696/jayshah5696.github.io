@@ -68,7 +68,7 @@ const years = Object.keys(byYear)
                 <!-- Article Row Link (Clean horizontal spacing with no collision) -->
                 <a
                   href={`/posts/${post.id}/`}
-                  class="archive-row-link flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 p-2.5 rounded-lg border border-transparent group-hover:border-cream-200 dark:group-hover:border-night-700 group-hover:bg-cream-50/70 dark:group-hover:bg-night-800/60 transition-colors"
+                  class="archive-row-link flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 p-2.5 rounded-lg border border-transparent group-hover:border-cream-300 dark:group-hover:border-[#3a3348] group-hover:bg-cream-200/70 dark:group-hover:bg-night-800 transition-colors"
                 >
                   <span class="font-mono text-xs text-ink-muted dark:text-silk-faint tabular-nums shrink-0 sm:w-20">
                     {post.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
