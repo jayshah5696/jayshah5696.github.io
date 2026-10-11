@@ -27,7 +27,7 @@ const { items, class: className = '' } = Astro.props;
         <!-- Sacred Kolam Diamond Bindu Node on the dual rail -->
         <div
           class:list={[
-            'kolam-diamond-node -left-[27px] top-6',
+            'kolam-diamond-node pointer-events-none -left-[27px] top-6',
             item.current
               ? 'ring-4 ring-terra/25 dark:ring-terra-light/30 border-terra dark:border-terra-light scale-125'
               : 'group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 group-hover:scale-125 transition-transform duration-150',
