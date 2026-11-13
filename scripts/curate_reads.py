@@ -13,13 +13,14 @@ Usage:
     uv run scripts/curate_reads.py 2026-08-15               # From date onwards
     uv run scripts/curate_reads.py 2026-08-15 2026-08-27    # Date range
     uv run scripts/curate_reads.py 2026-08-15 "" google/gemini-3.5-flash-lite # Custom model slug
-    uv run scripts/curate_reads.py 14 --dry-run --limit 10  # Print notes only: no UI, branch, or PR
 """
 
 import os
 import sys
 import re
 import json
+import hashlib
+import tempfile
 import glob
 import time
 import argparse
@@ -45,6 +46,45 @@ FALLBACK_MODEL = "google/gemini-3.5-flash-lite"
 REPO_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 READS_DIR = os.path.join(REPO_DIR, "src", "content", "reads")
 PORT = 4999
+GENERATION_CACHE_DIR = os.path.join(REPO_DIR, '.cache', 'reads-curator', 'generations-v1')
+GENERATION_FIELDS = ('title', 'suggested_tags', 'notes', 'thin', 'warning', 'slug', 'used_model')
+
+
+def generation_cache_path(item, model):
+    identity = json.dumps([model, item.get('id') or dedupe_key(item['url'])])
+    return os.path.join(GENERATION_CACHE_DIR, hashlib.sha256(identity.encode()).hexdigest() + '.json')
+
+
+def load_generation(item, model):
+    """Reuse completed generations without an expiry; browser drafts still override these in the UI."""
+    path = generation_cache_path(item, model)
+    try:
+        with open(path, encoding='utf-8') as cached:
+            result = json.load(cached)
+    except FileNotFoundError:
+        return None
+    except (OSError, ValueError) as exc:
+        raise SystemExit(f'Cannot read saved generation {path}: {exc}. Move this file aside to regenerate it.') from exc
+    if not isinstance(result, dict) or any(field not in result for field in GENERATION_FIELDS):
+        raise SystemExit(f'Invalid saved generation {path}. Move this file aside to regenerate it.')
+    return {field: result[field] for field in GENERATION_FIELDS}
+
+
+def save_generation(item, model):
+    """Checkpoint each completed bookmark atomically so interrupted runs keep their progress."""
+    os.makedirs(GENERATION_CACHE_DIR, exist_ok=True)
+    path = generation_cache_path(item, model)
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(mode='w', encoding='utf-8', dir=GENERATION_CACHE_DIR, delete=False) as cached:
+            temporary = cached.name
+            json.dump({field: item[field] for field in GENERATION_FIELDS}, cached, ensure_ascii=False)
+            cached.flush()
+            os.fsync(cached.fileno())
+        os.replace(temporary, path)
+    finally:
+        if temporary and os.path.exists(temporary):
+            os.unlink(temporary)
 
 
 # Tags that exist in tags.ts only as category keys or CSS-ish identifiers.
@@ -180,11 +220,10 @@ def parse_cli_dates_and_model():
     parser.add_argument("--end", default=None, help="End date (YYYY-MM-DD)")
     parser.add_argument("--model", default=None, help="Exact model slug (e.g. openai/gpt-6-luna)")
 
-    parser.add_argument("--dry-run", action="store_true", help="Print generated notes and exit (no UI, branch, or PR)")
-    parser.add_argument("--include-published", action="store_true", help="Also process bookmarks already in the repo (prompt testing with --dry-run)")
+    parser.add_argument("--include-published", action="store_true", help="Also process bookmarks already in the repo")
     parser.add_argument("--limit", type=int, default=None, help="Only process the first N new bookmarks")
 
-    args, _ = parser.parse_known_args()
+    args = parser.parse_args()
 
     raw_start = args.start or args.pos_start
     raw_end = args.end or args.pos_end
@@ -610,7 +649,6 @@ def fetch_and_prepare_bookmarks(start_iso, end_iso, label_start, label_end, mode
     
     candidates = []
     seen_urls = set()
-    arxiv_raw = []
 
     for bm in raw_bookmarks:
         c = bm.get("content", {})
@@ -659,19 +697,31 @@ def fetch_and_prepare_bookmarks(start_iso, end_iso, label_start, label_end, mode
             "favourited": bm.get("favourited", False)
         }
         candidates.append(item)
-        arxiv_raw.append(item)
 
     if limit:
         candidates = candidates[:limit]
     if not candidates:
         return []
 
+    pending = []
+    tracker = OpenerTracker(len(candidates))
+    for item in candidates:
+        saved = load_generation(item, model)
+        if saved is None:
+            pending.append(item)
+        else:
+            item.update(saved)
+            tracker.add(item['notes'])
+    print(f"✓ Reused {len(candidates) - len(pending)} saved generations; {len(pending)} need analysis.")
+    if not pending:
+        return candidates
+
     # 1. Enrich arXiv papers
     print("✓ Resolving arXiv metadata...")
-    arxiv_cache = resolve_arxiv_papers(arxiv_raw)
+    arxiv_cache = resolve_arxiv_papers(pending)
     arxiv_pattern = re.compile(r'(?:arxiv\.org/(?:abs|pdf|html)/|(?:\A|\s))([0-9]{4}\.[0-9]{4,5}(?:v[0-9]+)?)')
 
-    for item in candidates:
+    for item in pending:
         m = arxiv_pattern.search(item["url"]) or arxiv_pattern.search(item["raw_title"])
         if m:
             aid = m.group(1).split("v")[0]
@@ -684,13 +734,12 @@ def fetch_and_prepare_bookmarks(start_iso, end_iso, label_start, label_end, mode
                     item["content"] = (item["content"] + "\n\nArXiv abstract:\n" + arxiv_summary).strip()
 
     # 2. Parallel LLM Takeaway & Tag Synthesis with Pydantic validation
-    print(f"🤖 Generating LLM Takeaways & Tags for {len(candidates)} bookmarks via OpenRouter...")
+    print(f"🤖 Generating LLM Takeaways & Tags for {len(pending)} bookmarks via OpenRouter...")
     
-    tracker = OpenerTracker(len(candidates))
     with ThreadPoolExecutor(max_workers=5) as executor:
         future_to_item = {
             executor.submit(analyze_item_with_llm, item, model, openrouter_key, STYLES[i % len(STYLES)], tracker): item
-            for i, item in enumerate(candidates)
+            for i, item in enumerate(pending)
         }
         
         idx = 0
@@ -708,13 +757,20 @@ def fetch_and_prepare_bookmarks(start_iso, end_iso, label_start, label_end, mode
                 item["slug"] = slugify(item["title"])
                 item["used_model"] = llm_res.get("used_model", model)
                 flag = " [THIN]" if item["thin"] else (" [CHECK]" if item["warning"] else "")
-                print(f"  [{idx}/{len(candidates)}] Analyzed ({item['used_model']}){flag}: {item['title'][:50]}...")
+                print(f"  [{idx}/{len(pending)}] Analyzed ({item['used_model']}){flag}: {item['title'][:50]}...")
             except Exception as e:
                 item["suggested_tags"] = []
                 item["notes"] = ""
                 item["thin"] = True
                 item["warning"] = f"analysis failed: {e}"
                 item["slug"] = slugify(item["title"])
+
+            # Missing credentials and failed calls are retried next time, never cached as success.
+            if item.get('used_model') not in (None, 'none', 'fallback'):
+                try:
+                    save_generation(item, model)
+                except OSError as exc:
+                    raise SystemExit(f"Could not save generation for {item['url']}: {exc}") from exc
 
     return candidates
 
@@ -777,10 +833,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     </header>
 
     <!-- Form Container -->
+    <p id="draftStatus" role="status" aria-live="polite" class="mb-4 text-xs font-mono text-silk-muted">Edits save automatically in this browser.</p>
+    <div class="mb-4 flex flex-wrap items-center gap-4 text-xs font-mono text-silk-muted">
+      <label class="flex items-center gap-2 cursor-pointer"><input id="hideUnselected" type="checkbox">Hide unselected</label>
+      <label class="flex items-center gap-2 cursor-pointer"><input id="hideReviewed" type="checkbox">Hide reviewed</label>
+      <span id="visibleCount" role="status" aria-live="polite"></span>
+    </div>
+    <p class="mb-4 text-xs text-silk-faint">Mark a bookmark done when you finish reviewing. Hidden bookmarks keep their edits and PR selections.</p>
     <form id="curatorForm" class="space-y-6">
       <div id="itemsContainer" class="space-y-6">
         <!-- Rendered by JS -->
       </div>
+      <p id="filterEmpty" hidden class="text-sm text-silk-muted">No bookmarks match this view. Turn off the filters to see everything.</p>
 
       <!-- Sticky Submission Bar -->
       <div class="sticky bottom-4 z-20 bg-night-900/95 backdrop-blur-md border border-night-700 p-4 rounded-xl shadow-2xl flex items-center justify-between">
@@ -821,6 +885,98 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     const selectedCountEl = document.getElementById('selectedCount');
     const totalCountEl = document.getElementById('totalCount');
     totalCountEl.textContent = CANDIDATES.length;
+    const draftStatus = document.getElementById('draftStatus');
+    const unsavedDrafts = new Set();
+
+    // Store each bookmark separately so typing never serializes the entire batch.
+    // IDs (or URLs for older items) keep drafts stable across reorderings and reruns.
+    function draftKey(item) {
+      return 'reads-curator:draft:v1:' + (item.id || item.url);
+    }
+
+    function saveDraft(idx) {
+      const item = CANDIDATES[idx];
+      const draft = {
+        title: document.getElementById(`title_${idx}`).value,
+        date: document.getElementById(`date_${idx}`).value,
+        notes: document.getElementById(`notes_${idx}`).value,
+        selected: document.getElementById(`check_${idx}`).checked,
+        reviewed: document.getElementById(`reviewed_${idx}`).getAttribute('aria-pressed') === 'true',
+        tags: Array.from(document.querySelectorAll(`#tag_group_${idx} .tag-pill.font-semibold`)).map(btn => btn.dataset.tag)
+      };
+      try {
+        localStorage.setItem(draftKey(item), JSON.stringify(draft));
+        unsavedDrafts.delete(idx);
+        if (unsavedDrafts.size === 0) {
+          draftStatus.textContent = 'All edits saved in this browser. Safe to refresh.';
+        }
+      } catch (err) {
+        unsavedDrafts.add(idx);
+        draftStatus.textContent = 'Edits could not be saved. Keep this tab open and copy your changes before leaving.';
+        console.error('Could not save curator draft', err);
+      }
+    }
+
+    function restoreDrafts() {
+      let restored = 0;
+      try {
+        CANDIDATES.forEach((item, idx) => {
+          const stored = localStorage.getItem(draftKey(item));
+          if (!stored) return;
+          const draft = JSON.parse(stored);
+          if (!draft || typeof draft.title !== 'string' || typeof draft.date !== 'string' ||
+              typeof draft.notes !== 'string' || typeof draft.selected !== 'boolean' || !Array.isArray(draft.tags)) {
+            throw new Error('Invalid saved draft');
+          }
+          // Assign values after rendering so saved text is never interpreted as HTML.
+          document.getElementById(`title_${idx}`).value = draft.title;
+          document.getElementById(`date_${idx}`).value = draft.date;
+          document.getElementById(`notes_${idx}`).value = draft.notes;
+          document.getElementById(`check_${idx}`).checked = draft.selected;
+          setReviewed(document.getElementById(`reviewed_${idx}`), draft.reviewed === true);
+          document.querySelectorAll(`#tag_group_${idx} .tag-pill`).forEach(btn => {
+            const active = draft.tags.includes(btn.dataset.tag);
+            btn.className = 'tag-pill text-xs font-mono px-2.5 py-1 rounded-full border transition cursor-pointer ' +
+              (active ? getTagClass(btn.dataset.tag) + ' font-semibold' : 'bg-night-900 border-night-700 text-silk-faint hover:text-silk');
+          });
+          restored++;
+        });
+        if (restored) draftStatus.textContent = `Restored saved edits for ${restored} bookmarks. Edits save automatically in this browser.`;
+      } catch (err) {
+        draftStatus.textContent = 'Some saved edits could not be loaded. Keep this tab open and check your drafts before continuing.';
+        console.error('Could not restore curator drafts', err);
+      }
+    }
+
+    window.addEventListener('beforeunload', (event) => {
+      if (unsavedDrafts.size) {
+        event.preventDefault();
+        event.returnValue = '';
+      }
+    });
+
+    // Save on every input event, including the last keystroke before a refresh.
+    container.addEventListener('input', (event) => {
+      const card = event.target.closest('.item-card');
+      if (card) saveDraft(Number(card.dataset.index));
+    });
+    container.addEventListener('change', (event) => {
+      const card = event.target.closest('.item-card');
+      if (card) saveDraft(Number(card.dataset.index));
+    });
+
+    function setReviewed(button, reviewed) {
+      button.setAttribute('aria-pressed', String(reviewed));
+      button.textContent = reviewed ? 'Reviewed. Undo' : 'Done';
+    }
+
+    container.addEventListener('click', (event) => {
+      const button = event.target.closest('.reviewed-toggle');
+      if (!button) return;
+      setReviewed(button, button.getAttribute('aria-pressed') !== 'true');
+      saveDraft(Number(button.closest('.item-card').dataset.index));
+      applyFilters();
+    });
 
     function getTagClass(tag) {
       if (['llm', 'ai-agents', 'rag', 'ai-safety', 'gen-ai'].includes(tag)) return 'bg-terra/20 text-terra-light border-terra/30';
@@ -877,6 +1033,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             ${item.warning ? `<p class="text-[11px] font-mono text-gold-light mb-1">${item.thin ? 'Thin source, unchecked by default: ' : 'Check: '}${item.warning}</p>` : ''}
             <textarea id="notes_${idx}" rows="5" class="w-full bg-night-900 border border-night-700 rounded-lg p-3 text-xs font-mono text-silk leading-relaxed focus:border-terra focus:outline-none">${item.notes}</textarea>
           </div>
+          <button type="button" id="reviewed_${idx}" aria-pressed="false" class="reviewed-toggle text-xs font-mono px-3 py-1.5 rounded-lg border border-night-600 bg-night-900 hover:border-terra transition cursor-pointer">Done</button>
         </div>
       `).join('');
 
@@ -890,6 +1047,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           } else {
             btn.className = `tag-pill text-xs font-mono px-2.5 py-1 rounded-full border transition cursor-pointer ${getTagClass(tag)} font-semibold`;
           }
+          saveDraft(Number(btn.closest('.item-card').dataset.index));
         });
       });
 
@@ -903,15 +1061,63 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     function updateCount() {
       const selected = document.querySelectorAll('.item-check:checked').length;
       selectedCountEl.textContent = `${selected} selected`;
+      applyFilters();
+    }
+
+    // Filtering only hides cards. Hidden selections still belong to the PR.
+    function applyFilters() {
+      const hideUnselected = document.getElementById('hideUnselected').checked;
+      const hideReviewed = document.getElementById('hideReviewed').checked;
+      let visible = 0;
+      container.querySelectorAll('.item-card').forEach(card => {
+        card.hidden = (hideUnselected && !card.querySelector('.item-check').checked) ||
+          (hideReviewed && card.querySelector('.reviewed-toggle').getAttribute('aria-pressed') === 'true');
+        if (!card.hidden) visible++;
+      });
+      document.getElementById('visibleCount').textContent = `${visible} of ${CANDIDATES.length} shown`;
+      document.getElementById('filterEmpty').hidden = visible > 0 || CANDIDATES.length === 0;
+    }
+
+    const filterKey = 'reads-curator:filters:v1';
+    ['hideUnselected', 'hideReviewed'].forEach(id => {
+      document.getElementById(id).addEventListener('change', () => {
+        applyFilters();
+        try {
+          localStorage.setItem(filterKey, JSON.stringify({
+            hideUnselected: document.getElementById('hideUnselected').checked,
+            hideReviewed: document.getElementById('hideReviewed').checked
+          }));
+        } catch (err) {
+          draftStatus.textContent = 'View filters could not be saved. They may reset after refresh.';
+          console.error('Could not save curator filters', err);
+        }
+      });
+    });
+
+    function restoreFilters() {
+      try {
+        const filters = JSON.parse(localStorage.getItem(filterKey) || '{}');
+        document.getElementById('hideUnselected').checked = filters.hideUnselected === true;
+        document.getElementById('hideReviewed').checked = filters.hideReviewed === true;
+      } catch (err) {
+        draftStatus.textContent = 'Saved view filters could not be loaded. Showing all bookmarks.';
+        console.error('Could not restore curator filters', err);
+      }
     }
 
     document.getElementById('selectAllBtn').addEventListener('click', () => {
-      document.querySelectorAll('.item-check').forEach(cb => cb.checked = true);
+      document.querySelectorAll('.item-check').forEach((cb, idx) => {
+        cb.checked = true;
+        saveDraft(idx);
+      });
       updateCount();
     });
 
     document.getElementById('deselectAllBtn').addEventListener('click', () => {
-      document.querySelectorAll('.item-check').forEach(cb => cb.checked = false);
+      document.querySelectorAll('.item-check').forEach((cb, idx) => {
+        cb.checked = false;
+        saveDraft(idx);
+      });
       updateCount();
     });
 
@@ -991,6 +1197,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     });
 
     renderItems();
+    restoreDrafts();
+    restoreFilters();
+    updateCount();
   </script>
 </body>
 </html>
@@ -1176,11 +1385,6 @@ def main():
     candidates = fetch_and_prepare_bookmarks(start_iso, end_iso, label_start, label_end, target_model, limit=args.limit, include_published=args.include_published)
     if not candidates:
         print(f"\nNo new uncurated bookmarks found between {label_start} and {label_end}.")
-        return
-
-    if args.dry_run:
-        for it in candidates:
-            print(f"\n## {it['title']}\n{it['url']}\ntags: {it['suggested_tags']}  thin: {it['thin']}  warning: {it['warning']}\n{it['notes']}")
         return
 
     CuratorHTTPHandler.candidates = candidates
