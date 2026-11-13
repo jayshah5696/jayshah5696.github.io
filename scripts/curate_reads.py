@@ -13,7 +13,6 @@ Usage:
     uv run scripts/curate_reads.py 2026-08-15               # From date onwards
     uv run scripts/curate_reads.py 2026-08-15 2026-08-27    # Date range
     uv run scripts/curate_reads.py 2026-08-15 "" google/gemini-3.5-flash-lite # Custom model slug
-    uv run scripts/curate_reads.py 14 --dry-run --limit 10  # Print notes only: no UI, branch, or PR
 """
 
 import os
@@ -180,11 +179,10 @@ def parse_cli_dates_and_model():
     parser.add_argument("--end", default=None, help="End date (YYYY-MM-DD)")
     parser.add_argument("--model", default=None, help="Exact model slug (e.g. openai/gpt-6-luna)")
 
-    parser.add_argument("--dry-run", action="store_true", help="Print generated notes and exit (no UI, branch, or PR)")
-    parser.add_argument("--include-published", action="store_true", help="Also process bookmarks already in the repo (prompt testing with --dry-run)")
+    parser.add_argument("--include-published", action="store_true", help="Also process bookmarks already in the repo")
     parser.add_argument("--limit", type=int, default=None, help="Only process the first N new bookmarks")
 
-    args, _ = parser.parse_known_args()
+    args = parser.parse_args()
 
     raw_start = args.start or args.pos_start
     raw_end = args.end or args.pos_end
@@ -777,6 +775,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     </header>
 
     <!-- Form Container -->
+    <p id="draftStatus" role="status" aria-live="polite" class="mb-4 text-xs font-mono text-silk-muted">Edits save automatically in this browser.</p>
     <form id="curatorForm" class="space-y-6">
       <div id="itemsContainer" class="space-y-6">
         <!-- Rendered by JS -->
@@ -821,6 +820,83 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     const selectedCountEl = document.getElementById('selectedCount');
     const totalCountEl = document.getElementById('totalCount');
     totalCountEl.textContent = CANDIDATES.length;
+    const draftStatus = document.getElementById('draftStatus');
+    const unsavedDrafts = new Set();
+
+    // Store each bookmark separately so typing never serializes the entire batch.
+    // IDs (or URLs for older items) keep drafts stable across reorderings and reruns.
+    function draftKey(item) {
+      return 'reads-curator:draft:v1:' + (item.id || item.url);
+    }
+
+    function saveDraft(idx) {
+      const item = CANDIDATES[idx];
+      const draft = {
+        title: document.getElementById(`title_${idx}`).value,
+        date: document.getElementById(`date_${idx}`).value,
+        notes: document.getElementById(`notes_${idx}`).value,
+        selected: document.getElementById(`check_${idx}`).checked,
+        tags: Array.from(document.querySelectorAll(`#tag_group_${idx} .tag-pill.font-semibold`)).map(btn => btn.dataset.tag)
+      };
+      try {
+        localStorage.setItem(draftKey(item), JSON.stringify(draft));
+        unsavedDrafts.delete(idx);
+        if (unsavedDrafts.size === 0) {
+          draftStatus.textContent = 'All edits saved in this browser. Safe to refresh.';
+        }
+      } catch (err) {
+        unsavedDrafts.add(idx);
+        draftStatus.textContent = 'Edits could not be saved. Keep this tab open and copy your changes before leaving.';
+        console.error('Could not save curator draft', err);
+      }
+    }
+
+    function restoreDrafts() {
+      let restored = 0;
+      try {
+        CANDIDATES.forEach((item, idx) => {
+          const stored = localStorage.getItem(draftKey(item));
+          if (!stored) return;
+          const draft = JSON.parse(stored);
+          if (!draft || typeof draft.title !== 'string' || typeof draft.date !== 'string' ||
+              typeof draft.notes !== 'string' || typeof draft.selected !== 'boolean' || !Array.isArray(draft.tags)) {
+            throw new Error('Invalid saved draft');
+          }
+          // Assign values after rendering so saved text is never interpreted as HTML.
+          document.getElementById(`title_${idx}`).value = draft.title;
+          document.getElementById(`date_${idx}`).value = draft.date;
+          document.getElementById(`notes_${idx}`).value = draft.notes;
+          document.getElementById(`check_${idx}`).checked = draft.selected;
+          document.querySelectorAll(`#tag_group_${idx} .tag-pill`).forEach(btn => {
+            const active = draft.tags.includes(btn.dataset.tag);
+            btn.className = 'tag-pill text-xs font-mono px-2.5 py-1 rounded-full border transition cursor-pointer ' +
+              (active ? getTagClass(btn.dataset.tag) + ' font-semibold' : 'bg-night-900 border-night-700 text-silk-faint hover:text-silk');
+          });
+          restored++;
+        });
+        if (restored) draftStatus.textContent = `Restored saved edits for ${restored} bookmarks. Edits save automatically in this browser.`;
+      } catch (err) {
+        draftStatus.textContent = 'Some saved edits could not be loaded. Keep this tab open and check your drafts before continuing.';
+        console.error('Could not restore curator drafts', err);
+      }
+    }
+
+    window.addEventListener('beforeunload', (event) => {
+      if (unsavedDrafts.size) {
+        event.preventDefault();
+        event.returnValue = '';
+      }
+    });
+
+    // Save on every input event, including the last keystroke before a refresh.
+    container.addEventListener('input', (event) => {
+      const card = event.target.closest('.item-card');
+      if (card) saveDraft(Number(card.dataset.index));
+    });
+    container.addEventListener('change', (event) => {
+      const card = event.target.closest('.item-card');
+      if (card) saveDraft(Number(card.dataset.index));
+    });
 
     function getTagClass(tag) {
       if (['llm', 'ai-agents', 'rag', 'ai-safety', 'gen-ai'].includes(tag)) return 'bg-terra/20 text-terra-light border-terra/30';
@@ -890,6 +966,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
           } else {
             btn.className = `tag-pill text-xs font-mono px-2.5 py-1 rounded-full border transition cursor-pointer ${getTagClass(tag)} font-semibold`;
           }
+          saveDraft(Number(btn.closest('.item-card').dataset.index));
         });
       });
 
@@ -906,12 +983,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     }
 
     document.getElementById('selectAllBtn').addEventListener('click', () => {
-      document.querySelectorAll('.item-check').forEach(cb => cb.checked = true);
+      document.querySelectorAll('.item-check').forEach((cb, idx) => {
+        cb.checked = true;
+        saveDraft(idx);
+      });
       updateCount();
     });
 
     document.getElementById('deselectAllBtn').addEventListener('click', () => {
-      document.querySelectorAll('.item-check').forEach(cb => cb.checked = false);
+      document.querySelectorAll('.item-check').forEach((cb, idx) => {
+        cb.checked = false;
+        saveDraft(idx);
+      });
       updateCount();
     });
 
@@ -991,6 +1074,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     });
 
     renderItems();
+    restoreDrafts();
+    updateCount();
   </script>
 </body>
 </html>
@@ -1176,11 +1261,6 @@ def main():
     candidates = fetch_and_prepare_bookmarks(start_iso, end_iso, label_start, label_end, target_model, limit=args.limit, include_published=args.include_published)
     if not candidates:
         print(f"\nNo new uncurated bookmarks found between {label_start} and {label_end}.")
-        return
-
-    if args.dry_run:
-        for it in candidates:
-            print(f"\n## {it['title']}\n{it['url']}\ntags: {it['suggested_tags']}  thin: {it['thin']}  warning: {it['warning']}\n{it['notes']}")
         return
 
     CuratorHTTPHandler.candidates = candidates
