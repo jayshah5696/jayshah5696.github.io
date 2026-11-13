@@ -30,6 +30,9 @@ playwright-report/
 __pycache__/
 *.pyc
 
+# Local curator generations (may contain private bookmarks)
+.cache/reads-curator/
+
 
 # agents
 .gemini/
