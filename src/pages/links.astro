@@ -47,10 +47,10 @@ const PROFILES = [
 
 <BaseLayout title="Profiles & Links" description="Connect with Jay Shah across GitHub, LinkedIn, Twitter, Hugging Face, or Email.">
   <div class="max-w-2xl space-y-6">
-    <header class="reveal mb-8">
-      <h1 class="font-display text-3xl text-ink dark:text-silk carved-heading">Profiles &amp; Links</h1>
-      <p class="text-ink-muted dark:text-silk-muted text-sm mt-2 font-mono">
-        Find me across the internet.
+    <header class="reveal mb-8" style="--index: 0;">
+      <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">Profiles &amp; Links</h1>
+      <p class="font-body text-ink-light dark:text-silk-muted text-base mt-4 leading-relaxed">
+        Find me across GitHub, LinkedIn, Hugging Face, X, and email.
       </p>
       <KolamDivider class="mt-5" />
     </header>
@@ -78,7 +78,7 @@ const PROFILES = [
                   {profile.name}
                 </h2>
                 {profile.featured && (
-                  <span class="inline-block font-mono text-[10px] uppercase text-terra dark:text-terra-light px-2 py-0.5 rounded bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20" style="letter-spacing: 0.12em;">
+                  <span class="inline-block font-mono text-[11px] uppercase text-terra dark:text-terra-light px-2 py-0.5 rounded bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20" style="letter-spacing: 0.1em;">
                     {profile.badge}
                   </span>
                 )}

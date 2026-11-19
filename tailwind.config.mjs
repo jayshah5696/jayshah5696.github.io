@@ -29,40 +29,40 @@ export default {
           900: '#15111e',
           950: '#0d0a14',
         },
-        // Terracotta — primary accent
+        // Terracotta — primary accent (WCAG AA on cream & 10% tint)
         terra: {
-          DEFAULT: '#c4623a',
+          DEFAULT: '#a34824',
           light: '#e07a4f',
-          dark: '#a34e2d',
+          dark: '#873a1b',
         },
         // Gold — secondary accent (haldi/turmeric)
         gold: {
           DEFAULT: '#d4a843',
           light: '#e8c462',
-          dark: '#b08a2e',
+          dark: '#7d5e15',
         },
         // Deep red — rangoli accent
         kumkum: {
-          DEFAULT: '#c0392b',
-          light: '#e74c3c',
+          DEFAULT: '#b32d21',
+          light: '#f06a5c',
         },
         // Peacock teal — rangoli accent
         mor: {
-          DEFAULT: '#1a8a7a',
+          DEFAULT: '#116d60',
           light: '#2ec4b6',
         },
-        // Text
+        // Text (WCAG AA on cream-100 #fdf9f1 and cream-200 #f5edd8)
         ink: {
           DEFAULT: '#2c2416',
-          light: '#5a4e3a',
-          muted: '#8a7d68',
-          faint: '#b8ad98',
+          light: '#524735',
+          muted: '#665c4b',
+          faint: '#716654',
         },
-        // Dark mode text
+        // Dark mode text (WCAG AA on night-900 #15111e and night-800 #1e1928)
         silk: {
           DEFAULT: '#e8e0d4',
           muted: '#a89e8e',
-          faint: '#6a6058',
+          faint: '#968c7e',
         },
       },
       typography: (theme) => ({
@@ -70,15 +70,15 @@ export default {
           css: {
             '--tw-prose-body': '#2c2416',
             '--tw-prose-headings': '#1a1408',
-            '--tw-prose-lead': '#5a4e3a',
-            '--tw-prose-links': '#c4623a',
+            '--tw-prose-lead': '#524735',
+            '--tw-prose-links': '#a34824',
             '--tw-prose-bold': '#2c2416',
-            '--tw-prose-counters': '#8a7d68',
-            '--tw-prose-bullets': '#d4a843',
+            '--tw-prose-counters': '#665c4b',
+            '--tw-prose-bullets': '#7d5e15',
             '--tw-prose-hr': '#e8dbc0',
-            '--tw-prose-quotes': '#5a4e3a',
-            '--tw-prose-quote-borders': '#c4623a',
-            '--tw-prose-captions': '#8a7d68',
+            '--tw-prose-quotes': '#524735',
+            '--tw-prose-quote-borders': '#a34824',
+            '--tw-prose-captions': '#665c4b',
             '--tw-prose-code': '#2c2416',
             '--tw-prose-pre-code': '#e8e0d4',
             '--tw-prose-pre-bg': '#1e1928',
@@ -94,7 +94,7 @@ export default {
             '--tw-prose-invert-hr': '#2a2438',
             '--tw-prose-invert-quotes': '#a89e8e',
             '--tw-prose-invert-quote-borders': '#e07a4f',
-            '--tw-prose-invert-captions': '#6a6058',
+            '--tw-prose-invert-captions': '#968c7e',
             '--tw-prose-invert-code': '#e8e0d4',
             '--tw-prose-invert-pre-code': '#e8e0d4',
             '--tw-prose-invert-pre-bg': '#0d0a14',

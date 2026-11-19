@@ -12,6 +12,7 @@ interface Props {
   metrics?: { label: string; value: string }[];
   index?: number;
   class?: string;
+  headingTag?: 'h2' | 'h3';
 }
 
 const {
@@ -23,7 +24,9 @@ const {
   flagship = false,
   index,
   class: className = '',
+  headingTag = 'h2',
 } = Astro.props;
+const HeadingTag = headingTag;
 
 let platform: 'github' | 'huggingface' | 'devpost' | 'external' = 'external';
 let platformLabel = 'Project';
@@ -50,22 +53,23 @@ if (url.includes('github.com')) {
         : 'p-5 border-cream-200 dark:border-night-700 bg-white dark:bg-night-800 hover:border-terra dark:hover:border-terra-light',
     className,
   ]}
+  style={index !== undefined ? `--index: ${Math.min(index, 5)};` : undefined}
 >
   <div>
     <!-- Flagship or Featured Badge -->
     {flagship ? (
       <div class="mb-3 flex items-center justify-between gap-2">
-        <span class="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase text-terra dark:text-terra-light px-2.5 py-0.5 rounded-full bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20 font-semibold" style="letter-spacing: 0.12em;">
+        <span class="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase text-terra dark:text-terra-light px-2.5 py-0.5 rounded-full bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20 font-semibold" style="letter-spacing: 0.1em;">
           &#9733; Flagship System
         </span>
-        <span class="font-mono text-[10px] text-mor dark:text-mor-light flex items-center gap-1.5 font-medium">
-          <span class="size-1.5 rounded-full bg-mor dark:bg-mor-light animate-pulse" />
+        <span class="font-mono text-[11px] text-mor dark:text-mor-light flex items-center gap-1.5 font-medium">
+          <span class="size-1.5 rounded-full bg-mor dark:bg-mor-light" aria-hidden="true" />
           Active Open-Source
         </span>
       </div>
     ) : featured ? (
       <div class="mb-2">
-        <span class="inline-block font-mono text-[10px] uppercase text-terra dark:text-terra-light px-2 py-0.5 rounded bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20" style="letter-spacing: 0.12em;">
+        <span class="inline-block font-mono text-[11px] uppercase text-terra dark:text-terra-light px-2 py-0.5 rounded bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20" style="letter-spacing: 0.1em;">
           Featured Project
         </span>
       </div>
@@ -73,7 +77,7 @@ if (url.includes('github.com')) {
 
     <!-- Title & External Link Header -->
     <div class="flex items-start justify-between gap-2">
-      <h3 class:list={[
+      <HeadingTag class:list={[
         'font-display text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150 text-balance leading-snug',
         flagship ? 'text-xl sm:text-2xl' : 'text-base sm:text-lg',
       ]}>
@@ -86,7 +90,7 @@ if (url.includes('github.com')) {
           <span class="absolute inset-0 z-0" aria-hidden="true"></span>
           {title}
         </a>
-      </h3>
+      </HeadingTag>
 
       <div class="text-ink-faint dark:text-silk-faint group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150 shrink-0 mt-0.5">
         <SocialIcon name={platform} class="size-4" />

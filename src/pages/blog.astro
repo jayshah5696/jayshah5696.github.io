@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import RightSidebar from '../components/RightSidebar.astro';
+import SocialIcon from '../components/SocialIcon.astro';
+import KolamDivider from '../components/KolamDivider.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const totalPosts = posts.length;
+---
+
+<BaseLayout
+  title="Blog"
+  description="Technical essays, interactive labs, and production notes on machine learning systems, embeddings, and AI agents by Jay Shah."
+  rightSidebar={true}
+  jsonLdType="CollectionPage"
+>
+  <header class="reveal mb-10" style="--index: 0;">
+    <div class="flex items-center justify-between gap-4 flex-wrap">
+      <div>
+        <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">
+          Blog
+        </h1>
+      </div>
+      <div class="flex items-center gap-3 font-mono text-xs text-ink-muted dark:text-silk-muted">
+        <span class="px-3 py-1 rounded-full border border-cream-200 dark:border-night-700 bg-cream-50/60 dark:bg-night-800/60">
+          {totalPosts} posts
+        </span>
+        <a
+          href="/archives/"
+          class="hover:text-terra dark:hover:text-terra-light transition-colors"
+        >
+          Archives &rarr;
+        </a>
+      </div>
+    </div>
+
+    <p class="mt-4 font-body text-ink-light dark:text-silk-muted text-base leading-relaxed max-w-[62ch]">
+      Technical essays, interactive experiments, and notes on what holds up when moving machine learning research into production.
+    </p>
+
+    <KolamDivider class="mt-6" />
+  </header>
+
+  <section aria-label="Blog posts" class="space-y-6">
+    {posts.map((post, i) => (
+      <PostCard
+        title={post.data.title}
+        date={post.data.date}
+        description={post.data.description}
+        slug={post.id}
+        tags={post.data.tags}
+        body={post.body ?? ''}
+        image={post.data.image}
+        featured={i === 0}
+        interactive={post.data.interactive}
+        index={i}
+      />
+    ))}
+  </section>
+
+  <div class="reveal mt-14 pt-4">
+    <KolamDivider class="mb-6" />
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-4">
+        <a
+          href="/rss.xml"
+          class="inline-flex items-center gap-2 px-4 py-2 border border-terra/25 dark:border-terra-light/25 rounded-lg text-sm font-mono text-terra dark:text-terra-light hover:bg-terra/10 dark:hover:bg-terra-light/10 transition-[color,background-color,border-color,transform] duration-150 active:scale-[0.98]"
+        >
+          <SocialIcon name="rss" class="size-4" />
+          Subscribe via RSS
+        </a>
+        <span class="text-xs text-ink-muted dark:text-silk-faint font-mono">New posts in your reader</span>
+      </div>
+      <a href="/archives/" class="font-mono text-xs text-ink-muted dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors">
+        Browse by year &rarr;
+      </a>
+    </div>
+  </div>
+
+  <RightSidebar slot="right-sidebar" variant="blog" />
+</BaseLayout>

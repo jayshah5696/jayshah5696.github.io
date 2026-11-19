@@ -41,7 +41,7 @@ const remainingCount = max && tags.length > max ? tags.length - max : 0;
     {remainingCount > 0 && (
       <a 
         href={postSlug ? `/posts/${postSlug}/` : '#'} 
-        class="inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-mono text-ink-muted dark:text-silk-muted bg-cream-200/50 dark:bg-night-800/60 border border-cream-300/40 dark:border-night-700/60 hover:text-terra dark:hover:text-terra-light transition-colors"
+        class="inline-flex items-center px-1.5 py-0.5 rounded text-[11px] font-mono text-ink-muted dark:text-silk-muted bg-cream-200/50 dark:bg-night-800/60 border border-cream-300/40 dark:border-night-700/60 hover:text-terra dark:hover:text-terra-light transition-colors"
         title={`${remainingCount} more tags`}
       >
         +{remainingCount}

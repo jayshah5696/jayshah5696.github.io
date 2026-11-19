@@ -14,9 +14,11 @@ interface Props {
   featured?: boolean;
   interactive?: boolean;
   index?: number;
+  headingTag?: 'h2' | 'h3';
 }
 
-const { title, date, description, slug, tags = [], body, image, featured = false, interactive = false, index } = Astro.props;
+const { title, date, description, slug, tags = [], body, image, featured = false, interactive = false, index, headingTag = 'h2' } = Astro.props;
+const HeadingTag = headingTag;
 const stats = readingTime(body);
 ---
 
@@ -27,6 +29,7 @@ const stats = readingTime(body);
       ? 'border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light hover:shadow-md'
       : 'border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light',
   ]}
+  style={index !== undefined ? `--index: ${Math.min(index, 5)};` : undefined}
 >
   {featured ? (
     <div class="flex flex-col">
@@ -36,7 +39,7 @@ const stats = readingTime(body);
           <img
             src={image}
             alt={title}
-            class="w-full h-full object-cover group-hover:opacity-95 transition-opacity duration-150"
+            class="w-full h-full object-cover card-hover-zoom"
             loading="lazy"
           />
         </div>
@@ -45,22 +48,22 @@ const stats = readingTime(body);
       <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between">
         <div>
           <div class="flex flex-wrap items-center gap-2 mb-2.5">
-            <span class="inline-block font-mono text-[10px] uppercase text-terra dark:text-terra-light px-2 py-0.5 rounded bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20" style="letter-spacing: 0.12em;">
+            <span class="inline-block font-mono text-[11px] uppercase text-terra dark:text-terra-light px-2 py-0.5 rounded bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20" style="letter-spacing: 0.1em;">
               Latest
             </span>
             {interactive && (
-              <span class="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase text-mor dark:text-mor-light px-2 py-0.5 rounded bg-mor/10 dark:bg-mor-light/10 border border-mor/25 dark:border-mor-light/25 font-medium" style="letter-spacing: 0.1em;">
+              <span class="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase text-mor dark:text-mor-light px-2 py-0.5 rounded bg-mor/10 dark:bg-mor-light/10 border border-mor/25 dark:border-mor-light/25 font-medium" style="letter-spacing: 0.08em;">
                 <svg class="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" x2="4" y1="21" y2="14"/><line x1="4" x2="4" y1="10" y2="3"/><line x1="12" x2="12" y1="21" y2="12"/><line x1="12" x2="12" y1="8" y2="3"/><line x1="20" x2="20" y1="21" y2="16"/><line x1="20" x2="20" y1="12" y2="3"/><line x1="2" x2="6" y1="14" y2="14"/><line x1="10" x2="14" y1="8" y2="8"/><line x1="18" x2="22" y1="16" y2="16"/></svg>
                 Interactive Lab
               </span>
             )}
           </div>
-          <h3 class="font-display text-xl sm:text-2xl text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150 text-balance leading-snug">
+          <HeadingTag class="font-display text-xl sm:text-2xl text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150 text-balance leading-snug">
             <a href={`/posts/${slug}/`} class="hover:text-terra dark:hover:text-terra-light">
               <span class="absolute inset-0 z-0" aria-hidden="true"></span>
               {title}
             </a>
-          </h3>
+          </HeadingTag>
           <p class="mt-2 text-sm sm:text-base text-ink-light dark:text-silk-muted text-pretty line-clamp-3 leading-relaxed">
             {description}
           </p>
@@ -81,7 +84,7 @@ const stats = readingTime(body);
             <span class="font-mono tabular-nums">{stats.text}</span>
           </div>
 
-          <div class="inline-flex items-center text-terra dark:text-terra-light font-medium text-xs sm:text-sm whitespace-nowrap transition-transform duration-150 group-hover:translate-x-0.5 opacity-85 group-hover:opacity-100">
+          <div class="inline-flex items-center text-terra dark:text-terra-light font-medium text-xs sm:text-sm whitespace-nowrap transition-transform duration-150 group-hover:translate-x-0.5">
             <span class="mr-1">{interactive ? 'Open interactive lab' : 'Read article'}</span>
             <svg class="size-3.5 sm:size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </div>
@@ -96,18 +99,18 @@ const stats = readingTime(body);
         <div>
           {interactive && (
             <div class="mb-2">
-              <span class="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase text-mor dark:text-mor-light px-2 py-0.5 rounded bg-mor/10 dark:bg-mor-light/10 border border-mor/25 dark:border-mor-light/25 font-medium" style="letter-spacing: 0.1em;">
+              <span class="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase text-mor dark:text-mor-light px-2 py-0.5 rounded bg-mor/10 dark:bg-mor-light/10 border border-mor/25 dark:border-mor-light/25 font-medium" style="letter-spacing: 0.08em;">
                 <svg class="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" x2="4" y1="21" y2="14"/><line x1="4" x2="4" y1="10" y2="3"/><line x1="12" x2="12" y1="21" y2="12"/><line x1="12" x2="12" y1="8" y2="3"/><line x1="20" x2="20" y1="21" y2="16"/><line x1="20" x2="20" y1="12" y2="3"/><line x1="2" x2="6" y1="14" y2="14"/><line x1="10" x2="14" y1="8" y2="8"/><line x1="18" x2="22" y1="16" y2="16"/></svg>
                 Interactive Lab
               </span>
             </div>
           )}
-          <h3 class="font-display text-lg text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150 text-balance leading-snug">
+          <HeadingTag class="font-display text-lg text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150 text-balance leading-snug">
             <a href={`/posts/${slug}/`} class="hover:text-terra dark:hover:text-terra-light">
               <span class="absolute inset-0 z-0" aria-hidden="true"></span>
               {title}
             </a>
-          </h3>
+          </HeadingTag>
           <p class="mt-1.5 text-sm text-ink-light dark:text-silk-muted text-pretty line-clamp-2 leading-relaxed">
             {description}
           </p>
@@ -128,7 +131,7 @@ const stats = readingTime(body);
             <span class="font-mono tabular-nums">{stats.text}</span>
           </div>
 
-          <div class="inline-flex items-center text-terra dark:text-terra-light font-medium text-xs sm:text-sm whitespace-nowrap transition-transform duration-150 group-hover:translate-x-0.5 opacity-85 group-hover:opacity-100">
+          <div class="inline-flex items-center text-terra dark:text-terra-light font-medium text-xs sm:text-sm whitespace-nowrap transition-transform duration-150 group-hover:translate-x-0.5">
             <span class="mr-1">{interactive ? 'Open interactive lab' : 'Read article'}</span>
             <svg class="size-3.5 sm:size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </div>
@@ -142,7 +145,7 @@ const stats = readingTime(body);
             <img
               src={image}
               alt={title}
-              class="w-full h-full object-cover group-hover:opacity-95 transition-opacity duration-150"
+              class="w-full h-full object-cover card-hover-zoom"
               loading="lazy"
             />
           </div>

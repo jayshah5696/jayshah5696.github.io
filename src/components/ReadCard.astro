@@ -7,10 +7,11 @@ import { getTagMicroPillClasses, getTagIndicator, normalizeTagSlug } from '../ut
 interface Props {
   entry: any;
   featured?: boolean;
+  expanded?: boolean;
   index?: number;
 }
 
-const { entry, featured = false, index } = Astro.props;
+const { entry, featured = false, expanded = false, index } = Astro.props;
 const { title, url, date, tags } = entry.data;
 const isFeatured = featured || Boolean(entry.data.featured);
 const { Content } = await render(entry);
@@ -30,11 +31,13 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
 
 <article
   class:list={[
-    'reveal read-card-item featured-card rangoli-corners overflow-hidden transition-colors duration-150 relative p-4 sm:p-5 rounded-xl flex flex-col gap-2 cursor-pointer group',
+    'reveal read-card-item featured-card rangoli-corners overflow-hidden transition-colors duration-150 relative p-4 sm:p-5 rounded-xl flex flex-col gap-2 group',
+    hasNotes && 'cursor-pointer',
     isFeatured
       ? 'border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light'
       : 'border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light',
   ]}
+  style={index !== undefined ? `--index: ${Math.min(index, 5)};` : undefined}
   data-read-card
   data-tags={normalizedTags.join(',')}
   data-year={year}
@@ -42,12 +45,12 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
   data-title={title.toLowerCase()}
   data-domain={domain.toLowerCase()}
   data-has-notes={hasNotes ? 'true' : 'false'}
-  onclick={hasNotes ? "var n = this.querySelector('.read-card-notes'); if (n && !event.target.closest('a') && !event.target.closest('.read-card-notes')) { n.classList.toggle('hidden'); }" : undefined}
+  data-expanded={hasNotes && expanded ? 'true' : 'false'}
 >
   {/* Optional Featured Read Pill */}
   {isFeatured && (
     <div class="mb-0.5">
-      <span class="inline-block font-mono text-[10px] uppercase text-terra dark:text-terra-light px-2 py-0.5 rounded bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20" style="letter-spacing: 0.12em;">
+      <span class="inline-block font-mono text-[11px] uppercase text-terra dark:text-terra-light px-2 py-0.5 rounded bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20" style="letter-spacing: 0.1em;">
         Featured Read
       </span>
     </div>
@@ -63,7 +66,7 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
     </span>
 
     <span class="text-cream-400 dark:text-night-700 select-none" aria-hidden="true">&bull;</span>
-    
+
     <a
       href={url}
       target="_blank"
@@ -98,31 +101,64 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
     )}
   </div>
 
-  <!-- Title & External Link Icon -->
+  <!-- Title, Collapsible Note Chevron & External Link Icon -->
   <div class="flex items-start justify-between gap-3 relative z-10">
     <h3 class="font-display text-base sm:text-lg text-ink dark:text-silk leading-snug group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150">
       <span>{title}</span>
     </h3>
 
-    <a
-      href={url}
-      target="_blank"
-      rel="noopener noreferrer"
-      class="size-6 rounded-md hover:bg-cream-200 dark:hover:bg-night-800 text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light inline-flex items-center justify-center transition-colors duration-150 shrink-0 -mt-0.5"
-      title={`Open ${title} in new tab`}
-      onclick="event.stopPropagation();"
-    >
-      <SocialIcon name="external" class="size-3.5" />
-    </a>
+    <div class="flex items-center gap-1 shrink-0 -mt-0.5">
+      {hasNotes && (
+        <button
+          type="button"
+          class="read-card-toggle size-6 rounded-md hover:bg-cream-200 dark:hover:bg-night-800 text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light inline-flex items-center justify-center transition-colors duration-150 cursor-pointer active:scale-95"
+          aria-expanded={expanded ? 'true' : 'false'}
+          aria-label={expanded ? `Collapse notes for ${title}` : `Expand notes for ${title}`}
+          title={expanded ? 'Collapse note' : 'Expand note'}
+        >
+          <svg
+            class:list={[
+              'read-card-chevron size-3.5 transition-transform duration-200',
+              expanded && 'rotate-180',
+            ]}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="m6 9 6 6 6-6"/>
+          </svg>
+        </button>
+      )}
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="size-6 rounded-md hover:bg-cream-200 dark:hover:bg-night-800 text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light inline-flex items-center justify-center transition-colors duration-150"
+        title={`Open ${title} in new tab`}
+        onclick="event.stopPropagation();"
+      >
+        <SocialIcon name="external" class="size-3.5" />
+      </a>
+    </div>
   </div>
 
-  <!-- Commentary (Markdown Body - Click card to expand/collapse) -->
+  <!-- Smoothly Collapsible Commentary -->
   {hasNotes && (
     <div
-      class="read-card-notes hidden prose prose-kolam dark:prose-invert prose-sm max-w-none bg-cream-50/60 dark:bg-night-950/40 p-3.5 rounded-lg border border-cream-200/60 dark:border-night-700/60 mt-1 cursor-text select-text relative z-10"
+      class="read-card-notes-collapse relative z-10"
+      aria-hidden={expanded ? 'false' : 'true'}
+      inert={!expanded ? true : undefined}
       onclick="event.stopPropagation();"
     >
-      <Content />
+      <div class="read-card-notes-inner">
+        <div class="read-card-notes prose prose-kolam dark:prose-invert prose-sm max-w-[65ch] border-t border-cream-200/80 dark:border-night-700/80 pt-3 mt-1.5 cursor-text select-text">
+          <Content />
+        </div>
+      </div>
     </div>
   )}
 </article>

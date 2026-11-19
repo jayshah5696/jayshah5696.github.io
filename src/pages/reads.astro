@@ -56,15 +56,24 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
 ---
 
 <BaseLayout
-  title="Reading Notes & Bibliography"
-  description="Curated papers, articles, and research bibliography on AI, ML systems, RAG, and engineering - curated by Jay Shah."
+  title="Reads"
+  description="Curated papers, articles, and links on AI, ML systems, and engineering with personal notes by Jay Shah."
   rightSidebar={true}
 >
   <!-- Header -->
-  <header class="reveal mb-8">
-    <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">Reading Notes &amp; Bibliography</h1>
-    <p class="mt-4 text-ink-light dark:text-silk-muted text-base leading-relaxed">
-      A collection of interesting articles, papers, tools, and links I come across, with brief summaries and personal commentary.
+  <header class="reveal mb-8" style="--index: 0;">
+    <div class="flex items-center justify-between gap-4 flex-wrap">
+      <div>
+        <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">
+          Reads
+        </h1>
+      </div>
+      <span class="font-mono text-xs text-ink-muted dark:text-silk-muted px-3 py-1 rounded-full border border-cream-200 dark:border-night-700 bg-cream-50/60 dark:bg-night-800/60">
+        {totalLinks} notes
+      </span>
+    </div>
+    <p class="mt-4 font-body text-ink-light dark:text-silk-muted text-base leading-relaxed">
+      Articles, papers, and tools I read, with short personal notes on what stood out.
     </p>
     <KolamDivider class="mt-5" />
   </header>
@@ -80,7 +89,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
     <div class="space-y-6">
       
       <!-- Minimalist Search Bar with Collapsible Icon Drawer -->
-      <div class="reveal bg-cream-50 dark:bg-night-900 border border-cream-200 dark:border-night-700 rounded-xl p-2 shadow-xs transition-all duration-200 focus-within:border-terra dark:focus-within:border-terra-light">
+      <div class="reveal bg-cream-50 dark:bg-night-900 border border-cream-200 dark:border-night-700 rounded-xl p-2 shadow-xs transition-colors duration-200 focus-within:border-terra dark:focus-within:border-terra-light">
         <div class="flex items-center gap-2">
           <!-- Search input box -->
           <div class="flex-1 flex items-center gap-2.5 px-2.5 py-1.5">
@@ -95,7 +104,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
               autocomplete="off"
               spellcheck="false"
             />
-            <kbd class="hidden sm:inline-block font-mono text-[10px] px-1.5 py-0.5 rounded bg-cream-200 dark:bg-night-800 text-ink-faint dark:text-silk-faint select-none">
+            <kbd class="hidden sm:inline-block font-mono text-[11px] px-1.5 py-0.5 rounded bg-cream-200 dark:bg-night-800 text-ink-faint dark:text-silk-faint select-none">
               /
             </kbd>
           </div>
@@ -114,7 +123,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
           <button
             type="button"
             id="toggle-filters-btn"
-            class="size-8 rounded-lg border border-cream-200 dark:border-night-700 bg-cream-100/80 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra dark:hover:border-terra-light hover:text-terra dark:hover:text-terra-light inline-flex items-center justify-center transition-all shrink-0 cursor-pointer"
+            class="size-8 rounded-lg border border-cream-200 dark:border-night-700 bg-cream-100/80 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra dark:hover:border-terra-light hover:text-terra dark:hover:text-terra-light inline-flex items-center justify-center transition-colors shrink-0 cursor-pointer"
             aria-label="Toggle Year & Month Filters"
             title="Filter by Year & Month"
           >
@@ -130,7 +139,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
           <button
             type="button"
             id="toggle-all-notes-btn"
-            class="size-8 rounded-lg border border-cream-200 dark:border-night-700 bg-cream-100/80 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra dark:hover:border-terra-light hover:text-terra dark:hover:text-terra-light inline-flex items-center justify-center transition-all shrink-0 cursor-pointer"
+            class="size-8 rounded-lg border border-cream-200 dark:border-night-700 bg-cream-100/80 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra dark:hover:border-terra-light hover:text-terra dark:hover:text-terra-light inline-flex items-center justify-center transition-colors shrink-0 cursor-pointer"
             aria-label="Expand or Collapse All Notes"
             title="Expand / Collapse All Notes"
           >
@@ -144,7 +153,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
         <div id="filters-drawer" class="hidden pt-3 pb-1 px-1 border-t border-dashed border-cream-200 dark:border-night-700 mt-2 space-y-2">
           <!-- Year Selector -->
           <div class="flex items-center gap-2 flex-wrap text-xs">
-            <span class="font-mono text-[10px] text-ink-muted dark:text-silk-muted uppercase tracking-wider min-w-[44px]">Year:</span>
+            <span class="font-mono text-[11px] text-ink-muted dark:text-silk-muted uppercase tracking-wider min-w-[44px]">Year:</span>
             <button type="button" class="year-pill px-2.5 py-0.5 rounded-full border border-terra bg-terra text-white font-mono text-[11px] cursor-pointer" data-year-val="all">All</button>
             {years.map((yr) => (
               <button type="button" class="year-pill px-2.5 py-0.5 rounded-full border border-cream-200 dark:border-night-700 bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra font-mono text-[11px] cursor-pointer transition-colors" data-year-val={yr}>
@@ -155,11 +164,11 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
 
           <!-- Month Selector -->
           <div class="flex items-center gap-2 flex-wrap text-xs">
-            <span class="font-mono text-[10px] text-ink-muted dark:text-silk-muted uppercase tracking-wider min-w-[44px]">Month:</span>
+            <span class="font-mono text-[11px] text-ink-muted dark:text-silk-muted uppercase tracking-wider min-w-[44px]">Month:</span>
             <button type="button" class="month-pill px-2.5 py-0.5 rounded-full border border-terra bg-terra text-white font-mono text-[11px] cursor-pointer" data-month-val="all">All</button>
             {monthFilters.map((m) => (
               <button type="button" class="month-pill px-2.5 py-0.5 rounded-full border border-cream-200 dark:border-night-700 bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra font-mono text-[11px] cursor-pointer transition-colors" data-month-val={m.num}>
-                {m.name} <span class="opacity-70 text-[9px]">({m.count})</span>
+                {m.name} <span class="opacity-75 text-[11px]">({m.count})</span>
               </button>
             ))}
           </div>
@@ -229,7 +238,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
                       >
                         <!-- Kolam Diamond Bindu Node -->
                         <div
-                          class="timeline-node-dot kolam-diamond-node -left-[7px] top-2 size-3.5 transition-all duration-200"
+                          class="timeline-node-dot kolam-diamond-node -left-[7px] top-2 size-3.5"
                           aria-hidden="true"
                         />
                         
@@ -260,7 +269,12 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
                         <!-- Month Cards List -->
                         <div class:list={["month-cards-wrapper space-y-4", { hidden: !isCurrentMonth }]}>
                           {group.entries.map((entry, eIdx) => (
-                            <ReadCard entry={entry} featured={yIdx === 0 && mIdx === 0 && eIdx === 0} index={eIdx} />
+                            <ReadCard
+                              entry={entry}
+                              featured={yIdx === 0 && mIdx === 0 && eIdx === 0}
+                              expanded={yIdx === 0 && mIdx === 0 && eIdx < 2}
+                              index={eIdx}
+                            />
                           ))}
                         </div>
                       </div>
@@ -312,6 +326,39 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
       allNotesExpanded: false,
     };
 
+    function setCardExpanded(card, isExpanded) {
+      var collapse = card.querySelector('.read-card-notes-collapse');
+      if (!collapse) return;
+      card.dataset.expanded = isExpanded ? 'true' : 'false';
+      collapse.setAttribute('aria-hidden', isExpanded ? 'false' : 'true');
+      if (isExpanded) {
+        collapse.removeAttribute('inert');
+      } else {
+        collapse.setAttribute('inert', '');
+      }
+      var toggleBtn = card.querySelector('.read-card-toggle');
+      var chevron = card.querySelector('.read-card-chevron');
+      if (toggleBtn) {
+        toggleBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+        toggleBtn.setAttribute('title', isExpanded ? 'Collapse note' : 'Expand note');
+      }
+      if (chevron) {
+        chevron.classList.toggle('rotate-180', isExpanded);
+      }
+    }
+
+    function syncToggleAllNotesButton() {
+      if (!toggleAllNotesBtn) return;
+      var cardsWithNotes = Array.from(document.querySelectorAll('.read-card-item[data-has-notes="true"]'));
+      var allOpen = cardsWithNotes.length > 0 && cardsWithNotes.every(function(card) {
+        return card.dataset.expanded === 'true';
+      });
+      state.allNotesExpanded = allOpen;
+      toggleAllNotesBtn.classList.toggle('bg-terra', allOpen);
+      toggleAllNotesBtn.classList.toggle('text-white', allOpen);
+      toggleAllNotesBtn.setAttribute('aria-pressed', allOpen ? 'true' : 'false');
+    }
+
     // Read URL query parameter ?tag=... on load
     var urlParams = new URLSearchParams(window.location.search);
     var initialTag = urlParams.get('tag');
@@ -337,31 +384,28 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
     // Toggle All Notes
     if (toggleAllNotesBtn) {
       toggleAllNotesBtn.onclick = function() {
-        state.allNotesExpanded = !state.allNotesExpanded;
-        document.querySelectorAll('.read-card-item').forEach(function(card) {
-          var notes = card.querySelector('.read-card-notes');
-          if (notes) {
-            notes.classList.toggle('hidden', !state.allNotesExpanded);
-          }
+        var nextExpanded = !state.allNotesExpanded;
+        document.querySelectorAll('.read-card-item[data-has-notes="true"]').forEach(function(card) {
+          setCardExpanded(card, nextExpanded);
         });
-        toggleAllNotesBtn.classList.toggle('bg-terra', state.allNotesExpanded);
-        toggleAllNotesBtn.classList.toggle('text-white', state.allNotesExpanded);
+        syncToggleAllNotesButton();
       };
     }
 
-    // Card Click-to-Expand
-    document.querySelectorAll('.read-card-item').forEach(function(card) {
+    // Card Click-to-Expand (and chevron button click)
+    document.querySelectorAll('.read-card-item[data-has-notes="true"]').forEach(function(card) {
       card.onclick = function(e) {
         // If click was on an anchor link or inside notes, do nothing
         if (e.target.closest('a') || e.target.closest('.read-card-notes')) {
           return;
         }
-        var notes = card.querySelector('.read-card-notes');
-        if (notes) {
-          notes.classList.toggle('hidden');
-        }
+        var willExpand = card.dataset.expanded !== 'true';
+        setCardExpanded(card, willExpand);
+        syncToggleAllNotesButton();
       };
     });
+
+    syncToggleAllNotesButton();
 
     // Year Accordion Header Toggle
     document.querySelectorAll('.year-accordion-header').forEach(function(header) {
