@@ -2,8 +2,8 @@
 title: "Can Dense Retrieval Beat BM25 for Entity Resolution? (And At What Cost?)"
 date: 2026-03-09
 description: "Testing if applying Matryoshka Representation Learning (MRL) to tabular entity data could bridge the cost gap, compressing embeddings enough to remain operational while still beating BM25 on corrupted queries."
-image: /assets/images/entity-resolution/mrr_overall.png
-tags: ["machine learning", "search", "infrastructure", "embedding models", "BM25", "matryoshka representation learning", "entity resolution"]
+image: /assets/images/entity-resolution/mrr_overall.webp
+tags: ["machine-learning", "search", "infrastructure", "embedding-models", "bm25", "matryoshka-representation-learning", "entity-resolution"]
 ---
 
 ## Introduction
@@ -88,14 +88,14 @@ train_loss = losses.MatryoshkaLoss(
 
 Spinning up robust distributed remote infrastructure is a must when running sweeping ablations like this. Fine-tuning all five pipelines concurrently on [Modal](https://modal.com/) A10G GPUs took exactly 60 minutes and cost **less than $15 in total compute.**
 
-![Modal Billing Dashboard](/assets/images/entity-resolution/modal-billing.png)
+![Modal Billing Dashboard](/assets/images/entity-resolution/modal-billing.webp)
 *Figure: The Modal billing dashboard demonstrating the $14.50 cost for training all constraints simultaneously.*
 
 ## Evaluating accuracy across degradations
 
 We measured both Recall@10 (the proportion of queries where the canonical record appears in the top 10 results) and Mean Reciprocal Rank (MRR@10). While BM25 provides an incredibly strong baseline on exact lexical overlaps, our evaluation focuses on model behavior when the signal text is heavily degraded.
 
-![Bucket Heatmap](/assets/images/entity-resolution/bucket_heatmap_all.png)
+![Bucket Heatmap](/assets/images/entity-resolution/bucket_heatmap_all.webp)
 *Figure 1: Model performance (Overall MRR@10) across the six corruption buckets.*
 
 ### 1. GTE-ModernBERT Dominates Heavily Corrupted Queries
@@ -106,7 +106,7 @@ When the profile omits the email and company entirely, BM25 Recall@10 drops to 0
 
 Overall, the customized GTE-ModernBERT delivers an 0.966 global Recall@10, beating the 0.958 baseline set by BM25. Interestingly, its global MRR@10 (0.917) exactly matches BM25, proving it retrieves the right semantic candidates into the top slot as reliably as a rigid string match.
 
-![General Recall Comparisons](/assets/images/entity-resolution/mrr_overall.png)
+![General Recall Comparisons](/assets/images/entity-resolution/mrr_overall.webp)
 *Figure 2: Global MRR@10 metrics across all distinct models. Notice the vast gap between base and fine-tuned configurations for the smaller models.*
 
 ### Catastrophic forgetting in rigid architectures
@@ -138,7 +138,7 @@ Dense vectors carry strict search overhead. BM25 yields p50 latencies around 3.2
 
 To compress index footprint, we scaled the representations down directly at index time using our Matryoshka training. By querying LanceDB mathematically truncated and quantized, we avoided re-running the heavy neural encoding for the ablation.
 
-![Ablation Data](/assets/images/entity-resolution/all_models_ablation.png)
+![Ablation Data](/assets/images/entity-resolution/all_models_ablation.webp)
 *Figure 3: Ablation tracking dimensionality versus MRR@10 using BGE-Small.*
 
 Using BGE-Small and MiniLM, we saw binary embeddings collapse below 128 dimensions. But INT8 models held steady, matching the performance of their wider counterparts.
@@ -147,14 +147,14 @@ Using BGE-Small and MiniLM, we saw binary embeddings collapse below 128 dimensio
 
 At inference time, accuracy is only one axis of the problem. Latency and memory load govern operational limits.
 
-![Latency vs MRR Pareto](/assets/images/entity-resolution/latency_pareto_all.png)
+![Latency vs MRR Pareto](/assets/images/entity-resolution/latency_pareto_all.webp)
 *Figure 4: The latency-MRR Pareto frontier for fine-tuned dense retrievers vs. BM25.*
 
 We observed that **fine-tuned MiniLM-L6 mapped to a 128-INT8 configuration** returned results in 6.79ms (p50) and compressed the index to under 700MB.
 
 Despite extreme volume compression, it holds a resilient 0.934 Recall@10 globally. This condenses the required 500M scale index from 1.5TB down to roughly 350GB, moving it firmly into operational viability.
 
-![Overall Recall](/assets/images/entity-resolution/overall_recall.png)
+![Overall Recall](/assets/images/entity-resolution/overall_recall.webp)
 *Figure 5: Overall Recall@10 by Model and Mode. Fine-tuning pushes the tiny 22M parameter MiniLM-L6 (0.928) perilously close to the zero-shot baseline of the 149M ModernBERT (0.941).*
 
 ## Final thoughts
