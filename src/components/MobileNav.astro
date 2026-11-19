@@ -14,7 +14,7 @@ const inlineNavItems = NAV_ITEMS.filter(n => ['Home', 'About', 'Projects'].inclu
   <div class="flex items-center justify-between px-4 h-14">
     <a href="/" class="flex items-center gap-2.5" aria-label={`${SITE_TITLE} Home`}>
       <BrandEmblem size="sm" />
-      <h1 class="font-body font-bold text-sm text-ink dark:text-silk tracking-tight inline">{SITE_TITLE}</h1>
+      <span class="font-body font-bold text-sm text-ink dark:text-silk tracking-tight inline">{SITE_TITLE}</span>
     </a>
 
     <div class="flex items-center gap-3">
@@ -37,6 +37,16 @@ const inlineNavItems = NAV_ITEMS.filter(n => ['Home', 'About', 'Projects'].inclu
           );
         })}
       </nav>
+
+      <button
+        id="search-trigger-mobile"
+        data-search-trigger
+        type="button"
+        class="text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors cursor-pointer"
+        aria-label="Search site"
+      >
+        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      </button>
 
       <button
         id="theme-toggle-mobile"

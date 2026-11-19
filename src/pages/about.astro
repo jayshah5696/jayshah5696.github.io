@@ -59,12 +59,12 @@ const CAREER_ITEMS: TimelineItem[] = [
 
 <BaseLayout title="About" description="About Jay Shah - Senior Machine Learning Engineer at 6sense, building production AI applications, foundational model systems, and agent evaluation frameworks" jsonLdType="ProfilePage">
   <article class="prose prose-kolam dark:prose-invert prose-lg max-w-none">
-    <header class="reveal not-prose mb-10 flex flex-col items-center">
+    <header class="reveal not-prose mb-10 flex flex-col items-center overflow-x-clip">
       <!-- 160px Profile photo with clean concentric Kolam yellow/gold boundaries & wave pedestal -->
-      <div class="relative mb-6 flex flex-col items-center justify-center">
+      <div class="relative mb-6 w-full flex flex-col items-center justify-center">
         <!-- Sinuous Kolam Wave Strand Bridge -->
-        <div class="absolute inset-x-[-120px] sm:inset-x-[-160px] top-1/2 -translate-y-1/2 h-14 pointer-events-none flex items-center justify-center z-0" aria-hidden="true">
-          <svg viewBox="0 0 600 40" class="w-full h-full" fill="none">
+        <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 h-14 pointer-events-none flex items-center justify-center z-0" aria-hidden="true">
+          <svg viewBox="0 0 600 40" class="w-full max-w-[480px] h-full" fill="none">
             <defs>
               <linearGradient id="aboutWaveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
                 <stop offset="0%" stop-color="white" stop-opacity="0"/>
@@ -105,13 +105,13 @@ const CAREER_ITEMS: TimelineItem[] = [
         </div>
       </div>
 
-      <!-- Typewriter Headline: Anchored 50/50 Midpoint Grid (Non-shifting prefix) -->
-      <div class="w-full mt-2 min-h-[48px] sm:min-h-[54px] flex items-center justify-center">
-        <h1 class="grid grid-cols-2 gap-0 w-full font-display text-2xl sm:text-4xl leading-tight items-baseline m-0 p-0">
-          <span class="text-right whitespace-nowrap text-ink dark:text-silk pr-1.5 select-none">
+      <!-- Typewriter Headline: Stacked cleanly on mobile, balanced anchored columns on md+ -->
+      <div class="w-full mt-2 min-h-[68px] md:min-h-[50px] flex items-center justify-center">
+        <h1 class="flex flex-col items-center text-center gap-0.5 md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)] md:gap-0 md:items-baseline w-full font-display text-2xl sm:text-3xl leading-tight m-0 p-0">
+          <span class="md:text-right whitespace-nowrap text-ink dark:text-silk md:pr-1.5 select-none">
             {ABOUT_HEADLINE_PREFIX}
           </span>
-          <span class="text-left whitespace-nowrap text-terra dark:text-terra-light font-normal pl-1.5 overflow-visible select-none">
+          <span class="md:text-left whitespace-nowrap text-terra dark:text-terra-light font-normal md:pl-1.5 min-h-[1.3em] overflow-visible select-none">
             <span id="about-typewriter-text">{ABOUT_ROTATING_PHRASES[0]}</span><span class="cursor-caret" aria-hidden="true"></span>
           </span>
         </h1>
@@ -226,7 +226,7 @@ const CAREER_ITEMS: TimelineItem[] = [
       </div>
       <div class="stepwell-spine pl-8 space-y-4">
         <div class="relative group">
-          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 group-hover:scale-125 transition-transform duration-150" aria-hidden="true" />
+          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 transition-colors duration-150" aria-hidden="true" />
           <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
             <div class="flex flex-wrap items-center justify-between gap-2">
               <a
@@ -246,7 +246,7 @@ const CAREER_ITEMS: TimelineItem[] = [
         </div>
 
         <div class="relative group">
-          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 group-hover:scale-125 transition-transform duration-150" aria-hidden="true" />
+          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 transition-colors duration-150" aria-hidden="true" />
           <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
             <div class="flex flex-wrap items-center justify-between gap-2">
               <span class="font-medium text-sm text-ink dark:text-silk">Outstanding Master of Science Student</span>
@@ -259,7 +259,7 @@ const CAREER_ITEMS: TimelineItem[] = [
         </div>
 
         <div class="relative group">
-          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 group-hover:scale-125 transition-transform duration-150" aria-hidden="true" />
+          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 transition-colors duration-150" aria-hidden="true" />
           <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
             <div class="flex flex-wrap items-center justify-between gap-2">
               <span class="font-medium text-sm text-ink dark:text-silk">2nd Runner-up at Texas Datathon by Citadel</span>
@@ -280,7 +280,7 @@ const CAREER_ITEMS: TimelineItem[] = [
       </div>
       <div class="stepwell-spine pl-8 space-y-4">
         <div class="relative group">
-          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 group-hover:scale-125 transition-transform duration-150" aria-hidden="true" />
+          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 transition-colors duration-150" aria-hidden="true" />
           <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
             <div class="flex flex-wrap items-center justify-between gap-2">
               <a
@@ -300,7 +300,7 @@ const CAREER_ITEMS: TimelineItem[] = [
         </div>
 
         <div class="relative group">
-          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 group-hover:scale-125 transition-transform duration-150" aria-hidden="true" />
+          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 transition-colors duration-150" aria-hidden="true" />
           <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
             <div class="flex flex-wrap items-center justify-between gap-2">
               <a
@@ -320,7 +320,7 @@ const CAREER_ITEMS: TimelineItem[] = [
         </div>
 
         <div class="relative group">
-          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 group-hover:scale-125 transition-transform duration-150" aria-hidden="true" />
+          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 transition-colors duration-150" aria-hidden="true" />
           <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
             <div class="flex flex-wrap items-center justify-between gap-2">
               <a
@@ -343,8 +343,13 @@ const CAREER_ITEMS: TimelineItem[] = [
   </article>
 
   <!-- Lightweight Typewriter Engine -->
-  <script is:inline define:vars={{ phrases: ABOUT_ROTATING_PHRASES }}>
+  <script is:inline data-astro-rerun define:vars={{ phrases: ABOUT_ROTATING_PHRASES }}>
     (function () {
+      if (window.__aboutTypewriterTimeout) {
+        clearTimeout(window.__aboutTypewriterTimeout);
+        window.__aboutTypewriterTimeout = null;
+      }
+
       const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const typewriterEl = document.getElementById('about-typewriter-text');
       if (!typewriterEl || !Array.isArray(phrases) || phrases.length <= 1 || prefersReducedMotion) {
@@ -354,7 +359,6 @@ const CAREER_ITEMS: TimelineItem[] = [
       let phraseIdx = 0;
       let charIdx = phrases[0].length;
       let isDeleting = true;
-      let timeoutId = null;
 
       const TYPING_SPEED = 65;
       const DELETING_SPEED = 35;
@@ -362,33 +366,36 @@ const CAREER_ITEMS: TimelineItem[] = [
       const PAUSE_ON_EMPTY = 350;
 
       function typeLoop() {
+        const el = document.getElementById('about-typewriter-text');
+        if (!el) return;
+
         const currentPhrase = phrases[phraseIdx % phrases.length];
 
         if (!isDeleting) {
           charIdx++;
-          typewriterEl.textContent = currentPhrase.substring(0, charIdx);
+          el.textContent = currentPhrase.substring(0, charIdx);
 
           if (charIdx === currentPhrase.length) {
             isDeleting = true;
-            timeoutId = setTimeout(typeLoop, PAUSE_ON_WORD);
+            window.__aboutTypewriterTimeout = setTimeout(typeLoop, PAUSE_ON_WORD);
             return;
           }
-          timeoutId = setTimeout(typeLoop, TYPING_SPEED);
+          window.__aboutTypewriterTimeout = setTimeout(typeLoop, TYPING_SPEED);
         } else {
           charIdx--;
-          typewriterEl.textContent = currentPhrase.substring(0, charIdx);
+          el.textContent = currentPhrase.substring(0, charIdx);
 
           if (charIdx === 0) {
             isDeleting = false;
             phraseIdx = (phraseIdx + 1) % phrases.length;
-            timeoutId = setTimeout(typeLoop, PAUSE_ON_EMPTY);
+            window.__aboutTypewriterTimeout = setTimeout(typeLoop, PAUSE_ON_EMPTY);
             return;
           }
-          timeoutId = setTimeout(typeLoop, DELETING_SPEED);
+          window.__aboutTypewriterTimeout = setTimeout(typeLoop, DELETING_SPEED);
         }
       }
 
-      timeoutId = setTimeout(typeLoop, PAUSE_ON_WORD);
+      window.__aboutTypewriterTimeout = setTimeout(typeLoop, PAUSE_ON_WORD);
     })();
   </script>
 </BaseLayout>

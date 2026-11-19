@@ -100,6 +100,16 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
             </kbd>
           </div>
 
+          <!-- Reset All Filters (hidden until filters are active) -->
+          <button
+            type="button"
+            id="reset-all-btn"
+            class="hidden px-2.5 h-8 rounded-lg border border-terra/30 dark:border-terra-light/30 bg-terra/10 dark:bg-terra-light/10 text-terra dark:text-terra-light hover:bg-terra/20 dark:hover:bg-terra-light/20 font-mono text-[11px] font-medium transition-colors shrink-0 cursor-pointer"
+            aria-label="Reset all filters"
+          >
+            Reset
+          </button>
+
           <!-- Icon Action 1: Toggle Secondary Filter Drawer -->
           <button
             type="button"
@@ -161,6 +171,21 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
         <span>Filtering by Tag: <strong id="active-tag-label" class="text-gold-dark dark:text-gold-light">#tag</strong></span>
         <button type="button" id="clear-tag-btn" class="text-terra dark:text-terra-light hover:underline font-semibold cursor-pointer">
           &times; Clear Tag
+        </button>
+      </div>
+
+      <!-- Zero-Results Empty State -->
+      <div id="reads-empty-state" class="hidden featured-card rangoli-corners rounded-xl border border-cream-200 dark:border-night-700 p-8 text-center">
+        <p class="font-display text-lg text-ink dark:text-silk">No matching reading notes</p>
+        <p class="mt-1.5 text-sm text-ink-muted dark:text-silk-muted">
+          Try a different keyword or clear your active filters to see all {totalLinks} curated reads.
+        </p>
+        <button
+          type="button"
+          data-reset-reads-filters
+          class="mt-4 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-terra/30 dark:border-terra-light/30 bg-terra/10 dark:bg-terra-light/10 text-terra dark:text-terra-light hover:bg-terra/20 dark:hover:bg-terra-light/20 font-mono text-xs font-medium transition-colors cursor-pointer"
+        >
+          Clear all filters
         </button>
       </div>
 
@@ -254,7 +279,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
 </BaseLayout>
 
 <script is:inline data-astro-rerun>
-  function initReadsPage() {
+  (function initReadsPage() {
     var searchInput = document.getElementById('reads-search-input');
     var toggleFiltersBtn = document.getElementById('toggle-filters-btn');
     var toggleAllNotesBtn = document.getElementById('toggle-all-notes-btn');
@@ -263,8 +288,21 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
     var activeTagLabel = document.getElementById('active-tag-label');
     var clearTagBtn = document.getElementById('clear-tag-btn');
     var resetAllBtn = document.getElementById('reset-all-btn');
+    var emptyStateEl = document.getElementById('reads-empty-state');
+    var timelineRoot = document.getElementById('reads-timeline-root');
 
     if (!searchInput) return;
+
+    var TAG_ALIASES = {
+      ml: 'machine-learning',
+      evaluation: 'evals',
+      mrl: 'matryoshka-representation-learning',
+    };
+
+    function normalizeTag(tag) {
+      var slug = String(tag || '').toLowerCase().trim().replace(/\s+/g, '-');
+      return TAG_ALIASES[slug] || slug;
+    }
 
     var state = {
       search: '',
@@ -278,9 +316,10 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
     var urlParams = new URLSearchParams(window.location.search);
     var initialTag = urlParams.get('tag');
     if (initialTag) {
-      state.tag = initialTag;
+      var normalizedInitial = normalizeTag(initialTag);
+      state.tag = normalizedInitial;
       if (activeTagBanner && activeTagLabel) {
-        activeTagLabel.textContent = '#' + initialTag;
+        activeTagLabel.textContent = '#' + normalizedInitial;
         activeTagBanner.classList.remove('hidden');
         activeTagBanner.classList.add('flex');
       }
@@ -354,7 +393,6 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
       };
     });
 
-
     // Year Pills
     document.querySelectorAll('.year-pill').forEach(function(btn) {
       btn.addEventListener('click', function() {
@@ -385,35 +423,49 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
       applyFilters();
     });
 
-    // Keyboard shortcut "/" to focus search
-    document.addEventListener('keydown', function(e) {
-      if (e.key === '/' && document.activeElement !== searchInput && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
-        e.preventDefault();
-        searchInput.focus();
+    // Keyboard shortcut "/" to focus local reads search (cleaned up across View Transitions)
+    if (window.__readsKeydownHandler) {
+      document.removeEventListener('keydown', window.__readsKeydownHandler);
+    }
+    window.__readsKeydownHandler = function(e) {
+      var input = document.getElementById('reads-search-input');
+      if (!input) {
+        document.removeEventListener('keydown', window.__readsKeydownHandler);
+        window.__readsKeydownHandler = null;
+        return;
       }
-      if (e.key === 'Escape' && document.activeElement === searchInput) {
-        searchInput.value = '';
+      var activeTag = document.activeElement ? document.activeElement.tagName : '';
+      var isEditable = activeTag === 'INPUT' || activeTag === 'TEXTAREA' || (document.activeElement && document.activeElement.isContentEditable);
+      if (e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey && !isEditable) {
+        e.preventDefault();
+        input.focus();
+      }
+      if (e.key === 'Escape' && document.activeElement === input) {
+        input.value = '';
         state.search = '';
-        searchInput.blur();
+        input.blur();
         applyFilters();
       }
-    });
+    };
+    document.addEventListener('keydown', window.__readsKeydownHandler);
 
     // RightSidebar and Card Tag Click Interception
     function handleTagClick(tag) {
-      state.tag = tag;
+      var normalized = normalizeTag(tag);
+      state.tag = normalized;
       if (activeTagBanner && activeTagLabel) {
-        activeTagLabel.textContent = '#' + tag;
+        activeTagLabel.textContent = '#' + normalized;
         activeTagBanner.classList.remove('hidden');
         activeTagBanner.classList.add('flex');
       }
-      var newUrl = window.location.pathname + '?tag=' + encodeURIComponent(tag);
-      window.history.pushState({ tag: tag }, '', newUrl);
+      var newUrl = window.location.pathname + '?tag=' + encodeURIComponent(normalized);
+      window.history.pushState({ tag: normalized }, '', newUrl);
       applyFilters();
     }
 
     document.querySelectorAll('[data-tag-link]').forEach(function(link) {
       link.addEventListener('click', function(e) {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
         e.preventDefault();
         e.stopPropagation();
         var tag = link.dataset.tagLink;
@@ -422,10 +474,11 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
     });
 
     // Listen to right sidebar tag clicks when on /reads/
-    document.querySelectorAll('aside a[href^="/tags/"]').forEach(function(sidebarLink) {
+    document.querySelectorAll('[data-right-sidebar] a[href^="/tags/"]').forEach(function(sidebarLink) {
       sidebarLink.addEventListener('click', function(e) {
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
         var href = sidebarLink.getAttribute('href');
-        var match = href.match(/\/tags\/([^\/]+)\/?/);
+        var match = href && href.match(/\/tags\/([^\/]+)\/?/);
         if (match && match[1]) {
           e.preventDefault();
           var tag = decodeURIComponent(match[1]);
@@ -449,36 +502,41 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
     }
 
     // Reset All Filters
-    if (resetAllBtn) {
-      resetAllBtn.addEventListener('click', function() {
-        searchInput.value = '';
-        state.search = '';
-        state.year = 'all';
-        state.month = 'all';
-        state.tag = 'all';
-        if (activeTagBanner) {
-          activeTagBanner.classList.add('hidden');
-          activeTagBanner.classList.remove('flex');
-        }
-        document.querySelectorAll('.year-pill').forEach(function(p, i) {
-          p.className = i === 0
-            ? 'year-pill px-2.5 py-0.5 rounded-full border border-terra bg-terra text-white font-mono text-[11px] cursor-pointer'
-            : 'year-pill px-2.5 py-0.5 rounded-full border border-cream-200 dark:border-night-700 bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra font-mono text-[11px] cursor-pointer transition-colors';
-        });
-        document.querySelectorAll('.month-pill').forEach(function(p, i) {
-          p.className = i === 0
-            ? 'month-pill px-2.5 py-0.5 rounded-full border border-terra bg-terra text-white font-mono text-[11px] cursor-pointer'
-            : 'month-pill px-2.5 py-0.5 rounded-full border border-cream-200 dark:border-night-700 bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra font-mono text-[11px] cursor-pointer transition-colors';
-        });
-        window.history.pushState({}, '', window.location.pathname);
-        applyFilters();
+    function resetAllFilters() {
+      searchInput.value = '';
+      state.search = '';
+      state.year = 'all';
+      state.month = 'all';
+      state.tag = 'all';
+      if (activeTagBanner) {
+        activeTagBanner.classList.add('hidden');
+        activeTagBanner.classList.remove('flex');
+      }
+      document.querySelectorAll('.year-pill').forEach(function(p, i) {
+        p.className = i === 0
+          ? 'year-pill px-2.5 py-0.5 rounded-full border border-terra bg-terra text-white font-mono text-[11px] cursor-pointer'
+          : 'year-pill px-2.5 py-0.5 rounded-full border border-cream-200 dark:border-night-700 bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra font-mono text-[11px] cursor-pointer transition-colors';
       });
+      document.querySelectorAll('.month-pill').forEach(function(p, i) {
+        p.className = i === 0
+          ? 'month-pill px-2.5 py-0.5 rounded-full border border-terra bg-terra text-white font-mono text-[11px] cursor-pointer'
+          : 'month-pill px-2.5 py-0.5 rounded-full border border-cream-200 dark:border-night-700 bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra font-mono text-[11px] cursor-pointer transition-colors';
+      });
+      window.history.pushState({}, '', window.location.pathname);
+      applyFilters();
     }
+
+    if (resetAllBtn) {
+      resetAllBtn.addEventListener('click', resetAllFilters);
+    }
+    document.querySelectorAll('[data-reset-reads-filters]').forEach(function(btn) {
+      btn.addEventListener('click', resetAllFilters);
+    });
 
     // Filter Evaluation Engine
     function applyFilters() {
       var totalVisible = 0;
-      var hasActiveFilters = state.search || state.year !== 'all' || state.month !== 'all' || state.tag !== 'all';
+      var hasActiveFilters = Boolean(state.search || state.year !== 'all' || state.month !== 'all' || state.tag !== 'all');
 
       if (resetAllBtn) {
         resetAllBtn.classList.toggle('hidden', !hasActiveFilters);
@@ -495,7 +553,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
           mBranch.querySelectorAll('.read-card-item').forEach(function(card) {
             var cardTitle = card.dataset.title || '';
             var cardDomain = card.dataset.domain || '';
-            var cardTags = (card.dataset.tags || '').split(',');
+            var cardTags = (card.dataset.tags || '').split(',').filter(Boolean);
             var cardText = card.textContent.toLowerCase();
 
             var matchYear = state.year === 'all' || state.year === secYear;
@@ -548,9 +606,17 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
           ySection.classList.add('is-visible');
         }
       });
+
+      var isEmpty = totalVisible === 0 && hasActiveFilters;
+      if (emptyStateEl) {
+        emptyStateEl.classList.toggle('hidden', !isEmpty);
+      }
+      if (timelineRoot) {
+        timelineRoot.classList.toggle('hidden', isEmpty);
+      }
     }
 
-    // Scroll-Spy: Highlight timeline month node in view
+    // Scroll-Spy: Highlight timeline month node in view (ring/border only — no scale-125)
     var branches = document.querySelectorAll('.timeline-month-branch');
     if ('IntersectionObserver' in window && branches.length > 0) {
       var observer = new IntersectionObserver(function(entries) {
@@ -558,10 +624,10 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
           if (entry.isIntersecting) {
             var dot = entry.target.querySelector('.timeline-node-dot');
             document.querySelectorAll('.timeline-node-dot').forEach(function(d) {
-              d.classList.remove('scale-125', 'ring-terra/40');
+              d.classList.remove('ring-4', 'ring-terra/30', 'border-terra');
             });
             if (dot) {
-              dot.classList.add('scale-125', 'ring-terra/40');
+              dot.classList.add('ring-4', 'ring-terra/30', 'border-terra');
             }
           }
         });
@@ -572,9 +638,5 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
 
     // Initial evaluation
     applyFilters();
-  }
-
-  // Bind to page load and View Transitions
-  document.addEventListener('astro:page-load', initReadsPage);
-  initReadsPage();
+  })();
 </script>

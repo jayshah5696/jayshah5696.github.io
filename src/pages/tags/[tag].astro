@@ -2,24 +2,30 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import ReadCard from '../../components/ReadCard.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
+import { projects } from '../../data/projects';
+import { normalizeTagSlug } from '../../utils/tags';
 
 export async function getStaticPaths() {
   const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
   const reads = (await getCollection('reads')).filter((r) => !r.data.draft);
-  
+
   const tags = [...new Set([
-    ...posts.flatMap((post) => post.data.tags),
-    ...reads.flatMap((read) => read.data.tags),
+    ...posts.flatMap((post) => post.data.tags.map(normalizeTagSlug)),
+    ...reads.flatMap((read) => read.data.tags.map(normalizeTagSlug)),
+    ...projects.flatMap((project) => project.tags.map(normalizeTagSlug)),
   ])];
 
   return tags.map((tag) => {
     const matchedPosts = posts
-      .filter((post) => post.data.tags.includes(tag))
+      .filter((post) => post.data.tags.some((t) => normalizeTagSlug(t) === tag))
       .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
     const matchedReads = reads
-      .filter((read) => read.data.tags.includes(tag))
+      .filter((read) => read.data.tags.some((t) => normalizeTagSlug(t) === tag))
       .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+    const matchedProjects = projects
+      .filter((project) => project.tags.some((t) => normalizeTagSlug(t) === tag));
 
     return {
       params: { tag },
@@ -27,18 +33,23 @@ export async function getStaticPaths() {
         tag,
         posts: matchedPosts,
         reads: matchedReads,
+        projects: matchedProjects,
       },
     };
   });
 }
 
-const { tag, posts, reads } = Astro.props;
-const totalCount = posts.length + reads.length;
+const { tag, posts, reads, projects: matchedProjects } = Astro.props;
+const summaryParts = [
+  posts.length > 0 ? `${posts.length} ${posts.length === 1 ? 'post' : 'posts'}` : null,
+  matchedProjects.length > 0 ? `${matchedProjects.length} ${matchedProjects.length === 1 ? 'project' : 'projects'}` : null,
+  reads.length > 0 ? `${reads.length} shared ${reads.length === 1 ? 'link' : 'links'}` : null,
+].filter(Boolean);
 ---
 
 <BaseLayout 
   title={`#${tag}`} 
-  description={`Browse ${posts.length} posts and ${reads.length} shared links about ${tag} — by Jay Shah.`}
+  description={`Browse ${summaryParts.join(', ')} about ${tag} — by Jay Shah.`}
 >
   <header class="mb-10">
     <a href="/tags/" class="inline-flex items-center gap-1.5 text-sm text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors duration-200 font-mono mb-4">
@@ -49,9 +60,7 @@ const totalCount = posts.length + reads.length;
       #{tag}
     </h1>
     <p class="mt-4 font-mono text-sm text-ink-muted dark:text-silk-muted tabular-nums">
-      {posts.length > 0 && `${posts.length} ${posts.length === 1 ? 'post' : 'posts'}`}
-      {posts.length > 0 && reads.length > 0 && ' • '}
-      {reads.length > 0 && `${reads.length} shared ${reads.length === 1 ? 'link' : 'links'}`}
+      {summaryParts.join(' • ')}
     </p>
   </header>
 
@@ -61,7 +70,7 @@ const totalCount = posts.length + reads.length;
       <section class="reveal">
         <h2 class="font-display text-xl text-ink dark:text-silk mb-5 border-b border-cream-200 dark:border-night-700 pb-2 flex items-center gap-2">
           <svg class="size-4.5 text-terra" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="11" y2="17"/></svg>
-          Articles & Writings
+          Articles &amp; Writings
         </h2>
         <div class="space-y-5">
           {posts.map((post, i) => (
@@ -72,6 +81,29 @@ const totalCount = posts.length + reads.length;
               slug={post.id}
               tags={post.data.tags}
               body={post.body ?? ''}
+              image={post.data.image}
+              interactive={post.data.interactive}
+              index={i}
+            />
+          ))}
+        </div>
+      </section>
+    )}
+
+    <!-- Projects Section -->
+    {matchedProjects.length > 0 && (
+      <section class="reveal">
+        <h2 class="font-display text-xl text-ink dark:text-silk mb-5 border-b border-cream-200 dark:border-night-700 pb-2 flex items-center gap-2">
+          <svg class="size-4.5 text-mor dark:text-mor-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
+          Projects &amp; Open Source
+        </h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          {matchedProjects.map((project, i) => (
+            <ProjectCard
+              title={project.title}
+              description={project.description}
+              url={project.url}
+              tags={project.tags}
               index={i}
             />
           ))}
@@ -84,7 +116,7 @@ const totalCount = posts.length + reads.length;
       <section class="reveal">
         <h2 class="font-display text-xl text-ink dark:text-silk mb-5 border-b border-cream-200 dark:border-night-700 pb-2 flex items-center gap-2">
           <svg class="size-4.5 text-gold-dark dark:text-gold-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
-          Shared Links & Reads
+          Shared Links &amp; Reads
         </h2>
         <div class="space-y-5">
           {reads.map((read, i) => (
@@ -94,26 +126,6 @@ const totalCount = posts.length + reads.length;
       </section>
     )}
   </div>
-
-  <script is:inline data-astro-rerun>
-    function initTagReadsCards() {
-      document.querySelectorAll('.read-card-item').forEach(function(card) {
-        card.addEventListener('click', function(e) {
-          if (e.target.closest('a') || e.target.closest('.read-card-notes')) return;
-          var notes = card.querySelector('.read-card-notes');
-          var indicator = card.querySelector('.notes-indicator');
-          if (notes) {
-            var isHidden = notes.classList.toggle('hidden');
-            if (indicator) {
-              indicator.style.transform = !isHidden ? 'rotate(45deg)' : 'none';
-            }
-          }
-        });
-      });
-    }
-    document.addEventListener('astro:page-load', initTagReadsCards);
-    initTagReadsCards();
-  </script>
 </BaseLayout>
 
 

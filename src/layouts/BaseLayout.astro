@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { ClientRouter } from 'astro:transitions';
 import Sidebar from '../components/Sidebar.astro';
 import MobileNav from '../components/MobileNav.astro';
+import SearchModal from '../components/SearchModal.astro';
 import JsonLd from '../components/JsonLd.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL, SITE_AUTHOR } from '../consts';
 
@@ -122,6 +123,7 @@ const markdownURL = Astro.url.pathname === '/' || Astro.url.pathname === ''
     </a>
     <Sidebar />
     <MobileNav />
+    <SearchModal />
 
     <div class="app-content pt-14 lg:pt-0">
       <div class="w-full max-w-[1152px] px-6 lg:px-10 py-10 lg:py-14 flex justify-between gap-10 xl:gap-16">

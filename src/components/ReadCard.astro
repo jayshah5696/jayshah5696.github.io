@@ -2,7 +2,7 @@
 import { render } from 'astro:content';
 import FormattedDate from './FormattedDate.astro';
 import SocialIcon from './SocialIcon.astro';
-import { getTagMicroPillClasses, getTagIndicator } from '../utils/tags';
+import { getTagMicroPillClasses, getTagIndicator, normalizeTagSlug } from '../utils/tags';
 
 interface Props {
   entry: any;
@@ -14,6 +14,7 @@ const { entry, featured = false, index } = Astro.props;
 const { title, url, date, tags } = entry.data;
 const isFeatured = featured || Boolean(entry.data.featured);
 const { Content } = await render(entry);
+const normalizedTags = [...new Set((tags as string[]).map((tag) => normalizeTagSlug(tag)))];
 
 let domain = '';
 try {
@@ -35,7 +36,7 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
       : 'border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light',
   ]}
   data-read-card
-  data-tags={tags.join(',')}
+  data-tags={normalizedTags.join(',')}
   data-year={year}
   data-month={month}
   data-title={title.toLowerCase()}
@@ -75,11 +76,11 @@ const month = String(date.getMonth() + 1).padStart(2, '0');
       <SocialIcon name="external" class="size-3 opacity-70" />
     </a>
 
-    {tags.length > 0 && (
+    {normalizedTags.length > 0 && (
       <>
         <span class="text-cream-400 dark:text-night-700 select-none" aria-hidden="true">&bull;</span>
         <div class="inline-flex flex-wrap items-center gap-1.5">
-          {tags.map((tag: string) => (
+          {normalizedTags.map((tag: string) => (
             <a
               href={`/tags/${encodeURIComponent(tag)}/`}
               class={getTagMicroPillClasses(tag)}

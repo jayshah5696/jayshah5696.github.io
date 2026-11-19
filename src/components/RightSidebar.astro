@@ -1,6 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
-import { getTagPillClasses, getTagIndicator } from '../utils/tags';
+import { getTagPillClasses, getTagIndicator, normalizeTagSlug } from '../utils/tags';
 
 const posts = (await getCollection('blog'))
   .filter((p) => !p.data.draft)
@@ -17,13 +17,13 @@ const startHerePosts = posts.slice(3)
 const tagCounts: Record<string, number> = {};
 
 posts.forEach((post) => {
-  post.data.tags.forEach((tag) => {
+  new Set(post.data.tags.map(normalizeTagSlug)).forEach((tag) => {
     tagCounts[tag] = (tagCounts[tag] || 0) + 1;
   });
 });
 
 reads.forEach((read) => {
-  read.data.tags.forEach((tag) => {
+  new Set(read.data.tags.map(normalizeTagSlug)).forEach((tag) => {
     tagCounts[tag] = (tagCounts[tag] || 0) + 1;
   });
 });
@@ -33,7 +33,7 @@ const trendingTags = Object.entries(tagCounts)
   .slice(0, 10);
 ---
 
-<div class="hidden xl:block w-[240px] shrink-0">
+<aside aria-label="Sidebar" data-right-sidebar class="hidden xl:block w-[240px] shrink-0">
   <div class="sticky top-8 space-y-8">
     <!-- Start Here -->
     <section>
@@ -76,4 +76,4 @@ const trendingTags = Object.entries(tagCounts)
       </div>
     </section>
   </div>
-</div>
+</aside>

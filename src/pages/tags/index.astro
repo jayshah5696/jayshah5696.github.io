@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import { projects } from '../../data/projects';
+import { normalizeTagSlug } from '../../utils/tags';
 
 const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
 const reads = (await getCollection('reads')).filter((r) => !r.data.draft);
@@ -8,13 +10,19 @@ const reads = (await getCollection('reads')).filter((r) => !r.data.draft);
 const tagCounts: Record<string, number> = {};
 
 posts.forEach((post) => {
-  post.data.tags.forEach((tag) => {
+  new Set(post.data.tags.map(normalizeTagSlug)).forEach((tag) => {
     tagCounts[tag] = (tagCounts[tag] || 0) + 1;
   });
 });
 
 reads.forEach((read) => {
-  read.data.tags.forEach((tag) => {
+  new Set(read.data.tags.map(normalizeTagSlug)).forEach((tag) => {
+    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+  });
+});
+
+projects.forEach((project) => {
+  new Set(project.tags.map(normalizeTagSlug)).forEach((tag) => {
     tagCounts[tag] = (tagCounts[tag] || 0) + 1;
   });
 });

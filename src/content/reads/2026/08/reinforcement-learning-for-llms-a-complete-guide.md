@@ -2,7 +2,7 @@
 title: "Reinforcement Learning for LLMs: A Complete Guide"
 url: "https://open.substack.com/pub/cameronrwolfe/p/llm-rl?utm_campaign=posts-open-in-app"
 date: 2026-08-24
-tags: ["llm", "machine learning", "rl"]
+tags: ["llm", "machine-learning", "rl"]
 draft: false
 ---
 

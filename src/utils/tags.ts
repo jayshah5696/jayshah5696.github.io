@@ -1,8 +1,15 @@
 // Shared tag categorization — single source of truth
 // Used by TagList, RightSidebar, and tag pages
 
+export const TAG_ALIASES: Record<string, string> = {
+  'ml': 'machine-learning',
+  'evaluation': 'evals',
+  'mrl': 'matryoshka-representation-learning',
+};
+
 export const TAG_CATEGORIES = {
   ai: [
+    'ai',
     'gen-ai',
     'llm',
     'rag',
@@ -11,7 +18,9 @@ export const TAG_CATEGORIES = {
     'ai-safety',
     'watermarking',
     'entity-resolution',
-    'entity resolution',
+    'gemma',
+    'langgraph',
+    'llamaindex',
   ],
   dev: [
     'coding-tools',
@@ -22,22 +31,30 @@ export const TAG_CATEGORIES = {
     'software-engineering',
     'infrastructure',
     'openclaw',
+    'python',
+    'fastapi',
+    'sql',
+    'duckdb',
+    'tui',
+    'local-first',
+    'yaml',
+    'elasticsearch',
   ],
   ml: [
-    'ml',
     'machine-learning',
-    'machine learning',
     'search',
+    'semantic-search',
     'embedding-models',
-    'embedding models',
     'bm25',
     'matryoshka-representation-learning',
-    'matryoshka representation learning',
     'fine-tuning',
+    'data-generation',
     'nlp',
     'analytics',
     'statistics',
     'qc',
+    'quality-control',
+    'manufacturing',
     'research',
     'energy',
     'rl',
@@ -46,6 +63,8 @@ export const TAG_CATEGORIES = {
     'memory',
     'production',
     'hackathon',
+    'video',
+    'healthcare',
   ],
   personal: [
     'spiritual',
@@ -64,17 +83,17 @@ export const TAG_INDICATORS: Record<string, string> = {
 };
 
 export function normalizeTagSlug(tag: string): string {
-  return tag.toLowerCase().trim().replace(/\s+/g, '-');
+  const slug = tag.toLowerCase().trim().replace(/\s+/g, '-');
+  return TAG_ALIASES[slug] ?? slug;
 }
 
 export function getTagCategory(tag: string): 'ai' | 'dev' | 'ml' | 'personal' | 'default' {
-  const raw = tag.toLowerCase().trim();
   const slug = normalizeTagSlug(tag);
 
-  if (TAG_CATEGORIES.ai.includes(raw as any) || TAG_CATEGORIES.ai.includes(slug as any)) return 'ai';
-  if (TAG_CATEGORIES.dev.includes(raw as any) || TAG_CATEGORIES.dev.includes(slug as any)) return 'dev';
-  if (TAG_CATEGORIES.ml.includes(raw as any) || TAG_CATEGORIES.ml.includes(slug as any)) return 'ml';
-  if (TAG_CATEGORIES.personal.includes(raw as any) || TAG_CATEGORIES.personal.includes(slug as any)) return 'personal';
+  if ((TAG_CATEGORIES.ai as readonly string[]).includes(slug)) return 'ai';
+  if ((TAG_CATEGORIES.dev as readonly string[]).includes(slug)) return 'dev';
+  if ((TAG_CATEGORIES.ml as readonly string[]).includes(slug)) return 'ml';
+  if ((TAG_CATEGORIES.personal as readonly string[]).includes(slug)) return 'personal';
   return 'default';
 }
 

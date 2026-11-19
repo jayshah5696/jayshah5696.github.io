@@ -1,0 +1,220 @@
+---
+// Global Pagefind search modal — mounted once in BaseLayout so it works on mobile and desktop
+---
+
+<div id="search-modal" class="hidden fixed inset-0 z-50" role="dialog" aria-modal="true" aria-label="Search">
+  <div id="search-backdrop" class="absolute inset-0 bg-black/45" style="backdrop-filter: blur(4px);"></div>
+  <div class="relative max-w-lg mx-auto mt-[10vh] sm:mt-[15vh] px-4 sm:px-0">
+    <div class="bg-cream-50 dark:bg-night-900 rounded-xl border border-cream-200 dark:border-night-700 shadow-2xl overflow-hidden">
+      <div class="flex items-center justify-between px-4 py-2.5 border-b border-cream-200/70 dark:border-night-700/70">
+        <span class="font-mono text-[11px] uppercase tracking-wider text-ink-muted dark:text-silk-muted">
+          Search site
+        </span>
+        <button
+          id="search-close-btn"
+          type="button"
+          class="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-xs font-mono text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light hover:bg-cream-100 dark:hover:bg-night-800 transition-colors cursor-pointer"
+          aria-label="Close search"
+        >
+          <span class="hidden sm:inline text-[10px] opacity-70">ESC</span>
+          <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M18 6 6 18"/><path d="m6 6 12 12"/>
+          </svg>
+        </button>
+      </div>
+      <div id="search-container" class="pagefind-search p-3 max-h-[70vh] overflow-y-auto"></div>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  (function() {
+    if (window.__searchModalBound) return;
+    window.__searchModalBound = true;
+
+    var assetsLoading = false;
+    var previousFocus = null;
+
+    function getModal() {
+      return document.getElementById('search-modal');
+    }
+
+    function getFocusableElements(modal) {
+      if (!modal) return [];
+      return Array.from(modal.querySelectorAll(
+        'input, button, [href], [tabindex]:not([tabindex="-1"])'
+      )).filter(function(el) {
+        return !el.closest('[hidden]') && !el.closest('.hidden') && el.offsetParent !== null;
+      });
+    }
+
+    function trapFocus(e) {
+      var modal = getModal();
+      if (e.key !== 'Tab' || !modal || modal.classList.contains('hidden')) return;
+      var focusable = getFocusableElements(modal);
+      if (focusable.length === 0) return;
+      var first = focusable[0];
+      var last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first.focus();
+        }
+      }
+    }
+
+    function mountPagefind() {
+      var container = document.getElementById('search-container');
+      if (!container || container.dataset.initialized === 'true') {
+        setTimeout(function() {
+          var input = document.querySelector('#search-container input');
+          if (input) {
+            input.value = '';
+            input.focus();
+          }
+        }, 50);
+        return;
+      }
+
+      if (typeof window.PagefindUI === 'function') {
+        container.dataset.initialized = 'true';
+        new window.PagefindUI({
+          element: '#search-container',
+          showSubResults: true,
+          showImages: false,
+          autofocus: true,
+        });
+        setTimeout(function() {
+          var input = document.querySelector('#search-container input');
+          if (input) input.focus();
+        }, 100);
+        return;
+      }
+
+      if (assetsLoading) return;
+      assetsLoading = true;
+
+      if (!document.querySelector('link[href="/pagefind/pagefind-ui.css"]')) {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = '/pagefind/pagefind-ui.css';
+        document.head.appendChild(link);
+      }
+
+      var script = document.createElement('script');
+      script.src = '/pagefind/pagefind-ui.js';
+      script.onload = function() {
+        assetsLoading = false;
+        mountPagefind();
+      };
+      script.onerror = function() {
+        assetsLoading = false;
+      };
+      document.head.appendChild(script);
+    }
+
+    function openSearch() {
+      var modal = getModal();
+      if (!modal) return;
+
+      // Close mobile navigation drawer if open
+      var mobileMenu = document.getElementById('mobile-menu');
+      var mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+      if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+        mobileMenu.classList.add('hidden');
+        if (mobileMenuToggle) {
+          mobileMenuToggle.setAttribute('aria-expanded', 'false');
+          mobileMenuToggle.setAttribute('aria-label', 'Open menu');
+        }
+      }
+
+      previousFocus = document.activeElement;
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      mountPagefind();
+    }
+
+    function closeSearch() {
+      var modal = getModal();
+      if (!modal || modal.classList.contains('hidden')) return;
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+      if (previousFocus && typeof previousFocus.focus === 'function') {
+        previousFocus.focus();
+        previousFocus = null;
+      }
+    }
+
+    // Delegated click handler survives Astro View Transitions
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('[data-search-trigger]')) {
+        e.preventDefault();
+        openSearch();
+        return;
+      }
+      if (e.target.id === 'search-backdrop' || e.target.closest('#search-close-btn')) {
+        e.preventDefault();
+        closeSearch();
+      }
+    });
+
+    // Keyboard: "/" (outside /reads/ local search) or Cmd/Ctrl+K to open, Escape to close, Tab to trap
+    document.addEventListener('keydown', function(e) {
+      var activeTag = document.activeElement ? document.activeElement.tagName : '';
+      var isEditable = activeTag === 'INPUT' || activeTag === 'TEXTAREA' || (document.activeElement && document.activeElement.isContentEditable);
+      var isSlash = e.key === '/' && !e.ctrlKey && !e.metaKey && !e.altKey;
+      var isCmdK = e.key.toLowerCase() === 'k' && (e.metaKey || e.ctrlKey);
+
+      if (isSlash && document.getElementById('reads-search-input')) {
+        return;
+      }
+
+      if ((isSlash || isCmdK) && !isEditable) {
+        e.preventDefault();
+        openSearch();
+        return;
+      }
+
+      if (e.key === 'Escape') {
+        closeSearch();
+      }
+      trapFocus(e);
+    });
+
+    // Clean up body scroll lock if navigating via View Transitions while modal is open
+    document.addEventListener('astro:before-swap', function() {
+      document.body.style.overflow = '';
+    });
+  })();
+</script>
+
+<style is:global>
+  /* Pagefind theme overrides */
+  .pagefind-ui {
+    --pagefind-ui-scale: 0.9;
+    --pagefind-ui-primary: #c4623a;
+    --pagefind-ui-text: #2c2416;
+    --pagefind-ui-background: #fefdfb;
+    --pagefind-ui-border: #e8dbc0;
+    --pagefind-ui-tag: #f5edd8;
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 8px;
+    --pagefind-ui-font: 'Outfit', system-ui, sans-serif;
+  }
+  .dark .pagefind-ui {
+    --pagefind-ui-primary: #e07a4f;
+    --pagefind-ui-text: #e8e0d4;
+    --pagefind-ui-background: #15111e;
+    --pagefind-ui-border: #2a2438;
+    --pagefind-ui-tag: #1e1928;
+  }
+  .pagefind-ui .pagefind-ui__search-input {
+    font-family: 'Fira Code', monospace;
+    font-size: 14px;
+  }
+</style>
