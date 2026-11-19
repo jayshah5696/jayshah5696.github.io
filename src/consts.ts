@@ -1,7 +1,7 @@
 export const SITE_TITLE = 'Jay Shah';
 export const SITE_TAGLINE = 'Senior Machine Learning Engineer | Production AI & Agent Systems';
 export const SITE_DESCRIPTION =
-  'Personal blog and research portfolio of Jay Shah — Senior Machine Learning Engineer focusing on AI applications, foundational models, LLM evaluations, and RAG systems.';
+  'Personal site and technical blog of Jay Shah, Senior Machine Learning Engineer working on production ML systems, custom embeddings, AI agents, and evaluations.';
 export const SITE_URL = 'https://jayshah.dev';
 export const SITE_AUTHOR = 'Jay Shah';
 export const SITE_LEGAL_NAME = 'Jay Shah AI Engineering & Research';
@@ -66,6 +66,7 @@ export const AGENT_RESOURCES = {
 
 export const NAV_ITEMS = [
   { label: 'Home', href: '/', icon: 'home' },
+  { label: 'Blog', href: '/blog/', icon: 'blog' },
   { label: 'About', href: '/about/', icon: 'about' },
   { label: 'Projects', href: '/projects/', icon: 'projects' },
   { label: 'Reads', href: '/reads/', icon: 'reads' },

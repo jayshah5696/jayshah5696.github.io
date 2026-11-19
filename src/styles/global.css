@@ -311,7 +311,6 @@
   position: relative;
   border: 1px solid #e8dbc0;
   border-radius: 12px;
-  padding: 2rem;
   overflow: hidden;
   transition:
     border-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -1069,14 +1068,33 @@
   }
 }
 
-/* High-frequency interactions (hover, focus, list navigation):
-   Instant tactile feedback with 0s delay per Emil Kowalski / ReUI principles */
-:is(a, button, article, [role="button"], .featured-card, .stepwell-card, .group, .kolam-diamond-node, li),
-:is(a, button, article, [role="button"], .featured-card, .stepwell-card, .group, .kolam-diamond-node, li) *,
-:is(a, button, article, [role="button"], .featured-card, .stepwell-card, .group, .kolam-diamond-node, li):hover,
-:is(a, button, article, [role="button"], .featured-card, .stepwell-card, .group, .kolam-diamond-node, li):focus-visible,
+/* High-frequency interactions (hover, focus, active, already-visible elements):
+   Instant tactile feedback with 0s delay per Emil Kowalski / ReUI principles,
+   while preserving staggered .reveal entrance delays before first paint */
+:is(a, button, article, [role="button"], .featured-card, .stepwell-card, .group, .kolam-diamond-node, li):is(:hover, :focus-visible, :active, .is-visible),
+:is(a, button, article, [role="button"], .featured-card, .stepwell-card, .group, .kolam-diamond-node, li):is(:hover, :focus-visible, :active, .is-visible) *,
 .group:hover * {
   transition-delay: 0s !important;
+}
+
+/* Smooth CSS Grid accordion collapse for ReadCard notes */
+.read-card-notes-collapse {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 220ms cubic-bezier(0.16, 1, 0.3, 1),
+    opacity 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.read-card-item[data-expanded="true"] .read-card-notes-collapse {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}
+
+.read-card-notes-inner {
+  overflow: hidden;
+  min-height: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1085,6 +1103,10 @@
     transform: none !important;
     transition: none !important;
     will-change: auto !important;
+  }
+
+  .read-card-notes-collapse {
+    transition: none !important;
   }
 }
 

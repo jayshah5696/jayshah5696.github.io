@@ -5,8 +5,17 @@ import SocialIcon from './SocialIcon.astro';
 import BrandEmblem from './BrandEmblem.astro';
 
 const currentPath = Astro.url.pathname;
-// Quick links shown inline on the header bar
-const inlineNavItems = NAV_ITEMS.filter(n => ['Home', 'About', 'Projects'].includes(n.label));
+// Quick links shown inline on the mobile header bar
+const inlineNavItems = NAV_ITEMS.filter(n => ['Home', 'Blog', 'Projects'].includes(n.label));
+
+function isNavActive(href: string): boolean {
+  if (href.startsWith('http')) return false;
+  if (href === '/') return currentPath === '/';
+  if (href === '/blog/') {
+    return currentPath === '/blog' || currentPath === '/blog/' || currentPath.startsWith('/posts/');
+  }
+  return currentPath.startsWith(href);
+}
 ---
 
 <header class="lg:hidden fixed top-0 left-0 right-0 z-40 border-b border-cream-200 dark:border-night-700
@@ -18,14 +27,15 @@ const inlineNavItems = NAV_ITEMS.filter(n => ['Home', 'About', 'Projects'].inclu
     </a>
 
     <div class="flex items-center gap-3">
-      <nav class="flex items-center gap-3">
+      <nav class="flex items-center gap-3" aria-label="Quick navigation">
         {inlineNavItems.map(({ label, href }) => {
-          const isActive = href === '/' ? currentPath === '/' : currentPath.startsWith(href);
+          const isActive = isNavActive(href);
           return (
             <a
               href={href}
+              aria-current={isActive ? 'page' : undefined}
               class:list={[
-                'text-[10px] font-mono uppercase transition-colors duration-200',
+                'text-[10px] font-mono uppercase transition-colors duration-150',
                 isActive
                   ? 'text-terra dark:text-terra-light font-medium'
                   : 'text-ink-muted dark:text-silk-muted hover:text-ink dark:hover:text-silk',
@@ -77,17 +87,19 @@ const inlineNavItems = NAV_ITEMS.filter(n => ['Home', 'About', 'Projects'].inclu
     id="mobile-menu"
     class="hidden border-t border-cream-200 dark:border-night-700 bg-cream-50/98 dark:bg-night-900/98 px-4 py-3"
     style="backdrop-filter: blur(12px);"
+    aria-label="Mobile menu"
   >
     <div class="flex flex-col gap-1">
       {NAV_ITEMS.map(({ label, href, icon }) => {
         const isExternal = href.startsWith('http');
-        const isActive = isExternal ? false : (href === '/' ? currentPath === '/' : currentPath.startsWith(href));
+        const isActive = isNavActive(href);
         return (
           <a
             href={href}
             {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            aria-current={isActive ? 'page' : undefined}
             class:list={[
-              'flex items-center gap-3 px-3 py-2 text-sm font-body rounded-lg transition-all duration-200',
+              'flex items-center gap-3 px-3 py-2 text-sm font-body rounded-lg transition-colors duration-150',
               isActive
                 ? 'bg-terra/10 dark:bg-terra-light/10 text-terra dark:text-terra-light font-medium'
                 : 'text-ink-light dark:text-silk-muted hover:text-ink dark:hover:text-silk hover:bg-cream-100 dark:hover:bg-night-800',
@@ -96,7 +108,7 @@ const inlineNavItems = NAV_ITEMS.filter(n => ['Home', 'About', 'Projects'].inclu
             <NavIcon icon={icon} />
             {label}
             {isExternal && (
-              <svg class="size-3 ml-auto opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <svg class="size-3 ml-auto opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             )}
           </a>
         );
@@ -123,4 +135,3 @@ const inlineNavItems = NAV_ITEMS.filter(n => ['Home', 'About', 'Projects'].inclu
     </div>
   </nav>
 </header>
-

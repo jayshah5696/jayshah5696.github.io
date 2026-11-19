@@ -2,12 +2,21 @@
 import { getCollection } from 'astro:content';
 import { getTagPillClasses, getTagIndicator, normalizeTagSlug } from '../utils/tags';
 
+interface Props {
+  variant?: 'hub' | 'blog';
+}
+
+const { variant = 'blog' } = Astro.props;
+
 const posts = (await getCollection('blog'))
   .filter((p) => !p.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const reads = (await getCollection('reads'))
-  .filter((r) => !r.data.draft);
+  .filter((r) => !r.data.draft)
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+
+const recentReads = reads.slice(0, 3);
 
 // Pick 3 cornerstone posts (most tags, excluding the latest 3 already visible in the feed)
 const startHerePosts = posts.slice(3)
@@ -30,39 +39,92 @@ reads.forEach((read) => {
 
 const trendingTags = Object.entries(tagCounts)
   .sort((a, b) => b[1] - a[1])
-  .slice(0, 10);
+  .slice(0, variant === 'hub' ? 8 : 10);
+
+function getDomain(url: string): string {
+  try {
+    return new URL(url).hostname.replace(/^www\./, '');
+  } catch {
+    return '';
+  }
+}
 ---
 
 <aside aria-label="Sidebar" data-right-sidebar class="hidden xl:block w-[240px] shrink-0">
   <div class="sticky top-8 space-y-8">
-    <!-- Start Here -->
-    <section>
-      <h3 class="text-sm font-semibold text-ink dark:text-silk mb-3 flex items-center gap-2">
-        <svg class="size-4 text-terra dark:text-terra-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-        Start Here
-      </h3>
-      <ul class="space-y-2">
-        {startHerePosts.map((post) => (
-          <li>
-            <a
-              href={`/posts/${post.id}/`}
-              class="text-sm text-ink-light dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors line-clamp-2"
-            >
-              {post.data.title}
-            </a>
-          </li>
-        ))}
-      </ul>
-    </section>
+    {variant === 'hub' ? (
+      /* Recent Reads (Auto-derived from reads collection) */
+      <section>
+        <div class="flex items-center justify-between gap-2 mb-3">
+          <h3 class="font-body text-sm font-semibold text-ink dark:text-silk flex items-center gap-2">
+            <svg class="size-4 text-terra dark:text-terra-light shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
+            Recent Reads
+          </h3>
+          <a
+            href="/reads/"
+            class="font-mono text-[11px] text-terra dark:text-terra-light hover:underline whitespace-nowrap"
+          >
+            All {reads.length} &rarr;
+          </a>
+        </div>
+        <ul class="space-y-3">
+          {recentReads.map((read) => (
+            <li class="border-b border-cream-200/70 dark:border-night-700/70 pb-3 last:border-b-0 last:pb-0">
+              <a
+                href={read.data.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="group block"
+              >
+                <span class="font-body text-sm text-ink-light dark:text-silk-muted group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150 line-clamp-2 leading-snug">
+                  {read.data.title}
+                </span>
+                <span class="mt-1 block font-mono text-[11px] text-ink-faint dark:text-silk-faint truncate">
+                  {getDomain(read.data.url)}
+                </span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ) : (
+      /* Start Here (Blog & Reads variant) */
+      <section>
+        <h3 class="font-body text-sm font-semibold text-ink dark:text-silk mb-3 flex items-center gap-2">
+          <svg class="size-4 text-terra dark:text-terra-light shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+          Start Here
+        </h3>
+        <ul class="space-y-2.5">
+          {startHerePosts.map((post) => (
+            <li>
+              <a
+                href={`/posts/${post.id}/`}
+                class="font-body text-sm text-ink-light dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors duration-150 line-clamp-2 leading-snug block"
+              >
+                {post.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
 
     <!-- Trending Tags -->
     <section>
-      <h3 class="text-sm font-semibold text-ink dark:text-silk mb-3 flex items-center gap-2">
-        <svg class="size-4 text-gold dark:text-gold-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
-        Trending Tags
-      </h3>
+      <div class="flex items-center justify-between gap-2 mb-3">
+        <h3 class="font-body text-sm font-semibold text-ink dark:text-silk flex items-center gap-2">
+          <svg class="size-4 text-gold dark:text-gold-light shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2H2v10l9.29 9.29c.94.94 2.48.94 3.42 0l6.58-6.58c.94-.94.94-2.48 0-3.42L12 2Z"/><path d="M7 7h.01"/></svg>
+          Trending Tags
+        </h3>
+        <a
+          href="/tags/"
+          class="font-mono text-[11px] text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors whitespace-nowrap"
+        >
+          All &rarr;
+        </a>
+      </div>
       <div class="flex flex-wrap gap-2">
-        {trendingTags.map(([tag, count]) => (
+        {trendingTags.map(([tag]) => (
           <a
             href={`/tags/${encodeURIComponent(tag)}/`}
             class={getTagPillClasses(tag)}

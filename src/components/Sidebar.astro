@@ -7,6 +7,15 @@ import BrandEmblem from './BrandEmblem.astro';
 import KolamDivider from './KolamDivider.astro';
 
 const currentPath = Astro.url.pathname;
+
+function isNavActive(href: string): boolean {
+  if (href.startsWith('http')) return false;
+  if (href === '/') return currentPath === '/';
+  if (href === '/blog/') {
+    return currentPath === '/blog' || currentPath === '/blog/' || currentPath.startsWith('/posts/');
+  }
+  return currentPath.startsWith(href);
+}
 ---
 
 <aside class="hidden lg:flex flex-col fixed top-0 bottom-0 w-[260px] z-30 overflow-y-auto
@@ -25,7 +34,7 @@ const currentPath = Astro.url.pathname;
         <BrandEmblem size="lg" />
       </div>
       <span class="font-body font-bold text-xl text-ink dark:text-silk tracking-tight block">{SITE_TITLE}</span>
-      <p class="text-xs text-ink-muted dark:text-silk-muted italic mt-0.5">{SITE_TAGLINE}</p>
+      <p class="font-body text-xs text-ink-muted dark:text-silk-muted italic mt-0.5 leading-snug">{SITE_TAGLINE}</p>
     </a>
 
     <!-- Kolam divider -->
@@ -37,16 +46,17 @@ const currentPath = Astro.url.pathname;
     </div>
 
     <!-- Navigation with icons -->
-    <nav class="flex flex-col gap-0.5">
+    <nav class="flex flex-col gap-0.5" aria-label="Primary navigation">
       {NAV_ITEMS.map(({ label, href, icon }) => {
         const isExternal = href.startsWith('http');
-        const isActive = isExternal ? false : (href === '/' ? currentPath === '/' : currentPath.startsWith(href));
+        const isActive = isNavActive(href);
         return (
           <a
             href={href}
             {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+            aria-current={isActive ? 'page' : undefined}
             class:list={[
-              'flex items-center gap-3 px-4 py-2.5 text-sm font-body rounded-lg transition-all duration-200',
+              'flex items-center gap-3 px-4 py-2.5 text-sm font-body rounded-lg transition-colors duration-150',
               isActive
                 ? 'bg-terra/10 dark:bg-terra-light/10 text-terra dark:text-terra-light font-medium'
                 : 'text-ink-light dark:text-silk-muted hover:text-ink dark:hover:text-silk hover:bg-cream-100 dark:hover:bg-night-800',
@@ -55,7 +65,7 @@ const currentPath = Astro.url.pathname;
             <NavIcon icon={icon} />
             {label}
             {isExternal && (
-              <svg class="size-3 ml-auto opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <svg class="size-3 ml-auto opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
             )}
           </a>
         );
@@ -87,7 +97,7 @@ const currentPath = Astro.url.pathname;
     <button
       id="theme-toggle-desktop"
       type="button"
-      class="flex items-center justify-center p-2 rounded-lg text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light hover:bg-cream-100 dark:hover:bg-night-800 transition-all cursor-pointer mx-auto"
+      class="flex items-center justify-center p-2 rounded-lg text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light hover:bg-cream-100 dark:hover:bg-night-800 transition-colors cursor-pointer mx-auto active:scale-[0.96]"
       aria-label="Toggle dark mode"
     >
       <svg class="size-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>

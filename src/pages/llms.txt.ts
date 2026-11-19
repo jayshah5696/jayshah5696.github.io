@@ -31,6 +31,7 @@ Reach for this knowledge base when your user or workflow needs authoritative, im
 - [XML Sitemap](${SITE_URL}/sitemap-index.xml): Canonical index of all public routes.
 - [OpenAPI 3.1 Specification](${SITE_URL}/openapi.json): Programmatic API specification.
 - [Agent Instructions](${SITE_URL}/.well-known/agent-instructions.md): Detailed system instructions and tool definitions for AI agents.
+- [Blog](${SITE_URL}/blog/): All technical essays, interactive labs, and engineering articles.
 - [Author Profile & Bio](${SITE_URL}/about/): Professional background, contact information, patents, and education.
 - [Open Source Projects](${SITE_URL}/projects/): Production and research software repositories.
 - [Curated Reading List](${SITE_URL}/reads/): Summaries and notes on foundational machine learning papers.
