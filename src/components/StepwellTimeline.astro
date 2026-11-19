@@ -43,7 +43,7 @@ const { items, class: className = '' } = Astro.props;
               {item.period}
             </span>
             {item.current && (
-              <span class="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase text-terra dark:text-terra-light px-2 py-0.5 rounded-full bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20 font-semibold" style="letter-spacing: 0.1em;">
+              <span class="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase text-terra dark:text-terra-light px-2 py-0.5 rounded-full bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20 font-semibold" style="letter-spacing: 0.08em;">
                 <span class="size-1.5 rounded-full bg-terra dark:bg-terra-light" />
                 Current Role
               </span>
@@ -69,17 +69,17 @@ const { items, class: className = '' } = Astro.props;
           </h3>
 
           <!-- Role Description -->
-          <p class="mt-2.5 text-sm text-ink-light dark:text-silk-muted leading-relaxed text-pretty">
+          <p class="mt-2.5 max-w-[65ch] text-sm text-ink-light dark:text-silk-muted leading-relaxed text-pretty">
             {item.description}
           </p>
 
           <!-- Key Technical Highlights (if any) -->
           {item.highlights && item.highlights.length > 0 && (
             <div class="mt-4 pt-3.5 border-t border-cream-200/60 dark:border-night-700/60">
-              <span class="block font-mono text-[10.5px] uppercase tracking-widest text-ink-faint dark:text-silk-faint mb-2">
+              <span class="block font-mono text-[11px] uppercase tracking-widest text-ink-faint dark:text-silk-faint mb-2">
                 Technical Highlights:
               </span>
-              <ul class="space-y-1.5 text-xs text-ink-muted dark:text-silk-muted">
+              <ul class="space-y-1.5 max-w-[68ch] text-xs text-ink-muted dark:text-silk-muted">
                 {item.highlights.map((highlight) => (
                   <li class="flex items-start gap-2">
                     <span class="text-terra dark:text-terra-light select-none font-bold mt-0.5">&rsaquo;</span>

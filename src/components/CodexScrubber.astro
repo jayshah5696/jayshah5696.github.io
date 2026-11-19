@@ -20,10 +20,10 @@ const hasEnoughHeadings = filteredHeadings.length >= 3;
     <aside class="hidden xl:block w-[240px] shrink-0" aria-label="Table of contents">
       <div class="sticky top-16 max-h-[calc(100dvh-5rem)] overflow-y-auto pr-2 scrollbar-none">
         <div class="mb-3 flex items-center justify-between">
-          <h4 class="font-mono uppercase text-ink-faint dark:text-silk-faint text-[10px] tracking-[0.15em] font-semibold">
+          <h4 class="font-mono uppercase text-ink-faint dark:text-silk-faint text-[11px] tracking-[0.12em] font-semibold">
             On this page
           </h4>
-          <span class="font-mono text-[10px] text-ink-faint dark:text-silk-faint tabular-nums" id="desktop-progress-pct">0%</span>
+          <span class="font-mono text-[11px] text-ink-faint dark:text-silk-faint tabular-nums" id="desktop-progress-pct">0%</span>
         </div>
 
         <div class="relative">
@@ -43,7 +43,7 @@ const hasEnoughHeadings = filteredHeadings.length >= 3;
                 <span
                   data-codex-dash
                   class:list={[
-                    'rounded-full transition-all duration-100 shrink-0 bg-cream-400 dark:bg-night-600 group-hover:bg-terra dark:group-hover:bg-terra-light',
+                    'rounded-full transition-[background-color,width] duration-100 shrink-0 bg-cream-400 dark:bg-night-600 group-hover:bg-terra dark:group-hover:bg-terra-light',
                     h.depth === 3 ? 'w-2 h-0.5' : 'w-3.5 h-[2.5px]'
                   ]}
                   aria-hidden="true"
@@ -52,8 +52,8 @@ const hasEnoughHeadings = filteredHeadings.length >= 3;
                 <span
                   data-codex-label
                   class:list={[
-                    'font-sans truncate transition-colors duration-100',
-                    h.depth === 3 ? 'text-xs text-ink-muted/80 dark:text-silk-muted/80' : 'text-xs text-ink-muted dark:text-silk-muted font-normal',
+                    'font-body truncate transition-colors duration-100',
+                    h.depth === 3 ? 'text-xs text-ink-muted/85 dark:text-silk-muted/85' : 'text-xs text-ink-muted dark:text-silk-muted font-normal',
                     'group-hover:text-ink dark:group-hover:text-silk'
                   ]}
                 >
@@ -66,16 +66,16 @@ const hasEnoughHeadings = filteredHeadings.length >= 3;
           <!-- Leftward Peek HUD (Expands into gutter margin, 0% text overlap) -->
           <div
             id="codex-peek-hud"
-            class="fixed w-72 p-3.5 rounded-xl bg-cream-50/95 dark:bg-night-800/95 border border-cream-200 dark:border-night-700 shadow-xl pointer-events-none opacity-0 translate-x-2 transition-all duration-100 ease-out z-50 backdrop-blur-sm"
+            class="fixed w-72 p-3.5 rounded-xl bg-cream-50/95 dark:bg-night-800/95 border border-cream-200 dark:border-night-700 shadow-xl pointer-events-none opacity-0 translate-x-2 transition-[opacity,transform] duration-100 ease-out z-50 backdrop-blur-sm"
             aria-hidden="true"
           >
             <h5 id="peek-point-title" class="font-display text-sm text-ink dark:text-silk leading-snug mb-1.5 font-normal">
               Section Title
             </h5>
-            <p id="peek-point-summary" class="font-sans text-xs text-ink-light dark:text-silk-muted leading-relaxed line-clamp-3 mb-2">
+            <p id="peek-point-summary" class="font-body text-xs text-ink-light dark:text-silk-muted leading-relaxed line-clamp-3 mb-2">
               Summary preview of this section.
             </p>
-            <div class="flex items-center gap-3 pt-1.5 border-t border-dashed border-cream-200 dark:border-night-700 font-mono text-[10px] text-ink-faint dark:text-silk-faint">
+            <div class="flex items-center gap-3 pt-1.5 border-t border-dashed border-cream-200 dark:border-night-700 font-mono text-[11px] text-ink-faint dark:text-silk-faint">
               <span id="peek-point-read">~2 min read</span>
               <span>&bull;</span>
               <span class="text-terra dark:text-terra-light font-medium">Click to jump</span>
@@ -99,7 +99,7 @@ const hasEnoughHeadings = filteredHeadings.length >= 3;
         <div class="flex items-center gap-2.5 min-w-0 pr-2">
           <!-- Kolam diamond mini node -->
           <span class="size-2 rotate-45 rounded-[1px] bg-terra dark:bg-terra-light shrink-0" aria-hidden="true"></span>
-          <span id="mobile-pill-text" class="font-sans text-xs font-medium text-ink dark:text-silk truncate">
+          <span id="mobile-pill-text" class="font-body text-xs font-medium text-ink dark:text-silk truncate">
             {filteredHeadings[0]?.text}
           </span>
         </div>
@@ -123,7 +123,7 @@ const hasEnoughHeadings = filteredHeadings.length >= 3;
       >
         <div class="w-10 h-1 rounded-full bg-cream-300 dark:bg-night-600 mx-auto mb-3" aria-hidden="true"></div>
         <div class="flex items-center justify-between pb-2 mb-3 border-b border-cream-200 dark:border-night-700">
-          <span class="font-mono text-[10px] uppercase font-semibold text-terra dark:text-terra-light tracking-wider">
+          <span class="font-mono text-[11px] uppercase font-semibold text-terra dark:text-terra-light tracking-wider">
             Contents &bull; Tap to Jump
           </span>
           <button
@@ -145,14 +145,14 @@ const hasEnoughHeadings = filteredHeadings.length >= 3;
                 class="w-full text-left p-2.5 rounded-lg border border-cream-200/60 dark:border-night-700/60 bg-cream-100/40 dark:bg-night-900/40 transition-colors duration-100 cursor-pointer hover:border-terra dark:hover:border-terra-light"
               >
                 <div class="flex items-baseline gap-2">
-                  <span class="font-mono text-[10px] text-ink-faint dark:text-silk-faint tabular-nums shrink-0">
+                  <span class="font-mono text-[11px] text-ink-faint dark:text-silk-faint tabular-nums shrink-0">
                     {String(i + 1).padStart(2, '0')}.
                   </span>
                   <div class="min-w-0">
                     <div class="font-display text-sm text-ink dark:text-silk font-normal line-clamp-1" data-drawer-title>
                       {h.text}
                     </div>
-                    <div class="font-sans text-xs text-ink-muted dark:text-silk-muted line-clamp-1 mt-0.5" data-drawer-summary>
+                    <div class="font-body text-xs text-ink-muted dark:text-silk-muted line-clamp-1 mt-0.5" data-drawer-summary>
                       Jump to this section
                     </div>
                   </div>

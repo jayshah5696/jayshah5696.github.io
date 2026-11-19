@@ -64,10 +64,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
   <header class="reveal mb-8" style="--index: 0;">
     <div class="flex items-center justify-between gap-4 flex-wrap">
       <div>
-        <span class="font-mono text-xs uppercase tracking-widest text-terra dark:text-terra-light font-semibold">
-          Curated Library
-        </span>
-        <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading mt-1">
+        <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">
           Reads
         </h1>
       </div>
@@ -92,7 +89,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
     <div class="space-y-6">
       
       <!-- Minimalist Search Bar with Collapsible Icon Drawer -->
-      <div class="reveal bg-cream-50 dark:bg-night-900 border border-cream-200 dark:border-night-700 rounded-xl p-2 shadow-xs transition-all duration-200 focus-within:border-terra dark:focus-within:border-terra-light">
+      <div class="reveal bg-cream-50 dark:bg-night-900 border border-cream-200 dark:border-night-700 rounded-xl p-2 shadow-xs transition-colors duration-200 focus-within:border-terra dark:focus-within:border-terra-light">
         <div class="flex items-center gap-2">
           <!-- Search input box -->
           <div class="flex-1 flex items-center gap-2.5 px-2.5 py-1.5">
@@ -107,7 +104,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
               autocomplete="off"
               spellcheck="false"
             />
-            <kbd class="hidden sm:inline-block font-mono text-[10px] px-1.5 py-0.5 rounded bg-cream-200 dark:bg-night-800 text-ink-faint dark:text-silk-faint select-none">
+            <kbd class="hidden sm:inline-block font-mono text-[11px] px-1.5 py-0.5 rounded bg-cream-200 dark:bg-night-800 text-ink-faint dark:text-silk-faint select-none">
               /
             </kbd>
           </div>
@@ -126,7 +123,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
           <button
             type="button"
             id="toggle-filters-btn"
-            class="size-8 rounded-lg border border-cream-200 dark:border-night-700 bg-cream-100/80 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra dark:hover:border-terra-light hover:text-terra dark:hover:text-terra-light inline-flex items-center justify-center transition-all shrink-0 cursor-pointer"
+            class="size-8 rounded-lg border border-cream-200 dark:border-night-700 bg-cream-100/80 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra dark:hover:border-terra-light hover:text-terra dark:hover:text-terra-light inline-flex items-center justify-center transition-colors shrink-0 cursor-pointer"
             aria-label="Toggle Year & Month Filters"
             title="Filter by Year & Month"
           >
@@ -142,7 +139,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
           <button
             type="button"
             id="toggle-all-notes-btn"
-            class="size-8 rounded-lg border border-cream-200 dark:border-night-700 bg-cream-100/80 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra dark:hover:border-terra-light hover:text-terra dark:hover:text-terra-light inline-flex items-center justify-center transition-all shrink-0 cursor-pointer"
+            class="size-8 rounded-lg border border-cream-200 dark:border-night-700 bg-cream-100/80 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra dark:hover:border-terra-light hover:text-terra dark:hover:text-terra-light inline-flex items-center justify-center transition-colors shrink-0 cursor-pointer"
             aria-label="Expand or Collapse All Notes"
             title="Expand / Collapse All Notes"
           >
@@ -156,7 +153,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
         <div id="filters-drawer" class="hidden pt-3 pb-1 px-1 border-t border-dashed border-cream-200 dark:border-night-700 mt-2 space-y-2">
           <!-- Year Selector -->
           <div class="flex items-center gap-2 flex-wrap text-xs">
-            <span class="font-mono text-[10px] text-ink-muted dark:text-silk-muted uppercase tracking-wider min-w-[44px]">Year:</span>
+            <span class="font-mono text-[11px] text-ink-muted dark:text-silk-muted uppercase tracking-wider min-w-[44px]">Year:</span>
             <button type="button" class="year-pill px-2.5 py-0.5 rounded-full border border-terra bg-terra text-white font-mono text-[11px] cursor-pointer" data-year-val="all">All</button>
             {years.map((yr) => (
               <button type="button" class="year-pill px-2.5 py-0.5 rounded-full border border-cream-200 dark:border-night-700 bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra font-mono text-[11px] cursor-pointer transition-colors" data-year-val={yr}>
@@ -167,11 +164,11 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
 
           <!-- Month Selector -->
           <div class="flex items-center gap-2 flex-wrap text-xs">
-            <span class="font-mono text-[10px] text-ink-muted dark:text-silk-muted uppercase tracking-wider min-w-[44px]">Month:</span>
+            <span class="font-mono text-[11px] text-ink-muted dark:text-silk-muted uppercase tracking-wider min-w-[44px]">Month:</span>
             <button type="button" class="month-pill px-2.5 py-0.5 rounded-full border border-terra bg-terra text-white font-mono text-[11px] cursor-pointer" data-month-val="all">All</button>
             {monthFilters.map((m) => (
               <button type="button" class="month-pill px-2.5 py-0.5 rounded-full border border-cream-200 dark:border-night-700 bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra font-mono text-[11px] cursor-pointer transition-colors" data-month-val={m.num}>
-                {m.name} <span class="opacity-70 text-[9px]">({m.count})</span>
+                {m.name} <span class="opacity-75 text-[11px]">({m.count})</span>
               </button>
             ))}
           </div>
@@ -241,7 +238,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
                       >
                         <!-- Kolam Diamond Bindu Node -->
                         <div
-                          class="timeline-node-dot kolam-diamond-node -left-[7px] top-2 size-3.5 transition-all duration-200"
+                          class="timeline-node-dot kolam-diamond-node -left-[7px] top-2 size-3.5"
                           aria-hidden="true"
                         />
                         

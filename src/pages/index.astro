@@ -55,14 +55,14 @@ function getPlatform(url: string): { icon: 'github' | 'huggingface' | 'devpost' 
         <div class="mt-6 flex flex-wrap items-center gap-3">
           <a
             href="/blog/"
-            class="group inline-flex items-center gap-2 px-4 py-2 rounded-lg font-body text-sm font-medium whitespace-nowrap bg-terra-dark text-white hover:bg-terra dark:bg-terra-light dark:text-night-950 dark:hover:bg-[#ea8c64] transition-all duration-150 active:scale-[0.98]"
+            class="group inline-flex items-center gap-2 px-4 py-2 rounded-lg font-body text-sm font-medium whitespace-nowrap bg-terra-dark text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.22)] hover:bg-terra dark:bg-terra-light dark:text-night-950 dark:shadow-[inset_0_1px_0_rgba(255,255,255,0.35)] dark:hover:bg-[#ea8c64] transition-[color,background-color,border-color,transform] duration-150 active:scale-[0.98]"
           >
             <span>Read the blog</span>
             <svg class="size-4 transition-transform duration-150 group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </a>
           <a
             href="/about/"
-            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-body text-sm font-medium whitespace-nowrap border border-cream-300 dark:border-night-700 bg-cream-50/90 dark:bg-night-800/90 text-ink dark:text-silk hover:border-terra dark:hover:border-terra-light hover:text-terra dark:hover:text-terra-light transition-all duration-150 active:scale-[0.98]"
+            class="inline-flex items-center gap-2 px-4 py-2 rounded-lg font-body text-sm font-medium whitespace-nowrap border border-cream-300 dark:border-night-700 bg-cream-50/90 dark:bg-night-800/90 text-ink dark:text-silk hover:border-terra dark:hover:border-terra-light hover:text-terra dark:hover:text-terra-light transition-[color,background-color,border-color,transform] duration-150 active:scale-[0.98]"
           >
             About me
           </a>
@@ -87,7 +87,7 @@ function getPlatform(url: string): { icon: 'github' | 'huggingface' | 'devpost' 
               height={88}
               densities={[1.5, 2]}
               quality={92}
-              class="size-full object-cover object-top rounded-full group-hover/portrait:scale-[1.03] transition-transform duration-300 ease-out"
+              class="size-full object-cover object-top rounded-full portrait-hover-zoom"
             />
           </div>
         </div>
@@ -106,7 +106,7 @@ function getPlatform(url: string): { icon: 'github' | 'huggingface' | 'devpost' 
               <img
                 src={latestPost.data.image}
                 alt={latestPost.data.title}
-                class="w-full h-48 sm:h-full object-cover group-hover:scale-[1.02] transition-transform duration-300 ease-out"
+                class="w-full h-48 sm:h-full object-cover card-hover-zoom"
                 loading="eager"
               />
             </div>
@@ -114,11 +114,11 @@ function getPlatform(url: string): { icon: 'github' | 'huggingface' | 'devpost' 
           <div class:list={['p-5 sm:p-6 flex flex-col justify-between gap-4', latestPost.data.image ? 'sm:col-span-7' : 'sm:col-span-12']}>
             <div>
               <div class="flex flex-wrap items-center gap-2 mb-2.5">
-                <span class="inline-block font-mono text-[10px] uppercase text-terra dark:text-terra-light px-2 py-0.5 rounded bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20" style="letter-spacing: 0.12em;">
+                <span class="inline-block font-mono text-[11px] uppercase text-terra dark:text-terra-light px-2 py-0.5 rounded bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20" style="letter-spacing: 0.1em;">
                   Latest
                 </span>
                 {latestPost.data.interactive && (
-                  <span class="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase text-mor dark:text-mor-light px-2 py-0.5 rounded bg-mor/10 dark:bg-mor-light/10 border border-mor/25 dark:border-mor-light/25 font-medium" style="letter-spacing: 0.1em;">
+                  <span class="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase text-mor dark:text-mor-light px-2 py-0.5 rounded bg-mor/10 dark:bg-mor-light/10 border border-mor/25 dark:border-mor-light/25 font-medium" style="letter-spacing: 0.08em;">
                     <svg class="size-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="4" x2="4" y1="21" y2="14"/><line x1="4" x2="4" y1="10" y2="3"/><line x1="12" x2="12" y1="21" y2="12"/><line x1="12" x2="12" y1="8" y2="3"/><line x1="20" x2="20" y1="21" y2="16"/><line x1="20" x2="20" y1="12" y2="3"/><line x1="2" x2="6" y1="14" y2="14"/><line x1="10" x2="14" y1="8" y2="8"/><line x1="18" x2="22" y1="16" y2="16"/></svg>
                     Interactive Lab
                   </span>
@@ -248,11 +248,11 @@ function getPlatform(url: string): { icon: 'github' | 'huggingface' | 'devpost' 
             <div class="relative z-10">
               {isFlagship && (
                 <div class="mb-2.5 flex items-center justify-between gap-2">
-                  <span class="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase text-terra dark:text-terra-light px-2.5 py-0.5 rounded-full bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20 font-semibold" style="letter-spacing: 0.12em;">
+                  <span class="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase text-terra dark:text-terra-light px-2.5 py-0.5 rounded-full bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20 font-semibold" style="letter-spacing: 0.1em;">
                     &#9733; Flagship System
                   </span>
-                  <span class="font-mono text-[10px] text-mor dark:text-mor-light flex items-center gap-1.5 font-medium">
-                    <span class="size-1.5 rounded-full bg-mor dark:bg-mor-light animate-pulse" aria-hidden="true" />
+                  <span class="font-mono text-[11px] text-mor dark:text-mor-light flex items-center gap-1.5 font-medium">
+                    <span class="size-1.5 rounded-full bg-mor dark:bg-mor-light" aria-hidden="true" />
                     Active Open-Source
                   </span>
                 </div>
@@ -321,7 +321,7 @@ function getPlatform(url: string): { icon: 'github' | 'huggingface' | 'devpost' 
     <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
       <a
         href="/rss.xml"
-        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-terra/25 dark:border-terra-light/25 font-mono text-terra dark:text-terra-light hover:bg-terra/10 dark:hover:bg-terra-light/10 transition-all duration-150 active:scale-[0.98]"
+        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-terra/25 dark:border-terra-light/25 font-mono text-terra dark:text-terra-light hover:bg-terra/10 dark:hover:bg-terra-light/10 transition-[color,background-color,border-color,transform] duration-150 active:scale-[0.98]"
       >
         <SocialIcon name="rss" class="size-3.5" />
         Subscribe via RSS
