@@ -1281,6 +1281,12 @@
     scroll-margin-top: 5rem;
   }
 
+  /* Wide Markdown tables scroll inside the article (wrapper added by rehypeScrollTables in astro.config.mjs). */
+  .prose .table-scroll {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
   /* Legacy spans */
   .prose span[style*='color: magenta'] { color: #a34824 !important; @apply font-medium; }
   .dark .prose span[style*='color: magenta'] { color: #e07a4f !important; }
