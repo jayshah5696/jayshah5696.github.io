@@ -10,33 +10,30 @@ export const GET: APIRoute = async () => {
 
 ## Background
 
-I build machine-learning and language-model systems that have to work beyond the notebook.
+I'm a machine learning engineer in San Francisco. I work across classical ML, retrieval, and language models: training custom embeddings, building agent evaluations, and debugging what breaks once real data hits a model.
 
-At 6sense, I work on intent intelligence: foundational models with custom embeddings, model explainability, contextual knowledge graphs, and evaluation systems for large language model agents. The hard part is rarely choosing a better model. It is dealing with noisy signals, changing behavior, unclear definitions, and knowing whether a system is still trustworthy after it ships.
+My path into ML started with mechanical engineering in Gujarat, followed by graduate research at Texas A&M under Dr. Yu Ding, where I worked on wind-turbine failure prediction and minored in applied statistics. From 2019 to 2026 I was at [Avathon](https://avathon.com), building forecasting, anomaly detection, MLOps, and later RAG and MCP agent systems for energy and industrial teams. Now I'm a Senior Machine Learning Engineer at [6sense](https://6sense.com), working on embeddings, explainability, knowledge graphs, and agent evals.
 
-Before 6sense, I built retrieval-augmented generation systems, Model Context Protocol (MCP) agent platforms, anomaly detection products, and foundation-model operations at [Avathon](https://avathon.com). Some of that work supported more than 20 agent workflows and reduced model release cycles by 45%. Earlier, I worked on energy forecasting and failure prediction systems, including anomaly detection work that contributed to more than $500k in savings.
+On the side, I build small tools and run my own experiments instead of taking benchmarks at face value. Lately that has meant extensions for the Pi coding agent, experiments on dense retrieval and text watermarking, and [Gujarati Llama](https://huggingface.co/jayshah5696/Gujarati-Llama-7b-Base), a Llama 2 model I fine-tuned on 60,000 English-Gujarati pairs because Indic languages are still poorly served by most AI tools. This site is where I write up those projects and what actually happened.
 
-My graduate research at Texas A&M focused on predicting wind-energy failures. That experience gave me a lasting rule: a model that works in a notebook has made a promise, not proved anything.
+## Outside work
 
-I write about the systems I build, the assumptions behind them, and the parts that usually break. If something is on this site, it shipped or I learned enough from it to explain what happened.
+Outside work, I follow cricket closely and drink tea, never coffee. I have kept up a yoga and meditation practice for years, starting with Sadhguru's work, and it is still the one habit that survived a newborn's sleep schedule. I also spend a lot of time reading outside ML, mostly around systems thinking, philosophy, and energy policy.
 
-## Outside the Terminal
-
-Cricket comes first. Tea, never coffee. Yoga is the habit that survived a newborn's sleep schedule.
-
-I care about Indic languages and culture, especially the gap between the languages people speak and the languages most AI systems understand. Gujarati Llama started as a personal project because useful language technology should not be limited to English-speaking users.
-
-I also read outside machine learning: systems thinking, philosophy, and energy policy. Some of my best technical ideas began as questions from another field.
+## Experience
+- **Senior Machine Learning Engineer at 6sense** (2026 - Present): Training custom embedding models for B2B intent data, shipping model explainability in production, and building contextual knowledge graphs. Built an LLM agent evaluation harness used across engineering and product teams to catch regressions.
+- **Data Scientist III at Avathon** (2019 - 2026): Built forecasting, anomaly detection, and MLOps systems for energy and industrial customers. Led a foundation-model MLOps platform that cut release cycles by 45%, built an MCP agent platform powering 20+ workflows, and shipped solar-storage anomaly detection and Bayesian alert ranking that saved over $500k and cut false positives by 25%.
+- **Graduate Research Assistant at Texas A&M University** (2017 - 2019): Researched wind-turbine failure prediction and power production forecasting under Dr. Yu Ding while completing an M.S. in Industrial and Systems Engineering with a minor in Applied Statistics.
 
 ## Honors & Awards
-- Winner at Ragathon by LlamaIndex (Feb 2024) — StreamLens, multi-model RAG system for autonomous vehicle streams
-- Outstanding Master's of Science Student (Apr 2019)
-- 2nd Runner-up at Texas Datathon by Citadel (Feb 2018)
+- Winner, Ragathon by LlamaIndex (Feb 2024): StreamLens, a multi-model RAG system for autonomous vehicle video streams.
+- Outstanding Master of Science Student (Apr 2019): Department of Industrial and Systems Engineering, Texas A&M University.
+- 2nd Runner-up, Texas Datathon by Citadel (Feb 2018)
 
 ## Patents
-- [Calculating energy loss during an outage](https://patents.google.com/patent/US20230213560A1/en) — US20230213560A1, Filed Dec 30, 2021
-- [Predicting energy production for energy generating assets](https://patents.google.com/patent/US20230214703A1/en) — US20230214703A1, Filed Dec 30, 2021
-- [Dimension Measurement Using Image Processing and Separation of Defective Products](https://patents.google.com/patent/IN201721044402A/en) — IN 201721044402, Filed Dec 11, 2017
+- [Calculating energy loss during an outage](https://patents.google.com/patent/US20230213560A1/en) (US20230213560A1, Filed Dec 30, 2021)
+- [Predicting energy production for energy generating assets](https://patents.google.com/patent/US20230214703A1/en) (US20230214703A1, Filed Dec 30, 2021)
+- [Dimension Measurement Using Image Processing and Separation of Defective Products](https://patents.google.com/patent/IN201721044402A/en) (IN 201721044402, Filed Dec 11, 2017)
 
 ## Profiles & Links
 - GitHub: ${SOCIAL_LINKS.github}
