@@ -1,7 +1,7 @@
 export const SITE_TITLE = 'Jay Shah';
-export const SITE_TAGLINE = 'Senior Machine Learning Engineer | Production AI & Agent Systems';
+export const SITE_TAGLINE = 'Machine learning, statistics & AI systems';
 export const SITE_DESCRIPTION =
-  'Personal site and technical blog of Jay Shah, Senior Machine Learning Engineer working on production ML systems, custom embeddings, AI agents, and evaluations.';
+  'Personal site and technical blog of Jay Shah, a machine learning engineer working on embeddings, retrieval, AI agents, and evaluations.';
 export const SITE_URL = 'https://jayshah.dev';
 export const SITE_AUTHOR = 'Jay Shah';
 export const SITE_LEGAL_NAME = 'Jay Shah AI Engineering & Research';
@@ -73,31 +73,6 @@ export const NAV_ITEMS = [
   { label: 'Links', href: '/links/', icon: 'links' },
   { label: 'Archives', href: '/archives/', icon: 'archive' },
   { label: 'Resume', href: 'https://cv.jayshah.dev', icon: 'resume' },
-] as const;
-
-/**
- * Dynamic rotating phrases for the About page headline typewriter animation.
- * Edit, reorder, or add phrases here to update the rotating titles on /about/.
- */
-export const ABOUT_HEADLINE_PREFIX = "Hi, I'm Jay Shah,";
-
-export const ABOUT_ROTATING_PHRASES = [
-  'an ML engineer.',
-  'a dad.',
-  'an applied AI scientist.',
-  'a tea aficionado.',
-  'an agent builder.',
-  'a cricket fanboy.',
-  'a model skeptic.',
-  'a yogi.',
-  'an AI researcher.',
-  'a reader.',
-  'a systems thinker.',
-  'a learner.',
-  'a data scientist.',
-  'a language tools maker.',
-  'an AI builder.',
-  'a builder.',
 ] as const;
 
 

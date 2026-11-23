@@ -45,11 +45,11 @@ function getPlatform(url: string): { icon: 'github' | 'huggingface' | 'devpost' 
     <div class="flex flex-col-reverse sm:flex-row sm:items-start sm:justify-between gap-6">
       <div class="min-w-0 flex-1">
         <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading leading-[1.15] tracking-tight text-balance">
-          From prototype to production.
+          Hi, I'm Jay.
         </h1>
 
         <p class="mt-4 font-body text-ink-light dark:text-silk-muted text-base leading-relaxed max-w-[54ch]">
-          I build AI systems and ship them. I lean on classic ML and statistics, so I know when the result is real.
+          I'm a machine learning engineer with a background in statistics and industrial ML. I work on embeddings, retrieval, and agent tools, and write up my experiments and side projects here.
         </p>
 
         <div class="mt-6 flex flex-wrap items-center gap-3">
@@ -246,18 +246,6 @@ function getPlatform(url: string): { icon: 'github' | 'huggingface' | 'devpost' 
             ]}
           >
             <div class="relative z-10">
-              {isFlagship && (
-                <div class="mb-2.5 flex items-center justify-between gap-2">
-                  <span class="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase text-terra dark:text-terra-light px-2.5 py-0.5 rounded-full bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20 font-semibold" style="letter-spacing: 0.1em;">
-                    &#9733; Flagship System
-                  </span>
-                  <span class="font-mono text-[11px] text-mor dark:text-mor-light flex items-center gap-1.5 font-medium">
-                    <span class="size-1.5 rounded-full bg-mor dark:bg-mor-light" aria-hidden="true" />
-                    Active Open-Source
-                  </span>
-                </div>
-              )}
-
               <div class="flex items-start justify-between gap-2">
                 <h3 class:list={[
                   'font-display text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150 leading-snug',

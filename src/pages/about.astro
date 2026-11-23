@@ -1,10 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import JsonLd from '../components/JsonLd.astro';
-import SocialIcon from '../components/SocialIcon.astro';
 import KolamDivider from '../components/KolamDivider.astro';
 import StepwellTimeline, { type TimelineItem } from '../components/StepwellTimeline.astro';
-import { SOCIAL_LINKS, ABOUT_HEADLINE_PREFIX, ABOUT_ROTATING_PHRASES } from '../consts';
+import { SOCIAL_LINKS } from '../consts';
 import { Image } from 'astro:assets';
 import profileImage from '../../public/assets/images/profile.webp';
 
@@ -15,407 +13,236 @@ const CAREER_ITEMS: TimelineItem[] = [
     organization: '6sense',
     orgUrl: 'https://6sense.com',
     current: true,
-    description: 'Leading AI systems engineering initiatives for enterprise intent intelligence. Architecting foundational models with custom embeddings, model explainability pipelines, contextual knowledge graphs, and evaluation harnesses for autonomous agents.',
-    highlights: [
-      'Trained foundational models with custom embeddings to power B2B intent intelligence at enterprise scale.',
-      'Shipped model explainability in production to provide transparent predictions for sales and marketing workflows.',
-      'Architected a LLM agent evaluation framework adopted across the engineering and product organizations to prevent regressions.',
-      'Built internal agents for key revenue acceleration use cases.',
-      'Designed and developed a contextual knowledge graph to link enterprise accounts, intent signals, and buyer personas.',
-    ],
-    tags: ['AI AGENTS', 'FOUNDATIONAL MODELS', 'EMBEDDINGS', 'EVALS', 'KNOWLEDGE GRAPHS'],
+    description:
+      'Training custom embedding models for B2B intent data, shipping model explainability in production, and building contextual knowledge graphs. Built an LLM agent evaluation harness used across engineering and product teams to catch regressions.',
   },
   {
     period: '2019 - 2026',
     role: 'Data Scientist III',
     organization: 'Avathon',
     orgUrl: 'https://avathon.com',
-    description: 'Led foundation-model MLOps platforms, architected agent platforms with Model Context Protocol (MCP) tools, and built production anomaly detection and renewable energy forecasting systems across enterprise deployments.',
-    highlights: [
-      'Led foundation-model MLOps platform; cut release time 45% and increased model adoption.',
-      'Architected agent platform with MCP tools to spin up domain agents in under 5 minutes; powered 20+ workflows.',
-      'Built LLM interface integrating asset data, enabling reporting and task automation.',
-      'Launched cross-site solar-storage autoencoder anomaly detection to predict failures and performance issues, saving >$500k.',
-      'Shipped RAG compliance agent, reducing violations 10% and automating audit preparation for energy domains.',
-      'Reduced false positives 25% by ranking predictive alerts and next-best actions with Bayesian analysis.',
-    ],
-    tags: ['MLOPS', 'MCP TOOLS', 'RAG', 'ANOMALY DETECTION', 'TIME-SERIES'],
+    description:
+      'Built forecasting, anomaly detection, and MLOps systems for energy and industrial customers. Led a foundation-model MLOps platform that cut release cycles by 45%, built an MCP agent platform powering 20+ workflows, and shipped solar-storage anomaly detection and Bayesian alert ranking that saved over $500k and cut false positives by 25%.',
   },
   {
     period: '2017 - 2019',
     role: 'Graduate Research Assistant',
     organization: 'Texas A&M University',
     orgUrl: 'https://www.tamu.edu',
-    description: 'Graduate research focused on applying advanced machine learning and deep learning methods to solve and predict wind energy system failures under Dr. Yu Ding.',
-    highlights: [
-      'Researched with Dr. Yu Ding on applying advanced machine learning methods to solve and predict wind energy system failures.',
-      'Implemented deep learning methods to predict possible power production and downtimes associated with wind turbine failures.',
-      'Awarded Outstanding Master of Science Student (Apr 2019) by Department of Industrial and Systems Engineering.',
-    ],
-    tags: ['RESEARCH', 'DEEP LEARNING', 'TIME-SERIES', 'STATISTICS'],
+    description:
+      'Researched wind-turbine failure prediction and power production forecasting under Dr. Yu Ding while completing an M.S. in Industrial and Systems Engineering with a minor in Applied Statistics.',
+  },
+];
+
+const HONORS = [
+  {
+    title: 'Winner, Ragathon by LlamaIndex',
+    date: 'Feb 2024',
+    url: 'https://github.com/rohrao/llamaindex_RAGathon',
+    note: 'StreamLens, a multi-model RAG system for autonomous vehicle video streams.',
+  },
+  {
+    title: 'Outstanding Master of Science Student',
+    date: 'Apr 2019',
+    note: 'Department of Industrial and Systems Engineering, Texas A&M University.',
+  },
+  {
+    title: '2nd Runner-up, Texas Datathon by Citadel',
+    date: 'Feb 2018',
+  },
+];
+
+const PATENTS = [
+  {
+    title: 'Calculating energy loss during an outage',
+    id: 'US20230213560A1',
+    url: 'https://patents.google.com/patent/US20230213560A1/en',
+    filed: 'Filed Dec 30, 2021',
+  },
+  {
+    title: 'Predicting energy production for energy generating assets',
+    id: 'US20230214703A1',
+    url: 'https://patents.google.com/patent/US20230214703A1/en',
+    filed: 'Filed Dec 30, 2021',
+  },
+  {
+    title: 'Dimension Measurement Using Image Processing and Separation of Defective Products',
+    id: 'IN 201721044402',
+    url: 'https://patents.google.com/patent/IN201721044402A/en',
+    filed: 'Filed Dec 11, 2017',
   },
 ];
 ---
 
-<BaseLayout title="About" description="About Jay Shah - Senior Machine Learning Engineer at 6sense, building production AI applications, foundational model systems, and agent evaluation frameworks" jsonLdType="ProfilePage">
-  <article class="prose prose-kolam dark:prose-invert prose-lg max-w-none">
-    <header class="reveal not-prose mb-10 flex flex-col items-center overflow-x-clip">
-      <!-- 160px Profile photo with clean concentric Kolam yellow/gold boundaries & wave pedestal -->
-      <div class="relative mb-6 w-full flex flex-col items-center justify-center">
-        <!-- Sinuous Kolam Wave Strand Bridge -->
-        <div class="absolute inset-x-0 top-1/2 -translate-y-1/2 h-14 pointer-events-none flex items-center justify-center z-0" aria-hidden="true">
-          <svg viewBox="0 0 600 40" class="w-full max-w-[480px] h-full" fill="none">
-            <defs>
-              <linearGradient id="aboutWaveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stop-color="white" stop-opacity="0"/>
-                <stop offset="12%" stop-color="white" stop-opacity="1"/>
-                <stop offset="88%" stop-color="white" stop-opacity="1"/>
-                <stop offset="100%" stop-color="white" stop-opacity="0"/>
-              </linearGradient>
-              <mask id="aboutWaveMask">
-                <rect width="600" height="40" fill="url(#aboutWaveGrad)"/>
-              </mask>
-            </defs>
-
-            <g mask="url(#aboutWaveMask)">
-              <path class="wave-terra-strand stroke-terra/50 dark:stroke-terra-light/50" d="M 0 20 Q 75 2, 150 20 Q 225 38, 300 20 Q 375 2, 450 20 Q 525 38, 600 20" stroke-width="1.2" stroke-linecap="round"/>
-              <path class="wave-gold-strand stroke-gold/50 dark:stroke-gold-light/50" d="M 0 20 Q 75 38, 150 20 Q 225 2, 300 20 Q 375 38, 450 20 Q 525 2, 600 20" stroke-width="1.2" stroke-linecap="round"/>
-            </g>
-          </svg>
+<BaseLayout
+  title="About"
+  description="About Jay Shah, a machine learning engineer in San Francisco working on embeddings, retrieval, and AI agent tools."
+  jsonLdType="ProfilePage"
+>
+  <article class="max-w-[68ch]">
+    <header class="reveal mb-8" style="--index: 0;">
+      <div class="flex flex-col-reverse sm:flex-row sm:items-center sm:justify-between gap-6">
+        <div class="min-w-0">
+          <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading leading-[1.15] tracking-tight">
+            About
+          </h1>
+          <p class="mt-3 font-mono text-xs text-ink-muted dark:text-silk-faint flex flex-wrap items-center gap-x-2.5 gap-y-1">
+            <span>San Francisco, CA</span>
+            <span class="text-cream-400 dark:text-night-700 select-none" aria-hidden="true">&bull;</span>
+            <a
+              href={SOCIAL_LINKS.cv}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-terra dark:text-terra-light hover:underline underline-offset-2"
+            >
+              Resume &nearr;
+            </a>
+            <span class="text-cream-400 dark:text-night-700 select-none" aria-hidden="true">&bull;</span>
+            <a
+              href={SOCIAL_LINKS.email}
+              class="hover:text-terra dark:hover:text-terra-light transition-colors"
+            >
+              Email
+            </a>
+          </p>
         </div>
 
-        <!-- Concentric Yellow/Gold Round Boundaries -->
-        <div class="relative shrink-0 z-10">
-          <div class="absolute -inset-3.5 rounded-full border border-dashed border-gold/40 dark:border-gold-light/40 transition-colors"></div>
-          <div class="absolute -inset-6 rounded-full border border-terra/20 dark:border-terra-light/25 transition-colors"></div>
-
-          <div class="relative size-[160px] rounded-full overflow-hidden ring-4 ring-gold/60 dark:ring-gold-light/60 bg-cream-100 dark:bg-night-800 shadow-xl p-1 transition-colors">
-            <div class="relative size-full rounded-full overflow-hidden ring-1 ring-terra/30">
+        <div class="relative shrink-0 self-start sm:self-center">
+          <div class="absolute -inset-2 rounded-full border border-dashed border-gold/45 dark:border-gold-light/45" aria-hidden="true" />
+          <div class="relative size-[76px] sm:size-[88px] rounded-full overflow-hidden ring-2 ring-gold/60 dark:ring-gold-light/60 bg-cream-100 dark:bg-night-800 p-0.5 shadow-sm">
+            <div class="relative size-full rounded-full overflow-hidden">
               <Image
                 src={profileImage}
                 alt="Jay Shah"
-                width={160}
-                height={160}
-                densities={[1.5, 2, 3]}
-                quality={95}
-                class="size-full object-cover rounded-full"
+                width={88}
+                height={88}
+                densities={[1.5, 2]}
+                quality={92}
+                class="size-full object-cover object-top rounded-full"
               />
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Editorial Rotating Headline: Calm crossfade (no fake blinking terminal cursor) -->
-      <div class="w-full mt-2 min-h-[68px] md:min-h-[50px] flex items-center justify-center">
-        <h1 class="flex flex-col items-center text-center gap-0.5 md:grid md:grid-cols-[minmax(0,1fr)_minmax(0,1.25fr)] md:gap-0 md:items-baseline w-full font-display text-2xl sm:text-3xl leading-tight m-0 p-0">
-          <span class="md:text-right whitespace-nowrap text-ink dark:text-silk md:pr-1.5">
-            {ABOUT_HEADLINE_PREFIX}
-          </span>
-          <span class="md:text-left whitespace-nowrap text-terra dark:text-terra-light font-normal md:pl-1.5 min-h-[1.3em] overflow-visible">
-            <span id="about-rotating-phrase" class="about-rotating-phrase inline-block">{ABOUT_ROTATING_PHRASES[0]}</span>
-          </span>
-        </h1>
-      </div>
+      <KolamDivider class="mt-7" />
+    </header>
 
-      <!-- Carved Gradient Divider Bar -->
-      <div class="w-12 h-[3px] mx-auto my-3.5 rounded bg-gradient-to-r from-terra via-gold to-terra" aria-hidden="true"></div>
-
-      <!-- Bio Lead Statement -->
-      <p class="font-body text-sm sm:text-base text-ink-muted dark:text-silk-muted mt-2 max-w-xl text-center leading-relaxed">
-        Senior Machine Learning Engineer at <a href="https://6sense.com" target="_blank" rel="noopener noreferrer" class="text-terra dark:text-terra-light font-medium hover:underline decoration-terra/40 underline-offset-2">6sense</a>, building production AI applications, foundational embeddings, and agent evaluation frameworks.
+    <section class="reveal prose prose-kolam dark:prose-invert max-w-[65ch]" style="--index: 1;">
+      <p>
+        I'm a machine learning engineer in San Francisco. I work across classical ML, retrieval, and language models: training custom embeddings, building agent evaluations, and debugging what breaks once real data hits a model.
       </p>
 
-      <!-- Action Toolbar (GitHub, LinkedIn, Hugging Face, Resume) -->
-      <div class="flex flex-wrap items-center justify-center gap-2.5 mt-5">
-        <a
-          href={SOCIAL_LINKS.github}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-cream-300 dark:border-night-700 bg-cream-100/80 dark:bg-night-800/80 text-xs font-mono text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors duration-150"
-        >
-          <SocialIcon name="github" class="size-3.5 text-ink-faint dark:text-silk-faint" />
-          GitHub
-        </a>
-        <a
-          href={SOCIAL_LINKS.linkedin}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-cream-300 dark:border-night-700 bg-cream-100/80 dark:bg-night-800/80 text-xs font-mono text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors duration-150"
-        >
-          <SocialIcon name="linkedin" class="size-3.5 text-ink-faint dark:text-silk-faint" />
-          LinkedIn
-        </a>
-        <a
-          href={SOCIAL_LINKS.huggingface}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-cream-300 dark:border-night-700 bg-cream-100/80 dark:bg-night-800/80 text-xs font-mono text-ink-light dark:text-silk-muted hover:border-terra hover:text-terra dark:hover:text-terra-light transition-colors duration-150"
-        >
-          <SocialIcon name="huggingface" class="size-3.5 text-ink-faint dark:text-silk-faint" />
-          Hugging Face
-        </a>
+      <p>
+        My path into ML started with mechanical engineering in Gujarat, followed by graduate research at Texas A&amp;M under Dr. Yu Ding, where I worked on wind-turbine failure prediction and minored in applied statistics. From 2019 to 2026 I was at <a href="https://avathon.com" target="_blank" rel="noopener noreferrer">Avathon</a>, building forecasting, anomaly detection, MLOps, and later RAG and MCP agent systems for energy and industrial teams. Now I'm a Senior Machine Learning Engineer at <a href="https://6sense.com" target="_blank" rel="noopener noreferrer">6sense</a>, working on embeddings, explainability, knowledge graphs, and agent evals.
+      </p>
+
+      <p>
+        On the side, I build small tools and run my own experiments instead of taking benchmarks at face value. Lately that has meant extensions for the Pi coding agent, experiments on dense retrieval and text watermarking, and <a href="https://huggingface.co/jayshah5696/Gujarati-Llama-7b-Base" target="_blank" rel="noopener noreferrer">Gujarati Llama</a>, a Llama 2 model I fine-tuned on 60,000 English-Gujarati pairs because Indic languages are still poorly served by most AI tools. This site is where I write up those projects and what actually happened.
+      </p>
+    </section>
+
+    <section aria-labelledby="experience-heading" class="reveal my-12" style="--index: 2;">
+      <div class="flex items-center justify-between gap-4 mb-6">
+        <div class="flex items-center gap-3">
+          <div class="kolam-diamond-node relative static! size-3.5 shrink-0" aria-hidden="true" />
+          <h2 id="experience-heading" class="font-display text-xl sm:text-2xl text-ink dark:text-silk">
+            Experience
+          </h2>
+        </div>
         <a
           href={SOCIAL_LINKS.cv}
           target="_blank"
           rel="noopener noreferrer"
-          class="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-terra/30 bg-terra/10 text-xs font-mono text-terra dark:text-terra-light hover:bg-terra/20 transition-colors duration-150 font-semibold"
+          class="font-mono text-xs text-terra dark:text-terra-light hover:underline whitespace-nowrap"
         >
-          <SocialIcon name="resume" class="size-3.5" />
-          Resume &nearr;
+          Full CV &nearr;
         </a>
-      </div>
-
-      <!-- Animated Breathing Kolam Divider Ribbon -->
-      <KolamDivider class="my-8" />
-    </header>
-
-    <section class="reveal max-w-[65ch]">
-      <h2>About Me</h2>
-
-      <p>
-        I build machine-learning and language-model systems that have to work beyond the notebook.
-      </p>
-
-      <p>
-        I write about the systems I build, the assumptions behind them, and the parts that usually break. If something is on this site, it shipped or I learned enough from it to explain what happened.
-      </p>
-    </section>
-
-    <!-- Career & Work Experience Timeline -->
-    <section class="reveal not-prose my-12">
-      <div class="flex items-center justify-between gap-4 mb-8">
-        <div class="flex items-center gap-3">
-          <div class="kolam-diamond-node relative static! size-3.5 shrink-0" aria-hidden="true" />
-          <h2 class="font-display text-2xl sm:text-3xl text-ink dark:text-silk">
-            Career &amp; Engineering Timeline
-          </h2>
-        </div>
-        <span class="font-mono text-xs text-ink-faint dark:text-silk-faint hidden sm:inline-block">
-          2017 &ndash; Present
-        </span>
       </div>
 
       <StepwellTimeline items={CAREER_ITEMS} />
     </section>
 
-    <section class="reveal max-w-[65ch]">
-      <h2>Outside the Terminal</h2>
+    <section aria-labelledby="outside-work-heading" class="reveal prose prose-kolam dark:prose-invert max-w-[65ch] my-12" style="--index: 3;">
+      <h2 id="outside-work-heading">Outside work</h2>
 
       <p>
-        Cricket comes first. Tea, never coffee. Yoga is the habit that survived a newborn's sleep schedule.
-      </p>
-
-      <p>
-        I care about Indic languages and culture, especially the gap between the languages people speak and the languages most AI systems understand. Gujarati Llama started as a personal project because useful language technology should not be limited to English-speaking users.
-      </p>
-
-      <p>
-        I also read outside machine learning: systems thinking, philosophy, and energy policy. Some of my best technical ideas began as questions from another field.
+        Outside work, I follow cricket closely and drink tea, never coffee. I have kept up a yoga and meditation practice for years, starting with Sadhguru's work, and it is still the one habit that survived a newborn's sleep schedule. I also spend a lot of time reading outside ML, mostly around systems thinking, philosophy, and energy policy.
       </p>
     </section>
 
-    <!-- Honors & Awards (Consistent Kolam Stepwell Styling) -->
-    <section class="reveal not-prose my-12">
-      <div class="flex items-center gap-3 mb-6">
+    <KolamDivider class="my-10" />
+
+    <section aria-labelledby="patents-heading" class="reveal my-10" style="--index: 4;">
+      <div class="flex items-center gap-3 mb-4">
         <div class="kolam-diamond-node relative static! size-3.5 shrink-0" aria-hidden="true" />
-        <h2 class="font-display text-2xl text-ink dark:text-silk">
-          Honors &amp; Awards
-        </h2>
-      </div>
-      <div class="stepwell-spine pl-8 space-y-4">
-        <div class="relative group">
-          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 transition-colors duration-150" aria-hidden="true" />
-          <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
-            <div class="flex flex-wrap items-center justify-between gap-2">
-              <a
-                href="https://github.com/rohrao/llamaindex_RAGathon"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="font-medium text-sm text-ink dark:text-silk hover:text-terra dark:hover:text-terra-light transition-colors"
-              >
-                Winner at Ragathon by LlamaIndex &nearr;
-              </a>
-              <span class="font-mono text-xs text-terra dark:text-terra-light">Feb 2024</span>
-            </div>
-            <p class="text-xs text-ink-muted dark:text-silk-muted mt-1 leading-relaxed">
-              Developed StreamLens, an agentic multi-model RAG system for interacting with autonomous vehicle video streams.
-            </p>
-          </div>
-        </div>
-
-        <div class="relative group">
-          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 transition-colors duration-150" aria-hidden="true" />
-          <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
-            <div class="flex flex-wrap items-center justify-between gap-2">
-              <span class="font-medium text-sm text-ink dark:text-silk">Outstanding Master of Science Student</span>
-              <span class="font-mono text-xs text-gold-dark dark:text-gold-light">Apr 2019</span>
-            </div>
-            <p class="text-xs text-ink-muted dark:text-silk-muted mt-1 leading-relaxed">
-              Texas A&amp;M University Department of Industrial and Systems Engineering.
-            </p>
-          </div>
-        </div>
-
-        <div class="relative group">
-          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 transition-colors duration-150" aria-hidden="true" />
-          <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
-            <div class="flex flex-wrap items-center justify-between gap-2">
-              <span class="font-medium text-sm text-ink dark:text-silk">2nd Runner-up at Texas Datathon by Citadel</span>
-              <span class="font-mono text-xs text-ink-faint dark:text-silk-faint">Feb 2018</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Patents (Consistent Kolam Stepwell Styling) -->
-    <section class="reveal not-prose my-12">
-      <div class="flex items-center gap-3 mb-6">
-        <div class="kolam-diamond-node relative static! size-3.5 shrink-0" aria-hidden="true" />
-        <h2 class="font-display text-2xl text-ink dark:text-silk">
+        <h2 id="patents-heading" class="font-display text-xl sm:text-2xl text-ink dark:text-silk">
           Patents
         </h2>
       </div>
-      <div class="stepwell-spine pl-8 space-y-4">
-        <div class="relative group">
-          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 transition-colors duration-150" aria-hidden="true" />
-          <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
-            <div class="flex flex-wrap items-center justify-between gap-2">
-              <a
-                href="https://patents.google.com/patent/US20230213560A1/en"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="font-medium text-sm text-ink dark:text-silk hover:text-terra dark:hover:text-terra-light transition-colors"
-              >
-                Calculating energy loss during an outage &nearr;
-              </a>
-              <span class="font-mono text-xs text-terra dark:text-terra-light">US20230213560A1</span>
-            </div>
-            <p class="text-xs text-ink-muted dark:text-silk-muted mt-1 leading-relaxed">
-              Filed Dec 30, 2021. Systems and methods for computing operational losses across electrical grid outages.
-            </p>
-          </div>
-        </div>
 
-        <div class="relative group">
-          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 transition-colors duration-150" aria-hidden="true" />
-          <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
-            <div class="flex flex-wrap items-center justify-between gap-2">
+      <ul class="divide-y divide-cream-200/80 dark:divide-night-700/80 border-t border-b border-cream-200/80 dark:border-night-700/80">
+        {PATENTS.map((patent) => (
+          <li class="py-3.5 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+            <div class="min-w-0">
               <a
-                href="https://patents.google.com/patent/US20230214703A1/en"
+                href={patent.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="font-medium text-sm text-ink dark:text-silk hover:text-terra dark:hover:text-terra-light transition-colors"
+                class="font-body text-sm font-medium text-ink dark:text-silk hover:text-terra dark:hover:text-terra-light transition-colors"
               >
-                Predicting energy production for energy generating assets &nearr;
+                {patent.title} &nearr;
               </a>
-              <span class="font-mono text-xs text-terra dark:text-terra-light">US20230214703A1</span>
+              <p class="font-body text-xs text-ink-muted dark:text-silk-faint mt-0.5">
+                {patent.filed}
+              </p>
             </div>
-            <p class="text-xs text-ink-muted dark:text-silk-muted mt-1 leading-relaxed">
-              Filed Dec 30, 2021. Machine learning models forecasting multi-horizon generation profiles.
-            </p>
-          </div>
-        </div>
+            <span class="font-mono text-xs text-terra dark:text-terra-light shrink-0 tabular-nums">
+              {patent.id}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </section>
 
-        <div class="relative group">
-          <div class="kolam-diamond-node pointer-events-none -left-[27px] top-4 group-hover:border-gold group-hover:ring-4 group-hover:ring-gold/20 dark:group-hover:ring-gold/25 transition-colors duration-150" aria-hidden="true" />
-          <div class="featured-card rangoli-corners p-4 sm:p-5 rounded-xl border border-cream-200 dark:border-night-700 hover:border-terra dark:hover:border-terra-light transition-colors duration-150">
-            <div class="flex flex-wrap items-center justify-between gap-2">
-              <a
-                href="https://patents.google.com/patent/IN201721044402A/en"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="font-medium text-sm text-ink dark:text-silk hover:text-terra dark:hover:text-terra-light transition-colors"
-              >
-                Dimension Measurement Using Image Processing and Separation of Defective Products &nearr;
-              </a>
-              <span class="font-mono text-xs text-terra dark:text-terra-light">IN 201721044402</span>
-            </div>
-            <p class="text-xs text-ink-muted dark:text-silk-muted mt-1 leading-relaxed">
-              Filed Dec 11, 2017. Automated dimensional calibration and defect separation via computer vision.
-            </p>
-          </div>
-        </div>
+    <section aria-labelledby="honors-heading" class="reveal my-10" style="--index: 5;">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="kolam-diamond-node relative static! size-3.5 shrink-0" aria-hidden="true" />
+        <h2 id="honors-heading" class="font-display text-xl sm:text-2xl text-ink dark:text-silk">
+          Honors &amp; Awards
+        </h2>
       </div>
+
+      <ul class="divide-y divide-cream-200/80 dark:divide-night-700/80 border-t border-b border-cream-200/80 dark:border-night-700/80">
+        {HONORS.map((honor) => (
+          <li class="py-3.5 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-4">
+            <div class="min-w-0">
+              {honor.url ? (
+                <a
+                  href={honor.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="font-body text-sm font-medium text-ink dark:text-silk hover:text-terra dark:hover:text-terra-light transition-colors"
+                >
+                  {honor.title} &nearr;
+                </a>
+              ) : (
+                <span class="font-body text-sm font-medium text-ink dark:text-silk">
+                  {honor.title}
+                </span>
+              )}
+              {honor.note && (
+                <p class="font-body text-xs text-ink-muted dark:text-silk-faint mt-0.5 leading-relaxed">
+                  {honor.note}
+                </p>
+              )}
+            </div>
+            <span class="font-mono text-xs text-ink-faint dark:text-silk-faint shrink-0 tabular-nums">
+              {honor.date}
+            </span>
+          </li>
+        ))}
+      </ul>
     </section>
   </article>
-
-  <!-- Calm Editorial Phrase Crossfade -->
-  <script is:inline data-astro-rerun define:vars={{ phrases: ABOUT_ROTATING_PHRASES }}>
-    (function () {
-      if (window.__aboutPhraseInterval) {
-        clearInterval(window.__aboutPhraseInterval);
-        window.__aboutPhraseInterval = null;
-      }
-      if (window.__aboutPhraseSwapTimeout) {
-        clearTimeout(window.__aboutPhraseSwapTimeout);
-        window.__aboutPhraseSwapTimeout = null;
-      }
-
-      const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const phraseEl = document.getElementById('about-rotating-phrase');
-      if (!phraseEl || !Array.isArray(phrases) || phrases.length <= 1 || prefersReducedMotion) {
-        return;
-      }
-
-      let phraseIdx = 0;
-
-      window.__aboutPhraseInterval = setInterval(function () {
-        const el = document.getElementById('about-rotating-phrase');
-        if (!el) {
-          clearInterval(window.__aboutPhraseInterval);
-          window.__aboutPhraseInterval = null;
-          return;
-        }
-        el.classList.add('is-swapping');
-        window.__aboutPhraseSwapTimeout = setTimeout(function () {
-          phraseIdx = (phraseIdx + 1) % phrases.length;
-          el.textContent = phrases[phraseIdx];
-          el.classList.remove('is-swapping');
-        }, 180);
-      }, 3200);
-    })();
-  </script>
 </BaseLayout>
-
-<style>
-  .about-rotating-phrase {
-    transition:
-      opacity 180ms cubic-bezier(0.23, 1, 0.32, 1),
-      transform 180ms cubic-bezier(0.23, 1, 0.32, 1);
-  }
-
-  .about-rotating-phrase.is-swapping {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-
-  .wave-terra-strand {
-    animation: waveBreatheTerra 4.5s ease-in-out infinite alternate;
-  }
-
-  .wave-gold-strand {
-    animation: waveBreatheGold 4.5s ease-in-out infinite alternate;
-  }
-
-  @keyframes waveBreatheTerra {
-    0% { opacity: 0.35; stroke-width: 1px; }
-    50% { opacity: 0.95; stroke-width: 1.6px; }
-    100% { opacity: 0.35; stroke-width: 1px; }
-  }
-
-  @keyframes waveBreatheGold {
-    0% { opacity: 0.95; stroke-width: 1.6px; }
-    50% { opacity: 0.35; stroke-width: 1px; }
-    100% { opacity: 0.95; stroke-width: 1.6px; }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .about-rotating-phrase,
-    .wave-terra-strand,
-    .wave-gold-strand {
-      animation: none !important;
-      transition: none !important;
-    }
-  }
-</style>

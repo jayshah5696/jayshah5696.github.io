@@ -56,25 +56,6 @@ if (url.includes('github.com')) {
   style={index !== undefined ? `--index: ${Math.min(index, 5)};` : undefined}
 >
   <div>
-    <!-- Flagship or Featured Badge -->
-    {flagship ? (
-      <div class="mb-3 flex items-center justify-between gap-2">
-        <span class="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase text-terra dark:text-terra-light px-2.5 py-0.5 rounded-full bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20 font-semibold" style="letter-spacing: 0.1em;">
-          &#9733; Flagship System
-        </span>
-        <span class="font-mono text-[11px] text-mor dark:text-mor-light flex items-center gap-1.5 font-medium">
-          <span class="size-1.5 rounded-full bg-mor dark:bg-mor-light" aria-hidden="true" />
-          Active Open-Source
-        </span>
-      </div>
-    ) : featured ? (
-      <div class="mb-2">
-        <span class="inline-block font-mono text-[11px] uppercase text-terra dark:text-terra-light px-2 py-0.5 rounded bg-terra/10 dark:bg-terra-light/10 border border-terra/20 dark:border-terra-light/20" style="letter-spacing: 0.1em;">
-          Featured Project
-        </span>
-      </div>
-    ) : null}
-
     <!-- Title & External Link Header -->
     <div class="flex items-start justify-between gap-2">
       <HeadingTag class:list={[

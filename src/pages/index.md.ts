@@ -7,12 +7,12 @@ export const GET: APIRoute = async () => {
     .filter((p) => !p.data.draft)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-  let content = `# ${SITE_TITLE} — AI Systems, Foundational Models & Research
+  let content = `# ${SITE_TITLE}
 
 > ${SITE_TAGLINE}
 > Canonical URL: ${SITE_URL}/
 
-I am a Senior Machine Learning Engineer at 6sense, where I build production AI applications, foundational model systems, custom embeddings, and agent evaluation frameworks. On this site, I write technical essays documenting what I build, break, and learn when turning raw machine learning research into working products, with a current focus on AI agent-based automation systems.
+I'm a machine learning engineer with a background in statistics and industrial ML. I work on embeddings, retrieval, and agent tools, and write up my experiments and side projects here.
 
 ## Recent Writings & Case Studies
 
