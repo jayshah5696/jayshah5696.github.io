@@ -17,44 +17,50 @@ const { items, class: className = '' } = Astro.props;
 ---
 
 <div class:list={['stepwell-timeline', className]}>
-  <ol class="stepwell-spine pl-8 space-y-7">
-    {items.map((item, idx) => (
-      <li class="reveal relative group" style={`--index: ${idx};`}>
+  <ol class="stepwell-spine pl-8 space-y-2">
+    {items.map((item) => (
+      <li class="reveal relative group">
         <div
           class:list={[
-            'kolam-diamond-node timeline-node pointer-events-none -left-[27px] top-1.5 transition-colors',
-            item.current
-              ? 'border-terra dark:border-terra-light ring-2 ring-terra/20 dark:ring-terra-light/25'
-              : 'group-hover:border-gold group-hover:ring-2 group-hover:ring-gold/25 dark:group-hover:ring-gold/30',
+            'kolam-diamond-node timeline-node pointer-events-none -left-[27px] top-[15px] group-hover:border-gold dark:group-hover:border-gold-light group-hover:ring-2 group-hover:ring-gold/30 dark:group-hover:ring-gold/35',
+            item.current && 'border-terra dark:border-terra-light ring-2 ring-terra/20 dark:ring-terra-light/25',
           ]}
           aria-hidden="true"
         />
 
-        <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
-          <h3 class="font-display text-lg text-ink dark:text-silk leading-snug">
-            {item.role}{' '}
-            <span class="text-ink-faint dark:text-silk-faint font-body font-normal text-sm">at</span>{' '}
-            {item.orgUrl ? (
-              <a
-                href={item.orgUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                class="text-terra dark:text-terra-light hover:underline underline-offset-4 decoration-terra/40"
-              >
-                {item.organization}
-              </a>
-            ) : (
-              <span class="text-terra dark:text-terra-light">{item.organization}</span>
-            )}
-          </h3>
-          <span class="font-mono text-xs text-ink-faint dark:text-silk-faint tabular-nums shrink-0">
-            {item.period}
-          </span>
-        </div>
+        <div class="vav-row-hover px-2.5 -mx-2.5 py-2.5">
+          <div class="flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1">
+            <h3 class="font-body font-medium text-[16px] sm:text-[17px] text-ink dark:text-silk leading-snug">
+              {item.role}{' '}
+              <span class="text-ink-faint dark:text-silk-faint font-normal text-sm">at</span>{' '}
+              {item.orgUrl ? (
+                <a
+                  href={item.orgUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="group/org inline-flex items-baseline gap-0.5 text-terra dark:text-terra-light hover:underline underline-offset-4 decoration-terra/40 transition-colors duration-150"
+                >
+                  <span>{item.organization}</span>
+                  <span
+                    class="inline-block font-mono text-[11px] opacity-65 group-hover/org:opacity-100 group-hover/org:translate-x-0.5 group-hover/org:-translate-y-0.5 transition-[opacity,transform] duration-150"
+                    aria-hidden="true"
+                  >
+                    &nearr;
+                  </span>
+                </a>
+              ) : (
+                <span class="text-terra dark:text-terra-light">{item.organization}</span>
+              )}
+            </h3>
+            <span class="font-mono text-xs text-ink-faint dark:text-silk-faint group-hover:text-ink-muted dark:group-hover:text-silk-muted transition-colors duration-150 tabular-nums shrink-0">
+              {item.period}
+            </span>
+          </div>
 
-        <p class="mt-2 max-w-[65ch] font-body text-sm sm:text-[15px] text-ink-light dark:text-silk-muted leading-relaxed text-pretty">
-          {item.description}
-        </p>
+          <p class="mt-1.5 max-w-[62ch] font-body text-sm text-ink-muted dark:text-silk-muted leading-relaxed text-pretty">
+            {item.description}
+          </p>
+        </div>
       </li>
     ))}
   </ol>
@@ -62,7 +68,15 @@ const { items, class: className = '' } = Astro.props;
 
 <style>
   .timeline-node {
-    transition-duration: 75ms !important;
-    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+    transition:
+      transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1) !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .timeline-node {
+      transition: border-color 150ms ease-out !important;
+    }
   }
 </style>

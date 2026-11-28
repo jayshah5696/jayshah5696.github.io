@@ -1,25 +1,19 @@
 import { test, expect } from '@playwright/test';
 
+const port = process.env.PORT || '4321';
+
 test.describe('PostCard Component', () => {
-  test('should have a read article indicator and hover animations', async ({ page }) => {
-    // Navigate to a page with a PostCard. Assuming homepage has them.
-    await page.goto('http://localhost:4321/');
+  test('renders grounded featured spotlight card linking to latest essay', async ({ page }) => {
+    await page.goto(`http://localhost:${port}/`);
 
-    // Select the first article (PostCard)
-    const firstArticle = page.locator('article.group').first();
+    const featuredCard = page.locator('article.featured-card').first();
+    await expect(featuredCard).toBeVisible();
 
-    // Expect it to have the featured-card class
-    await expect(firstArticle).toHaveClass(/featured-card/);
+    const postLink = featuredCard.locator('a[href^="/posts/"]').first();
+    await expect(postLink).toBeVisible();
 
-    // Hover the article to trigger opacity transition
-    await firstArticle.hover();
-
-    // Expect to find a read article indicator inside it
-    const readIndicator = firstArticle.locator('text=Read article');
-    await expect(readIndicator).toBeVisible();
-
-    // The indicator should have a container with the transition classes
-    const indicatorContainer = firstArticle.locator('[class*="group-hover:translate-x-0.5"]').first();
-    await expect(indicatorContainer).toBeAttached();
+    await featuredCard.hover();
+    const delay = await featuredCard.evaluate((el) => window.getComputedStyle(el).transitionDelay);
+    expect(delay).toBe('0s');
   });
 });

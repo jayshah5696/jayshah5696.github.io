@@ -1,8 +1,8 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import PostCard from '../../components/PostCard.astro';
-import ReadCard from '../../components/ReadCard.astro';
+import IndexRow from '../../components/IndexRow.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
+import ReadCard from '../../components/ReadCard.astro';
 import { getCollection } from 'astro:content';
 import { projects } from '../../data/projects';
 import { normalizeTagSlug } from '../../utils/tags';
@@ -43,65 +43,71 @@ const { tag, posts, reads, projects: matchedProjects } = Astro.props;
 const summaryParts = [
   posts.length > 0 ? `${posts.length} ${posts.length === 1 ? 'post' : 'posts'}` : null,
   matchedProjects.length > 0 ? `${matchedProjects.length} ${matchedProjects.length === 1 ? 'project' : 'projects'}` : null,
-  reads.length > 0 ? `${reads.length} shared ${reads.length === 1 ? 'link' : 'links'}` : null,
+  reads.length > 0 ? `${reads.length} ${reads.length === 1 ? 'read' : 'reads'}` : null,
 ].filter(Boolean);
+
+function formatShortMonthYear(date: Date): string {
+  return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+}
 ---
 
-<BaseLayout 
-  title={`#${tag}`} 
-  description={`Browse ${summaryParts.join(', ')} about ${tag} — by Jay Shah.`}
+<BaseLayout
+  title={`#${tag}`}
+  description={`Browse ${summaryParts.join(', ')} about ${tag} by Jay Shah.`}
 >
-  <header class="mb-10">
-    <a href="/tags/" class="inline-flex items-center gap-1.5 text-sm text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors duration-200 font-mono mb-4">
-      <svg class="size-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-      All tags
+  <header class="reveal mb-12">
+    <a href="/tags/" class="group/back inline-flex items-center gap-1.5 text-xs text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors duration-150 font-mono mb-4">
+      <span class="inline-block group-hover/back:-translate-x-0.5 transition-transform duration-150" aria-hidden="true">&larr;</span>
+      <span>All tags</span>
     </a>
-    <h1 class="font-display text-3xl text-ink dark:text-silk carved-heading">
-      #{tag}
-    </h1>
-    <p class="mt-4 font-mono text-sm text-ink-muted dark:text-silk-muted tabular-nums">
-      {summaryParts.join(' • ')}
-    </p>
+    <div class="flex items-baseline justify-between gap-4 flex-wrap">
+      <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">
+        #{tag}
+      </h1>
+      <span class="font-mono text-xs text-ink-faint dark:text-silk-faint tabular-nums">
+        {summaryParts.join(' · ')}
+      </span>
+    </div>
   </header>
 
-  <div class="space-y-12">
-    <!-- Writings Section -->
+  <div class="space-y-14">
     {posts.length > 0 && (
       <section class="reveal">
-        <h2 class="font-display text-xl text-ink dark:text-silk mb-5 border-b border-cream-200 dark:border-night-700 pb-2 flex items-center gap-2">
-          <svg class="size-4.5 text-terra" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><line x1="9" y1="9" x2="15" y2="9"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="11" y2="17"/></svg>
-          Articles &amp; Writings
-        </h2>
-        <div class="space-y-5">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="kolam-diamond-node relative static! ml-[5.5px] size-3 shrink-0" aria-hidden="true" />
+          <h2 class="font-body font-medium text-sm tracking-wide text-ink-muted dark:text-silk-muted">
+            Writing
+          </h2>
+        </div>
+        <ul class="border-t border-terra/15 dark:border-gold/15">
           {posts.map((post, i) => (
-            <PostCard
+            <IndexRow
+              href={`/posts/${post.id}/`}
+              indexNum={String(i + 1).padStart(2, '0')}
               title={post.data.title}
-              date={post.data.date}
-              description={post.data.description}
-              slug={post.id}
-              tags={post.data.tags}
-              body={post.body ?? ''}
-              image={post.data.image}
-              interactive={post.data.interactive}
-              index={i}
-              headingTag="h3"
+              subtitle={post.data.description}
+              meta={formatShortMonthYear(post.data.date)}
+              badge={post.data.interactive ? 'lab' : undefined}
             />
           ))}
-        </div>
+        </ul>
       </section>
     )}
 
-    <!-- Projects Section -->
     {matchedProjects.length > 0 && (
       <section class="reveal">
-        <h2 class="font-display text-xl text-ink dark:text-silk mb-5 border-b border-cream-200 dark:border-night-700 pb-2 flex items-center gap-2">
-          <svg class="size-4.5 text-mor dark:text-mor-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 16 4-4-4-4"/><path d="m6 8-4 4 4 4"/><path d="m14.5 4-5 16"/></svg>
-          Projects &amp; Open Source
-        </h2>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div class="flex items-center gap-3 mb-5">
+          <div class="kolam-diamond-node relative static! ml-[5.5px] size-3 shrink-0" aria-hidden="true" />
+          <h2 class="font-body font-medium text-sm tracking-wide text-ink-muted dark:text-silk-muted">
+            Projects
+          </h2>
+        </div>
+        <div class:list={['vav-lattice grid grid-cols-1', matchedProjects.length > 1 && 'sm:grid-cols-2']}>
           {matchedProjects.map((project, i) => (
             <ProjectCard
               title={project.title}
+              script={project.script}
+              summary={project.summary}
               description={project.description}
               url={project.url}
               tags={project.tags}
@@ -113,21 +119,43 @@ const summaryParts = [
       </section>
     )}
 
-    <!-- Shared Links Section -->
     {reads.length > 0 && (
       <section class="reveal">
-        <h2 class="font-display text-xl text-ink dark:text-silk mb-5 border-b border-cream-200 dark:border-night-700 pb-2 flex items-center gap-2">
-          <svg class="size-4.5 text-gold-dark dark:text-gold-light" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5Z"/><path d="M6 6h10M6 10h10"/></svg>
-          Shared Links &amp; Reads
-        </h2>
-        <div class="space-y-5">
-          {reads.map((read, i) => (
-            <ReadCard entry={read} index={i} />
+        <div class="flex items-center gap-3 mb-4">
+          <div class="kolam-diamond-node relative static! ml-[5.5px] size-3 shrink-0" aria-hidden="true" />
+          <h2 class="font-body font-medium text-sm tracking-wide text-ink-muted dark:text-silk-muted">
+            Reads
+          </h2>
+        </div>
+        <div class="border-t border-terra/15 dark:border-gold/15">
+          {reads.map((read) => (
+            <ReadCard entry={read} expanded={false} />
           ))}
         </div>
       </section>
     )}
   </div>
+
+  <script is:inline data-astro-rerun>
+    (function initTagReadCards() {
+      document.querySelectorAll('.read-card-item[data-has-notes="true"]').forEach(function(card) {
+        card.onclick = function(e) {
+          if (e.target.closest('a') || e.target.closest('.read-card-notes')) return;
+          var collapse = card.querySelector('.read-card-notes-collapse');
+          if (!collapse) return;
+          var isExpanded = card.dataset.expanded !== 'true';
+          card.dataset.expanded = isExpanded ? 'true' : 'false';
+          collapse.setAttribute('aria-hidden', isExpanded ? 'false' : 'true');
+          if (isExpanded) collapse.removeAttribute('inert');
+          else collapse.setAttribute('inert', '');
+          var btn = card.querySelector('.read-card-toggle');
+          var lbl = card.querySelector('.read-card-toggle-label');
+          var chev = card.querySelector('.read-card-chevron');
+          if (btn) btn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
+          if (lbl) lbl.textContent = isExpanded ? 'hide note' : 'read note';
+          if (chev) chev.classList.toggle('rotate-180', isExpanded);
+        };
+      });
+    })();
+  </script>
 </BaseLayout>
-
-

@@ -1,7 +1,7 @@
 export const SITE_TITLE = 'Jay Shah';
 export const SITE_TAGLINE = 'Machine learning, statistics & AI systems';
 export const SITE_DESCRIPTION =
-  'Personal site and technical blog of Jay Shah, a machine learning engineer working on embeddings, retrieval, AI agents, and evaluations.';
+  'Personal site and technical blog of Jay Shah, a Senior Machine Learning Engineer working on forward-deployed predictive ML, embeddings, retrieval, and AI agent evaluations.';
 export const SITE_URL = 'https://jayshah.dev';
 export const SITE_AUTHOR = 'Jay Shah';
 export const SITE_LEGAL_NAME = 'Jay Shah AI Engineering & Research';
@@ -67,12 +67,9 @@ export const AGENT_RESOURCES = {
 export const NAV_ITEMS = [
   { label: 'Home', href: '/', icon: 'home' },
   { label: 'Blog', href: '/blog/', icon: 'blog' },
-  { label: 'About', href: '/about/', icon: 'about' },
   { label: 'Projects', href: '/projects/', icon: 'projects' },
   { label: 'Reads', href: '/reads/', icon: 'reads' },
-  { label: 'Links', href: '/links/', icon: 'links' },
-  { label: 'Archives', href: '/archives/', icon: 'archive' },
-  { label: 'Resume', href: 'https://cv.jayshah.dev', icon: 'resume' },
+  { label: 'About', href: '/about/', icon: 'about' },
 ] as const;
 
 

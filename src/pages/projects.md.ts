@@ -3,11 +3,11 @@ import { projects } from '../data/projects';
 import { SITE_URL } from '../consts';
 
 export const GET: APIRoute = async () => {
-  let content = `# Open Source Projects & Research Codebases — Jay Shah
+  let content = `# Open Source Projects & Research Codebases | Jay Shah
 
 > Canonical URL: ${SITE_URL}/projects/
 
-Selected open-source projects by Jay Shah — semantic search, foundational model applications, Gujarati NLP, and agent tooling.
+Selected open-source projects by Jay Shah: semantic search, foundational model applications, Gujarati NLP, and agent tooling.
 
 `;
 

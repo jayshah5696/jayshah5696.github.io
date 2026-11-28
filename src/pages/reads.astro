@@ -1,9 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ReadCard from '../components/ReadCard.astro';
-import RightSidebar from '../components/RightSidebar.astro';
-import KolamDivider from '../components/KolamDivider.astro';
 import { getCollection } from 'astro:content';
+import { normalizeTagSlug, getTagDotClass } from '../utils/tags';
 
 const entries = (await getCollection('reads'))
   .filter((r) => !r.data.draft)
@@ -11,7 +10,6 @@ const entries = (await getCollection('reads'))
 
 const totalLinks = entries.length;
 
-// Group by Year and Month
 interface MonthGroup {
   monthName: string;
   monthNum: string;
@@ -19,6 +17,7 @@ interface MonthGroup {
 }
 
 const grouped: Record<string, Record<string, MonthGroup>> = {};
+const tagCounts: Record<string, number> = {};
 
 entries.forEach((entry) => {
   const date = entry.data.date;
@@ -26,278 +25,175 @@ entries.forEach((entry) => {
   const monthName = date.toLocaleString('en-US', { month: 'long' });
   const monthNum = String(date.getMonth() + 1).padStart(2, '0');
 
-  if (!grouped[year]) {
-    grouped[year] = {};
-  }
+  if (!grouped[year]) grouped[year] = {};
   if (!grouped[year][monthNum]) {
     grouped[year][monthNum] = { monthName, monthNum, entries: [] };
   }
   grouped[year][monthNum].entries.push(entry);
+
+  new Set(entry.data.tags.map(normalizeTagSlug)).forEach((tag) => {
+    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+  });
 });
 
 const years = Object.keys(grouped).sort((a, b) => Number(b) - Number(a));
-
-// Unique months for quick filters
-const monthFilters: { num: string; name: string; count: number }[] = [];
-const seenMonths = new Set<string>();
-
-entries.forEach((entry) => {
-  const date = entry.data.date;
-  const monthNum = String(date.getMonth() + 1).padStart(2, '0');
-  const monthShort = date.toLocaleString('en-US', { month: 'short' });
-  const key = monthNum;
-  if (!seenMonths.has(key)) {
-    seenMonths.add(key);
-    const count = entries.filter((e) => String(e.data.date.getMonth() + 1).padStart(2, '0') === monthNum).length;
-    monthFilters.push({ num: monthNum, name: monthShort, count });
-  }
-});
-monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
+const topTopics = Object.entries(tagCounts)
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 6)
+  .map(([tag]) => tag);
 ---
 
 <BaseLayout
   title="Reads"
   description="Curated papers, articles, and links on AI, ML systems, and engineering with personal notes by Jay Shah."
-  rightSidebar={true}
 >
-  <!-- Header -->
-  <header class="reveal mb-8" style="--index: 0;">
-    <div class="flex items-center justify-between gap-4 flex-wrap">
-      <div>
-        <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">
-          Reads
-        </h1>
-      </div>
-      <span class="font-mono text-xs text-ink-muted dark:text-silk-muted px-3 py-1 rounded-full border border-cream-200 dark:border-night-700 bg-cream-50/60 dark:bg-night-800/60">
-        {totalLinks} notes
+  <header class="reveal mb-10">
+    <div class="flex items-baseline justify-between gap-4 flex-wrap">
+      <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">
+        Reads
+      </h1>
+      <span class="font-mono text-xs text-ink-faint dark:text-silk-faint tabular-nums">
+        {totalLinks}
       </span>
     </div>
-    <p class="mt-4 font-body text-ink-light dark:text-silk-muted text-base leading-relaxed">
-      Articles, papers, and tools I read, with short personal notes on what stood out.
-    </p>
-    <KolamDivider class="mt-5" />
+
+    <!-- Quiet inline topic filter with Vav jewel dots -->
+    <nav aria-label="Topics" class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-1.5 font-mono text-xs text-ink-faint dark:text-silk-faint">
+      {topTopics.map((tag) => (
+        <a
+          href={`/reads/?tag=${encodeURIComponent(tag)}`}
+          data-tag-link={tag}
+          class="inline-flex items-center gap-1.5 hover:text-terra dark:hover:text-terra-light transition-colors duration-150"
+        >
+          <span class:list={['size-1.5 rounded-full', getTagDotClass(tag)]} aria-hidden="true" />
+          <span>#{tag}</span>
+        </a>
+      ))}
+      <a
+        href="/tags/"
+        class="group/more inline-flex items-center gap-1 text-terra dark:text-terra-light hover:underline underline-offset-2 transition-colors duration-150"
+      >
+        <span>all tags</span>
+        <span class="inline-block group-hover/more:translate-x-0.5 transition-transform duration-150" aria-hidden="true">&rarr;</span>
+      </a>
+    </nav>
   </header>
 
   {totalLinks === 0 ? (
-    <div class="featured-card p-8 text-center text-ink-muted dark:text-silk-muted">
-      <p class="mb-4">No recommended reads shared yet.</p>
-      <p class="text-xs">
-        Add markdown files to <code class="bg-cream-200 dark:bg-night-800 px-1 py-0.5 rounded font-mono">src/content/reads/</code> to populate this page.
-      </p>
-    </div>
+    <p class="font-body text-sm text-ink-muted dark:text-silk-muted">No reading notes yet.</p>
   ) : (
-    <div class="space-y-6">
-      
-      <!-- Minimalist Search Bar with Collapsible Icon Drawer -->
-      <div class="reveal bg-cream-50 dark:bg-night-900 border border-cream-200 dark:border-night-700 rounded-xl p-2 shadow-xs transition-colors duration-200 focus-within:border-terra dark:focus-within:border-terra-light">
-        <div class="flex items-center gap-2">
-          <!-- Search input box -->
-          <div class="flex-1 flex items-center gap-2.5 px-2.5 py-1.5">
-            <svg class="size-4 text-ink-muted dark:text-silk-muted shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
-            </svg>
-            <input
-              type="text"
-              id="reads-search-input"
-              class="w-full bg-transparent border-none outline-none font-body text-sm text-ink dark:text-silk placeholder:text-ink-faint dark:placeholder:text-silk-faint"
-              placeholder="Search reads by title, domain, or notes..."
-              autocomplete="off"
-              spellcheck="false"
-            />
-            <kbd class="hidden sm:inline-block font-mono text-[11px] px-1.5 py-0.5 rounded bg-cream-200 dark:bg-night-800 text-ink-faint dark:text-silk-faint select-none">
-              /
-            </kbd>
-          </div>
-
-          <!-- Reset All Filters (hidden until filters are active) -->
-          <button
-            type="button"
-            id="reset-all-btn"
-            class="hidden px-2.5 h-8 rounded-lg border border-terra/30 dark:border-terra-light/30 bg-terra/10 dark:bg-terra-light/10 text-terra dark:text-terra-light hover:bg-terra/20 dark:hover:bg-terra-light/20 font-mono text-[11px] font-medium transition-colors shrink-0 cursor-pointer"
-            aria-label="Reset all filters"
-          >
-            Reset
-          </button>
-
-          <!-- Icon Action 1: Toggle Secondary Filter Drawer -->
-          <button
-            type="button"
-            id="toggle-filters-btn"
-            class="size-8 rounded-lg border border-cream-200 dark:border-night-700 bg-cream-100/80 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra dark:hover:border-terra-light hover:text-terra dark:hover:text-terra-light inline-flex items-center justify-center transition-colors shrink-0 cursor-pointer"
-            aria-label="Toggle Year & Month Filters"
-            title="Filter by Year & Month"
-          >
-            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <line x1="4" x2="4" y1="21" y2="14"/><line x1="4" x2="4" y1="10" y2="3"/>
-              <line x1="12" x2="12" y1="21" y2="12"/><line x1="12" x2="12" y1="8" y2="3"/>
-              <line x1="20" x2="20" y1="21" y2="16"/><line x1="20" x2="20" y1="12" y2="3"/>
-              <line x1="1" x2="7" y1="14" y2="14"/><line x1="9" x2="15" y1="8" y2="8"/><line x1="17" x2="23" y1="16" y2="16"/>
-            </svg>
-          </button>
-
-          <!-- Icon Action 2: Expand / Collapse All Notes -->
-          <button
-            type="button"
-            id="toggle-all-notes-btn"
-            class="size-8 rounded-lg border border-cream-200 dark:border-night-700 bg-cream-100/80 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra dark:hover:border-terra-light hover:text-terra dark:hover:text-terra-light inline-flex items-center justify-center transition-colors shrink-0 cursor-pointer"
-            aria-label="Expand or Collapse All Notes"
-            title="Expand / Collapse All Notes"
-          >
-            <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" x2="14" y1="3" y2="10"/><line x1="3" x2="10" y1="21" y2="14"/>
-            </svg>
-          </button>
-        </div>
-
-        <!-- Hidden Filter Drawer (Revealed via Icon Button) -->
-        <div id="filters-drawer" class="hidden pt-3 pb-1 px-1 border-t border-dashed border-cream-200 dark:border-night-700 mt-2 space-y-2">
-          <!-- Year Selector -->
-          <div class="flex items-center gap-2 flex-wrap text-xs">
-            <span class="font-mono text-[11px] text-ink-muted dark:text-silk-muted uppercase tracking-wider min-w-[44px]">Year:</span>
-            <button type="button" class="year-pill px-2.5 py-0.5 rounded-full border border-terra bg-terra text-white font-mono text-[11px] cursor-pointer" data-year-val="all">All</button>
-            {years.map((yr) => (
-              <button type="button" class="year-pill px-2.5 py-0.5 rounded-full border border-cream-200 dark:border-night-700 bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra font-mono text-[11px] cursor-pointer transition-colors" data-year-val={yr}>
-                {yr}
-              </button>
-            ))}
-          </div>
-
-          <!-- Month Selector -->
-          <div class="flex items-center gap-2 flex-wrap text-xs">
-            <span class="font-mono text-[11px] text-ink-muted dark:text-silk-muted uppercase tracking-wider min-w-[44px]">Month:</span>
-            <button type="button" class="month-pill px-2.5 py-0.5 rounded-full border border-terra bg-terra text-white font-mono text-[11px] cursor-pointer" data-month-val="all">All</button>
-            {monthFilters.map((m) => (
-              <button type="button" class="month-pill px-2.5 py-0.5 rounded-full border border-cream-200 dark:border-night-700 bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra font-mono text-[11px] cursor-pointer transition-colors" data-month-val={m.num}>
-                {m.name} <span class="opacity-75 text-[11px]">({m.count})</span>
-              </button>
-            ))}
-          </div>
-        </div>
+    <div class="space-y-8">
+      <!-- Quiet underline search input -->
+      <div class="reveal flex items-center gap-3 pb-2.5 border-b border-terra/20 dark:border-gold/20 focus-within:border-terra dark:focus-within:border-terra-light transition-colors duration-150">
+        <svg class="size-4 text-ink-faint dark:text-silk-faint shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>
+        </svg>
+        <input
+          type="text"
+          id="reads-search-input"
+          class="w-full bg-transparent border-none outline-none font-body text-sm text-ink dark:text-silk placeholder:text-ink-faint dark:placeholder:text-silk-faint"
+          placeholder="Filter reads..."
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Filter reads"
+        />
+        <button
+          type="button"
+          id="reset-all-btn"
+          class="hidden font-mono text-xs text-terra dark:text-terra-light hover:underline shrink-0 cursor-pointer"
+          aria-label="Clear filter"
+        >
+          clear
+        </button>
+        <kbd class="hidden sm:inline-block font-mono text-[11px] text-ink-faint dark:text-silk-faint select-none opacity-60">
+          /
+        </kbd>
       </div>
 
-      <!-- Active Tag Banner (shown when filtered by tag) -->
-      <div id="active-tag-banner" class="hidden items-center justify-between px-3 py-2 rounded-lg bg-gold/10 dark:bg-gold-light/10 border border-gold/40 dark:border-gold-light/30 font-mono text-xs text-ink dark:text-silk">
-        <span>Filtering by Tag: <strong id="active-tag-label" class="text-gold-dark dark:text-gold-light">#tag</strong></span>
-        <button type="button" id="clear-tag-btn" class="text-terra dark:text-terra-light hover:underline font-semibold cursor-pointer">
-          &times; Clear Tag
+      <!-- Active Tag Line -->
+      <div id="active-tag-banner" class="hidden items-center justify-between font-mono text-xs text-ink-muted dark:text-silk-muted">
+        <span>Topic: <strong id="active-tag-label" class="text-terra dark:text-terra-light font-medium">#tag</strong></span>
+        <button type="button" id="clear-tag-btn" class="text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light cursor-pointer">
+          clear
         </button>
       </div>
 
-      <!-- Zero-Results Empty State -->
-      <div id="reads-empty-state" class="hidden featured-card rangoli-corners rounded-xl border border-cream-200 dark:border-night-700 p-8 text-center">
-        <p class="font-display text-lg text-ink dark:text-silk">No matching reading notes</p>
-        <p class="mt-1.5 text-sm text-ink-muted dark:text-silk-muted">
-          Try a different keyword or clear your active filters to see all {totalLinks} curated reads.
+      <!-- Empty State -->
+      <div id="reads-empty-state" class="hidden py-10 text-center">
+        <p class="font-body text-sm text-ink-muted dark:text-silk-muted">
+          No matching notes.
         </p>
         <button
           type="button"
           data-reset-reads-filters
-          class="mt-4 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-lg border border-terra/30 dark:border-terra-light/30 bg-terra/10 dark:bg-terra-light/10 text-terra dark:text-terra-light hover:bg-terra/20 dark:hover:bg-terra-light/20 font-mono text-xs font-medium transition-colors cursor-pointer"
+          class="mt-3 font-mono text-xs text-terra dark:text-terra-light hover:underline cursor-pointer"
         >
-          Clear all filters
+          Clear filter
         </button>
       </div>
 
-      <!-- Timeline Content (Exact Authentic Structure) -->
-      <div id="reads-timeline-root" class="space-y-12 pt-2">
-        {years.map((year, yIdx) => {
-          const yearTotal = Object.values(grouped[year]).reduce((acc, g) => acc + g.entries.length, 0);
-          return (
-            <section class="reveal year-section" data-year={year} style={`--index: ${yIdx};`}>
-              <!-- Year Heading (Clickable Accordion) -->
-              <div class="year-accordion-header flex items-center justify-between cursor-pointer user-select-none mb-6 border-b border-cream-200 dark:border-night-700 pb-2 group/year">
-                <h2 class="font-display text-2xl text-ink dark:text-silk flex items-center gap-3 group-hover/year:text-terra dark:group-hover/year:text-terra-light transition-colors">
-                  <div class="kolam-diamond-node relative static! size-3.5 shrink-0" aria-hidden="true" />
-                  {year}
-                </h2>
-                <div class="flex items-center gap-2 font-mono text-xs text-ink-muted dark:text-silk-muted">
-                  <span class="bg-cream-100 dark:bg-night-800 px-2 py-0.5 rounded-full text-[11px] border border-cream-200 dark:border-night-700">
-                    {yearTotal} {yearTotal === 1 ? 'link' : 'links'}
-                  </span>
-                  <svg class="year-chevron size-5 transition-transform duration-200" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="m6 9 6 6 6-6"/>
-                  </svg>
-                </div>
-              </div>
-              
-              <!-- Months under this year -->
-              <div class="year-months-wrapper space-y-8">
-                {Object.keys(grouped[year])
-                  .sort((a, b) => Number(b) - Number(a))
-                  .map((monthNum, mIdx) => {
-                    const group = grouped[year][monthNum];
-                    const isCurrentMonth = yIdx === 0 && mIdx === 0;
-                    return (
-                      <div
-                        class="reveal timeline-month-branch relative pl-8 sm:pl-10 border-l-2 border-terra/30 dark:border-terra-light/20 ml-2 sm:ml-3 transition-colors duration-200"
-                        data-month={monthNum}
-                        data-year={year}
-                        data-current-month={isCurrentMonth ? "true" : "false"}
-                        id={`month-${year}-${monthNum}`}
-                        style={`--index: ${mIdx};`}
-                      >
-                        <!-- Kolam Diamond Bindu Node -->
-                        <div
-                          class="timeline-node-dot kolam-diamond-node -left-[7px] top-2 size-3.5"
-                          aria-hidden="true"
-                        />
-                        
-                        <!-- Month Header (Clickable Accordion) -->
-                        <div class="month-accordion-header flex items-center justify-between cursor-pointer user-select-none mb-4 group/month">
-                          <h3 class="font-display text-lg text-terra dark:text-terra-light group-hover/month:underline">
-                            {group.monthName}
-                          </h3>
-                          <div class="flex items-center gap-2 font-mono text-xs text-ink-muted dark:text-silk-muted">
-                            <span class="bg-cream-100 dark:bg-night-800 px-2 py-0.5 rounded-full text-[11px] border border-cream-200 dark:border-night-700">
-                              {group.entries.length} {group.entries.length === 1 ? 'link' : 'links'}
-                            </span>
-                            <svg
-                              class="month-chevron size-4 transition-transform duration-200"
-                              style={!isCurrentMonth ? "transform: rotate(-90deg);" : undefined}
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              stroke-width="2"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                            >
-                              <path d="m6 9 6 6 6-6"/>
-                            </svg>
-                          </div>
-                        </div>
-                        
-                        <!-- Month Cards List -->
-                        <div class:list={["month-cards-wrapper space-y-4", { hidden: !isCurrentMonth }]}>
-                          {group.entries.map((entry, eIdx) => (
-                            <ReadCard
-                              entry={entry}
-                              featured={yIdx === 0 && mIdx === 0 && eIdx === 0}
-                              expanded={yIdx === 0 && mIdx === 0 && eIdx < 2}
-                              index={eIdx}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    );
-                  })}
-              </div>
-            </section>
-          );
-        })}
-      </div>
+      <!-- Timeline Content -->
+      <div id="reads-timeline-root" class="space-y-12">
+        {years.map((year, yIdx) => (
+          <section class="reveal year-section" data-year={year}>
+            <div class="flex items-center gap-3 mb-6">
+              <div class="kolam-diamond-node relative static! ml-[5.5px] size-3 shrink-0" aria-hidden="true" />
+              <h2 class="font-mono text-sm text-ink-muted dark:text-silk-muted tabular-nums">
+                {year}
+              </h2>
+            </div>
 
+            <div class="year-months-wrapper space-y-8">
+              {Object.keys(grouped[year])
+                .sort((a, b) => Number(b) - Number(a))
+                .map((monthNum, mIdx) => {
+                  const group = grouped[year][monthNum];
+                  const isCurrentMonth = yIdx === 0 && mIdx === 0;
+                  return (
+                    <div
+                      class="timeline-month-branch relative pl-7 sm:pl-8 stepwell-spine"
+                      data-month={monthNum}
+                      data-year={year}
+                      data-current-month={isCurrentMonth ? 'true' : 'false'}
+                      id={`month-${year}-${monthNum}`}
+                    >
+                      <div
+                        class="timeline-node-dot kolam-diamond-node left-[5.5px] top-1.5 size-3"
+                        aria-hidden="true"
+                      />
+
+                      <button
+                        type="button"
+                        class="month-accordion-header vav-row-hover w-full flex items-baseline justify-between gap-4 cursor-pointer select-none mb-2 px-2 -mx-2 py-1 group/month text-left"
+                        aria-expanded={isCurrentMonth ? 'true' : 'false'}
+                      >
+                        <h3 class="font-body font-medium text-sm tracking-wide text-terra dark:text-terra-light group-hover/month:underline underline-offset-4">
+                          {group.monthName}
+                        </h3>
+                        <span class="font-mono text-xs text-ink-faint dark:text-silk-faint group-hover/month:text-terra dark:group-hover/month:text-terra-light transition-colors duration-150 tabular-nums">
+                          {group.entries.length}
+                        </span>
+                      </button>
+
+                      <div class:list={['month-cards-wrapper', { hidden: !isCurrentMonth }]}>
+                        {group.entries.map((entry) => (
+                          <ReadCard entry={entry} expanded={false} />
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+            </div>
+          </section>
+        ))}
+      </div>
     </div>
   )}
-
-  <RightSidebar slot="right-sidebar" />
 </BaseLayout>
 
 <script is:inline data-astro-rerun>
   (function initReadsPage() {
     var searchInput = document.getElementById('reads-search-input');
-    var toggleFiltersBtn = document.getElementById('toggle-filters-btn');
-    var toggleAllNotesBtn = document.getElementById('toggle-all-notes-btn');
-    var filtersDrawer = document.getElementById('filters-drawer');
     var activeTagBanner = document.getElementById('active-tag-banner');
     var activeTagLabel = document.getElementById('active-tag-label');
     var clearTagBtn = document.getElementById('clear-tag-btn');
@@ -320,10 +216,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
 
     var state = {
       search: '',
-      year: 'all',
-      month: 'all',
       tag: 'all',
-      allNotesExpanded: false,
     };
 
     function setCardExpanded(card, isExpanded) {
@@ -337,26 +230,17 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
         collapse.setAttribute('inert', '');
       }
       var toggleBtn = card.querySelector('.read-card-toggle');
+      var toggleLabel = card.querySelector('.read-card-toggle-label');
       var chevron = card.querySelector('.read-card-chevron');
       if (toggleBtn) {
         toggleBtn.setAttribute('aria-expanded', isExpanded ? 'true' : 'false');
-        toggleBtn.setAttribute('title', isExpanded ? 'Collapse note' : 'Expand note');
+      }
+      if (toggleLabel) {
+        toggleLabel.textContent = isExpanded ? 'hide note' : 'read note';
       }
       if (chevron) {
         chevron.classList.toggle('rotate-180', isExpanded);
       }
-    }
-
-    function syncToggleAllNotesButton() {
-      if (!toggleAllNotesBtn) return;
-      var cardsWithNotes = Array.from(document.querySelectorAll('.read-card-item[data-has-notes="true"]'));
-      var allOpen = cardsWithNotes.length > 0 && cardsWithNotes.every(function(card) {
-        return card.dataset.expanded === 'true';
-      });
-      state.allNotesExpanded = allOpen;
-      toggleAllNotesBtn.classList.toggle('bg-terra', allOpen);
-      toggleAllNotesBtn.classList.toggle('text-white', allOpen);
-      toggleAllNotesBtn.setAttribute('aria-pressed', allOpen ? 'true' : 'false');
     }
 
     // Read URL query parameter ?tag=... on load
@@ -372,53 +256,14 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
       }
     }
 
-    // Toggle Filter Drawer
-    if (toggleFiltersBtn && filtersDrawer) {
-      toggleFiltersBtn.onclick = function() {
-        var isHidden = filtersDrawer.classList.toggle('hidden');
-        toggleFiltersBtn.classList.toggle('bg-terra', !isHidden);
-        toggleFiltersBtn.classList.toggle('text-white', !isHidden);
-      };
-    }
-
-    // Toggle All Notes
-    if (toggleAllNotesBtn) {
-      toggleAllNotesBtn.onclick = function() {
-        var nextExpanded = !state.allNotesExpanded;
-        document.querySelectorAll('.read-card-item[data-has-notes="true"]').forEach(function(card) {
-          setCardExpanded(card, nextExpanded);
-        });
-        syncToggleAllNotesButton();
-      };
-    }
-
-    // Card Click-to-Expand (and chevron button click)
+    // Card Click-to-Expand
     document.querySelectorAll('.read-card-item[data-has-notes="true"]').forEach(function(card) {
       card.onclick = function(e) {
-        // If click was on an anchor link or inside notes, do nothing
         if (e.target.closest('a') || e.target.closest('.read-card-notes')) {
           return;
         }
         var willExpand = card.dataset.expanded !== 'true';
         setCardExpanded(card, willExpand);
-        syncToggleAllNotesButton();
-      };
-    });
-
-    syncToggleAllNotesButton();
-
-    // Year Accordion Header Toggle
-    document.querySelectorAll('.year-accordion-header').forEach(function(header) {
-      header.onclick = function() {
-        var section = header.closest('.year-section');
-        var wrapper = section.querySelector('.year-months-wrapper');
-        var chevron = header.querySelector('.year-chevron');
-        if (wrapper) {
-          var isHidden = wrapper.classList.toggle('hidden');
-          if (chevron) {
-            chevron.style.transform = isHidden ? 'rotate(-90deg)' : 'none';
-          }
-        }
       };
     });
 
@@ -427,38 +272,11 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
       header.onclick = function() {
         var branch = header.closest('.timeline-month-branch');
         var wrapper = branch.querySelector('.month-cards-wrapper');
-        var chevron = header.querySelector('.month-chevron');
         if (wrapper) {
           var isHidden = wrapper.classList.toggle('hidden');
-          if (chevron) {
-            chevron.style.transform = isHidden ? 'rotate(-90deg)' : 'none';
-          }
+          header.setAttribute('aria-expanded', isHidden ? 'false' : 'true');
         }
       };
-    });
-
-    // Year Pills
-    document.querySelectorAll('.year-pill').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        document.querySelectorAll('.year-pill').forEach(function(p) {
-          p.className = 'year-pill px-2.5 py-0.5 rounded-full border border-cream-200 dark:border-night-700 bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra font-mono text-[11px] cursor-pointer transition-colors';
-        });
-        btn.className = 'year-pill px-2.5 py-0.5 rounded-full border border-terra bg-terra text-white font-mono text-[11px] cursor-pointer';
-        state.year = btn.dataset.yearVal || 'all';
-        applyFilters();
-      });
-    });
-
-    // Month Pills
-    document.querySelectorAll('.month-pill').forEach(function(btn) {
-      btn.addEventListener('click', function() {
-        document.querySelectorAll('.month-pill').forEach(function(p) {
-          p.className = 'month-pill px-2.5 py-0.5 rounded-full border border-cream-200 dark:border-night-700 bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra font-mono text-[11px] cursor-pointer transition-colors';
-        });
-        btn.className = 'month-pill px-2.5 py-0.5 rounded-full border border-terra bg-terra text-white font-mono text-[11px] cursor-pointer';
-        state.month = btn.dataset.monthVal || 'all';
-        applyFilters();
-      });
     });
 
     // Search Input
@@ -467,7 +285,7 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
       applyFilters();
     });
 
-    // Keyboard shortcut "/" to focus local reads search (cleaned up across View Transitions)
+    // Keyboard shortcut "/" to focus local reads search
     if (window.__readsKeydownHandler) {
       document.removeEventListener('keydown', window.__readsKeydownHandler);
     }
@@ -493,7 +311,6 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
     };
     document.addEventListener('keydown', window.__readsKeydownHandler);
 
-    // RightSidebar and Card Tag Click Interception
     function handleTagClick(tag) {
       var normalized = normalizeTag(tag);
       state.tag = normalized;
@@ -517,22 +334,6 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
       });
     });
 
-    // Listen to right sidebar tag clicks when on /reads/
-    document.querySelectorAll('[data-right-sidebar] a[href^="/tags/"]').forEach(function(sidebarLink) {
-      sidebarLink.addEventListener('click', function(e) {
-        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-        var href = sidebarLink.getAttribute('href');
-        var match = href && href.match(/\/tags\/([^\/]+)\/?/);
-        if (match && match[1]) {
-          e.preventDefault();
-          var tag = decodeURIComponent(match[1]);
-          handleTagClick(tag);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-      });
-    });
-
-    // Clear Tag
     if (clearTagBtn) {
       clearTagBtn.addEventListener('click', function() {
         state.tag = 'all';
@@ -545,27 +346,14 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
       });
     }
 
-    // Reset All Filters
     function resetAllFilters() {
       searchInput.value = '';
       state.search = '';
-      state.year = 'all';
-      state.month = 'all';
       state.tag = 'all';
       if (activeTagBanner) {
         activeTagBanner.classList.add('hidden');
         activeTagBanner.classList.remove('flex');
       }
-      document.querySelectorAll('.year-pill').forEach(function(p, i) {
-        p.className = i === 0
-          ? 'year-pill px-2.5 py-0.5 rounded-full border border-terra bg-terra text-white font-mono text-[11px] cursor-pointer'
-          : 'year-pill px-2.5 py-0.5 rounded-full border border-cream-200 dark:border-night-700 bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra font-mono text-[11px] cursor-pointer transition-colors';
-      });
-      document.querySelectorAll('.month-pill').forEach(function(p, i) {
-        p.className = i === 0
-          ? 'month-pill px-2.5 py-0.5 rounded-full border border-terra bg-terra text-white font-mono text-[11px] cursor-pointer'
-          : 'month-pill px-2.5 py-0.5 rounded-full border border-cream-200 dark:border-night-700 bg-cream-100 dark:bg-night-800 text-ink-muted dark:text-silk-muted hover:border-terra font-mono text-[11px] cursor-pointer transition-colors';
-      });
       window.history.pushState({}, '', window.location.pathname);
       applyFilters();
     }
@@ -577,21 +365,18 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
       btn.addEventListener('click', resetAllFilters);
     });
 
-    // Filter Evaluation Engine
     function applyFilters() {
       var totalVisible = 0;
-      var hasActiveFilters = Boolean(state.search || state.year !== 'all' || state.month !== 'all' || state.tag !== 'all');
+      var hasActiveFilters = Boolean(state.search || state.tag !== 'all');
 
       if (resetAllBtn) {
         resetAllBtn.classList.toggle('hidden', !hasActiveFilters);
       }
 
       document.querySelectorAll('.year-section').forEach(function(ySection) {
-        var secYear = ySection.dataset.year;
         var yearHasVisible = false;
 
         ySection.querySelectorAll('.timeline-month-branch').forEach(function(mBranch) {
-          var branchMonth = mBranch.dataset.month;
           var monthHasVisible = false;
 
           mBranch.querySelectorAll('.read-card-item').forEach(function(card) {
@@ -600,19 +385,15 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
             var cardTags = (card.dataset.tags || '').split(',').filter(Boolean);
             var cardText = card.textContent.toLowerCase();
 
-            var matchYear = state.year === 'all' || state.year === secYear;
-            var matchMonth = state.month === 'all' || state.month === branchMonth;
             var matchTag = state.tag === 'all' || cardTags.indexOf(state.tag) !== -1;
             var matchSearch = !state.search ||
               cardTitle.indexOf(state.search) !== -1 ||
               cardDomain.indexOf(state.search) !== -1 ||
               cardText.indexOf(state.search) !== -1;
 
-            if (matchYear && matchMonth && matchTag && matchSearch) {
+            if (matchTag && matchSearch) {
               card.classList.remove('hidden');
-              if (hasActiveFilters) {
-                card.classList.add('is-visible');
-              }
+              if (hasActiveFilters) card.classList.add('is-visible');
               monthHasVisible = true;
               yearHasVisible = true;
               totalVisible++;
@@ -622,65 +403,28 @@ monthFilters.sort((a, b) => Number(b.num) - Number(a.num));
           });
 
           mBranch.classList.toggle('hidden', !monthHasVisible);
-          if (monthHasVisible && hasActiveFilters) {
-            mBranch.classList.add('is-visible');
-          }
 
-          // Auto-expand month accordion if searching or filtering by tag or month
-          if (monthHasVisible && (state.search || state.tag !== 'all' || state.month !== 'all')) {
-            var wrapper = mBranch.querySelector('.month-cards-wrapper');
-            var chevron = mBranch.querySelector('.month-chevron');
+          var wrapper = mBranch.querySelector('.month-cards-wrapper');
+          var header = mBranch.querySelector('.month-accordion-header');
+          if (monthHasVisible && hasActiveFilters) {
             if (wrapper) wrapper.classList.remove('hidden');
-            if (chevron) chevron.style.transform = 'none';
+            if (header) header.setAttribute('aria-expanded', 'true');
           } else if (!hasActiveFilters) {
             var isCurrent = mBranch.dataset.currentMonth === 'true';
-            var wrapper = mBranch.querySelector('.month-cards-wrapper');
-            var chevron = mBranch.querySelector('.month-chevron');
-            if (wrapper) {
-              wrapper.classList.toggle('hidden', !isCurrent);
-            }
-            if (chevron) {
-              chevron.style.transform = !isCurrent ? 'rotate(-90deg)' : 'none';
-            }
+            if (wrapper) wrapper.classList.toggle('hidden', !isCurrent);
+            if (header) header.setAttribute('aria-expanded', isCurrent ? 'true' : 'false');
           }
         });
 
         ySection.classList.toggle('hidden', !yearHasVisible);
-        if (yearHasVisible && hasActiveFilters) {
-          ySection.classList.add('is-visible');
-        }
+        if (yearHasVisible && hasActiveFilters) ySection.classList.add('is-visible');
       });
 
       var isEmpty = totalVisible === 0 && hasActiveFilters;
-      if (emptyStateEl) {
-        emptyStateEl.classList.toggle('hidden', !isEmpty);
-      }
-      if (timelineRoot) {
-        timelineRoot.classList.toggle('hidden', isEmpty);
-      }
+      if (emptyStateEl) emptyStateEl.classList.toggle('hidden', !isEmpty);
+      if (timelineRoot) timelineRoot.classList.toggle('hidden', isEmpty);
     }
 
-    // Scroll-Spy: Highlight timeline month node in view (ring/border only — no scale-125)
-    var branches = document.querySelectorAll('.timeline-month-branch');
-    if ('IntersectionObserver' in window && branches.length > 0) {
-      var observer = new IntersectionObserver(function(entries) {
-        entries.forEach(function(entry) {
-          if (entry.isIntersecting) {
-            var dot = entry.target.querySelector('.timeline-node-dot');
-            document.querySelectorAll('.timeline-node-dot').forEach(function(d) {
-              d.classList.remove('ring-4', 'ring-terra/30', 'border-terra');
-            });
-            if (dot) {
-              dot.classList.add('ring-4', 'ring-terra/30', 'border-terra');
-            }
-          }
-        });
-      }, { rootMargin: '-15% 0px -65% 0px' });
-
-      branches.forEach(function(b) { observer.observe(b); });
-    }
-
-    // Initial evaluation
     applyFilters();
   })();
 </script>

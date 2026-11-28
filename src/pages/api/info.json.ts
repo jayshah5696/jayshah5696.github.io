@@ -12,6 +12,8 @@ export const GET: APIRoute = async () => {
     siteUrl: SITE_URL,
     currentRole: 'Senior Machine Learning Engineer at 6sense',
     researchFocus: [
+      'Forward-Deployed Engineering & Predictive ML',
+      'Model Explainability',
       'Large Language Models & Evaluators',
       'Retrieval-Augmented Generation (RAG)',
       'Model Context Protocol & Autonomous Agents',

@@ -3,47 +3,67 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import KolamDivider from '../components/KolamDivider.astro';
 import { projects } from '../data/projects';
+import { SOCIAL_LINKS } from '../consts';
 
-const getColSpan = (index: number) => {
-  if (index === 0) return 'col-span-1 sm:col-span-2 lg:col-span-3';
-  // Harmonious rhythm that completes exact 3-column rows without gaps:
-  // [2, 1], [1, 2], [1, 1, 1], [2, 1], [1, 2], [1, 1, 1]
-  const pattern = [2, 1, 1, 2, 1, 1, 1, 2, 1, 1, 2, 1, 1, 1];
-  const span = pattern[(index - 1) % pattern.length] || 1;
-  return span === 2 ? 'col-span-1 sm:col-span-2 lg:col-span-2' : 'col-span-1';
-};
+const needsColophonCell = projects.length % 2 === 1;
 ---
 
-<BaseLayout title="Engineering Projects" description="Selected open-source machine learning systems, agent tooling, and software repositories by Jay Shah.">
-  <header class="reveal mb-8">
-    <div class="flex items-center justify-between gap-4 flex-wrap">
-      <div>
-        <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">
-          Engineering Projects &amp; Tools
-        </h1>
-      </div>
-      <span class="font-mono text-xs text-ink-muted dark:text-silk-muted px-3 py-1 rounded-full border border-cream-200 dark:border-night-700 bg-cream-50/50 dark:bg-night-800/50">
-        {projects.length} repositories
+<BaseLayout title="Projects" description="Selected open-source machine learning systems, agent tooling, and software repositories by Jay Shah.">
+  <header class="reveal mb-12" style="--index: 0;">
+    <div class="flex items-baseline justify-between gap-4 flex-wrap">
+      <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">
+        Projects
+      </h1>
+      <span class="font-mono text-xs text-ink-faint dark:text-silk-faint tabular-nums">
+        {projects.length}
       </span>
     </div>
-    <p class="mt-4 text-ink-light dark:text-silk-muted text-base leading-relaxed">
-      Selected open-source machine learning systems, developer agent extensions, retrieval pipelines, and software repositories.
-    </p>
-    <KolamDivider class="mt-5" />
   </header>
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-    {projects.map((project, i) => (
-      <ProjectCard
-        title={project.title}
-        description={project.description}
-        url={project.url}
-        tags={project.tags}
-        featured={i === 0 || i === 1}
-        flagship={i === 0}
-        index={i}
-        class={getColSpan(i)}
-      />
-    ))}
-  </div>
+  <!-- Unified Architectural Hairline Lattice: uniform stone cells with illuminated hover -->
+  <section aria-label="All projects" class="reveal" style="--index: 1;">
+    <div class="vav-lattice grid grid-cols-1 sm:grid-cols-2">
+      {projects.map((project, i) => (
+        <ProjectCard
+          title={project.title}
+          script={project.script}
+          summary={project.summary}
+          description={project.description}
+          url={project.url}
+          tags={project.tags}
+          index={i}
+        />
+      ))}
+
+      {needsColophonCell && (
+        <article class="group vav-cell flex flex-col justify-start p-4 sm:p-6 min-h-[132px] sm:min-h-[152px]">
+          <div class="relative z-10 flex items-center justify-between gap-3 mb-3.5 sm:mb-5">
+            <span class="font-mono text-[11px] text-ink-faint dark:text-silk-faint tabular-nums">
+              &infin;
+            </span>
+            <span
+              class="inline-block font-mono text-[11px] text-ink-faint dark:text-silk-faint group-hover:text-terra dark:group-hover:text-terra-light group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-[color,transform] duration-150"
+              aria-hidden="true"
+            >
+              &nearr;
+            </span>
+          </div>
+          <div class="relative z-10">
+            <h2 class="font-body font-medium text-[16px] sm:text-[17px] text-ink-muted dark:text-silk-muted group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150 leading-snug">
+              <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer">
+                <span class="absolute inset-0 z-0" aria-hidden="true"></span>
+                More on GitHub
+              </a>
+            </h2>
+            <p class="mt-2 font-body text-sm text-ink-faint dark:text-silk-faint leading-relaxed">
+              Experiments, dotfiles, and smaller utilities.
+            </p>
+          </div>
+          <span class="lattice-bindu-wm" aria-hidden="true" />
+        </article>
+      )}
+    </div>
+  </section>
+
+  <KolamDivider class="mt-20" />
 </BaseLayout>

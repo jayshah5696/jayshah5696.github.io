@@ -1,15 +1,13 @@
 ---
-import SocialIcon from './SocialIcon.astro';
-import { getTagMicroPillClasses, getTagIndicator, normalizeTagSlug } from '../utils/tags';
+import { getTagDotClass } from '../utils/tags';
 
 interface Props {
   title: string;
+  script?: string;
+  summary?: string;
   description: string;
   url: string;
-  tags: string[];
-  featured?: boolean;
-  flagship?: boolean;
-  metrics?: { label: string; value: string }[];
+  tags?: string[];
   index?: number;
   class?: string;
   headingTag?: 'h2' | 'h3';
@@ -17,101 +15,75 @@ interface Props {
 
 const {
   title,
+  script,
+  summary,
   description,
   url,
   tags = [],
-  featured = false,
-  flagship = false,
-  index,
+  index = 0,
   class: className = '',
   headingTag = 'h2',
 } = Astro.props;
+
 const HeadingTag = headingTag;
+const text = summary || description;
+const dotClass = tags.length > 0 ? getTagDotClass(tags[0]) : 'bg-terra dark:bg-terra-light';
+const indexLabel = String(index + 1).padStart(2, '0');
 
-let platform: 'github' | 'huggingface' | 'devpost' | 'external' = 'external';
-let platformLabel = 'Project';
+// Avoid repeating Indic script inside the title when already displayed as the carved corner watermark
+const cleanTitle = script
+  ? title.replace(/\s*\([^)]*\)\s*/g, ' ').replace(/\s+/g, ' ').trim()
+  : title;
 
-if (url.includes('github.com')) {
-  platform = 'github';
-  platformLabel = 'GitHub';
-} else if (url.includes('huggingface.co')) {
-  platform = 'huggingface';
-  platformLabel = 'Hugging Face';
+let nonGithubPlatform = '';
+if (url.includes('huggingface.co')) {
+  nonGithubPlatform = 'HF';
 } else if (url.includes('devpost.com')) {
-  platform = 'devpost';
-  platformLabel = 'Devpost';
+  nonGithubPlatform = 'Devpost';
+} else if (!url.includes('github.com')) {
+  nonGithubPlatform = 'Web';
 }
 ---
 
 <article
   class:list={[
-    'reveal group relative rounded-xl border overflow-hidden transition-colors duration-150 featured-card rangoli-corners flex flex-col justify-between',
-    flagship
-      ? 'p-6 sm:p-7 border-terra/30 dark:border-terra-light/25 bg-cream-50/95 dark:bg-night-800/95 hover:border-terra dark:hover:border-terra-light hover:shadow-md'
-      : featured
-        ? 'p-5 border-terra/30 dark:border-terra-light/20 hover:border-terra dark:hover:border-terra-light hover:shadow-sm'
-        : 'p-5 border-cream-200 dark:border-night-700 bg-white dark:bg-night-800 hover:border-terra dark:hover:border-terra-light',
+    'group vav-cell flex flex-col justify-start p-4 sm:p-6 min-h-[132px] sm:min-h-[152px]',
     className,
   ]}
-  style={index !== undefined ? `--index: ${Math.min(index, 5)};` : undefined}
 >
-  <div>
-    <!-- Title & External Link Header -->
-    <div class="flex items-start justify-between gap-2">
-      <HeadingTag class:list={[
-        'font-display text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150 text-balance leading-snug',
-        flagship ? 'text-xl sm:text-2xl' : 'text-base sm:text-lg',
-      ]}>
-        <a
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          class="hover:text-terra dark:hover:text-terra-light"
-        >
-          <span class="absolute inset-0 z-0" aria-hidden="true"></span>
-          {title}
-        </a>
-      </HeadingTag>
+  <div class="relative z-10 flex items-center justify-between gap-3 mb-3.5 sm:mb-5">
+    <span class="inline-flex items-center gap-2 font-mono text-[11px] text-ink-faint dark:text-silk-faint tabular-nums">
+      <span class:list={['size-1.5 rounded-full shrink-0 opacity-85 group-hover:opacity-100 transition-opacity duration-150', dotClass]} aria-hidden="true" />
+      <span>{indexLabel}</span>
+    </span>
 
-      <div class="text-ink-faint dark:text-silk-faint group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150 shrink-0 mt-0.5">
-        <SocialIcon name={platform} class="size-4" />
-      </div>
-    </div>
+    <span class="inline-flex items-center gap-1.5 font-mono text-[11px] text-ink-faint dark:text-silk-faint shrink-0">
+      {nonGithubPlatform && <span>{nonGithubPlatform}</span>}
+      <span
+        class="inline-block group-hover:text-terra dark:group-hover:text-terra-light group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-[color,transform] duration-150"
+        aria-hidden="true"
+      >
+        &nearr;
+      </span>
+    </span>
+  </div>
 
-    <!-- Description -->
-    <p class:list={[
-      'mt-2 text-ink-light dark:text-silk-muted text-pretty leading-relaxed',
-      flagship ? 'text-sm sm:text-base max-w-3xl' : 'text-sm line-clamp-3',
-    ]}>
-      {description}
+  <div class="relative z-10">
+    <HeadingTag class="font-body font-medium text-[16px] sm:text-[17px] text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150 leading-snug">
+      <a href={url} target="_blank" rel="noopener noreferrer">
+        <span class="absolute inset-0 z-0" aria-hidden="true"></span>
+        {cleanTitle}
+      </a>
+    </HeadingTag>
+
+    <p class="mt-2 font-body text-sm text-ink-muted dark:text-silk-muted leading-relaxed text-pretty max-w-[34ch]">
+      {text}
     </p>
-
-    <!-- Tag Micro-Pills -->
-    {tags.length > 0 && (
-      <div class="mt-3 relative z-10 flex flex-wrap gap-1.5">
-        {tags.map((tag) => (
-          <a
-            href={`/tags/${encodeURIComponent(normalizeTagSlug(tag))}/`}
-            class={getTagMicroPillClasses(tag)}
-          >
-            {getTagIndicator(tag) && (
-              <span class="text-[8px] opacity-60" aria-hidden="true">{getTagIndicator(tag)}</span>
-            )}
-            {tag}
-          </a>
-        ))}
-      </div>
-    )}
   </div>
 
-  <!-- Bottom Platform / Action Bar -->
-  <div class="flex items-center justify-between gap-2 mt-4 pt-3 border-t border-cream-200/50 dark:border-night-700/60 text-ink-muted dark:text-silk-faint text-xs relative z-10">
-    <span class="inline-flex items-center gap-1.5 font-mono text-[11px] text-ink-faint dark:text-silk-faint">
-      <SocialIcon name={platform} class="size-3.5 opacity-80" />
-      {platformLabel}
-    </span>
-    <span class="inline-flex items-center gap-1 text-terra dark:text-terra-light font-medium text-xs group-hover:translate-x-0.5 transition-transform duration-150">
-      View repository &rarr;
-    </span>
-  </div>
+  {script ? (
+    <span class="lattice-glyph-wm" aria-hidden="true">{script}</span>
+  ) : (
+    <span class="lattice-bindu-wm" aria-hidden="true" />
+  )}
 </article>

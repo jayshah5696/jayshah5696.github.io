@@ -1,23 +1,19 @@
 import { test, expect } from '@playwright/test';
 
+const port = process.env.PORT || '4321';
+
 test.describe('Kolam Divider Component', () => {
-  test('should have a breathing CSS animation on the kolam wave strand elements', async ({ page }) => {
-    // Navigate to a page with a KolamDivider.
-    await page.goto('http://localhost:4321/');
+  test('renders harmonic breathing CSS animation on Kolam wave strands', async ({ page }) => {
+    await page.goto(`http://localhost:${port}/`);
 
-    // Select the first wave strand in KolamDivider
-    const waveStrand = page.locator('.wave-terra-strand').first();
+    const terraStrand = page.locator('.wave-terra-strand').first();
+    const goldStrand = page.locator('.wave-gold-strand').first();
 
-    // Expect it to be visible
-    await expect(waveStrand).toBeVisible();
+    await expect(terraStrand).toBeVisible();
+    await expect(goldStrand).toBeVisible();
 
-    // Check if the element has an animation property applied
-    const animation = await waveStrand.evaluate((el) => {
-      const style = window.getComputedStyle(el);
-      return style.animationName;
-    });
-
-    expect(animation).not.toBe('none');
-    expect(animation.length).toBeGreaterThan(0);
+    const animationName = await terraStrand.evaluate((el) => window.getComputedStyle(el).animationName);
+    expect(animationName).not.toBe('none');
+    expect(animationName.length).toBeGreaterThan(0);
   });
 });

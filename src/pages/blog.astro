@@ -1,86 +1,104 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PostCard from '../components/PostCard.astro';
-import RightSidebar from '../components/RightSidebar.astro';
-import SocialIcon from '../components/SocialIcon.astro';
-import KolamDivider from '../components/KolamDivider.astro';
+import IndexRow from '../components/IndexRow.astro';
 import { getCollection } from 'astro:content';
+import { normalizeTagSlug, getTagDotClass } from '../utils/tags';
 
 const posts = (await getCollection('blog'))
   .filter((post) => !post.data.draft)
   .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
 const totalPosts = posts.length;
+const [latestPost, ...olderPosts] = posts;
+
+const tagCounts: Record<string, number> = {};
+posts.forEach((post) => {
+  new Set(post.data.tags.map(normalizeTagSlug)).forEach((tag) => {
+    tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+  });
+});
+
+const topTopics = Object.entries(tagCounts)
+  .sort((a, b) => b[1] - a[1])
+  .slice(0, 6)
+  .map(([tag]) => tag);
+
+function formatShortMonthYear(date: Date): string {
+  return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+}
 ---
 
 <BaseLayout
   title="Blog"
   description="Technical essays, interactive labs, and production notes on machine learning systems, embeddings, and AI agents by Jay Shah."
-  rightSidebar={true}
   jsonLdType="CollectionPage"
 >
-  <header class="reveal mb-10" style="--index: 0;">
-    <div class="flex items-center justify-between gap-4 flex-wrap">
-      <div>
-        <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">
-          Blog
-        </h1>
-      </div>
-      <div class="flex items-center gap-3 font-mono text-xs text-ink-muted dark:text-silk-muted">
-        <span class="px-3 py-1 rounded-full border border-cream-200 dark:border-night-700 bg-cream-50/60 dark:bg-night-800/60">
-          {totalPosts} posts
-        </span>
+  <header class="reveal mb-10">
+    <div class="flex items-baseline justify-between gap-4 flex-wrap">
+      <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">
+        Blog
+      </h1>
+      <div class="flex items-center gap-4 font-mono text-xs text-ink-faint dark:text-silk-faint tabular-nums">
+        <span>{totalPosts} posts</span>
         <a
           href="/archives/"
-          class="hover:text-terra dark:hover:text-terra-light transition-colors"
+          class="group/more inline-flex items-center gap-1 hover:text-terra dark:hover:text-terra-light transition-colors duration-150"
         >
-          Archives &rarr;
+          <span>Archives</span>
+          <span class="inline-block group-hover/more:translate-x-0.5 transition-transform duration-150" aria-hidden="true">&rarr;</span>
         </a>
       </div>
     </div>
 
-    <p class="mt-4 font-body text-ink-light dark:text-silk-muted text-base leading-relaxed max-w-[62ch]">
-      Technical essays, interactive experiments, and notes on what holds up when moving machine learning research into production.
-    </p>
-
-    <KolamDivider class="mt-6" />
+    <!-- Quiet jewel-dotted topic navigation -->
+    <nav aria-label="Topics" class="mt-6 flex flex-wrap items-center gap-x-4 gap-y-1.5 font-mono text-xs text-ink-faint dark:text-silk-faint">
+      {topTopics.map((tag) => (
+        <a
+          href={`/tags/${encodeURIComponent(tag)}/`}
+          class="inline-flex items-center gap-1.5 hover:text-terra dark:hover:text-terra-light transition-colors duration-150"
+        >
+          <span class:list={['size-1.5 rounded-full', getTagDotClass(tag)]} aria-hidden="true" />
+          <span>#{tag}</span>
+        </a>
+      ))}
+      <a
+        href="/tags/"
+        class="group/more inline-flex items-center gap-1 text-terra dark:text-terra-light hover:underline underline-offset-2 transition-colors duration-150"
+      >
+        <span>all tags</span>
+        <span class="inline-block group-hover/more:translate-x-0.5 transition-transform duration-150" aria-hidden="true">&rarr;</span>
+      </a>
+    </nav>
   </header>
 
-  <section aria-label="Blog posts" class="space-y-6">
-    {posts.map((post, i) => (
+  {latestPost && (
+    <section aria-label="Latest post" class="mb-14">
       <PostCard
-        title={post.data.title}
-        date={post.data.date}
-        description={post.data.description}
-        slug={post.id}
-        tags={post.data.tags}
-        body={post.body ?? ''}
-        image={post.data.image}
-        featured={i === 0}
-        interactive={post.data.interactive}
-        index={i}
+        title={latestPost.data.title}
+        date={latestPost.data.date}
+        description={latestPost.data.description}
+        slug={latestPost.id}
+        body={latestPost.body ?? ''}
+        image={latestPost.data.image}
+        interactive={latestPost.data.interactive}
+        headingTag="h2"
       />
-    ))}
+    </section>
+  )}
+
+  <section aria-label="All posts" class="reveal">
+    <ul class="border-t border-terra/15 dark:border-gold/15">
+      {olderPosts.map((post, i) => (
+        <IndexRow
+          href={`/posts/${post.id}/`}
+          indexNum={String(i + 2).padStart(2, '0')}
+          title={post.data.title}
+          subtitle={post.data.description}
+          meta={formatShortMonthYear(post.data.date)}
+          badge={post.data.interactive ? 'lab' : undefined}
+        />
+      ))}
+    </ul>
   </section>
-
-  <div class="reveal mt-14 pt-4">
-    <KolamDivider class="mb-6" />
-    <div class="flex flex-wrap items-center justify-between gap-4">
-      <div class="flex items-center gap-4">
-        <a
-          href="/rss.xml"
-          class="inline-flex items-center gap-2 px-4 py-2 border border-terra/25 dark:border-terra-light/25 rounded-lg text-sm font-mono text-terra dark:text-terra-light hover:bg-terra/10 dark:hover:bg-terra-light/10 transition-[color,background-color,border-color,transform] duration-150 active:scale-[0.98]"
-        >
-          <SocialIcon name="rss" class="size-4" />
-          Subscribe via RSS
-        </a>
-        <span class="text-xs text-ink-muted dark:text-silk-faint font-mono">New posts in your reader</span>
-      </div>
-      <a href="/archives/" class="font-mono text-xs text-ink-muted dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors">
-        Browse by year &rarr;
-      </a>
-    </div>
-  </div>
-
-  <RightSidebar slot="right-sidebar" variant="blog" />
 </BaseLayout>

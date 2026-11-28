@@ -21,11 +21,11 @@ export const GET: APIRoute = async () => {
       period: 'Feb 2026 - Present',
       url: 'https://6sense.com',
       focus_areas: [
-        'Intent Intelligence & Foundational Models',
-        'Custom Embeddings & Semantic Search',
-        'Entity Resolution with Dense Embeddings & Matryoshka Representation Learning',
-        'Contextual Knowledge Graphs',
-        'Agent Evaluation Systems & Synthetic Data Generation',
+        'Forward-Deployed Engineering for Predictive ML',
+        'Model Explainability',
+        'Account Embeddings',
+        'Agent Evaluation Systems',
+        'Knowledge Graph Prototype',
       ],
     },
     previous_experience: [
@@ -55,10 +55,11 @@ export const GET: APIRoute = async () => {
     ],
     patents: [
       {
-        id: 'US20230213560A1',
+        id: 'US12066472B2',
         title: 'Calculating energy loss during an outage',
-        url: 'https://patents.google.com/patent/US20230213560A1/en',
+        url: 'https://patents.google.com/patent/US12066472B2/en',
         filing_date: '2021-12-30',
+        grant_date: '2024-08-20',
       },
       {
         id: 'US20230214703A1',

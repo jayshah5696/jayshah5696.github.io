@@ -328,6 +328,36 @@ html.dark .vav-interactive-root .viz {
   .vav-interactive-root .viz figcaption b {
     font-size: 1.3rem;
   }
+
+  /* Stack distribution controls cleanly on mobile so buttons and rate readouts never clip or scroll off-screen */
+  .dist-controls-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 12px;
+    overflow-x: visible;
+  }
+
+  .dist-group {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .dist-group label {
+    width: 100%;
+    margin-bottom: 2px;
+  }
+
+  .dist-rates {
+    margin-left: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .smoke-viz .smoke-selector {
+    flex-wrap: wrap;
+  }
 }
 
 .vav-interactive-root a { overflow-wrap: anywhere; }

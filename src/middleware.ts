@@ -152,9 +152,9 @@ export const onRequest = defineMiddleware(async (ctx, next) => {
         .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
       const mdHome = [
-        `# Jay Shah — AI Systems, Research & Engineering`,
+        `# Jay Shah: AI Systems, Research & Engineering`,
         ``,
-        `> Senior Machine Learning Engineer at 6sense specializing in LLM systems, RAG architectures, agent evaluations, and foundational models.`,
+        `> I'm a machine learning engineer with a background in statistics and industrial ML. I lead forward-deployed predictive ML work and write about embeddings, retrieval, and evaluating AI agents here.`,
         ``,
         `Personal website and research publications: ${SITE_URL}`,
         ``,
@@ -205,19 +205,19 @@ export const onRequest = defineMiddleware(async (ctx, next) => {
     // 4. About: /about
     if (pathname === '/about') {
       const mdAbout = [
-        `# Jay Shah — About & Background`,
+        `# Jay Shah: About & Background`,
         ``,
-        `Senior Machine Learning Engineer at 6sense. Focus areas include intent intelligence, foundational models with custom embeddings, explainability, knowledge graphs, and agent evaluation systems.`,
+        `Senior Machine Learning Engineer at 6sense. Leads Forward-Deployed Engineering (FDE) for predictive ML alongside model explainability, account embeddings, knowledge-graph prototyping, and AI agent evaluations.`,
         ``,
         `## Experience`,
-        `- **6sense** (Feb 2026 - Present): Senior Machine Learning Engineer — Foundational models, embeddings, contextual knowledge graphs, LLM agent evaluations.`,
-        `- **Avathon** (2019 - 2026): Data Scientist III — RAG systems, MCP agent platform, anomaly detection, foundation-model operations.`,
-        `- **Texas A&M University** (2017 - 2019): Graduate Research Assistant — Master's research in predicting wind-energy failures and time-series ML.`,
+        `- **6sense** (Feb 2026 - Present): Senior Machine Learning Engineer. Leading FDE work for predictive ML, customer model health and custom workflows, model explainability, account embeddings, knowledge-graph prototyping, and AI agent evaluations.`,
+        `- **Avathon** (2019 - 2026): Data Scientist III. RAG systems, MCP agent platform, anomaly detection, foundation-model operations.`,
+        `- **Texas A&M University** (2017 - 2019): Graduate Research Assistant. Master's research in predicting wind-energy failures and time-series ML.`,
         ``,
         `## Patents`,
-        `- US20230213560A1: Calculating energy loss during an outage`,
-        `- US20230214703A1: Predicting energy production for energy generating assets`,
-        `- IN201721044402A: Dimension Measurement Using Image Processing and Separation of Defective Products`,
+        `- US12066472B2 (Granted Aug 20, 2024; Filed Dec 30, 2021): Calculating energy loss during an outage`,
+        `- US20230214703A1 (Published Application, Filed Dec 30, 2021): Predicting energy production for energy generating assets`,
+        `- IN201721044402 (Filed Dec 11, 2017): Dimension Measurement Using Image Processing and Separation of Defective Products`,
         ``,
         `## Contact & Links`,
         `- Website: ${SITE_URL}`,

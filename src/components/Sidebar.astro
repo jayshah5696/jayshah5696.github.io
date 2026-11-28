@@ -1,10 +1,8 @@
 ---
-import { SITE_TITLE, SITE_TAGLINE, SOCIAL_LINKS, NAV_ITEMS } from '../consts';
-import NavIcon from './NavIcon.astro';
+import { SITE_TITLE, SOCIAL_LINKS, NAV_ITEMS } from '../consts';
 import SocialIcon from './SocialIcon.astro';
 import Search from './Search.astro';
 import BrandEmblem from './BrandEmblem.astro';
-import KolamDivider from './KolamDivider.astro';
 
 const currentPath = Astro.url.pathname;
 
@@ -18,55 +16,58 @@ function isNavActive(href: string): boolean {
 }
 ---
 
-<aside class="hidden lg:flex flex-col fixed top-0 bottom-0 w-[260px] z-30 overflow-y-auto
-  bg-cream-50 dark:bg-night-900 border-r border-cream-200 dark:border-night-700 app-sidebar">
+<aside class="hidden lg:flex flex-col fixed top-0 bottom-0 w-[256px] z-30 overflow-y-auto
+  bg-cream-50/75 dark:bg-night-900/95 border-r border-cream-200/60 dark:border-night-700/55 app-sidebar">
 
-  <!-- Kolam dot grid background -->
+  <!-- Whisper-quiet Kolam dot grid -->
   <div class="absolute inset-0 kolam-dots pointer-events-none" aria-hidden="true"></div>
 
-  <!-- Kolam hero pattern -->
-  <div class="kolam-hero shrink-0" aria-hidden="true"></div>
+  <!-- Delicate radial Kolam canopy -->
+  <div class="kolam-hero shrink-0 opacity-80" aria-hidden="true"></div>
 
-  <div class="relative flex flex-col flex-1 px-5 py-5">
-    <!-- Profile overlapping hero with animated Vav Monogram Emblem -->
-    <a href="/" class="group flex flex-col items-center text-center -mt-14 mb-3" aria-label={`${SITE_TITLE} Home`}>
+  <div class="relative flex flex-col flex-1 px-7 py-5">
+    <!-- Animated Vav Monogram Identity -->
+    <a href="/" class="group flex flex-col items-center text-center -mt-12 mb-9" aria-label={`${SITE_TITLE} Home`}>
       <div class="relative mb-3">
         <BrandEmblem size="lg" />
       </div>
-      <span class="font-body font-bold text-xl text-ink dark:text-silk tracking-tight block">{SITE_TITLE}</span>
-      <p class="font-body text-xs text-ink-muted dark:text-silk-muted italic mt-0.5 leading-snug">{SITE_TAGLINE}</p>
+      <span class="font-body font-bold text-base text-ink dark:text-silk tracking-tight block group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150">
+        {SITE_TITLE}
+      </span>
     </a>
 
-    <!-- Kolam divider -->
-    <KolamDivider variant="compact" class="my-3" />
-
-    <!-- Search -->
-    <div class="mb-2">
+    <!-- Quiet underline search trigger -->
+    <div class="mb-7">
       <Search />
     </div>
 
-    <!-- Navigation with icons -->
+    <!-- Clean text-only navigation with active Vav bindu indicator -->
     <nav class="flex flex-col gap-0.5" aria-label="Primary navigation">
-      {NAV_ITEMS.map(({ label, href, icon }) => {
-        const isExternal = href.startsWith('http');
+      {NAV_ITEMS.map(({ label, href }) => {
         const isActive = isNavActive(href);
         return (
           <a
             href={href}
-            {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
             aria-current={isActive ? 'page' : undefined}
             class:list={[
-              'flex items-center gap-3 px-4 py-2.5 text-sm font-body rounded-lg transition-colors duration-150',
+              'group vav-row-hover flex items-center gap-3 px-2.5 -mx-2.5 py-2 text-[15px] font-body',
               isActive
-                ? 'bg-terra/10 dark:bg-terra-light/10 text-terra dark:text-terra-light font-medium'
-                : 'text-ink-light dark:text-silk-muted hover:text-ink dark:hover:text-silk hover:bg-cream-100 dark:hover:bg-night-800',
+                ? 'text-terra dark:text-terra-light font-medium'
+                : 'text-ink-light dark:text-silk-muted hover:text-terra dark:hover:text-terra-light',
             ]}
           >
-            <NavIcon icon={icon} />
-            {label}
-            {isExternal && (
-              <svg class="size-3 ml-auto opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            )}
+            <span
+              class:list={[
+                'vav-nav-diamond size-1.5 rounded-[1px] shrink-0',
+                isActive
+                  ? 'bg-terra dark:bg-terra-light ring-2 ring-gold/45 dark:ring-gold-light/40'
+                  : 'bg-cream-300/75 dark:bg-night-700 group-hover:bg-terra dark:group-hover:bg-terra-light group-hover:ring-2 group-hover:ring-gold/40 dark:group-hover:ring-gold-light/35',
+              ]}
+              aria-hidden="true"
+            />
+            <span class="group-hover:translate-x-0.5 transition-transform duration-150">
+              {label}
+            </span>
           </a>
         );
       })}
@@ -74,34 +75,35 @@ function isNavActive(href: string): boolean {
 
     <div class="flex-1" />
 
-    <!-- Social -->
-    <div class="flex items-center justify-center gap-3.5 mb-3 mt-4">
-      <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" class="text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors p-1 rounded-md hover:bg-cream-100 dark:hover:bg-night-800" aria-label="GitHub">
-        <SocialIcon name="github" class="size-[18px]" />
-      </a>
-      <a href={SOCIAL_LINKS.twitter} target="_blank" rel="noopener noreferrer" class="text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors p-1 rounded-md hover:bg-cream-100 dark:hover:bg-night-800" aria-label="X / Twitter">
-        <SocialIcon name="x" class="size-[18px]" />
-      </a>
-      <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" class="text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors p-1 rounded-md hover:bg-cream-100 dark:hover:bg-night-800" aria-label="LinkedIn">
-        <SocialIcon name="linkedin" class="size-[18px]" />
-      </a>
-      <a href={SOCIAL_LINKS.huggingface} target="_blank" rel="noopener noreferrer" class="text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors p-1 rounded-md hover:bg-cream-100 dark:hover:bg-night-800" aria-label="Hugging Face">
-        <SocialIcon name="huggingface" class="size-[18px]" />
-      </a>
-      <a href={SOCIAL_LINKS.email} class="text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light transition-colors p-1 rounded-md hover:bg-cream-100 dark:hover:bg-night-800" aria-label="Email">
-        <SocialIcon name="email" class="size-[18px]" />
-      </a>
-    </div>
+    <!-- Quiet utility row: Social + Tactile Theme Toggle -->
+    <div class="pt-6 mt-8 border-t border-cream-200/50 dark:border-night-700/50">
+      <div class="flex items-center justify-center gap-1.5 mb-3">
+        <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" class="vav-row-hover text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light active:scale-95 transition-[color,background-color,transform] duration-150 p-1.5" aria-label="GitHub">
+          <SocialIcon name="github" class="size-4" />
+        </a>
+        <a href={SOCIAL_LINKS.twitter} target="_blank" rel="noopener noreferrer" class="vav-row-hover text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light active:scale-95 transition-[color,background-color,transform] duration-150 p-1.5" aria-label="X / Twitter">
+          <SocialIcon name="x" class="size-4" />
+        </a>
+        <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" class="vav-row-hover text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light active:scale-95 transition-[color,background-color,transform] duration-150 p-1.5" aria-label="LinkedIn">
+          <SocialIcon name="linkedin" class="size-4" />
+        </a>
+        <a href={SOCIAL_LINKS.huggingface} target="_blank" rel="noopener noreferrer" class="vav-row-hover text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light active:scale-95 transition-[color,background-color,transform] duration-150 p-1.5" aria-label="Hugging Face">
+          <SocialIcon name="huggingface" class="size-4" />
+        </a>
+        <a href={SOCIAL_LINKS.email} class="vav-row-hover text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light active:scale-95 transition-[color,background-color,transform] duration-150 p-1.5" aria-label="Email">
+          <SocialIcon name="email" class="size-4" />
+        </a>
+      </div>
 
-    <!-- Theme toggle -->
-    <button
-      id="theme-toggle-desktop"
-      type="button"
-      class="flex items-center justify-center p-2 rounded-lg text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light hover:bg-cream-100 dark:hover:bg-night-800 transition-colors cursor-pointer mx-auto active:scale-[0.96]"
-      aria-label="Toggle dark mode"
-    >
-      <svg class="size-5 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-      <svg class="size-5 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
-    </button>
+      <button
+        id="theme-toggle-desktop"
+        type="button"
+        class="vav-row-hover flex items-center justify-center p-1.5 text-ink-faint dark:text-silk-faint hover:text-gold-dark dark:hover:text-gold-light hover:rotate-12 transition-[color,background-color,transform,rotate] duration-150 cursor-pointer mx-auto active:scale-[0.94]"
+        aria-label="Toggle dark mode"
+      >
+        <svg class="size-[18px] hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        <svg class="size-[18px] block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
   </div>
 </aside>

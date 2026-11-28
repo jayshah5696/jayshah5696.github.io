@@ -35,7 +35,7 @@ const hasEnoughHeadings = filteredHeadings.length >= 3;
                 data-slug={h.slug}
                 data-depth={h.depth}
                 class:list={[
-                  'group flex items-center gap-2.5 h-6 px-1.5 rounded-md text-left transition-colors duration-100 cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-terra dark:focus-visible:ring-terra-light',
+                  'group vav-row-hover flex items-center gap-2.5 h-6 px-1.5 text-left transition-colors duration-150 cursor-pointer focus:outline-none focus-visible:ring-1 focus-visible:ring-terra dark:focus-visible:ring-terra-light',
                   h.depth === 3 ? 'pl-4' : ''
                 ]}
               >
@@ -43,7 +43,7 @@ const hasEnoughHeadings = filteredHeadings.length >= 3;
                 <span
                   data-codex-dash
                   class:list={[
-                    'rounded-full transition-[background-color,width] duration-100 shrink-0 bg-cream-400 dark:bg-night-600 group-hover:bg-terra dark:group-hover:bg-terra-light',
+                    'rounded-full transition-[background-color,width] duration-150 shrink-0 bg-cream-400 dark:bg-night-600 group-hover:bg-terra dark:group-hover:bg-terra-light',
                     h.depth === 3 ? 'w-2 h-0.5' : 'w-3.5 h-[2.5px]'
                   ]}
                   aria-hidden="true"
@@ -52,9 +52,9 @@ const hasEnoughHeadings = filteredHeadings.length >= 3;
                 <span
                   data-codex-label
                   class:list={[
-                    'font-body truncate transition-colors duration-100',
+                    'font-body truncate transition-colors duration-150',
                     h.depth === 3 ? 'text-xs text-ink-muted dark:text-silk-muted' : 'text-xs text-ink-muted dark:text-silk-muted font-normal',
-                    'group-hover:text-ink dark:group-hover:text-silk'
+                    'group-hover:text-terra dark:group-hover:text-terra-light'
                   ]}
                 >
                   {h.text}
@@ -118,7 +118,7 @@ const hasEnoughHeadings = filteredHeadings.length >= 3;
       <!-- Slide-up Mobile Drawer Sheet -->
       <div
         id="codex-mobile-drawer"
-        class="fixed inset-x-0 bottom-0 max-h-[75vh] bg-cream-50 dark:bg-night-800 border-t border-cream-200 dark:border-night-700 rounded-t-2xl shadow-2xl p-4 pb-8 z-50 translate-y-full transition-transform duration-200 ease-out overflow-y-auto"
+        class="fixed inset-x-0 bottom-0 max-h-[75vh] bg-cream-50 dark:bg-night-800 border-t border-cream-200 dark:border-night-700 rounded-t-2xl shadow-2xl p-4 pb-8 z-50 translate-y-full invisible pointer-events-none transition-[transform,visibility] duration-200 ease-out overflow-y-auto"
         aria-hidden="true"
       >
         <div class="w-10 h-1 rounded-full bg-cream-300 dark:bg-night-600 mx-auto mb-3" aria-hidden="true"></div>
@@ -290,7 +290,8 @@ const hasEnoughHeadings = filteredHeadings.length >= 3;
     // 5. Mobile Drawer Toggle
     function openDrawer() {
       if (!mobileDrawer || !mobileBackdrop) return;
-      mobileDrawer.classList.remove('translate-y-full');
+      mobileDrawer.classList.remove('translate-y-full', 'invisible', 'pointer-events-none');
+      mobileDrawer.setAttribute('aria-hidden', 'false');
       mobileBackdrop.classList.remove('opacity-0', 'pointer-events-none');
       mobileBackdrop.classList.add('opacity-100', 'pointer-events-auto');
       if (mobilePill) mobilePill.setAttribute('aria-expanded', 'true');
@@ -298,7 +299,8 @@ const hasEnoughHeadings = filteredHeadings.length >= 3;
 
     function closeDrawer() {
       if (!mobileDrawer || !mobileBackdrop) return;
-      mobileDrawer.classList.add('translate-y-full');
+      mobileDrawer.classList.add('translate-y-full', 'invisible', 'pointer-events-none');
+      mobileDrawer.setAttribute('aria-hidden', 'true');
       mobileBackdrop.classList.remove('opacity-100', 'pointer-events-auto');
       mobileBackdrop.classList.add('opacity-0', 'pointer-events-none');
       if (mobilePill) mobilePill.setAttribute('aria-expanded', 'false');

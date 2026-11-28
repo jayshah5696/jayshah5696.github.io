@@ -5,7 +5,7 @@ import Sidebar from '../components/Sidebar.astro';
 import MobileNav from '../components/MobileNav.astro';
 import SearchModal from '../components/SearchModal.astro';
 import JsonLd from '../components/JsonLd.astro';
-import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL, SITE_AUTHOR } from '../consts';
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL, SITE_AUTHOR, SOCIAL_LINKS } from '../consts';
 
 interface Props {
   title?: string;
@@ -126,10 +126,29 @@ const markdownURL = Astro.url.pathname === '/' || Astro.url.pathname === ''
     <SearchModal />
 
     <div class="app-content pt-14 lg:pt-0">
-      <div class="w-full max-w-[1152px] px-6 lg:px-10 py-10 lg:py-14 flex justify-between xl:gap-16">
-        <main id="main-content" class="w-full max-w-[768px] min-w-0" data-pagefind-body>
-          <slot />
-        </main>
+      <div class="w-full max-w-[1152px] px-5 sm:px-6 lg:px-14 py-10 sm:py-14 lg:py-20 flex justify-between xl:gap-16">
+        <div class="w-full max-w-[700px] min-w-0 flex flex-col">
+          <main id="main-content" class="w-full min-w-0 flex-1" data-pagefind-body>
+            <slot />
+          </main>
+          <footer
+            class="mt-20 sm:mt-24 pt-6 border-t border-terra/15 dark:border-gold/15 flex flex-wrap items-center gap-x-3.5 gap-y-2 font-mono text-xs text-ink-faint dark:text-silk-faint"
+            data-pagefind-ignore
+          >
+            <a href="/archives/" class="hover:text-terra dark:hover:text-terra-light transition-colors duration-150">Archives</a>
+            <span class="opacity-40 select-none" aria-hidden="true">&middot;</span>
+            <a href="/links/" class="hover:text-terra dark:hover:text-terra-light transition-colors duration-150">Links</a>
+            <span class="opacity-40 select-none" aria-hidden="true">&middot;</span>
+            <a href={SOCIAL_LINKS.cv} target="_blank" rel="noopener noreferrer" class="group/cv inline-flex items-center gap-0.5 hover:text-terra dark:hover:text-terra-light transition-colors duration-150">
+              <span>Resume</span>
+              <span class="inline-block group-hover/cv:translate-x-0.5 group-hover/cv:-translate-y-0.5 transition-transform duration-150" aria-hidden="true">&nearr;</span>
+            </a>
+            <span class="opacity-40 select-none" aria-hidden="true">&middot;</span>
+            <a href="/rss.xml" class="hover:text-terra dark:hover:text-terra-light transition-colors duration-150">RSS</a>
+            <span class="opacity-40 select-none" aria-hidden="true">&middot;</span>
+            <a href="/llms.txt" class="hover:text-terra dark:hover:text-terra-light transition-colors duration-150">llms.txt</a>
+          </footer>
+        </div>
         {rightSidebar && (
           <slot name="right-sidebar" />
         )}

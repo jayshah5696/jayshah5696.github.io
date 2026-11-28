@@ -2,7 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 import { projects } from '../../data/projects';
-import { normalizeTagSlug } from '../../utils/tags';
+import { normalizeTagSlug, getTagDotClass } from '../../utils/tags';
 
 const posts = (await getCollection('blog')).filter((p) => !p.data.draft);
 const reads = (await getCollection('reads')).filter((r) => !r.data.draft);
@@ -30,19 +30,27 @@ projects.forEach((project) => {
 const sortedTags = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
 ---
 
-<BaseLayout title="Tags" description="Browse all topics — AI, LLMs, RAG, developer tools, machine learning, and personal reflections.">
-  <header class="mb-10">
-    <h1 class="font-display text-4xl text-ink dark:text-silk carved-heading">Tags</h1>
+<BaseLayout title="Tags" description="Browse all topics: AI, LLMs, RAG, developer tools, machine learning, and personal essays.">
+  <header class="reveal mb-12">
+    <div class="flex items-baseline justify-between gap-4 flex-wrap">
+      <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">
+        Tags
+      </h1>
+      <span class="font-mono text-xs text-ink-faint dark:text-silk-faint tabular-nums">
+        {sortedTags.length}
+      </span>
+    </div>
   </header>
 
-  <div class="flex flex-wrap gap-3">
+  <div class="reveal flex flex-wrap gap-x-6 gap-y-3.5">
     {sortedTags.map(([tag, count]) => (
       <a
         href={`/tags/${encodeURIComponent(tag)}/`}
-        class="group inline-flex items-center gap-2.5 px-4 py-2 border border-cream-300 dark:border-night-700 rounded hover:border-terra dark:hover:border-terra-light transition-colors duration-200"
+        class="group inline-flex items-center gap-2 font-mono text-sm text-ink-light dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors duration-150"
       >
-        <span class="font-mono text-sm text-ink-light dark:text-silk-muted group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-200">{tag}</span>
-        <span class="font-mono text-xs text-ink-faint dark:text-silk-faint tabular-nums">{count}</span>
+        <span class:list={['size-1.5 rounded-full opacity-85 group-hover:opacity-100', getTagDotClass(tag)]} aria-hidden="true" />
+        <span>#{tag}</span>
+        <span class="text-[11px] text-ink-faint dark:text-silk-faint tabular-nums">{count}</span>
       </a>
     ))}
   </div>

@@ -7,13 +7,13 @@
     id="search-trigger"
     data-search-trigger
     type="button"
-    class="flex items-center gap-2 w-full px-3 py-2 text-sm text-ink-muted dark:text-silk-muted
-      bg-cream-100 dark:bg-night-800 border border-cream-200 dark:border-night-700
-      rounded-lg hover:border-terra/40 dark:hover:border-terra-light/40 transition-colors cursor-pointer"
+    class="group vav-row-hover flex items-center gap-2.5 w-full px-2 -mx-2 py-2 text-sm text-ink-faint dark:text-silk-faint
+      border-b border-cream-200/75 dark:border-night-700/70
+      hover:text-terra dark:hover:text-terra-light hover:border-terra/50 dark:hover:border-terra-light/50 transition-[color,border-color,background-color] duration-150 cursor-pointer"
     aria-label="Search site"
   >
-    <svg class="size-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-    <span class="font-body text-sm">Search...</span>
-    <kbd class="ml-auto font-mono text-[11px] px-1.5 py-0.5 rounded bg-cream-200 dark:bg-night-700 text-ink-faint dark:text-silk-faint">/</kbd>
+    <svg class="size-3.5 shrink-0 opacity-75 group-hover:opacity-100 group-hover:text-terra dark:group-hover:text-terra-light transition-colors" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <span class="font-body text-sm">Search</span>
+    <kbd class="ml-auto font-mono text-[11px] opacity-55 group-hover:opacity-90 transition-opacity">/</kbd>
   </button>
 </div>

@@ -1,12 +1,10 @@
 ---
 import { SITE_TITLE, NAV_ITEMS, SOCIAL_LINKS } from '../consts';
-import NavIcon from './NavIcon.astro';
 import SocialIcon from './SocialIcon.astro';
 import BrandEmblem from './BrandEmblem.astro';
 
 const currentPath = Astro.url.pathname;
-// Quick links shown inline on the mobile header bar
-const inlineNavItems = NAV_ITEMS.filter(n => ['Home', 'Blog', 'Projects'].includes(n.label));
+const inlineNavItems = NAV_ITEMS.filter((n) => ['Blog', 'Projects', 'About'].includes(n.label));
 
 function isNavActive(href: string): boolean {
   if (href.startsWith('http')) return false;
@@ -18,16 +16,16 @@ function isNavActive(href: string): boolean {
 }
 ---
 
-<header class="lg:hidden fixed top-0 left-0 right-0 z-40 border-b border-cream-200 dark:border-night-700
+<header class="lg:hidden fixed top-0 left-0 right-0 z-40 border-b border-cream-200/85 dark:border-night-700/80
   bg-cream-50/92 dark:bg-night-900/92" style="backdrop-filter: blur(12px);">
   <div class="flex items-center justify-between px-4 h-14">
-    <a href="/" class="flex items-center gap-2.5" aria-label={`${SITE_TITLE} Home`}>
+    <a href="/" class="group flex items-center gap-2.5" aria-label={`${SITE_TITLE} Home`}>
       <BrandEmblem size="sm" />
-      <span class="font-body font-bold text-sm text-ink dark:text-silk tracking-tight inline">{SITE_TITLE}</span>
+      <span class="font-body font-bold text-sm text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors duration-150 tracking-tight inline">{SITE_TITLE}</span>
     </a>
 
-    <div class="flex items-center gap-3">
-      <nav class="flex items-center gap-3" aria-label="Quick navigation">
+    <div class="flex items-center gap-2.5 sm:gap-3.5">
+      <nav class="flex items-center gap-2.5 sm:gap-3.5" aria-label="Quick navigation">
         {inlineNavItems.map(({ label, href }) => {
           const isActive = isNavActive(href);
           return (
@@ -35,12 +33,11 @@ function isNavActive(href: string): boolean {
               href={href}
               aria-current={isActive ? 'page' : undefined}
               class:list={[
-                'text-[11px] font-mono uppercase transition-colors duration-150',
+                'text-xs font-body transition-colors duration-150',
                 isActive
                   ? 'text-terra dark:text-terra-light font-medium'
-                  : 'text-ink-muted dark:text-silk-muted hover:text-ink dark:hover:text-silk',
+                  : 'text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light',
               ]}
-              style="letter-spacing: 0.1em;"
             >
               {label}
             </a>
@@ -52,7 +49,7 @@ function isNavActive(href: string): boolean {
         id="search-trigger-mobile"
         data-search-trigger
         type="button"
-        class="text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors cursor-pointer"
+        class="text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light active:scale-95 transition-[color,transform] duration-150 cursor-pointer p-1 -m-1"
         aria-label="Search site"
       >
         <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
@@ -61,18 +58,17 @@ function isNavActive(href: string): boolean {
       <button
         id="theme-toggle-mobile"
         type="button"
-        class="text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors cursor-pointer"
+        class="text-ink-muted dark:text-silk-muted hover:text-gold-dark dark:hover:text-gold-light hover:rotate-12 active:scale-95 transition-[color,transform,rotate] duration-150 cursor-pointer p-1 -m-1"
         aria-label="Toggle dark mode"
       >
         <svg class="size-4 hidden dark:block" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
         <svg class="size-4 block dark:hidden" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
       </button>
 
-      <!-- Hamburger menu button -->
       <button
         id="mobile-menu-toggle"
         type="button"
-        class="text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors cursor-pointer"
+        class="text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light active:scale-95 transition-[color,transform] duration-150 cursor-pointer p-1 -m-1"
         aria-label="Open menu"
         aria-expanded="false"
         aria-controls="mobile-menu"
@@ -82,54 +78,58 @@ function isNavActive(href: string): boolean {
     </div>
   </div>
 
-  <!-- Slide-down mobile menu -->
+  <!-- Slide-down mobile menu (matches desktop Sidebar Vav bindu indicator) -->
   <nav
     id="mobile-menu"
-    class="hidden border-t border-cream-200 dark:border-night-700 bg-cream-50/98 dark:bg-night-900/98 px-4 py-3"
+    class="hidden border-t border-terra/15 dark:border-gold/15 bg-cream-50/98 dark:bg-night-900/98 px-4 py-3"
     style="backdrop-filter: blur(12px);"
     aria-label="Mobile menu"
   >
-    <div class="flex flex-col gap-1">
-      {NAV_ITEMS.map(({ label, href, icon }) => {
-        const isExternal = href.startsWith('http');
+    <div class="flex flex-col gap-0.5">
+      {NAV_ITEMS.map(({ label, href }) => {
         const isActive = isNavActive(href);
         return (
           <a
             href={href}
-            {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
             aria-current={isActive ? 'page' : undefined}
             class:list={[
-              'flex items-center gap-3 px-3 py-2 text-sm font-body rounded-lg transition-colors duration-150',
+              'group vav-row-hover flex items-center gap-3 px-2.5 py-2.5 text-[15px] font-body',
               isActive
-                ? 'bg-terra/10 dark:bg-terra-light/10 text-terra dark:text-terra-light font-medium'
-                : 'text-ink-light dark:text-silk-muted hover:text-ink dark:hover:text-silk hover:bg-cream-100 dark:hover:bg-night-800',
+                ? 'text-terra dark:text-terra-light font-medium'
+                : 'text-ink-light dark:text-silk-muted hover:text-terra dark:hover:text-terra-light',
             ]}
           >
-            <NavIcon icon={icon} />
-            {label}
-            {isExternal && (
-              <svg class="size-3 ml-auto opacity-40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-            )}
+            <span
+              class:list={[
+                'vav-nav-diamond size-1.5 rounded-[1px] shrink-0',
+                isActive
+                  ? 'bg-terra dark:bg-terra-light ring-2 ring-gold/45 dark:ring-gold-light/40'
+                  : 'bg-cream-300/75 dark:bg-night-700 group-hover:bg-terra dark:group-hover:bg-terra-light group-hover:ring-2 group-hover:ring-gold/40 dark:group-hover:ring-gold-light/35',
+              ]}
+              aria-hidden="true"
+            />
+            <span class="group-hover:translate-x-0.5 transition-transform duration-150">
+              {label}
+            </span>
           </a>
         );
       })}
     </div>
 
-    <!-- Mobile Social Links Row -->
-    <div class="pt-3 mt-2 border-t border-cream-200 dark:border-night-700 flex items-center justify-around px-2">
-      <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" class="text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light p-2 transition-colors" aria-label="GitHub">
+    <div class="pt-3 mt-2 border-t border-terra/15 dark:border-gold/15 flex items-center justify-around px-2">
+      <a href={SOCIAL_LINKS.github} target="_blank" rel="noopener noreferrer" class="vav-row-hover text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light active:scale-95 p-2 transition-[color,background-color,transform] duration-150" aria-label="GitHub">
         <SocialIcon name="github" class="size-4" />
       </a>
-      <a href={SOCIAL_LINKS.twitter} target="_blank" rel="noopener noreferrer" class="text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light p-2 transition-colors" aria-label="X / Twitter">
+      <a href={SOCIAL_LINKS.twitter} target="_blank" rel="noopener noreferrer" class="vav-row-hover text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light active:scale-95 p-2 transition-[color,background-color,transform] duration-150" aria-label="X / Twitter">
         <SocialIcon name="x" class="size-4" />
       </a>
-      <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" class="text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light p-2 transition-colors" aria-label="LinkedIn">
+      <a href={SOCIAL_LINKS.linkedin} target="_blank" rel="noopener noreferrer" class="vav-row-hover text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light active:scale-95 p-2 transition-[color,background-color,transform] duration-150" aria-label="LinkedIn">
         <SocialIcon name="linkedin" class="size-4" />
       </a>
-      <a href={SOCIAL_LINKS.huggingface} target="_blank" rel="noopener noreferrer" class="text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light p-2 transition-colors" aria-label="Hugging Face">
+      <a href={SOCIAL_LINKS.huggingface} target="_blank" rel="noopener noreferrer" class="vav-row-hover text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light active:scale-95 p-2 transition-[color,background-color,transform] duration-150" aria-label="Hugging Face">
         <SocialIcon name="huggingface" class="size-4" />
       </a>
-      <a href={SOCIAL_LINKS.email} class="text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light p-2 transition-colors" aria-label="Email">
+      <a href={SOCIAL_LINKS.email} class="vav-row-hover text-ink-faint dark:text-silk-faint hover:text-terra dark:hover:text-terra-light active:scale-95 p-2 transition-[color,background-color,transform] duration-150" aria-label="Email">
         <SocialIcon name="email" class="size-4" />
       </a>
     </div>
