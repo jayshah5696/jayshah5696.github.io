@@ -82,9 +82,9 @@
     background-image: url("data:image/svg+xml,%3Csvg width='64' height='24' viewBox='0 0 64 24' xmlns='http://www.w3.org/2000/svg'%3E%3Cstyle%3E@keyframes bTerra%7B0%25,100%25%7Bstroke-width:0.8px;stroke-opacity:0.3;%7D50%25%7Bstroke-width:1.8px;stroke-opacity:0.95;%7D%7D@keyframes bGold%7B0%25,100%25%7Bstroke-width:1.8px;stroke-opacity:0.95;%7D50%25%7Bstroke-width:0.8px;stroke-opacity:0.3;%7D%7D@keyframes bKnot%7B0%25,100%25%7Bopacity:0.3;%7D50%25%7Bopacity:0.9;%7D%7D.st-t%7Banimation:bTerra 4s ease-in-out infinite;%7D.st-g%7Banimation:bGold 4s ease-in-out infinite;%7D.st-k%7Banimation:bKnot 4s ease-in-out infinite;%7D%3C/style%3E%3Cpath class='st-t' d='M0 12 Q8 0, 16 0 Q24 0, 32 12' fill='none' stroke='%23e07a4f'/%3E%3Cpath class='st-g' d='M0 12 Q8 24, 16 24 Q24 24, 32 12' fill='none' stroke='%23e8c462'/%3E%3Cpath d='M0 12 Q8 24, 16 24 Q24 24, 32 12' fill='none' stroke='%23e8c462'/%3E%3Cpath class='st-t' d='M32 12 Q40 0, 48 0 Q56 0, 64 12' fill='none' stroke='%23e07a4f'/%3E%3Cpath class='st-g' d='M32 12 Q40 24, 48 24 Q56 24, 64 12' fill='none' stroke='%23e8c462'/%3E%3Cpath class='st-k' d='M-1 12 L2 9 L5 12 L2 15 Z' fill='%23e07a4f' fill-opacity='0.25' stroke='%23e07a4f' stroke-width='0.8'/%3E%3Cpath class='st-k' d='M29 12 L32 9 L35 12 L32 15 Z' fill='%23e07a4f' fill-opacity='0.25' stroke='%23e07a4f' stroke-width='0.8'/%3E%3Ccircle cx='16' cy='0' r='1.5' fill='%23e8c462' opacity='0.6'/%3E%3Ccircle cx='16' cy='24' r='1.5' fill='%23e8c462' opacity='0.6'/%3E%3Ccircle cx='48' cy='0' r='1.5' fill='%23e8c462' opacity='0.6'/%3E%3Ccircle cx='48' cy='24' r='1.5' fill='%23e8c462' opacity='0.6'/%3E%3Ccircle cx='32' cy='12' r='1.8' fill='%23e07a4f' opacity='0.5'/%3E%3C/svg%3E");
   }
   & .kolam-dots {
-    background-image: radial-gradient(circle, #e07a4f 1.2px, transparent 1.2px);
-    background-size: 24px 24px;
-    opacity: 0.22;
+    background-image: radial-gradient(circle, #e07a4f 1px, transparent 1px);
+    background-size: 26px 26px;
+    opacity: 0.08;
   }
   & .rangoli-corners::before {
     background-image: url("data:image/svg+xml,%3Csvg width='52' height='52' viewBox='0 0 52 52' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M2 2 Q2 28, 28 28' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.25'/%3E%3Cpath d='M2 2 Q2 20, 20 20' fill='none' stroke='%23e8c462' stroke-width='0.8' opacity='0.3'/%3E%3Cpath d='M2 2 Q2 12, 12 12' fill='none' stroke='%23e07a4f' stroke-width='0.8' opacity='0.35'/%3E%3Cpath d='M3 3 L22 22' fill='none' stroke='%23e07a4f' stroke-width='0.6' opacity='0.15'/%3E%3Cpath d='M6 2 Q10 6, 6 10' fill='none' stroke='%23e8c462' stroke-width='0.7' opacity='0.3'/%3E%3Cpath d='M2 6 Q6 10, 10 6' fill='none' stroke='%23e07a4f' stroke-width='0.7' opacity='0.25'/%3E%3Ccircle cx='3' cy='3' r='2.5' fill='%23e07a4f' opacity='0.35'/%3E%3Ccircle cx='10' cy='10' r='1.5' fill='%23e8c462' opacity='0.35'/%3E%3Ccircle cx='18' cy='18' r='1' fill='%23e07a4f' opacity='0.25'/%3E%3Ccircle cx='6' cy='2' r='1' fill='%23e8c462' opacity='0.25'/%3E%3Ccircle cx='2' cy='6' r='1' fill='%23e8c462' opacity='0.25'/%3E%3C/svg%3E");
@@ -100,17 +100,17 @@
     border-bottom-color: rgba(224, 122, 79, 0.1);
   }
   & .featured-card {
-    border-color: #2a2438;
-    background-color: #1e1928;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='20' y='20' width='20' height='20' rx='1' fill='none' stroke='%23e07a4f' stroke-width='0.5' opacity='0.06' transform='rotate(45 30 30)'/%3E%3Ccircle cx='30' cy='30' r='1' fill='%23e8c462' opacity='0.08'/%3E%3C/svg%3E");
+    border-color: rgba(232, 196, 98, 0.2);
+    background-color: #191424;
+    box-shadow: inset 0 1px 0 rgba(232, 196, 98, 0.06);
   }
   @media (hover: hover) and (pointer: fine) {
     & .featured-card:hover {
-      border-color: #e07a4f;
+      border-color: rgba(224, 122, 79, 0.55);
+      background-color: #1e182c;
       box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.08),
-        0 4px 16px rgba(224, 122, 79, 0.08);
+        inset 0 1px 0 rgba(232, 196, 98, 0.14),
+        0 10px 30px rgba(0, 0, 0, 0.3);
     }
   }
   & .post-card {
@@ -229,13 +229,13 @@
      KOLAM DOT LATTICE — sidebar background
      Pure pulli dot lattice
      ═══════════════════════════════════════ */
-  background-image: radial-gradient(circle, #c4623a 1.2px, transparent 1.2px);
-  background-size: 24px 24px;
-  opacity: 0.25;
+  background-image: radial-gradient(circle, #c4623a 1px, transparent 1px);
+  background-size: 26px 26px;
+  opacity: 0.08;
   .dark & {
-    background-image: radial-gradient(circle, #e07a4f 1.2px, transparent 1.2px);
-    background-size: 24px 24px;
-    opacity: 0.22;
+    background-image: radial-gradient(circle, #e07a4f 1px, transparent 1px);
+    background-size: 26px 26px;
+    opacity: 0.08;
   }
 }
 
@@ -302,40 +302,266 @@
 
 @utility featured-card {
   /* ═══════════════════════════════════════
-     FEATURED CARD — with pattern background
+     ARCHITECTURAL PLATE — sharp stone niche with L-ticks
      ═══════════════════════════════════════ */
   position: relative;
-  border: 1px solid #e8dbc0;
-  border-radius: 12px;
+  border: 1px solid rgba(163, 72, 36, 0.22);
+  border-radius: 0px;
   overflow: hidden;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
   transition:
-    border-color 150ms cubic-bezier(0.23, 1, 0.32, 1),
-    box-shadow 150ms cubic-bezier(0.23, 1, 0.32, 1);
-  /* Subtle kolam tile background */
-  background-color: #fdf9f1;
-  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='20' y='20' width='20' height='20' rx='1' fill='none' stroke='%23c4623a' stroke-width='0.5' opacity='0.08' transform='rotate(45 30 30)'/%3E%3Ccircle cx='30' cy='30' r='1' fill='%23d4a843' opacity='0.12'/%3E%3C/svg%3E");
+    border-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 180ms cubic-bezier(0.22, 1, 0.36, 1);
+  background-color: #fbf5e8;
   @media (hover: hover) and (pointer: fine) {
     &:hover {
-      border-color: #a34824;
+      border-color: rgba(163, 72, 36, 0.55);
+      background-color: #f7eedb;
       box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.85),
-        0 4px 16px rgba(163, 72, 36, 0.07);
+        0 8px 24px rgba(163, 72, 36, 0.07);
     }
   }
+  &:active {
+    border-color: rgba(163, 72, 36, 0.45);
+    background-color: #f7eedb;
+  }
   .dark & {
-    border-color: #2a2438;
-    background-color: #1e1928;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
-    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Crect x='20' y='20' width='20' height='20' rx='1' fill='none' stroke='%23e07a4f' stroke-width='0.5' opacity='0.06' transform='rotate(45 30 30)'/%3E%3Ccircle cx='30' cy='30' r='1' fill='%23e8c462' opacity='0.08'/%3E%3C/svg%3E");
+    border-color: rgba(232, 196, 98, 0.2);
+    background-color: #191424;
+    box-shadow: inset 0 1px 0 rgba(232, 196, 98, 0.06);
   }
   @media (hover: hover) and (pointer: fine) {
     .dark &:hover {
-      border-color: #e07a4f;
+      border-color: rgba(224, 122, 79, 0.55);
+      background-color: #1e182c;
       box-shadow:
-        inset 0 1px 0 rgba(255, 255, 255, 0.08),
-        0 4px 16px rgba(224, 122, 79, 0.08);
+        inset 0 1px 0 rgba(232, 196, 98, 0.14),
+        0 10px 30px rgba(0, 0, 0, 0.3);
     }
+  }
+  .dark &:active {
+    border-color: rgba(224, 122, 79, 0.45);
+    background-color: #1e182c;
+  }
+}
+
+/* Architectural Hairline Lattice & Illuminated Cell System */
+.vav-plate-ticks::before,
+.vav-plate-ticks::after {
+  content: '';
+  position: absolute;
+  width: 11px;
+  height: 11px;
+  pointer-events: none;
+  z-index: 20;
+  transition: border-color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.vav-plate-ticks::before {
+  top: -1px;
+  left: -1px;
+  border-top: 2px solid #d4a843;
+  border-left: 2px solid #d4a843;
+}
+
+.vav-plate-ticks::after {
+  bottom: -1px;
+  right: -1px;
+  border-bottom: 2px solid #a34824;
+  border-right: 2px solid #a34824;
+}
+
+.dark .vav-plate-ticks::before {
+  border-top-color: #e8c462;
+  border-left-color: #e8c462;
+}
+
+.dark .vav-plate-ticks::after {
+  border-bottom-color: #e07a4f;
+  border-right-color: #e07a4f;
+}
+
+.vav-lattice {
+  border-top: 1px solid rgba(163, 72, 36, 0.18);
+  border-left: 1px solid rgba(163, 72, 36, 0.18);
+}
+
+.dark .vav-lattice {
+  border-top-color: rgba(232, 196, 98, 0.15);
+  border-left-color: rgba(232, 196, 98, 0.15);
+}
+
+.vav-cell {
+  position: relative;
+  overflow: hidden;
+  border-right: 1px solid rgba(163, 72, 36, 0.18);
+  border-bottom: 1px solid rgba(163, 72, 36, 0.18);
+  background-color: transparent;
+  transition: background-color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dark .vav-cell {
+  border-right-color: rgba(232, 196, 98, 0.15);
+  border-bottom-color: rgba(232, 196, 98, 0.15);
+}
+
+.vav-cell::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1.5px;
+  background: linear-gradient(to right, #a34824, #d4a843);
+  opacity: 0;
+  transition: opacity 150ms cubic-bezier(0.22, 1, 0.36, 1);
+  pointer-events: none;
+  z-index: 5;
+}
+
+.dark .vav-cell::before {
+  background: linear-gradient(to right, #e07a4f, #e8c462);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .vav-cell:hover {
+    background-color: rgba(245, 237, 216, 0.65);
+  }
+  .dark .vav-cell:hover {
+    background-color: rgba(34, 27, 49, 0.92);
+  }
+  .vav-cell:hover::before {
+    opacity: 1;
+  }
+}
+
+.vav-cell:active {
+  background-color: rgba(245, 237, 216, 0.72);
+}
+
+.dark .vav-cell:active {
+  background-color: rgba(34, 27, 49, 0.95);
+}
+
+.vav-cell:focus-within::before,
+.vav-cell:active::before {
+  opacity: 1;
+}
+
+/* Unified pointer-fine row illumination + tactile touch press (shared across Sidebar, MobileNav, IndexRow, ReadCard, About) */
+.vav-row-hover {
+  transition: background-color 150ms cubic-bezier(0.22, 1, 0.36, 1), color 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .vav-row-hover:hover {
+    background-color: rgba(245, 237, 216, 0.52);
+  }
+  .dark .vav-row-hover:hover {
+    background-color: rgba(33, 27, 48, 0.8);
+  }
+}
+
+.vav-row-hover:active {
+  background-color: rgba(245, 237, 216, 0.68);
+}
+
+.dark .vav-row-hover:active {
+  background-color: rgba(33, 27, 48, 0.94);
+}
+
+/* Keep expanded reading notes calm and free of double-box hover overlap */
+.read-card-item[data-expanded="true"]:hover,
+.read-card-item[data-expanded="true"]:active {
+  background-color: transparent !important;
+}
+
+/* Unified Vav diamond bindu turn for navigation indicators */
+.vav-nav-diamond {
+  transform: rotate(45deg);
+  transition:
+    transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+    background-color 150ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 150ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .group:hover .vav-nav-diamond,
+  .group:hover .kolam-diamond-node {
+    transform: rotate(135deg);
+  }
+}
+
+.lattice-glyph-wm {
+  position: absolute;
+  right: 10px;
+  bottom: -6px;
+  font-size: 40px;
+  line-height: 1;
+  color: #a34824;
+  opacity: 0.075;
+  pointer-events: none;
+  user-select: none;
+  transition: opacity 180ms cubic-bezier(0.22, 1, 0.36, 1), color 180ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.dark .lattice-glyph-wm {
+  color: #e8c462;
+  opacity: 0.08;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .vav-cell:hover .lattice-glyph-wm {
+    opacity: 0.18;
+    color: #a34824;
+  }
+  .dark .vav-cell:hover .lattice-glyph-wm {
+    opacity: 0.18;
+    color: #e07a4f;
+  }
+}
+
+.lattice-bindu-wm {
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  width: 18px;
+  height: 18px;
+  border: 1px solid #b88a28;
+  transform: rotate(45deg);
+  opacity: 0.16;
+  pointer-events: none;
+  transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1), opacity 180ms ease-out, border-color 180ms ease-out;
+}
+
+.lattice-bindu-wm::after {
+  content: '';
+  position: absolute;
+  inset: 6px;
+  border-radius: 999px;
+  background-color: #a34824;
+}
+
+.dark .lattice-bindu-wm {
+  border-color: #e8c462;
+  opacity: 0.15;
+}
+
+.dark .lattice-bindu-wm::after {
+  background-color: #e07a4f;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .vav-cell:hover .lattice-bindu-wm {
+    opacity: 0.36;
+    transform: rotate(135deg);
+    border-color: #a34824;
+  }
+  .dark .vav-cell:hover .lattice-bindu-wm {
+    opacity: 0.36;
+    border-color: #e07a4f;
   }
 }
 
@@ -1059,17 +1285,15 @@
 
 @utility reveal {
   opacity: 0;
-  transform: translateY(12px);
+  transform: translateY(8px);
   transition-property: opacity, transform;
-  transition-duration: 450ms;
-  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: calc(var(--index, 0) * 45ms);
-  will-change: opacity, transform;
+  transition-duration: 380ms;
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1);
+  transition-delay: calc(var(--index, 0) * 35ms);
 
   &.is-visible {
     opacity: 1;
     transform: translateY(0);
-    will-change: auto;
     transition-delay: 0s;
   }
 }
@@ -1077,9 +1301,11 @@
 /* High-frequency interactions (hover, focus, active, already-visible elements):
    Instant tactile feedback with 0s delay per Emil Kowalski / ReUI principles,
    while preserving staggered .reveal entrance delays before first paint */
-:is(a, button, article, [role="button"], .featured-card, .stepwell-card, .group, .kolam-diamond-node, li):is(:hover, :focus-visible, :active, .is-visible),
-:is(a, button, article, [role="button"], .featured-card, .stepwell-card, .group, .kolam-diamond-node, li):is(:hover, :focus-visible, :active, .is-visible) *,
-.group:hover * {
+:is(a, button, article, [role="button"], .featured-card, .vav-cell, .vav-row-hover, .vav-nav-diamond, .stepwell-card, .group, .kolam-diamond-node, li):is(:hover, :focus-visible, :active, .is-visible),
+:is(a, button, article, [role="button"], .featured-card, .vav-cell, .vav-row-hover, .vav-nav-diamond, .stepwell-card, .group, .kolam-diamond-node, li):is(:hover, :focus-visible, :active, .is-visible) *,
+.group:hover *,
+.vav-cell:hover *,
+.vav-row-hover:hover * {
   transition-delay: 0s !important;
 }
 

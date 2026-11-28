@@ -145,3 +145,19 @@ export function getTagMicroPillClasses(tag: string): string {
 export function getTagIndicator(tag: string): string {
   return TAG_INDICATORS[getTagCategory(tag)] || '';
 }
+
+export function getTagDotClass(tag: string): string {
+  const cat = getTagCategory(tag);
+  switch (cat) {
+    case 'ai':
+      return 'bg-terra dark:bg-terra-light';
+    case 'dev':
+      return 'bg-mor dark:bg-mor-light';
+    case 'ml':
+      return 'bg-gold dark:bg-gold-light';
+    case 'personal':
+      return 'bg-kumkum dark:bg-kumkum-light';
+    default:
+      return 'bg-ink-faint/60 dark:bg-silk-faint/60';
+  }
+}

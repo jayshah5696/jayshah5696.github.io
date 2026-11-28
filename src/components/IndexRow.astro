@@ -1,0 +1,139 @@
+---
+interface Props {
+  href: string;
+  title: string;
+  subtitle?: string;
+  meta?: string;
+  indexNum?: string;
+  badge?: string;
+  badgeTone?: 'mor' | 'terra';
+  dotClass?: string;
+  external?: boolean;
+  spineNode?: boolean;
+  borderless?: boolean;
+  class?: string;
+}
+
+const {
+  href,
+  title,
+  subtitle,
+  meta,
+  indexNum,
+  badge,
+  badgeTone = 'mor',
+  dotClass,
+  external = false,
+  spineNode = false,
+  borderless = spineNode,
+  class: className = '',
+} = Astro.props;
+---
+
+<li class:list={['relative group', className]}>
+  {spineNode && (
+    <div
+      class="kolam-diamond-node index-row-node pointer-events-none -left-[27px] top-[19px] group-hover:border-gold dark:group-hover:border-gold-light group-hover:ring-2 group-hover:ring-gold/30 dark:group-hover:ring-gold/35"
+      aria-hidden="true"
+    />
+  )}
+
+  <a
+    href={href}
+    {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+    class:list={[
+      'index-row-link vav-row-hover flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-6 px-2 -mx-2',
+      borderless
+        ? 'py-3'
+        : 'py-4 border-b border-terra/15 dark:border-gold/15 group-last:border-b-0',
+    ]}
+  >
+    <div class="min-w-0 flex-1 flex items-baseline gap-3.5">
+      {indexNum && (
+        <span class="font-mono text-[11px] text-ink-faint/80 dark:text-silk-faint/75 tabular-nums shrink-0 w-5">
+          {indexNum}
+        </span>
+      )}
+      <div class="min-w-0 flex-1">
+        <div class="flex items-baseline gap-2.5 flex-wrap">
+          <slot name="leading" />
+          {dotClass && (
+            <span class:list={['size-1.5 rounded-full shrink-0 self-center opacity-80 group-hover:opacity-100 transition-opacity', dotClass]} aria-hidden="true" />
+          )}
+          <span class="index-row-title font-body font-medium text-[16px] sm:text-[17px] text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors leading-snug">
+            {title}
+          </span>
+          {badge && (
+            <span
+              class:list={[
+                'inline-flex items-center gap-1.5 font-mono text-[11px] shrink-0',
+                badgeTone === 'mor'
+                  ? 'text-mor dark:text-mor-light'
+                  : 'text-terra dark:text-terra-light',
+              ]}
+            >
+              <span
+                class:list={[
+                  'size-1.5 rounded-full',
+                  badgeTone === 'mor'
+                    ? 'bg-mor dark:bg-mor-light'
+                    : 'bg-terra dark:bg-terra-light',
+                ]}
+                aria-hidden="true"
+              />
+              {badge}
+            </span>
+          )}
+        </div>
+        {subtitle && (
+          <p class:list={[
+            'mt-1 font-body text-sm text-ink-muted dark:text-silk-muted line-clamp-1 leading-relaxed',
+            dotClass && 'pl-4',
+          ]}>
+            {subtitle}
+          </p>
+        )}
+      </div>
+    </div>
+
+    {(meta || external) && (
+      <span
+        class:list={[
+          'font-mono text-xs text-ink-faint dark:text-silk-faint tabular-nums shrink-0 inline-flex items-center gap-1.5',
+          indexNum && 'pl-[34px] sm:pl-0',
+        ]}
+      >
+        {meta && <span>{meta}</span>}
+        {external && (
+          <span
+            class="inline-block text-ink-faint/80 dark:text-silk-faint/80 group-hover:text-terra dark:group-hover:text-terra-light group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-[color,transform] duration-150"
+            aria-hidden="true"
+          >
+            &nearr;
+          </span>
+        )}
+      </span>
+    )}
+  </a>
+</li>
+
+<style>
+  .index-row-node {
+    transition:
+      transform 200ms cubic-bezier(0.22, 1, 0.36, 1),
+      border-color 120ms ease-out,
+      box-shadow 120ms ease-out !important;
+  }
+
+  .index-row-link,
+  .index-row-title {
+    transition-duration: 90ms !important;
+    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .index-row-node {
+      transition: border-color 120ms ease-out !important;
+    }
+  }
+</style>

@@ -8,7 +8,7 @@ export const GET: APIRoute = async () => {
     .filter((p) => !p.data.draft)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-  let content = `# ${SITE_TITLE} — Full LLM Knowledge Base Dump
+  let content = `# ${SITE_TITLE} | Full LLM Knowledge Base Dump
 
 > ${SITE_TAGLINE}
 > Website: ${SITE_URL} | Email: ${SITE_EMAIL}
@@ -19,14 +19,14 @@ This file provides the complete, consolidated text of all technical articles, re
 
 ## Author Profile & Background
 
-Jay Shah is a Senior Machine Learning Engineer at 6sense building intent intelligence systems, foundational models with custom embeddings, model explainability, contextual knowledge graphs, and evaluation systems for LLM agents.
+Jay Shah is a Senior Machine Learning Engineer at 6sense leading Forward-Deployed Engineering (FDE) for predictive ML, working with customers on model health and custom workflows and bringing feedback into product decisions. He also works on model explainability, account embeddings, knowledge-graph prototyping, and AI agent evaluations.
 Previously as Data Scientist III at Avathon, he developed retrieval-augmented generation systems, Model Context Protocol (MCP) agent platforms, and foundation-model operations supporting 20+ agent workflows.
 Graduate research at Texas A&M University focused on wind-energy failure prediction.
 
 ### Patents
-1. **Calculating energy loss during an outage** (US20230213560A1) — Filed Dec 30, 2021
-2. **Predicting energy production for energy generating assets** (US20230214703A1) — Filed Dec 30, 2021
-3. **Dimension Measurement Using Image Processing and Separation of Defective Products** (IN201721044402) — Filed Dec 11, 2017
+1. **Calculating energy loss during an outage** (US12066472B2, Granted Aug 20, 2024; Filed Dec 30, 2021)
+2. **Predicting energy production for energy generating assets** (US20230214703A1, Published Application, Filed Dec 30, 2021)
+3. **Dimension Measurement Using Image Processing and Separation of Defective Products** (IN201721044402, Filed Dec 11, 2017)
 
 ---
 

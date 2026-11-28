@@ -12,7 +12,7 @@ export const GET: APIRoute = async () => {
 > ${SITE_TAGLINE}
 > Canonical URL: ${SITE_URL}/
 
-I'm a machine learning engineer with a background in statistics and industrial ML. I work on embeddings, retrieval, and agent tools, and write up my experiments and side projects here.
+I'm a machine learning engineer with a background in statistics and industrial ML. I lead forward-deployed predictive ML work and write about embeddings, retrieval, and evaluating AI agents here.
 
 ## Recent Writings & Case Studies
 

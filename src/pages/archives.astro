@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import KolamDivider from '../components/KolamDivider.astro';
+import IndexRow from '../components/IndexRow.astro';
 import { getCollection } from 'astro:content';
 
 const posts = (await getCollection('blog'))
@@ -9,7 +9,6 @@ const posts = (await getCollection('blog'))
 
 const totalPosts = posts.length;
 
-// Group by year
 const byYear = posts.reduce<Record<number, typeof posts>>((acc, post) => {
   const year = post.data.date.getFullYear();
   if (!acc[year]) acc[year] = [];
@@ -20,61 +19,44 @@ const byYear = posts.reduce<Record<number, typeof posts>>((acc, post) => {
 const years = Object.keys(byYear)
   .map(Number)
   .sort((a, b) => b - a);
+
+function formatMonthDay(date: Date): string {
+  return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
+}
 ---
 
-<BaseLayout title="Writing Archives" description="Complete chronological archive of Jay Shah's articles and research essays on AI, machine learning, RAG, and systems.">
-  <header class="reveal mb-10">
-    <div class="flex items-center justify-between gap-4 flex-wrap">
-      <div>
-        <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">
-          Writing Archives
-        </h1>
-      </div>
-      <span class="font-mono text-xs text-ink-muted dark:text-silk-muted px-3 py-1 rounded-full border border-cream-200 dark:border-night-700 bg-cream-50/50 dark:bg-night-800/50">
-        {totalPosts} publications
+<BaseLayout title="Archives" description="Chronological archive of Jay Shah's articles and research essays on AI, machine learning, RAG, and systems.">
+  <header class="reveal mb-12">
+    <div class="flex items-baseline justify-between gap-4 flex-wrap">
+      <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">
+        Archives
+      </h1>
+      <span class="font-mono text-xs text-ink-faint dark:text-silk-faint tabular-nums">
+        {totalPosts}
       </span>
     </div>
-    <KolamDivider class="mt-6" />
   </header>
 
   <div class="space-y-12">
-    {years.map((year, i) => (
-      <section class="reveal" style={`--index: ${i};`}>
-        <!-- Year Header with stepped Kolam diamond bindu anchor -->
-        <div class="flex items-center gap-3 mb-6">
-          <div class="kolam-diamond-node relative static! size-3.5 shrink-0" aria-hidden="true" />
-          <h2 class="font-display text-2xl text-terra dark:text-terra-light">
+    {years.map((year) => (
+      <section class="reveal">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="kolam-diamond-node relative static! ml-[5.5px] size-3 shrink-0" aria-hidden="true" />
+          <h2 class="font-mono text-sm text-terra dark:text-terra-light tabular-nums">
             {year}
           </h2>
-          <span class="font-mono text-xs text-ink-faint dark:text-silk-faint">
-            ({byYear[year].length} {byYear[year].length === 1 ? 'article' : 'articles'})
-          </span>
         </div>
 
-        <!-- Vav Stepwell Timeline Spine for Year Posts -->
         <div class="stepwell-spine pl-8">
-          <ul class="space-y-2">
+          <ul>
             {byYear[year].map((post) => (
-              <li class="relative group">
-                <!-- Sacred Kolam Diamond Bindu Node on the spine line -->
-                <div
-                  class="kolam-diamond-node archive-row-node pointer-events-none -left-[27px] top-3 group-hover:border-gold group-hover:ring-2 group-hover:ring-gold/30 dark:group-hover:ring-gold/35"
-                  aria-hidden="true"
-                />
-
-                <!-- Article Row Link (Clean horizontal spacing with no collision) -->
-                <a
-                  href={`/posts/${post.id}/`}
-                  class="archive-row-link flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 p-2.5 rounded-lg border border-transparent group-hover:border-cream-300 dark:group-hover:border-[#3a3348] group-hover:bg-cream-200/70 dark:group-hover:bg-night-800 transition-colors"
-                >
-                  <span class="font-mono text-xs text-ink-muted dark:text-silk-faint tabular-nums shrink-0 sm:w-20">
-                    {post.data.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-                  </span>
-                  <span class="archive-row-title text-sm font-medium text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors leading-snug">
-                    {post.data.title}
-                  </span>
-                </a>
-              </li>
+              <IndexRow
+                href={`/posts/${post.id}/`}
+                title={post.data.title}
+                meta={formatMonthDay(post.data.date)}
+                badge={post.data.interactive ? 'lab' : undefined}
+                spineNode={true}
+              />
             ))}
           </ul>
         </div>
@@ -82,12 +64,3 @@ const years = Object.keys(byYear)
     ))}
   </div>
 </BaseLayout>
-
-<style>
-  .archive-row-node,
-  .archive-row-link,
-  .archive-row-title {
-    transition-duration: 75ms !important;
-    transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1) !important;
-  }
-</style>

@@ -7,7 +7,7 @@ export const GET: APIRoute = async () => {
     .filter((r) => !r.data.draft)
     .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
 
-  let content = `# Reading List & Research Notes — Jay Shah
+  let content = `# Reading List & Research Notes | Jay Shah
 
 > Canonical URL: ${SITE_URL}/reads/
 

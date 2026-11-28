@@ -78,63 +78,25 @@ if (fs.existsSync(blogDir)) {
   }
 }
 
-// 2. Generate dist/index.md
-const indexMd = fs.readFileSync(path.join(rootDir, 'public/llms.txt'), 'utf-8');
-fs.writeFileSync(path.join(distDir, 'index.md'), indexMd, 'utf-8');
+// 2. Keep Astro-generated dist/index.md as the single source of truth (from src/pages/index.md.ts)
+if (!fs.existsSync(path.join(distDir, 'index.md')) && fs.existsSync(path.join(distDir, 'llms.txt'))) {
+  fs.copyFileSync(path.join(distDir, 'llms.txt'), path.join(distDir, 'index.md'));
+}
 
-// 3. Generate dist/404.md
-const notFoundMd = fs.readFileSync(path.join(rootDir, 'public/404.md'), 'utf-8');
-fs.writeFileSync(path.join(distDir, '404.md'), notFoundMd, 'utf-8');
+// 3. Copy dist/404.md from public/404.md if present
+const publicNotFoundMd = path.join(rootDir, 'public/404.md');
+if (fs.existsSync(publicNotFoundMd)) {
+  fs.copyFileSync(publicNotFoundMd, path.join(distDir, '404.md'));
+}
 
-// 4. Generate dist/about/index.md and dist/about.md
-const aboutMd = [
-  `# Jay Shah — About & Research Background`,
-  ``,
-  `Senior Machine Learning Engineer at 6sense building production AI applications, foundational model systems, and agent evaluation frameworks.`,
-  ``,
-  `## Experience`,
-  `- **6sense** (Current): Intent intelligence, foundational models with custom embeddings, explainability, knowledge graphs, and LLM agent evaluation systems.`,
-  `- **Avathon**: RAG platforms, Model Context Protocol agent platforms, anomaly detection, and foundation-model operations.`,
-  `- **Texas A&M University**: Graduate research focusing on predicting wind-energy failures and statistical ML.`,
-  ``,
-  `## Patents`,
-  `- US20230213560A1: Calculating energy loss during an outage`,
-  `- US20230214703A1: Predicting energy production for energy generating assets`,
-  `- IN201721044402A: Dimension Measurement Using Image Processing`,
-  ``,
-  `## Links`,
-  `- Website: https://jayshah.dev`,
-  `- Resume: https://cv.jayshah.dev`,
-  `- GitHub: https://github.com/jayshah5696`,
-  `- LinkedIn: https://linkedin.com/in/jayshah5696`,
-  `- Hugging Face: https://huggingface.co/jayshah5696`,
-].join('\n');
-
-const aboutDir = path.join(distDir, 'about');
-fs.mkdirSync(aboutDir, { recursive: true });
-fs.writeFileSync(path.join(aboutDir, 'index.md'), aboutMd, 'utf-8');
-fs.writeFileSync(path.join(distDir, 'about.md'), aboutMd, 'utf-8');
-
-// 5. Generate dist/projects/index.md and dist/projects.md
-const projectsMd = [
-  `# Jay Shah — Engineering Projects & Open Source Repositories`,
-  ``,
-  `Curated open source machine learning systems, agent extensions, and data engineering tools:`,
-  ``,
-  `- **Pi Agent Extensions**: Extensions and tools for Pi coding agent (https://github.com/jayshah5696/pi-agent-extensions)`,
-  `- **Session Aggregator**: Sync and export AI coding sessions across tools (https://github.com/jayshah5696/session-aggregator)`,
-  `- **Medha (मेधा) IDE**: Local-first SQL IDE with DuckDB & LangGraph (https://github.com/jayshah5696/medha)`,
-  `- **Arka (अर्क)**: Config-driven fine-tuning data pipeline (https://github.com/jayshah5696/arka)`,
-  `- **Humanizer-RL**: Reinforcement learning reward pipeline for Gemma (https://github.com/jayshah5696/humanize-rl)`,
-  `- **Text Watermarking Lab**: Statistical text watermarking experiments (https://github.com/jayshah5696/text-watermarking-lab)`,
-  `- **ER Metric & Model POC**: Entity resolution benchmarking with MRL & BM25 (https://github.com/jayshah5696/entity-resolution-poc)`,
-  `- **Pravāha AI Search Engine**: Local search assistant (https://github.com/jayshah5696/pravah)`,
-  `- **Gujarati Llama**: Bilingual English-Gujarati 7B LLM (https://huggingface.co/jayshah5696/Gujarati-Llama-7b-Base)`,
-].join('\n');
-
-const projectsDir = path.join(distDir, 'projects');
-fs.mkdirSync(projectsDir, { recursive: true });
-fs.writeFileSync(path.join(projectsDir, 'index.md'), projectsMd, 'utf-8');
-fs.writeFileSync(path.join(distDir, 'projects.md'), projectsMd, 'utf-8');
+// 4. Mirror Astro-generated root Markdown routes into directory index.md alternates
+for (const section of ['about', 'projects', 'reads']) {
+  const srcMd = path.join(distDir, `${section}.md`);
+  if (fs.existsSync(srcMd)) {
+    const targetDir = path.join(distDir, section);
+    fs.mkdirSync(targetDir, { recursive: true });
+    fs.copyFileSync(srcMd, path.join(targetDir, 'index.md'));
+  }
+}
 
 console.log('✓ Generated static Markdown variants in dist/');

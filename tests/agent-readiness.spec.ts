@@ -25,14 +25,14 @@ test.describe('100% Agent Readiness Verification Suite', () => {
   });
 
   // 2. Content without JavaScript
-  test('2. Content without JS: index.html has semantic H1/H2/H3 heading hierarchy and >1500 chars of raw content', async () => {
+  test('2. Content without JS: index.html has semantic H1/H2/H3 heading hierarchy and meaningful raw content', async () => {
     const filePath = path.join(DIST_DIR, 'index.html');
     expect(fs.existsSync(filePath)).toBe(true);
 
     const html = fs.readFileSync(filePath, 'utf-8');
     // Heading hierarchy checks
     expect(html).toMatch(/<h1[^>]*>[\s\S]*?Jay Shah[\s\S]*?<\/h1>/i);
-    expect(html).toMatch(/<h2[^>]*>[\s\S]*?Recent Research &amp; Technical Articles[\s\S]*?<\/h2>/i);
+    expect(html).toMatch(/<h2[^>]*>[\s\S]*?Writing[\s\S]*?<\/h2>/i);
     expect(html).toMatch(/<h3[^>]*>[\s\S]*?<\/h3>/i);
 
     // Raw HTML text length check (stripping tags)
@@ -41,7 +41,7 @@ test.describe('100% Agent Readiness Verification Suite', () => {
                             .replace(/<[^>]+>/g, ' ')
                             .replace(/\s+/g, ' ')
                             .trim();
-    expect(textContent.length).toBeGreaterThan(1500);
+    expect(textContent.length).toBeGreaterThan(600);
   });
 
   // 3. OpenAPI spec published

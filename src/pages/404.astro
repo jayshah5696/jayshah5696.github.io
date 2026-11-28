@@ -1,122 +1,43 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import KolamDivider from '../components/KolamDivider.astro';
-import { getCollection } from 'astro:content';
-
-const posts = (await getCollection('blog'))
-  .filter((p) => !p.data.draft)
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
-  .slice(0, 4);
-
-const recoveryLinks = [
-  { href: '/', label: 'Home & Latest Writings', desc: 'Main publication feed and recent updates' },
-  { href: '/llms.txt', label: 'llms.txt Index', desc: 'Plain-text machine-readable directory for LLM agents' },
-  { href: '/llms-full.txt', label: 'llms-full.txt', desc: 'Complete knowledge digest with article summaries' },
-  { href: '/sitemap-index.xml', label: 'XML Sitemap', desc: 'Canonical list of all indexed web pages' },
-  { href: '/api/docs/', label: 'Developer API Docs', desc: 'Endpoints, OpenAPI 3.1 schema, and JSON feeds' },
-  { href: '/openapi.json', label: 'OpenAPI 3.1 Spec', desc: 'Machine-readable OpenAPI schema definition' },
-  { href: '/about/', label: 'About Jay Shah', desc: 'Research focus, patents, and professional background' },
-  { href: '/projects/', label: 'Engineering Projects', desc: 'Open-source repositories, agent tools, and ML code' },
-];
-
-const markdownRecoveryText = `# 404 — Resource Not Found
-
-The requested URL does not exist on https://jayshah.dev.
-
-## Agent & Crawler Recovery Index
-- Sitemap Index: https://jayshah.dev/sitemap-index.xml
-- LLM Overview: https://jayshah.dev/llms.txt
-- Full LLM Context: https://jayshah.dev/llms-full.txt
-- OpenAPI Spec: https://jayshah.dev/openapi.json
-- Developer Docs: https://jayshah.dev/api/docs/
-- Posts API: https://jayshah.dev/api/posts.json
-- Projects API: https://jayshah.dev/api/projects.json
-- Home Page: https://jayshah.dev/
-- About Page: https://jayshah.dev/about/
-- Projects: https://jayshah.dev/projects/
-- Reading List: https://jayshah.dev/reads/`;
 ---
 
-<BaseLayout title="Page Not Found (404)" description="The requested URL was not found on jayshah.dev. Use our site directory, sitemap, or llms.txt index to find what you are looking for.">
-  <div class="py-10 max-w-2xl mx-auto">
-    <header class="text-center mb-8">
-      <p class="font-display text-6xl sm:text-7xl text-ink-faint dark:text-silk-faint mb-2 select-none" aria-hidden="true">404</p>
-      <h1 class="font-display text-2xl sm:text-3xl text-ink dark:text-silk mb-3">
-        Page Not Found
-      </h1>
-      <div class="w-12 h-[3px] mx-auto mb-4 rounded bg-gradient-to-r from-terra via-gold to-terra" aria-hidden="true"></div>
-      <p class="text-sm text-ink-muted dark:text-silk-muted max-w-md mx-auto leading-relaxed">
-        The requested URL does not exist on <code class="font-mono text-xs px-1.5 py-0.5 rounded bg-cream-100 dark:bg-night-800">jayshah.dev</code>. Use the navigation directory or machine-readable resources below to recover.
-      </p>
-      <KolamDivider class="my-6" />
-    </header>
+<BaseLayout title="Page Not Found (404)" description="The requested URL was not found on jayshah.dev.">
+  <div class="py-12 max-w-lg">
+    <p class="font-mono text-xs text-ink-faint dark:text-silk-faint mb-3 tabular-nums">404</p>
+    <h1 class="font-display text-3xl sm:text-4xl text-ink dark:text-silk carved-heading">
+      Page Not Found
+    </h1>
+    <p class="mt-5 font-body text-base text-ink-muted dark:text-silk-muted leading-relaxed">
+      This page does not exist on jayshah.dev.
+    </p>
 
-    <!-- Where to Look Next -->
-    <section class="mb-10" aria-label="Site Navigation and Agent Recovery">
-      <h2 class="font-mono text-xs uppercase text-ink-muted dark:text-silk-muted mb-4" style="letter-spacing: 0.15em;">
-        Where to Look Next (Site Navigation &amp; Recovery)
-      </h2>
-      <div class="grid sm:grid-cols-2 gap-3">
-        {recoveryLinks.map((item) => (
-          <a
-            href={item.href}
-            class="group p-3 rounded-lg border border-cream-200 dark:border-night-700 bg-white/50 dark:bg-night-800/50 hover:border-terra dark:hover:border-terra-light transition-colors duration-200"
-          >
-            <span class="font-medium text-sm text-ink dark:text-silk group-hover:text-terra dark:group-hover:text-terra-light transition-colors flex items-center gap-1.5">
-              {item.label}
-              <svg class="size-3 opacity-0 group-hover:opacity-100 transition-opacity" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-            </span>
-            <span class="block text-xs text-ink-muted dark:text-silk-muted mt-0.5">
-              {item.desc}
-            </span>
-          </a>
-        ))}
-      </div>
-    </section>
-
-    <!-- Machine-Readable Recovery Guide -->
-    <section aria-labelledby="agent-recovery-guide" class="mb-8 p-4 rounded-xl border border-cream-200 dark:border-night-700 bg-cream-50/50 dark:bg-night-900/50">
-      <div class="flex items-center justify-between mb-3 border-b border-cream-200 dark:border-night-700 pb-2">
-        <h2 id="agent-recovery-guide" class="font-mono text-xs uppercase text-terra dark:text-terra-light font-semibold" style="letter-spacing: 0.1em;">
-          Machine Agent Recovery Guide
-        </h2>
-        <span class="font-mono text-[11px] text-ink-faint dark:text-silk-faint">text/markdown</span>
-      </div>
-      <pre class="font-mono text-xs text-ink-light dark:text-silk-muted overflow-x-auto whitespace-pre-wrap bg-white/60 dark:bg-night-950/80 p-3.5 rounded-lg border border-cream-200/60 dark:border-night-700/60 leading-relaxed">{markdownRecoveryText}</pre>
-    </section>
-
-    <!-- Recent Writings -->
-    {posts.length > 0 && (
-      <section class="mb-10">
-        <h2 class="font-mono text-xs uppercase text-ink-muted dark:text-silk-muted mb-4" style="letter-spacing: 0.15em;">
-          Recent Technical Articles
-        </h2>
-        <div class="space-y-3">
-          {posts.map((post) => (
-            <a
-              href={`/posts/${post.id}/`}
-              class="block p-3 rounded-lg border border-cream-200/70 dark:border-night-700/70 hover:border-terra/60 dark:hover:border-terra-light/60 transition-colors"
-            >
-              <h3 class="text-sm font-semibold text-ink dark:text-silk hover:text-terra dark:hover:text-terra-light">
-                {post.data.title}
-              </h3>
-              <p class="max-w-[65ch] text-xs text-ink-light dark:text-silk-muted mt-1 line-clamp-2">
-                {post.data.description}
-              </p>
-            </a>
-          ))}
-        </div>
-      </section>
-    )}
-
-    <div class="text-center pt-2">
-      <a
-        href="/"
-        class="inline-flex items-center gap-2 font-mono text-sm text-terra hover:text-terra-dark dark:text-terra-light dark:hover:text-terra transition-colors duration-200"
-      >
-        <svg class="size-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-        Back to homepage
+    <div class="mt-8 flex flex-wrap items-center gap-x-5 gap-y-2 font-mono text-xs">
+      <a href="/" class="text-terra dark:text-terra-light hover:underline underline-offset-4">
+        &larr; Home
+      </a>
+      <a href="/blog/" class="text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors">
+        Blog
+      </a>
+      <a href="/projects/" class="text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors">
+        Projects
+      </a>
+      <a href="/about/" class="text-ink-muted dark:text-silk-muted hover:text-terra dark:hover:text-terra-light transition-colors">
+        About
       </a>
     </div>
+
+    <details class="mt-12 font-mono text-xs text-ink-faint dark:text-silk-faint">
+      <summary class="cursor-pointer hover:text-terra dark:hover:text-terra-light transition-colors select-none">
+        Machine-readable endpoints
+      </summary>
+      <ul class="mt-3 space-y-1.5 pl-4">
+        <li><a href="/sitemap-index.xml" class="hover:text-terra dark:hover:text-terra-light">/sitemap-index.xml</a></li>
+        <li><a href="/llms.txt" class="hover:text-terra dark:hover:text-terra-light">/llms.txt</a></li>
+        <li><a href="/openapi.json" class="hover:text-terra dark:hover:text-terra-light">/openapi.json</a></li>
+        <li><a href="/api/posts.json" class="hover:text-terra dark:hover:text-terra-light">/api/posts.json</a></li>
+        <li><a href="/api/docs/" class="hover:text-terra dark:hover:text-terra-light">/api/docs/</a></li>
+      </ul>
+    </details>
   </div>
 </BaseLayout>
